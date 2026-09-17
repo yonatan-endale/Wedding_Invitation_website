@@ -101,6 +101,7 @@ export const events = pgTable(
     title: localized("title").notNull(),
     description: localized("description"),
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }),
     venueId: uuid("venue_id").references(() => venues.id, { onDelete: "set null" }),
     ...timestamps,
   },

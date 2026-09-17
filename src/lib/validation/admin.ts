@@ -249,6 +249,7 @@ export type EventInput = {
   title: LocalizedText;
   description: LocalizedText | null;
   startsAt: Date;
+  endsAt: Date | null;
   venueId: string | null;
 };
 
@@ -256,10 +257,14 @@ export function parseEvent(form: FormFields, timeZone: string): Parsed<EventInpu
   const errors: FieldErrors = {};
   const title = requiredLocalized(form, "title", errors, "Enter the event title in English.");
   const startsAt = dateTime(form, "startsAt", timeZone, errors, { required: true });
+  const endsAt = dateTime(form, "endsAt", timeZone, errors, { required: false });
+  if (startsAt && endsAt && endsAt.getTime() <= startsAt.getTime()) {
+    errors.endsAt = "The end must be after the start.";
+  }
   const venueId = text(form, "venueId") || null;
   if (venueId && !UUID_PATTERN.test(venueId)) errors.venueId = "Choose a venue from the list.";
   return result(
-    { title, description: readLocalized(form, "description"), startsAt: startsAt as Date, venueId },
+    { title, description: readLocalized(form, "description"), startsAt: startsAt as Date, endsAt, venueId },
     errors,
   );
 }

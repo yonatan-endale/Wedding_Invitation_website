@@ -58,6 +58,7 @@ export type SiteEvent = {
   title: LocalizedText;
   description: LocalizedText | null;
   startsAt: string;
+  endsAt: string | null;
   venueId: string | null;
 };
 
@@ -156,6 +157,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       title: e.title,
       description: e.description,
       startsAt: e.startsAt.toISOString(),
+      endsAt: e.endsAt?.toISOString() ?? null,
       venueId: e.venueId,
     })),
     giftAccounts: giftRows.map((g) => ({

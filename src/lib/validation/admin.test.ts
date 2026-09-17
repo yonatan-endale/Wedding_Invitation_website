@@ -223,9 +223,28 @@ describe("parseEvent", () => {
         title: { en: "Ceremony" },
         description: null,
         startsAt: new Date("2026-07-18T11:00:00.000Z"),
+        endsAt: null,
         venueId: null,
       },
     });
+  });
+
+  it("parses an optional end time in the couple's time zone", () => {
+    const result = parseEvent(
+      { "title.en": "Ceremony", startsAt: "2026-07-18T14:00", endsAt: "2026-07-18T15:30" },
+      "Africa/Addis_Ababa",
+    );
+    expect(result.success && result.data.endsAt).toEqual(new Date("2026-07-18T12:30:00.000Z"));
+  });
+
+  it("rejects an end time that is not after the start", () => {
+    const result = parseEvent(
+      { "title.en": "Ceremony", startsAt: "2026-07-18T14:00", endsAt: "2026-07-18T14:00" },
+      "Africa/Addis_Ababa",
+    );
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(Object.keys(result.fieldErrors)).toEqual(["endsAt"]);
   });
 
   it("requires a title and start time", () => {

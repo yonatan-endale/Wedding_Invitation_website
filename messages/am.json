@@ -40,7 +40,9 @@
   },
   "schedule": {
     "heading": "የዕለቱ መርሐ ግብር",
-    "directions": "አቅጣጫ"
+    "directions": "አቅጣጫ",
+    "end": "የዕለቱ መጨረሻ",
+    "endAt": "የዕለቱ መጨረሻ፣ {time}"
   },
   "venues": {
     "heading": "የሥነ ሥርዓቱ ቦታዎች",

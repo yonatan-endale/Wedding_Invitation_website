@@ -6,7 +6,7 @@ Each couple site has:
 
 - An opening screen styled like a netela, which starts the couple's music when a guest opens it
 - A hero with the couple's photo, a live countdown and a formal invitation card
-- Their story, a verse or quote, and the day's timeline
+- Their story, a verse or quote, and the day's timeline with start and optional end times, closing with an end-of-day marker
 - Venues with "Open in Google Maps" and an optional embedded map
 - A swipeable photo gallery with a full-screen viewer
 - Gifts: bank and Telebirr details with copy buttons and QR codes, plus a wishlist that links to shops

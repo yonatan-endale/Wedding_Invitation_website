@@ -40,7 +40,9 @@
   },
   "schedule": {
     "heading": "The day",
-    "directions": "Directions"
+    "directions": "Directions",
+    "end": "End of the day",
+    "endAt": "End of the day, {time}"
   },
   "venues": {
     "heading": "Where to find us",

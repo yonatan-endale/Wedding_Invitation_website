@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import type { AdminCouple } from "@/db/queries/admin";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { mapsLink } from "@/lib/maps";
-import { formatStandardTime } from "@/lib/wedding-format";
+import { formatStandardTime, formatStandardTimeRange } from "@/lib/wedding-format";
 import { Field, LocalizedField, NativeSelect, SubmitButton } from "./fields";
 import { DeleteButton, MoveButtons } from "./item-actions";
 import { MediaField } from "./media-field";
@@ -92,6 +92,7 @@ function EventDialog({ couple, event, trigger }: { couple: AdminCouple; event?: 
     onSuccess: () => setOpen(false),
   });
   const defaultStart = toDateTimeLocalValue(event?.startsAt ?? couple.weddingAt, couple.timezone);
+  const defaultEnd = event?.endsAt ? toDateTimeLocalValue(event.endsAt, couple.timezone) : "";
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -112,6 +113,9 @@ function EventDialog({ couple, event, trigger }: { couple: AdminCouple; event?: 
               hint={`${couple.timezone.replace(/_/g, " ")} time`}
             >
               <Input id="startsAt" name="startsAt" type="datetime-local" defaultValue={defaultStart} />
+            </Field>
+            <Field label="Ends at (optional)" htmlFor="endsAt" error={errors.endsAt} hint="Leave empty for open-ended.">
+              <Input id="endsAt" name="endsAt" type="datetime-local" defaultValue={defaultEnd} />
             </Field>
             <Field label="Venue (optional)" htmlFor="venueId" error={errors.venueId}>
               <NativeSelect id="venueId" name="venueId" defaultValue={event?.venueId ?? ""}>
@@ -228,7 +232,9 @@ export function ScheduleManager({ couple, uploadsEnabled }: { couple: AdminCoupl
                 <Clock className="mt-1 size-4 shrink-0 text-muted-foreground" aria-hidden />
                 <div className="min-w-0 flex-1">
                   <p className="text-sm text-muted-foreground tabular-nums">
-                    {formatStandardTime(event.startsAt.toISOString(), couple.timezone)}
+                    {event.endsAt
+                      ? formatStandardTimeRange(event.startsAt.toISOString(), event.endsAt.toISOString(), couple.timezone)
+                      : formatStandardTime(event.startsAt.toISOString(), couple.timezone)}
                   </p>
                   <p className="font-medium">{event.title.en}</p>
                   {event.venueId ? <p className="text-sm text-muted-foreground">{venueName.get(event.venueId)}</p> : null}

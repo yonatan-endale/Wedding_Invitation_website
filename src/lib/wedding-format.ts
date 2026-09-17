@@ -1,4 +1,4 @@
-import { formatEthiopianDate, formatEthiopianTime, gregorianToEthiopian } from "./ethiopian-calendar";
+import { formatEthiopianDate, gregorianToEthiopian } from "./ethiopian-calendar";
 import { zonedParts } from "./datetime";
 import type { Locale } from "./localized";
 
@@ -46,23 +46,43 @@ export function formatWeddingDate(iso: string, timeZone: string, locale: Locale)
   return `${WEEKDAYS_EN[p.weekday]}, ${formatGregorianDate(iso, timeZone)}`;
 }
 
-const ETHIOPIAN_PERIODS_EN = [
-  { until: 6, label: "at night" },
-  { until: 12, label: "in the morning" },
-  { until: 18, label: "in the afternoon" },
-  { until: 24, label: "in the evening" },
+/** Periods of the Ethiopian day, from midnight. Amharic names go before the clock, English after. */
+const ETHIOPIAN_PERIODS = [
+  { until: 6, en: "at night", am: "ከሌሊቱ" },
+  { until: 12, en: "in the morning", am: "ከጠዋቱ" },
+  { until: 18, en: "in the afternoon", am: "ከቀኑ" },
+  { until: 24, en: "in the evening", am: "ከምሽቱ" },
 ];
 
-/**
- * Guest sites always use the Ethiopian clock, which starts the day at 6 in the
- * morning: 2 PM reads as 8:00 in the afternoon.
- */
-export function formatWeddingTime(iso: string, timeZone: string, locale: Locale): string {
+/** The Ethiopian clock starts the day at 6 in the morning, so 2 PM is 8:00 in the afternoon. */
+function ethiopianClock(iso: string, timeZone: string, locale: Locale) {
   const p = localParts(iso, timeZone);
-  if (locale === "am") return formatEthiopianTime(p.hour, p.minute);
   const hour = (p.hour + 6) % 12 || 12;
-  const period = ETHIOPIAN_PERIODS_EN.find((candidate) => p.hour < candidate.until)!.label;
-  return `${hour}:${String(p.minute).padStart(2, "0")} ${period}`;
+  return {
+    clock: `${hour}:${String(p.minute).padStart(2, "0")}`,
+    period: ETHIOPIAN_PERIODS.find((candidate) => p.hour < candidate.until)![locale],
+  };
+}
+
+/** English "8:00 in the afternoon", Amharic "ከቀኑ 8:00 ሰዓት". */
+export function formatWeddingTime(iso: string, timeZone: string, locale: Locale): string {
+  const { clock, period } = ethiopianClock(iso, timeZone, locale);
+  return locale === "am" ? `${period} ${clock} ሰዓት` : `${clock} ${period}`;
+}
+
+/** A start and end in the Ethiopian clock, naming the period once when both share it. */
+export function formatWeddingTimeRange(startIso: string, endIso: string, timeZone: string, locale: Locale): string {
+  const start = ethiopianClock(startIso, timeZone, locale);
+  const end = ethiopianClock(endIso, timeZone, locale);
+  const same = start.period === end.period;
+  if (locale === "am") {
+    return same
+      ? `${start.period} ${start.clock} እስከ ${end.clock} ሰዓት`
+      : `${start.period} ${start.clock} እስከ ${end.period} ${end.clock} ሰዓት`;
+  }
+  return same
+    ? `${start.clock} to ${end.clock} ${start.period}`
+    : `${start.clock} ${start.period} to ${end.clock} ${end.period}`;
 }
 
 /** International clock, for the admin dashboard where times are typed in this form. */
@@ -70,4 +90,8 @@ export function formatStandardTime(iso: string, timeZone: string): string {
   const p = localParts(iso, timeZone);
   const hour = p.hour % 12 || 12;
   return `${hour}:${String(p.minute).padStart(2, "0")} ${p.hour < 12 ? "AM" : "PM"}`;
+}
+
+export function formatStandardTimeRange(startIso: string, endIso: string, timeZone: string): string {
+  return `${formatStandardTime(startIso, timeZone)} to ${formatStandardTime(endIso, timeZone)}`;
 }

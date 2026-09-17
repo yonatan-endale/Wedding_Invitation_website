@@ -22,6 +22,13 @@
       "when": 1789678416143,
       "tag": "0002_useful_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1789679824351,
+      "tag": "0003_fantastic_hitman",
+      "breakpoints": true
     }
   ]
 }

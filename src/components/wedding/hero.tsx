@@ -2,14 +2,16 @@ import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { Countdown } from "./countdown";
-import { TibebBand, WeddingImage } from "./primitives";
+import { FallingPetals } from "./petals";
+import { Band, WeddingImage } from "./primitives";
 
 type Props = { site: SiteData; locale: Locale };
 
 export function Hero({ site, locale }: Props) {
   const { couple } = site;
-  const one = pickText(couple.partnerOne, locale);
-  const two = pickText(couple.partnerTwo, locale);
+  // Nicknames, when the couple set them, replace the full names in the hero only.
+  const one = pickText(couple.partnerOneNick, locale) || pickText(couple.partnerOne, locale);
+  const two = pickText(couple.partnerTwoNick, locale) || pickText(couple.partnerTwo, locale);
   const tagline = pickText(couple.tagline, locale);
   const city = pickText(couple.city, locale);
 
@@ -33,7 +35,8 @@ export function Hero({ site, locale }: Props) {
           aria-hidden
           className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(0,0,0,0.74)_0%,rgba(0,0,0,0.38)_38%,rgba(0,0,0,0.04)_68%,rgba(0,0,0,0.3)_100%)]"
         />
-        <div className="mx-auto w-full max-w-6xl px-5 pb-14 pt-32 sm:px-8 sm:pb-20">
+        {couple.petals ? <FallingPetals /> : null}
+        <div className="relative mx-auto w-full max-w-6xl px-5 pb-14 pt-32 sm:px-8 sm:pb-20">
           {tagline ? <p className="mb-5 max-w-md text-lg text-white/85 sm:text-xl">{tagline}</p> : null}
           <h1 className="font-display text-[clamp(3.75rem,14vw,10.5rem)] leading-[0.88] tracking-[-0.01em] [text-shadow:0_2px_24px_rgba(0,0,0,0.25)]">
             <span className="block">{one}</span>
@@ -56,7 +59,7 @@ export function Hero({ site, locale }: Props) {
           </div>
         </div>
       </section>
-      <TibebBand />
+      <Band variant={couple.border} />
     </>
   );
 }

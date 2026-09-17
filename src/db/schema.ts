@@ -10,7 +10,7 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { COUPLE_STATUSES, GIFT_KINDS } from "@/lib/constants";
+import { BORDER_STYLES, COUPLE_STATUSES, GIFT_KINDS } from "@/lib/constants";
 import type { LocalizedText } from "@/lib/localized";
 
 const timestamps = {
@@ -29,6 +29,8 @@ export const couples = pgTable("couples", {
   status: text("status", { enum: COUPLE_STATUSES }).notNull().default("draft"),
   partnerOne: localized("partner_one").notNull(),
   partnerTwo: localized("partner_two").notNull(),
+  partnerOneNick: localized("partner_one_nick"),
+  partnerTwoNick: localized("partner_two_nick"),
   tagline: localized("tagline"),
   weddingAt: timestamp("wedding_at", { withTimezone: true }).notNull(),
   timezone: text("timezone").notNull().default("Africa/Addis_Ababa"),
@@ -46,6 +48,8 @@ export const couples = pgTable("couples", {
   musicTitle: text("music_title"),
   telegramUrl: text("telegram_url"),
   theme: text("theme").notNull().default("tibeb"),
+  border: text("border", { enum: BORDER_STYLES }).notNull().default("tibeb"),
+  petals: boolean("petals").notNull().default(true),
   rsvpEnabled: boolean("rsvp_enabled").notNull().default(true),
   rsvpDeadline: timestamp("rsvp_deadline", { withTimezone: true }),
   ...timestamps,

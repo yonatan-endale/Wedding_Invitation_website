@@ -4,7 +4,7 @@ import { asc, eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import { getDb } from "@/db";
 import { couples, events, giftAccounts, photos, venues, wishlistItems } from "@/db/schema";
-import { siteCacheTag, type CoupleStatus, type GiftKind } from "@/lib/constants";
+import { siteCacheTag, type BorderStyle, type CoupleStatus, type GiftKind } from "@/lib/constants";
 import type { LocalizedText } from "@/lib/localized";
 
 /** Plain, JSON-safe shapes: cached data loses Date objects, so dates travel as ISO strings. */
@@ -14,6 +14,8 @@ export type SiteCouple = {
   status: CoupleStatus;
   partnerOne: LocalizedText;
   partnerTwo: LocalizedText;
+  partnerOneNick: LocalizedText | null;
+  partnerTwoNick: LocalizedText | null;
   tagline: LocalizedText | null;
   weddingAt: string;
   timezone: string;
@@ -31,6 +33,8 @@ export type SiteCouple = {
   musicTitle: string | null;
   telegramUrl: string | null;
   theme: string;
+  border: BorderStyle;
+  petals: boolean;
   rsvpEnabled: boolean;
   rsvpDeadline: string | null;
 };
@@ -109,6 +113,8 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       status: row.status,
       partnerOne: row.partnerOne,
       partnerTwo: row.partnerTwo,
+      partnerOneNick: row.partnerOneNick,
+      partnerTwoNick: row.partnerTwoNick,
       tagline: row.tagline,
       weddingAt: row.weddingAt.toISOString(),
       timezone: row.timezone,
@@ -126,6 +132,8 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       musicTitle: row.musicTitle,
       telegramUrl: row.telegramUrl,
       theme: row.theme,
+      border: row.border,
+      petals: row.petals,
       rsvpEnabled: row.rsvpEnabled,
       rsvpDeadline: row.rsvpDeadline?.toISOString() ?? null,
     },

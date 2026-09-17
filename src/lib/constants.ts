@@ -4,6 +4,10 @@ export type CoupleStatus = (typeof COUPLE_STATUSES)[number];
 export const GIFT_KINDS = ["bank", "telebirr", "other"] as const;
 export type GiftKind = (typeof GIFT_KINDS)[number];
 
+/** Decorative band along the hero, invitation card, opening screen and footer. */
+export const BORDER_STYLES = ["tibeb", "floral", "line"] as const;
+export type BorderStyle = (typeof BORDER_STYLES)[number];
+
 export const HERO_POSITIONS = [
   { value: "50% 20%", label: "Top" },
   { value: "50% 40%", label: "Upper middle" },

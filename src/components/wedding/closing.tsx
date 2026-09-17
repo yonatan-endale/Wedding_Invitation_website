@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
 import { formatWeddingDate } from "@/lib/wedding-format";
-import { TibebBand, buttonPrimary } from "./primitives";
+import { Band, buttonPrimary } from "./primitives";
 
 type Props = { site: SiteData; locale: Locale };
 
@@ -34,7 +34,7 @@ export function SiteFooter({ site, locale }: Props) {
   const { couple } = site;
   return (
     <footer className="bg-ink text-paper">
-      <TibebBand />
+      <Band variant={couple.border} />
       <div className="px-5 pt-16 pb-28 text-center">
         <p className="font-display text-[clamp(2.25rem,6vw,3.5rem)] leading-none">
           {pickText(couple.partnerOne, locale)}

@@ -217,3 +217,30 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Rose petals falling over the hero. Two animations: the fall with a slow turn, and a gentle sway. */
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(var(--petal-drift, 0px), 110vh, 0) rotate(300deg);
+  }
+}
+
+@keyframes petal-sway {
+  0%,
+  100% {
+    margin-left: 0;
+  }
+  50% {
+    margin-left: 18px;
+  }
+}
+
+.petal {
+  animation-name: petal-fall, petal-sway;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  will-change: transform;
+}

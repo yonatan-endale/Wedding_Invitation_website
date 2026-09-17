@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function themeCss(themeName: string) {
   const { colors, scheme } = getTheme(themeName);
-  return `:root{color-scheme:${scheme};--w-paper:${colors.paper};--w-ink:${colors.ink};--w-ink-soft:${colors.inkSoft};--w-rule:${colors.rule};--w-sheet:${colors.sheet};--w-thread-1:${colors.thread1};--w-thread-2:${colors.thread2};--w-thread-3:${colors.thread3};--w-on-thread-1:${colors.onThread1}}body{background:${colors.paper}}`;
+  return `:root{color-scheme:${scheme};--w-paper:${colors.paper};--w-ink:${colors.ink};--w-ink-soft:${colors.inkSoft};--w-rule:${colors.rule};--w-sheet:${colors.sheet};--w-thread-1:${colors.thread1};--w-thread-2:${colors.thread2};--w-thread-3:${colors.thread3};--w-on-thread-1:${colors.onThread1};--w-petal:${colors.petal}}body{background:${colors.paper}}`;
 }
 
 export default async function CoupleSitePage({ params }: Props) {
@@ -72,6 +72,8 @@ export default async function CoupleSitePage({ params }: Props) {
   const one = pickText(couple.partnerOne, locale);
   const two = pickText(couple.partnerTwo, locale);
   const monogram = `${one.charAt(0)} & ${two.charAt(0)}`;
+  const heroOne = pickText(couple.partnerOneNick, locale) || one;
+  const heroTwo = pickText(couple.partnerTwoNick, locale) || two;
 
   const links: NavLink[] = [
     { id: "invitation", label: t("invitation") },
@@ -96,9 +98,10 @@ export default async function CoupleSitePage({ params }: Props) {
         ) : null}
         <NetelaIntro
           slug={couple.slug}
-          partnerOne={one}
-          partnerTwo={two}
+          partnerOne={heroOne}
+          partnerTwo={heroTwo}
           dateLine={formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
+          border={couple.border}
         />
         <MonogramWatermark monogram={monogram} />
         <SiteHeader monogram={monogram} links={links} />

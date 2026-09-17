@@ -2,13 +2,16 @@ import Image, { type ImageProps } from "next/image";
 import type { CSSProperties } from "react";
 import { canOptimizeImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
+import type { BorderStyle } from "@/lib/constants";
 
 /* ------------------------------------------------------------------ */
-/* Tibeb: the woven border of a habesha kemis, drawn with CSS masks so  */
-/* each thread takes its colour from the couple's theme.               */
+/* Border bands, drawn with CSS masks so each thread takes its colour   */
+/* from the couple's theme. Tibeb is the woven border of a habesha     */
+/* kemis; floral is a rose vine; line is two plain rules.              */
 /* ------------------------------------------------------------------ */
 
 type Orientation = "horizontal" | "vertical";
+type Layer = { color: string; shapes: string };
 
 const svg = (body: string) =>
   `url("data:image/svg+xml;utf8,${encodeURIComponent(
@@ -16,10 +19,9 @@ const svg = (body: string) =>
   )}")`;
 
 /** Shapes are authored horizontally; the vertical band transposes x and y. */
-const transpose = (body: string) =>
-  body.replace(/<g>/g, "<g transform='matrix(0 1 1 0 0 0)'>");
+const transpose = (body: string) => body.replace(/<g>/g, "<g transform='matrix(0 1 1 0 0 0)'>");
 
-const LAYERS: { color: string; shapes: string }[] = [
+const TIBEB: Layer[] = [
   {
     color: "var(--w-thread-1)",
     shapes:
@@ -37,26 +39,64 @@ const LAYERS: { color: string; shapes: string }[] = [
   },
 ];
 
-const MASKS: Record<Orientation, string[]> = {
-  horizontal: LAYERS.map((layer) => svg(layer.shapes)),
-  vertical: LAYERS.map((layer) => svg(transpose(layer.shapes))),
+/** A rosette every tile, joined by a vine with a leaf on each side. */
+const FLORAL: Layer[] = [
+  {
+    color: "var(--w-thread-3)",
+    shapes:
+      "<g><circle cx='9' cy='11' r='2.6'/><circle cx='9' cy='17' r='2.6'/><circle cx='6' cy='14' r='2.6'/><circle cx='12' cy='14' r='2.6'/><circle cx='7.2' cy='11.9' r='2.2'/><circle cx='10.8' cy='11.9' r='2.2'/><circle cx='7.2' cy='16.1' r='2.2'/><circle cx='10.8' cy='16.1' r='2.2'/></g>",
+  },
+  {
+    color: "var(--w-thread-1)",
+    shapes:
+      "<g><path d='M17 14c3-4 6-4 8-3-1 3-4 5-8 3z'/><path d='M17 14c3 4 6 4 8 3-1-3-4-5-8-3z'/></g>",
+  },
+  {
+    color: "var(--w-thread-2)",
+    shapes:
+      "<g><path d='M0 14c4 0 5-3 9-3s5 3 9 3 5-3 10-3v1c-5 0-6 3-10 3s-5-3-9-3-5 3-9 3z'/><circle cx='9' cy='14' r='1.3'/></g>",
+  },
+];
+
+const MASKS: Record<"tibeb" | "floral", Record<Orientation, string[]>> = {
+  tibeb: { horizontal: TIBEB.map((l) => svg(l.shapes)), vertical: TIBEB.map((l) => svg(transpose(l.shapes))) },
+  floral: { horizontal: FLORAL.map((l) => svg(l.shapes)), vertical: FLORAL.map((l) => svg(transpose(l.shapes))) },
 };
 
-export function TibebBand({
+const LAYERS: Record<"tibeb" | "floral", Layer[]> = { tibeb: TIBEB, floral: FLORAL };
+
+export function Band({
+  variant = "tibeb",
   orientation = "horizontal",
   className,
 }: {
+  variant?: BorderStyle;
   orientation?: Orientation;
   className?: string;
 }) {
-  const repeat = orientation === "horizontal" ? "repeat-x" : "repeat-y";
+  const horizontal = orientation === "horizontal";
+
+  if (variant === "line") {
+    return (
+      <div
+        aria-hidden
+        className={cn(
+          "flex shrink-0 gap-[5px]",
+          horizontal ? "h-7 w-full flex-col justify-center px-6" : "h-full w-7 flex-row justify-center py-6",
+          className,
+        )}
+      >
+        <span className={cn("block bg-thread-2", horizontal ? "h-px w-full" : "h-full w-px")} />
+        <span className={cn("block bg-thread-2/60", horizontal ? "h-px w-full" : "h-full w-px")} />
+      </div>
+    );
+  }
+
+  const repeat = horizontal ? "repeat-x" : "repeat-y";
   return (
-    <div
-      aria-hidden
-      className={cn("relative shrink-0", orientation === "horizontal" ? "h-7 w-full" : "h-full w-7", className)}
-    >
-      {LAYERS.map((layer, index) => {
-        const mask = MASKS[orientation][index];
+    <div aria-hidden className={cn("relative shrink-0", horizontal ? "h-7 w-full" : "h-full w-7", className)}>
+      {LAYERS[variant].map((layer, index) => {
+        const mask = MASKS[variant][orientation][index];
         const style: CSSProperties = {
           backgroundColor: layer.color,
           maskImage: mask,
@@ -72,6 +112,11 @@ export function TibebBand({
       })}
     </div>
   );
+}
+
+/** The woven band on its own, for pages that have no couple (landing, not found). */
+export function TibebBand(props: { orientation?: Orientation; className?: string }) {
+  return <Band variant="tibeb" {...props} />;
 }
 
 /** next/image that falls back to an unoptimized image for hosts not listed in next.config.ts. */

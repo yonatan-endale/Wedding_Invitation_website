@@ -3,7 +3,7 @@ import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
-import { SectionHeading, TibebBand, sectionPadding } from "./primitives";
+import { Band, SectionHeading, WeddingImage, sectionPadding } from "./primitives";
 
 type Props = { site: SiteData; locale: Locale };
 
@@ -20,8 +20,22 @@ export async function InvitationCard({ site, locale }: Props) {
   return (
     <section id="invitation" aria-labelledby="invitation-names" className={sectionPadding}>
       <div className="mx-auto max-w-2xl border border-rule bg-sheet text-center">
-        <TibebBand />
+        <Band variant={couple.border} />
         <div className="px-6 py-14 sm:px-16 sm:py-20">
+          {couple.heroPhotoUrl ? (
+            <div className="mx-auto mb-8 size-28 rounded-full bg-sheet p-1 ring-2 ring-thread-2 sm:size-36">
+              <div className="relative size-full overflow-hidden rounded-full bg-rule">
+                <WeddingImage
+                  src={couple.heroPhotoUrl}
+                  alt={`${one} & ${two}`}
+                  fill
+                  sizes="144px"
+                  className="object-cover"
+                  style={{ objectPosition: couple.heroPosition }}
+                />
+              </div>
+            </div>
+          ) : null}
           <p className="text-ink-soft">{hosts}</p>
           <h2 id="invitation-names" className="mt-8 font-display text-[clamp(2.5rem,7vw,4rem)] leading-none">
             {one}
@@ -56,7 +70,7 @@ export async function InvitationCard({ site, locale }: Props) {
             </p>
           ) : null}
         </div>
-        <TibebBand />
+        <Band variant={couple.border} />
       </div>
     </section>
   );

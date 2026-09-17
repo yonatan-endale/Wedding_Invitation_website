@@ -1,4 +1,4 @@
-import { GIFT_KINDS, HERO_POSITIONS, type GiftKind } from "@/lib/constants";
+import { BORDER_STYLES, GIFT_KINDS, HERO_POSITIONS, type BorderStyle, type GiftKind } from "@/lib/constants";
 import { zonedTimeToUtc } from "@/lib/datetime";
 import type { LocalizedText } from "@/lib/localized";
 import { isValidSlug } from "@/lib/slug";
@@ -115,11 +115,15 @@ function result<T>(data: T, errors: FieldErrors): Parsed<T> {
 export type CoupleDetails = {
   partnerOne: LocalizedText;
   partnerTwo: LocalizedText;
+  partnerOneNick: LocalizedText | null;
+  partnerTwoNick: LocalizedText | null;
   slug: string;
   weddingAt: Date;
   timezone: string;
   city: LocalizedText | null;
   theme: ThemeName;
+  border: BorderStyle;
+  petals: boolean;
   heroPhotoUrl: string | null;
   heroPosition: string;
   musicUrl: string | null;
@@ -144,6 +148,9 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
   const theme = text(form, "theme");
   if (!isThemeName(theme)) errors.theme = "Choose one of the themes.";
 
+  const border = (text(form, "border") || "tibeb") as BorderStyle;
+  if (!BORDER_STYLES.includes(border)) errors.border = "Choose one of the border styles.";
+
   const heroPosition = text(form, "heroPosition") || HERO_POSITIONS[1].value;
   if (!HERO_POSITIONS.some((p) => p.value === heroPosition)) errors.heroPosition = "Choose a photo position.";
 
@@ -151,11 +158,15 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
     {
       partnerOne,
       partnerTwo,
+      partnerOneNick: readLocalized(form, "partnerOneNick"),
+      partnerTwoNick: readLocalized(form, "partnerTwoNick"),
       slug,
       weddingAt: weddingAt as Date,
       timezone,
       city: readLocalized(form, "city"),
       theme: theme as ThemeName,
+      border,
+      petals: form.petals === "on",
       heroPhotoUrl: optionalUrl(form, "heroPhotoUrl", errors),
       heroPosition,
       musicUrl: optionalUrl(form, "musicUrl", errors),

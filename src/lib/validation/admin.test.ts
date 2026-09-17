@@ -42,6 +42,12 @@ const details = {
   heroPosition: "50% 40%",
   musicUrl: "/demo/canon-in-d.mp3",
   musicTitle: "Canon in D",
+  "partnerOneNick.en": "Hanni",
+  "partnerOneNick.am": "",
+  "partnerTwoNick.en": "",
+  "partnerTwoNick.am": "",
+  border: "floral",
+  petals: "on",
 };
 
 describe("parseCoupleDetails", () => {
@@ -52,16 +58,38 @@ describe("parseCoupleDetails", () => {
     expect(result.data).toEqual({
       partnerOne: { en: "Hanna", am: "ሐና" },
       partnerTwo: { en: "Dawit" },
+      partnerOneNick: { en: "Hanni" },
+      partnerTwoNick: null,
       slug: "hanna-dawit",
       weddingAt: new Date("2026-07-18T11:00:00.000Z"),
       timezone: "Africa/Addis_Ababa",
       city: { en: "Addis Ababa", am: "አዲስ አበባ" },
       theme: "tibeb",
+      border: "floral",
+      petals: true,
       heroPhotoUrl: "https://images.unsplash.com/photo-1",
       heroPosition: "50% 40%",
       musicUrl: "/demo/canon-in-d.mp3",
       musicTitle: "Canon in D",
     });
+  });
+
+  it("treats a missing petals checkbox as off and defaults the border to tibeb", () => {
+    const rest: Record<string, string> = { ...details };
+    delete rest.petals;
+    delete rest.border;
+    const result = parseCoupleDetails(rest);
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.petals).toBe(false);
+    expect(result.data.border).toBe("tibeb");
+  });
+
+  it("rejects an unknown border style", () => {
+    const result = parseCoupleDetails({ ...details, border: "lace" });
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(Object.keys(result.fieldErrors)).toEqual(["border"]);
   });
 
   it("requires both English names, a valid slug and a date", () => {

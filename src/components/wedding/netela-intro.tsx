@@ -5,10 +5,11 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useMusic } from "./music";
-import { TibebBand, buttonPrimary } from "./primitives";
+import type { BorderStyle } from "@/lib/constants";
+import { Band, buttonPrimary } from "./primitives";
 import { LanguageToggle } from "./site-header";
 
-type Props = { slug: string; partnerOne: string; partnerTwo: string; dateLine: string };
+type Props = { slug: string; partnerOne: string; partnerTwo: string; dateLine: string; border: BorderStyle };
 
 const EASE = [0.7, 0, 0.2, 1] as const;
 
@@ -16,7 +17,7 @@ const EASE = [0.7, 0, 0.2, 1] as const;
  * Opening screen: two halves of a netela with tibeb borders meet in the middle
  * and part when the guest opens the invitation. Shown once per browser session.
  */
-export function NetelaIntro({ slug, partnerOne, partnerTwo, dateLine }: Props) {
+export function NetelaIntro({ slug, partnerOne, partnerTwo, dateLine, border }: Props) {
   const t = useTranslations("intro");
   const { play } = useMusic();
   const reduceMotion = useReducedMotion();
@@ -66,7 +67,7 @@ export function NetelaIntro({ slug, partnerOne, partnerTwo, dateLine }: Props) {
         transition={panelTransition}
         onAnimationComplete={() => opening && setPhase("gone")}
       >
-        <TibebBand orientation="vertical" className="mr-2 sm:mr-4" />
+        <Band variant={border} orientation="vertical" className="mr-2 sm:mr-4" />
       </motion.div>
       <motion.div
         aria-hidden
@@ -75,7 +76,7 @@ export function NetelaIntro({ slug, partnerOne, partnerTwo, dateLine }: Props) {
         animate={{ x: opening ? "100%" : "0%" }}
         transition={panelTransition}
       >
-        <TibebBand orientation="vertical" className="ml-2 sm:ml-4" />
+        <Band variant={border} orientation="vertical" className="ml-2 sm:ml-4" />
       </motion.div>
 
       <motion.div

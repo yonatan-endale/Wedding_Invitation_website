@@ -16,10 +16,17 @@ describe("themeStyle", () => {
   it("exposes every theme color as a CSS variable", () => {
     for (const name of THEME_NAMES) {
       const style = themeStyle(name) as Record<string, string>;
-      for (const key of ["--w-paper", "--w-ink", "--w-ink-soft", "--w-rule", "--w-sheet", "--w-thread-1", "--w-thread-2", "--w-thread-3", "--w-on-thread-1"]) {
+      for (const key of ["--w-paper", "--w-ink", "--w-ink-soft", "--w-rule", "--w-sheet", "--w-thread-1", "--w-thread-2", "--w-thread-3", "--w-on-thread-1", "--w-petal"]) {
         expect(style[key], `${name} ${key}`).toMatch(/^#[0-9a-f]{6}$/i);
       }
     }
+  });
+
+  it("offers palettes beyond the Ethiopian set", () => {
+    for (const name of ["blush", "ivory", "burgundy", "dusty"]) {
+      expect(THEME_NAMES).toContain(name);
+    }
+    expect((themeStyle("burgundy") as Record<string, string>).colorScheme).toBe("dark");
   });
 
   it("sets the color scheme so form controls match", () => {

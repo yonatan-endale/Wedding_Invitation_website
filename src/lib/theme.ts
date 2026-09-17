@@ -10,6 +10,8 @@ type ThemeColors = {
   thread2: string;
   thread3: string;
   onThread1: string;
+  /** Falling petals over the hero photo. */
+  petal: string;
 };
 
 export type Theme = {
@@ -21,8 +23,9 @@ export type Theme = {
 };
 
 /**
- * Each palette borrows from something at an Ethiopian wedding. The three
- * "threads" colour the woven tibeb border that runs through the site.
+ * The first five palettes borrow from Ethiopian weddings; the rest are classic
+ * wedding schemes. The three "threads" colour the border band that runs through
+ * the site, whichever border style the couple picks.
  */
 const THEMES = {
   tibeb: {
@@ -40,6 +43,7 @@ const THEMES = {
       thread2: "#c49a22",
       thread3: "#a8372c",
       onThread1: "#ffffff",
+      petal: "#c94a4a",
     },
   },
   meskel: {
@@ -57,6 +61,7 @@ const THEMES = {
       thread2: "#7fb069",
       thread3: "#e4572e",
       onThread1: "#102a1e",
+      petal: "#e2604a",
     },
   },
   buna: {
@@ -74,6 +79,7 @@ const THEMES = {
       thread2: "#e8c07d",
       thread3: "#7d9b69",
       onThread1: "#221712",
+      petal: "#c96b6b",
     },
   },
   lalibela: {
@@ -91,6 +97,7 @@ const THEMES = {
       thread2: "#b98a4e",
       thread3: "#34566b",
       onThread1: "#ffffff",
+      petal: "#b8515f",
     },
   },
   tizita: {
@@ -108,6 +115,79 @@ const THEMES = {
       thread2: "#d6a2ad",
       thread3: "#6f86b8",
       onThread1: "#151b2b",
+      petal: "#d98a99",
+    },
+  },
+  blush: {
+    name: "blush",
+    label: "Blush",
+    description: "Blush pink and champagne gold with a soft warm grey.",
+    scheme: "light",
+    colors: {
+      paper: "#f8eeed",
+      ink: "#3d2f30",
+      inkSoft: "#7e6b6c",
+      rule: "#e8d7d5",
+      sheet: "#fdf6f5",
+      thread1: "#b8737e",
+      thread2: "#c8a96a",
+      thread3: "#d9a1a8",
+      onThread1: "#ffffff",
+      petal: "#d98995",
+    },
+  },
+  ivory: {
+    name: "ivory",
+    label: "Ivory",
+    description: "Ivory and charcoal with one muted gold accent. Very quiet.",
+    scheme: "light",
+    colors: {
+      paper: "#f7f4ee",
+      ink: "#2b2a27",
+      inkSoft: "#6f6c65",
+      rule: "#e2ddd3",
+      sheet: "#fcfaf6",
+      thread1: "#4a4741",
+      thread2: "#b89b5e",
+      thread3: "#9a948a",
+      onThread1: "#ffffff",
+      petal: "#c9a0a4",
+    },
+  },
+  burgundy: {
+    name: "burgundy",
+    label: "Burgundy",
+    description: "Deep burgundy with cream and gold. Rich and evening.",
+    scheme: "dark",
+    colors: {
+      paper: "#3b1420",
+      ink: "#f5e9dc",
+      inkSoft: "#c9aaa5",
+      rule: "#5a2a37",
+      sheet: "#47192a",
+      thread1: "#d4a862",
+      thread2: "#e8c99a",
+      thread3: "#c2626f",
+      onThread1: "#3b1420",
+      petal: "#e2919c",
+    },
+  },
+  dusty: {
+    name: "dusty",
+    label: "Dusty blue",
+    description: "Dusty blue and slate with a rose accent. Calm and airy.",
+    scheme: "light",
+    colors: {
+      paper: "#eef2f5",
+      ink: "#243040",
+      inkSoft: "#5f6f80",
+      rule: "#d5dee6",
+      sheet: "#f7f9fb",
+      thread1: "#5b7a99",
+      thread2: "#c0a17a",
+      thread3: "#c98a94",
+      onThread1: "#ffffff",
+      petal: "#d99aa4",
     },
   },
 } satisfies Record<string, Theme>;
@@ -137,5 +217,6 @@ export function themeStyle(name: string | null | undefined): CSSProperties {
     "--w-thread-2": colors.thread2,
     "--w-thread-3": colors.thread3,
     "--w-on-thread-1": colors.onThread1,
+    "--w-petal": colors.petal,
   } as CSSProperties;
 }

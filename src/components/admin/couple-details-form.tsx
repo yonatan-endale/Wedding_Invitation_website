@@ -3,15 +3,23 @@
 import { useState } from "react";
 import { createCouple, updateCoupleDetails } from "@/actions/admin";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Band } from "@/components/wedding/primitives";
 import type { AdminCouple } from "@/db/queries/admin";
-import { DEFAULT_TIMEZONE, HERO_POSITIONS } from "@/lib/constants";
+import { DEFAULT_TIMEZONE, HERO_POSITIONS, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { slugify } from "@/lib/slug";
-import { THEME_LIST } from "@/lib/theme";
+import { THEME_LIST, themeStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { Field, FormSection, LocalizedField, NativeSelect, SubmitButton } from "./fields";
 import { MediaField } from "./media-field";
 import { useAdminForm } from "./use-action-feedback";
+
+const BORDER_OPTIONS: { value: BorderStyle; label: string; description: string }[] = [
+  { value: "tibeb", label: "Tibeb", description: "The woven border of a habesha kemis." },
+  { value: "floral", label: "Floral", description: "A rose vine with leaves." },
+  { value: "line", label: "Line", description: "Two thin rules. Quiet and modern." },
+];
 
 type Props = {
   couple?: AdminCouple;
@@ -44,6 +52,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
           {(["one", "two"] as const).map((which) => {
             const key = which === "one" ? "partnerOne" : "partnerTwo";
             const existing = couple?.[key];
+            const nick = couple?.[`${key}Nick`];
             return (
               <fieldset key={which} className="grid gap-3 rounded-lg border p-4">
                 <legend className="px-1 text-sm font-medium">{which === "one" ? "First partner" : "Second partner"}</legend>
@@ -60,6 +69,18 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                 <Field label="Name in Amharic (optional)" htmlFor={`${key}-am`}>
                   <Input id={`${key}-am`} name={`${key}.am`} lang="am" defaultValue={existing?.am} autoComplete="off" />
                 </Field>
+                <div className="grid gap-3 border-t pt-3 sm:grid-cols-2">
+                  <Field
+                    label="Nickname (optional)"
+                    htmlFor={`${key}Nick-en`}
+                    hint="Shown in the hero instead of the full name."
+                  >
+                    <Input id={`${key}Nick-en`} name={`${key}Nick.en`} defaultValue={nick?.en} autoComplete="off" />
+                  </Field>
+                  <Field label="Nickname in Amharic" htmlFor={`${key}Nick-am`}>
+                    <Input id={`${key}Nick-am`} name={`${key}Nick.am`} lang="am" defaultValue={nick?.am} autoComplete="off" />
+                  </Field>
+                </div>
               </fieldset>
             );
           })}
@@ -145,6 +166,38 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
           </div>
           {errors.theme ? <p className="text-sm text-destructive">{errors.theme}</p> : null}
         </fieldset>
+
+        <fieldset className="grid gap-3">
+          <legend className="mb-2 text-sm font-medium">Border</legend>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {BORDER_OPTIONS.map((option) => (
+              <label
+                key={option.value}
+                className="grid cursor-pointer gap-2 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+              >
+                <span className="flex items-center gap-2">
+                  <input type="radio" name="border" value={option.value} defaultChecked={(couple?.border ?? "tibeb") === option.value} />
+                  <span className="font-medium">{option.label}</span>
+                </span>
+                <span className="rounded bg-[var(--w-paper)] px-2 py-1" style={themeStyle(couple?.theme)}>
+                  <Band variant={option.value} className="h-6" />
+                </span>
+                <span className="text-sm text-muted-foreground">{option.description}</span>
+              </label>
+            ))}
+          </div>
+          {errors.border ? <p className="text-sm text-destructive">{errors.border}</p> : null}
+        </fieldset>
+
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Falling rose petals on the hero</span>
+            <span className="block text-sm text-muted-foreground">
+              A slow, gentle fall over the cover photo. Off for guests who prefer reduced motion.
+            </span>
+          </span>
+          <Switch name="petals" defaultChecked={couple?.petals ?? true} value="on" />
+        </label>
 
         <MediaField
           name="heroPhotoUrl"

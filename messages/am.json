@@ -22,11 +22,12 @@
   },
   "countdown": {
     "label": "ለሠርጉ ቀን የቀረው ጊዜ",
+    "until": "ለታላቁ ቀን የቀረው",
+    "since": "ከተጋባንበት ቀን ጀምሮ",
     "days": "ቀናት",
     "hours": "ሰዓታት",
     "minutes": "ደቂቃዎች",
-    "seconds": "ሰከንዶች",
-    "done": "{date} ተጋብተናል"
+    "seconds": "ሰከንዶች"
   },
   "invitation": {
     "hostsFallback": "ከቤተሰቦቻቸው ጋር በመሆን",

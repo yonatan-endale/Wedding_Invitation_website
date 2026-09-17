@@ -54,13 +54,24 @@ describe("countdownParts", () => {
       hours: 1,
       minutes: 2,
       seconds: 3,
-      done: false,
+      passed: false,
     });
   });
 
-  it("reports done with zeros once the time has passed", () => {
-    const now = new Date("2026-07-19T00:00:00Z");
+  it("counts upward once the wedding has passed", () => {
+    const now = new Date("2026-07-21T12:30:45Z");
     const target = new Date("2026-07-18T11:00:00Z");
-    expect(countdownParts(target, now)).toEqual({ days: 0, hours: 0, minutes: 0, seconds: 0, done: true });
+    expect(countdownParts(target, now)).toEqual({ days: 3, hours: 1, minutes: 30, seconds: 45, passed: true });
+  });
+
+  it("counts a whole year of marriage in days", () => {
+    const now = new Date("2027-07-18T11:00:00Z");
+    const target = new Date("2026-07-18T11:00:00Z");
+    expect(countdownParts(target, now)).toMatchObject({ days: 365, hours: 0, minutes: 0, passed: true });
+  });
+
+  it("treats the exact moment as passed, with zeros", () => {
+    const target = new Date("2026-07-18T11:00:00Z");
+    expect(countdownParts(target, target)).toEqual({ days: 0, hours: 0, minutes: 0, seconds: 0, passed: true });
   });
 });

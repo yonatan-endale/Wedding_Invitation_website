@@ -1,7 +1,6 @@
-import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
-import { formatWeddingDate } from "@/lib/wedding-format";
+import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { Countdown } from "./countdown";
 import { TibebBand, WeddingImage } from "./primitives";
 
@@ -45,6 +44,14 @@ export function Hero({ site, locale }: Props) {
           </h1>
           <div className="mt-8 space-y-1 text-lg text-white/90 sm:text-xl">
             <p>{formatWeddingDate(couple.weddingAt, couple.timezone, locale)}</p>
+            {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
+            {locale === "am" ? (
+              <p className="text-white/70">{formatGregorianDate(couple.weddingAt, couple.timezone)}</p>
+            ) : (
+              <p lang="am" className="text-white/70">
+                {formatEthiopianDateLine(couple.weddingAt, couple.timezone)}
+              </p>
+            )}
             {city ? <p className="text-white/70">{city}</p> : null}
           </div>
         </div>
@@ -54,16 +61,11 @@ export function Hero({ site, locale }: Props) {
   );
 }
 
-export async function CountdownSection({ site, locale }: Props) {
-  const t = await getTranslations("countdown");
-  const { couple } = site;
+export function CountdownSection({ site }: Props) {
+  const captionId = "countdown-caption";
   return (
-    <section aria-label={t("label")} className="px-5 py-14 sm:py-20">
-      <Countdown
-        target={couple.weddingAt}
-        serverNow={new Date().toISOString()}
-        doneLabel={t("done", { date: formatWeddingDate(couple.weddingAt, couple.timezone, locale) })}
-      />
+    <section aria-labelledby={captionId} className="px-5 py-14 sm:py-20">
+      <Countdown target={site.couple.weddingAt} serverNow={new Date().toISOString()} captionId={captionId} />
     </section>
   );
 }

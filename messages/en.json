@@ -22,11 +22,12 @@
   },
   "countdown": {
     "label": "Time until the wedding",
+    "until": "Left for the big day",
+    "since": "Since we got married",
     "days": "days",
     "hours": "hours",
     "minutes": "minutes",
-    "seconds": "seconds",
-    "done": "Married on {date}"
+    "seconds": "seconds"
   },
   "invitation": {
     "hostsFallback": "Together with their families",

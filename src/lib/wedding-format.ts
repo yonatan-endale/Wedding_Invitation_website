@@ -25,6 +25,12 @@ function localParts(iso: string, timeZone: string) {
   return { ...parts, weekday };
 }
 
+/** The Ethiopian calendar date in Amharic script, with no weekday: "ጥር 15 ቀን 2019 ዓ.ም." */
+export function formatEthiopianDateLine(iso: string, timeZone: string): string {
+  const p = localParts(iso, timeZone);
+  return formatEthiopianDate(gregorianToEthiopian(p.year, p.month, p.day));
+}
+
 export function formatGregorianDate(iso: string, timeZone: string): string {
   const p = localParts(iso, timeZone);
   return `${p.day} ${MONTHS_EN[p.month - 1]} ${p.year}`;

@@ -68,16 +68,17 @@ export function toDateTimeLocalValue(date: Date, timeZone: string): string {
   return `${p.year}-${pad(p.month)}-${pad(p.day)}T${pad(p.hour)}:${pad(p.minute)}`;
 }
 
-export type CountdownParts = { days: number; hours: number; minutes: number; seconds: number; done: boolean };
+export type CountdownParts = { days: number; hours: number; minutes: number; seconds: number; passed: boolean };
 
+/** Time left before the wedding, or time elapsed since it once the day has passed. */
 export function countdownParts(target: Date, now: Date): CountdownParts {
-  const diff = Math.floor((target.getTime() - now.getTime()) / 1000);
-  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, done: true };
+  const difference = Math.floor((target.getTime() - now.getTime()) / 1000);
+  const seconds = Math.abs(difference);
   return {
-    days: Math.floor(diff / 86400),
-    hours: Math.floor((diff % 86400) / 3600),
-    minutes: Math.floor((diff % 3600) / 60),
-    seconds: diff % 60,
-    done: false,
+    days: Math.floor(seconds / 86400),
+    hours: Math.floor((seconds % 86400) / 3600),
+    minutes: Math.floor((seconds % 3600) / 60),
+    seconds: seconds % 60,
+    passed: difference <= 0,
   };
 }

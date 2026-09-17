@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { formatGregorianDate, formatStandardTime, formatWeddingDate, formatWeddingTime } from "./wedding-format";
+import {
+  formatEthiopianDateLine,
+  formatGregorianDate,
+  formatStandardTime,
+  formatWeddingDate,
+  formatWeddingTime,
+} from "./wedding-format";
 
 const ISO = "2026-07-18T11:00:00.000Z";
 const TZ = "Africa/Addis_Ababa";
@@ -40,6 +46,16 @@ describe("formatStandardTime", () => {
   it("writes the international clock for the admin, matching what is typed into the form", () => {
     expect(formatStandardTime(ISO, TZ)).toBe("2:00 PM");
     expect(formatStandardTime("2026-07-18T21:30:00.000Z", TZ)).toBe("12:30 AM");
+  });
+});
+
+describe("formatEthiopianDateLine", () => {
+  it("writes the Ethiopian date in Amharic script without a weekday", () => {
+    expect(formatEthiopianDateLine(ISO, TZ)).toBe("ሐምሌ 11 ቀን 2018 ዓ.ም.");
+  });
+
+  it("uses the local date, not the UTC date, near midnight", () => {
+    expect(formatEthiopianDateLine("2026-07-17T22:30:00.000Z", TZ)).toBe("ሐምሌ 11 ቀን 2018 ዓ.ም.");
   });
 });
 

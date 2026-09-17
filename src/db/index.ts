@@ -1,6 +1,7 @@
 import { attachDatabasePool } from "@vercel/functions";
 import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import { pinSslMode } from "./connection-string";
 import * as schema from "./schema";
 
 export type Db = NodePgDatabase<typeof schema>;
@@ -17,7 +18,7 @@ export function getDb(): Db {
   if (!connectionString) {
     throw new Error("DATABASE_URL is not set. Run `vercel env pull .env.local --yes` or see README.md.");
   }
-  const pool = new Pool({ connectionString, max: 5, idleTimeoutMillis: 5_000 });
+  const pool = new Pool({ connectionString: pinSslMode(connectionString), max: 5, idleTimeoutMillis: 5_000 });
   attachDatabasePool(pool);
   db = drizzle(pool, { schema });
   return db;

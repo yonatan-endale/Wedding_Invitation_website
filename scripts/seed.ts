@@ -5,6 +5,7 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import { pinSslMode } from "../src/db/connection-string";
 import * as schema from "../src/db/schema";
 
 const SLUG = "hanna-dawit";
@@ -16,7 +17,7 @@ const addis = (local: string) => new Date(`${local}:00+03:00`);
 async function main() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) throw new Error("DATABASE_URL is not set. Run with: pnpm db:seed");
-  const pool = new Pool({ connectionString });
+  const pool = new Pool({ connectionString: pinSslMode(connectionString) });
   const db = drizzle(pool, { schema });
 
   await db.delete(schema.couples).where(eq(schema.couples.slug, SLUG));

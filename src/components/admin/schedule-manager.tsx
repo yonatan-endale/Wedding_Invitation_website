@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import type { AdminCouple } from "@/db/queries/admin";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { mapsLink } from "@/lib/maps";
-import { formatWeddingTime } from "@/lib/wedding-format";
+import { formatStandardTime } from "@/lib/wedding-format";
 import { Field, LocalizedField, NativeSelect, SubmitButton } from "./fields";
 import { DeleteButton, MoveButtons } from "./item-actions";
 import { MediaField } from "./media-field";
@@ -228,7 +228,7 @@ export function ScheduleManager({ couple, uploadsEnabled }: { couple: AdminCoupl
                 <Clock className="mt-1 size-4 shrink-0 text-muted-foreground" aria-hidden />
                 <div className="min-w-0 flex-1">
                   <p className="text-sm text-muted-foreground tabular-nums">
-                    {formatWeddingTime(event.startsAt.toISOString(), couple.timezone, "en")}
+                    {formatStandardTime(event.startsAt.toISOString(), couple.timezone)}
                   </p>
                   <p className="font-medium">{event.title.en}</p>
                   {event.venueId ? <p className="text-sm text-muted-foreground">{venueName.get(event.venueId)}</p> : null}

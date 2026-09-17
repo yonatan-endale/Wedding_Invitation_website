@@ -40,10 +40,28 @@ export function formatWeddingDate(iso: string, timeZone: string, locale: Locale)
   return `${WEEKDAYS_EN[p.weekday]}, ${formatGregorianDate(iso, timeZone)}`;
 }
 
-/** English: "2:00 PM". Amharic: Ethiopian clock, "ከቀኑ 8:00 ሰዓት". */
+const ETHIOPIAN_PERIODS_EN = [
+  { until: 6, label: "at night" },
+  { until: 12, label: "in the morning" },
+  { until: 18, label: "in the afternoon" },
+  { until: 24, label: "in the evening" },
+];
+
+/**
+ * Guest sites always use the Ethiopian clock, which starts the day at 6 in the
+ * morning: 2 PM reads as 8:00 in the afternoon.
+ */
 export function formatWeddingTime(iso: string, timeZone: string, locale: Locale): string {
   const p = localParts(iso, timeZone);
   if (locale === "am") return formatEthiopianTime(p.hour, p.minute);
+  const hour = (p.hour + 6) % 12 || 12;
+  const period = ETHIOPIAN_PERIODS_EN.find((candidate) => p.hour < candidate.until)!.label;
+  return `${hour}:${String(p.minute).padStart(2, "0")} ${period}`;
+}
+
+/** International clock, for the admin dashboard where times are typed in this form. */
+export function formatStandardTime(iso: string, timeZone: string): string {
+  const p = localParts(iso, timeZone);
   const hour = p.hour % 12 || 12;
   return `${hour}:${String(p.minute).padStart(2, "0")} ${p.hour < 12 ? "AM" : "PM"}`;
 }

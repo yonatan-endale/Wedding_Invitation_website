@@ -11,7 +11,7 @@ Each couple site has:
 - A swipeable photo gallery with a full-screen viewer
 - Gifts: bank and Telebirr details with copy buttons and QR codes, plus a wishlist that links to shops
 - An RSVP form, and a Telegram link for guests to share photos
-- An English and Amharic switch, with Ethiopian calendar dates and Ethiopian clock times in Amharic
+- An English and Amharic switch. Times always use the Ethiopian clock, so 2 PM reads as 8:00 in the afternoon, and Amharic also uses Ethiopian calendar dates
 - A share preview image for WhatsApp, Telegram and Facebook
 - A choice of five colour themes
 
@@ -104,7 +104,7 @@ Preview deployments also run migrations, against whatever database their `DATABA
 ## Useful commands
 
 ```bash
-pnpm test          # unit tests (calendar, validation, routing, CSV and more)
+pnpm test          # unit tests (calendar, clock, validation, routing, CSV and more)
 pnpm typecheck
 pnpm lint
 pnpm build

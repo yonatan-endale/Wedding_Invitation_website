@@ -10,7 +10,7 @@ import { RsvpList } from "@/components/admin/rsvp-list";
 import { ScheduleManager } from "@/components/admin/schedule-manager";
 import { getCoupleForAdmin, listRsvps } from "@/db/queries/admin";
 import { siteLinks } from "@/lib/site-links";
-import { formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
+import { formatStandardTime, formatWeddingDate } from "@/lib/wedding-format";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -36,7 +36,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
       <CoupleHeader
         id={couple.id}
         names={`${couple.partnerOne.en} & ${couple.partnerTwo.en}`}
-        dateLine={`${formatWeddingDate(iso, couple.timezone, "en")} at ${formatWeddingTime(iso, couple.timezone, "en")}`}
+        dateLine={`${formatWeddingDate(iso, couple.timezone, "en")} at ${formatStandardTime(iso, couple.timezone)}`}
         status={couple.status}
         shareUrl={links.share}
         previewUrl={links.preview}

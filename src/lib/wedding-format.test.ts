@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "./wedding-format";
+import { formatGregorianDate, formatStandardTime, formatWeddingDate, formatWeddingTime } from "./wedding-format";
 
 const ISO = "2026-07-18T11:00:00.000Z";
 const TZ = "Africa/Addis_Ababa";
@@ -19,13 +19,27 @@ describe("formatWeddingDate", () => {
 });
 
 describe("formatWeddingTime", () => {
-  it("writes a 12-hour English time", () => {
-    expect(formatWeddingTime(ISO, TZ, "en")).toBe("2:00 PM");
-    expect(formatWeddingTime("2026-07-18T21:30:00.000Z", TZ, "en")).toBe("12:30 AM");
+  it("writes the Ethiopian clock in English, because guests in Ethiopia read that", () => {
+    expect(formatWeddingTime(ISO, TZ, "en")).toBe("8:00 in the afternoon");
+    expect(formatWeddingTime("2026-07-18T07:00:00.000Z", TZ, "en")).toBe("4:00 in the morning");
+    expect(formatWeddingTime("2026-07-18T15:00:00.000Z", TZ, "en")).toBe("12:00 in the evening");
+    expect(formatWeddingTime("2026-07-18T21:30:00.000Z", TZ, "en")).toBe("6:30 at night");
+  });
+
+  it("counts noon and six in the morning the Ethiopian way", () => {
+    expect(formatWeddingTime("2026-07-18T09:00:00.000Z", TZ, "en")).toBe("6:00 in the afternoon");
+    expect(formatWeddingTime("2026-07-18T03:00:00.000Z", TZ, "en")).toBe("12:00 in the morning");
   });
 
   it("writes Ethiopian clock time in Amharic", () => {
     expect(formatWeddingTime(ISO, TZ, "am")).toBe("ከቀኑ 8:00 ሰዓት");
+  });
+});
+
+describe("formatStandardTime", () => {
+  it("writes the international clock for the admin, matching what is typed into the form", () => {
+    expect(formatStandardTime(ISO, TZ)).toBe("2:00 PM");
+    expect(formatStandardTime("2026-07-18T21:30:00.000Z", TZ)).toBe("12:30 AM");
   });
 });
 

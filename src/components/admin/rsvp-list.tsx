@@ -2,7 +2,7 @@ import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { listRsvps } from "@/db/queries/admin";
-import { formatGregorianDate, formatWeddingTime } from "@/lib/wedding-format";
+import { formatGregorianDate, formatStandardTime } from "@/lib/wedding-format";
 import { DeleteButton } from "./item-actions";
 
 type Rsvp = Awaited<ReturnType<typeof listRsvps>>[number];
@@ -69,7 +69,7 @@ export function RsvpList({ coupleId, rows, timezone }: { coupleId: string; rows:
                   <TableCell className="text-right tabular-nums">{row.guestCount}</TableCell>
                   <TableCell className="max-w-xs text-sm whitespace-normal text-muted-foreground">{row.message}</TableCell>
                   <TableCell className="text-sm whitespace-nowrap text-muted-foreground">
-                    {formatGregorianDate(row.createdAt.toISOString(), timezone)}, {formatWeddingTime(row.createdAt.toISOString(), timezone, "en")}
+                    {formatGregorianDate(row.createdAt.toISOString(), timezone)}, {formatStandardTime(row.createdAt.toISOString(), timezone)}
                   </TableCell>
                   <TableCell>
                     <DeleteButton list="rsvps" id={row.id} itemLabel={`${row.name}'s RSVP`} />

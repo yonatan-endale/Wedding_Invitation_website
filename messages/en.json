@@ -1,0 +1,121 @@
+{
+  "intro": {
+    "invited": "You are invited to the wedding of",
+    "open": "Open invitation"
+  },
+  "nav": {
+    "label": "Sections",
+    "menu": "Menu",
+    "close": "Close menu",
+    "invitation": "Invitation",
+    "story": "Our story",
+    "schedule": "The day",
+    "venues": "Venues",
+    "gallery": "Gallery",
+    "gifts": "Gifts",
+    "rsvp": "RSVP"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "am": "አማርኛ"
+  },
+  "countdown": {
+    "label": "Time until the wedding",
+    "days": "days",
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds",
+    "done": "Married on {date}"
+  },
+  "invitation": {
+    "hostsFallback": "Together with their families",
+    "defaultText": "request the pleasure of your company as they celebrate their marriage.",
+    "dressCode": "Dress code",
+    "ethiopianDate": "Ethiopian calendar"
+  },
+  "story": {
+    "heading": "Our story"
+  },
+  "schedule": {
+    "heading": "The day",
+    "directions": "Directions"
+  },
+  "venues": {
+    "heading": "Where to find us",
+    "openMaps": "Open in Google Maps",
+    "showMap": "Show map",
+    "hideMap": "Hide map",
+    "mapTitle": "Map of {name}"
+  },
+  "gallery": {
+    "heading": "Gallery",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "open": "View photo {index} full screen",
+    "close": "Close",
+    "counter": "{current} of {total}"
+  },
+  "gifts": {
+    "heading": "Gifts",
+    "defaultNote": "Your presence is the greatest gift. If you would like to bless us further, you can use the details below.",
+    "accountName": "Account name",
+    "copy": "Copy number",
+    "copied": "Copied",
+    "copyFailed": "Copy didn't work. Select the number and copy it manually.",
+    "showQr": "Show QR code",
+    "hideQr": "Hide QR code",
+    "qrAlt": "QR code for {number}",
+    "wishlist": "Wishlist",
+    "viewItem": "View item",
+    "kind": {
+      "bank": "Bank transfer",
+      "telebirr": "Telebirr",
+      "other": "Other"
+    }
+  },
+  "rsvp": {
+    "heading": "RSVP",
+    "intro": "Please let us know whether you can join us.",
+    "replyBy": "Please reply by {date}.",
+    "closed": "RSVPs are closed. Please contact the couple directly.",
+    "name": "Full name",
+    "phone": "Phone number",
+    "email": "Email (optional)",
+    "attendance": "Will you attend?",
+    "yes": "Joyfully accept",
+    "no": "Regretfully decline",
+    "guestCount": "Guests, including you",
+    "message": "Message for the couple (optional)",
+    "submit": "Send RSVP",
+    "sending": "Sending…",
+    "thanksYes": "Thank you, {name}. We can't wait to celebrate with you.",
+    "thanksNo": "Thank you for letting us know, {name}. You'll be missed.",
+    "another": "Send another response",
+    "errors": {
+      "name": "Enter your full name.",
+      "phone": "Enter a phone number, for example +251 911 234 567.",
+      "email": "Enter a valid email or leave it empty.",
+      "guestCount": "Choose between 1 and 10 guests.",
+      "message": "Keep the message under 500 characters.",
+      "attending": "Choose whether you will attend.",
+      "generic": "Your RSVP wasn't sent. Check your connection and try again.",
+      "rateLimited": "Too many attempts. Wait a minute and try again.",
+      "closed": "RSVPs for this wedding are closed."
+    }
+  },
+  "memories": {
+    "heading": "Share your photos",
+    "body": "Took photos at the wedding? Send them to us on Telegram.",
+    "cta": "Open Telegram"
+  },
+  "music": {
+    "play": "Play music",
+    "pause": "Pause music",
+    "nowPlaying": "Now playing: {title}"
+  },
+  "notFound": {
+    "title": "This invitation isn't available",
+    "body": "Check the link you were sent, or ask the couple for a new one."
+  }
+}

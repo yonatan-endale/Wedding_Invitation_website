@@ -75,21 +75,24 @@ RSVPs appear in the **RSVPs** tab. **Download CSV** opens in Excel with Amharic 
 
 ## Deploy to Vercel (free Hobby plan)
 
-```bash
-npm i -g vercel
-vercel login
-vercel link
-vercel integration add neon          # creates the database and DATABASE_URL
-vercel integration add clerk         # creates Clerk keys
-vercel env add ADMIN_EMAILS          # your email
-vercel env pull .env.local --yes
-pnpm db:migrate                      # runs against the Neon database from .env.local
-vercel deploy --prod
-```
+Database migrations run automatically at the start of every Vercel build (`scripts/migrate.ts`). You never create tables by hand.
 
-For uploads, create a Blob store in the Vercel dashboard (Storage, then Create, then Blob) and connect it to the project. That adds `BLOB_READ_WRITE_TOKEN`. Redeploy afterwards.
+1. **Import:** in Vercel, choose Add New, then Project, and import the GitHub repository. Keep the detected Next.js settings. Don't paste your local `.env.local`, because it points at localhost.
+2. **Database:** in the project, open Storage, create a Neon Postgres database and connect it to all environments. This adds `DATABASE_URL`.
+3. **Uploads (optional):** in Storage, create a Blob store with public access and connect it. This adds `BLOB_READ_WRITE_TOKEN`.
+4. **Login:** create a free app at clerk.com and copy its development keys (`pk_test_…` and `sk_test_…`). Clerk production keys need a domain you own, so development keys are the ones to use on `vercel.app`.
+5. **Environment variables:** in Settings, then Environment Variables, add these:
+   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+   - `CLERK_SECRET_KEY`
+   - `NEXT_PUBLIC_CLERK_SIGN_IN_URL` set to `/sign-in`
+   - `ADMIN_EMAILS` set to the email you sign in with
+   - Leave `NEXT_PUBLIC_ROOT_DOMAIN` unset.
+6. **Redeploy:** open Deployments, then Redeploy. Environment variable changes only apply to new deployments. The build log should show "Database migrations are up to date."
+7. **Check:** open `https://<project>.vercel.app/admin`, sign up with the email from `ADMIN_EMAILS`, and create your first couple.
 
 Couple links will be `https://<project>.vercel.app/s/<slug>`.
+
+Preview deployments also run migrations, against whatever database their `DATABASE_URL` points to. Neon's integration can give each preview its own database branch.
 
 ### Optional: subdomain links
 

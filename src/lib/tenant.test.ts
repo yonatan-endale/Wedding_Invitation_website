@@ -1,5 +1,56 @@
 import { describe, expect, it } from "vitest";
-import { resolveTenant, tenantRewritePath, coupleSiteUrl } from "./tenant";
+import { resolveTenant, routeRequest, tenantRewritePath, coupleSiteUrl } from "./tenant";
+
+describe("routeRequest", () => {
+  it("rewrites couple subdomain pages to the couple route", () => {
+    expect(routeRequest("demo.example.com", "/", "example.com")).toEqual({
+      kind: "tenant",
+      slug: "demo",
+      path: "/s/demo",
+    });
+  });
+
+  it("refuses admin pages and admin APIs on couple subdomains", () => {
+    expect(routeRequest("demo.example.com", "/api/admin/upload", "example.com")).toEqual({ kind: "not-found" });
+    expect(routeRequest("demo.localhost:3000", "/admin", undefined)).toEqual({ kind: "not-found" });
+    expect(routeRequest("demo.localhost:3000", "/sign-in", undefined)).toEqual({ kind: "not-found" });
+  });
+
+  it("does not mistake paths that merely start with admin", () => {
+    expect(routeRequest("demo.example.com", "/administrator", "example.com")).toEqual({
+      kind: "tenant",
+      slug: "demo",
+      path: "/s/demo/administrator",
+    });
+  });
+
+  it("leaves other API routes alone on couple subdomains", () => {
+    expect(routeRequest("demo.example.com", "/api/health", "example.com")).toEqual({
+      kind: "tenant",
+      slug: "demo",
+      path: "/api/health",
+    });
+  });
+
+  it("sends main domain requests to the platform", () => {
+    expect(routeRequest("example.com", "/admin", "example.com")).toEqual({ kind: "platform" });
+  });
+
+  it("serves couple paths on the main domain without auth for guests", () => {
+    expect(routeRequest("wedding-sites.vercel.app", "/s/demo", undefined)).toEqual({ kind: "guest" });
+    expect(routeRequest("wedding-sites.vercel.app", "/s/demo/opengraph-image", undefined)).toEqual({ kind: "guest" });
+  });
+
+  it("keeps auth on couple paths when the visitor has a sign-in session, for draft previews", () => {
+    expect(routeRequest("wedding-sites.vercel.app", "/s/demo", undefined, { hasSession: true })).toEqual({
+      kind: "platform",
+    });
+  });
+
+  it("does not treat other paths starting with s as couple paths", () => {
+    expect(routeRequest("wedding-sites.vercel.app", "/sign-in", undefined)).toEqual({ kind: "platform" });
+  });
+});
 
 describe("resolveTenant", () => {
   it("reads the slug from a localhost subdomain in development", () => {

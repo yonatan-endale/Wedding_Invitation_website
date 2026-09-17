@@ -31,6 +31,36 @@ export function resolveTenant(host: string | null | undefined, rootDomain: strin
   return candidate;
 }
 
+export type RouteDecision =
+  | { kind: "platform" }
+  | { kind: "guest" }
+  | { kind: "not-found" }
+  | { kind: "tenant"; slug: string; path: string };
+
+/** Admin and sign-in only exist on the main domain, never on a couple's subdomain. */
+const PLATFORM_ONLY = /^\/(api\/admin|admin|sign-in|sign-up)(\/|$)/;
+const COUPLE_PATH = /^\/s(\/|$)/;
+
+/**
+ * Decides what the middleware does with a request.
+ * - tenant: a couple's subdomain, rewritten to /s/<slug>
+ * - guest: /s/<slug> on the main domain with no sign-in session, served without auth
+ *   so guests and link-preview crawlers never hit an auth redirect
+ * - platform: everything else, including /s/<slug> for a signed-in admin previewing a draft
+ */
+export function routeRequest(
+  host: string | null | undefined,
+  pathname: string,
+  rootDomain: string | undefined,
+  { hasSession = false }: { hasSession?: boolean } = {},
+): RouteDecision {
+  const slug = resolveTenant(host, rootDomain);
+  if (!slug) return COUPLE_PATH.test(pathname) && !hasSession ? { kind: "guest" } : { kind: "platform" };
+  if (PLATFORM_ONLY.test(pathname)) return { kind: "not-found" };
+  const path = pathname.startsWith("/api/") ? pathname : tenantRewritePath(slug, pathname);
+  return { kind: "tenant", slug, path };
+}
+
 export function tenantRewritePath(slug: string, pathname: string): string {
   const rest = pathname === "/" ? "" : pathname;
   return `/s/${slug}${rest}`;

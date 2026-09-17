@@ -19,7 +19,9 @@ export type RsvpFormState =
     }
   | { status: "success"; name: string; attending: boolean; submissionId: number };
 
-const limiter = createRateLimiter({ limit: 6, windowMs: 60_000 });
+const perGuest = createRateLimiter({ limit: 6, windowMs: 60_000 });
+/** Caps a burst of submissions to one couple even if client IPs are spoofed. */
+const perCouple = createRateLimiter({ limit: 120, windowMs: 60_000 });
 
 export async function submitRsvp(slug: string, _previous: RsvpFormState, formData: FormData): Promise<RsvpFormState> {
   const fields = formDataToFields(formData);
@@ -36,8 +38,9 @@ export async function submitRsvp(slug: string, _previous: RsvpFormState, formDat
     ({ status: "error", formError, fieldErrors, values }) as const;
 
   const requestHeaders = await headers();
-  const ip = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() || requestHeaders.get("x-real-ip") || "unknown";
-  if (!limiter.check(`${slug}:${ip}`)) return fail("rateLimited");
+  // Vercel sets x-real-ip itself; x-forwarded-for is only a fallback for other hosts.
+  const ip = requestHeaders.get("x-real-ip") || requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (!perCouple.check(slug) || !perGuest.check(`${slug}:${ip}`)) return fail("rateLimited");
 
   const parsed = parseRsvp(fields);
   if (!parsed.success) {

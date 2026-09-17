@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useActionState, useId, useState } from "react";
+import { startTransition, useActionState, useId, useState, type FormEvent } from "react";
 import { submitRsvp, type RsvpFormState } from "@/actions/rsvp";
 import { cn } from "@/lib/utils";
 import { buttonOutline, buttonPrimary } from "./primitives";
@@ -17,6 +17,13 @@ export function RsvpForm({ slug }: { slug: string }) {
   const [state, formAction, pending] = useActionState(submitRsvp.bind(null, slug), initialState);
   const [attending, setAttending] = useState<"yes" | "no" | null>(null);
   const [formKey, setFormKey] = useState(0);
+
+  // Submit manually so React doesn't reset the form: a failed RSVP keeps every answer, including the radio choice.
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => formAction(formData));
+  }
 
   if (state.status === "success" && formKey === state.submissionId) {
     return (
@@ -51,7 +58,7 @@ export function RsvpForm({ slug }: { slug: string }) {
     ) : null;
 
   return (
-    <form key={formKey} action={formAction} className="mt-10 space-y-6" noValidate>
+    <form key={formKey} action={formAction} onSubmit={onSubmit} className="mt-10 space-y-6" noValidate>
       <input type="hidden" name="submissionId" value={formKey} />
       {/* Hidden from people; bots that fill it are ignored. */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">

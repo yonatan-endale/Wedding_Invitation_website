@@ -23,6 +23,16 @@ describe("toCsv", () => {
     expect(csv).toBe("Name\r\n'=HYPERLINK(1)\r\n");
   });
 
+  it("leaves international phone numbers readable", () => {
+    const csv = toCsv([{ phone: "+251 911 234 567" }, { phone: "-" }], [{ key: "phone", header: "Phone" }]);
+    expect(csv).toBe("Phone\r\n+251 911 234 567\r\n-\r\n");
+  });
+
+  it("still neutralises formulas that start with plus or minus", () => {
+    const csv = toCsv([{ a: "+SUM(A1:A9)" }, { a: "-2+3+cmd|' /C calc'!A0" }], [{ key: "a", header: "A" }]);
+    expect(csv).toBe("A\r\n'+SUM(A1:A9)\r\n'-2+3+cmd|' /C calc'!A0\r\n");
+  });
+
   it("writes empty cells for null and undefined", () => {
     const csv = toCsv([{ a: null, b: undefined }], [
       { key: "a", header: "A" },

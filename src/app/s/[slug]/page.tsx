@@ -8,6 +8,7 @@ import { GallerySection } from "@/components/wedding/gallery";
 import { GiftsSection } from "@/components/wedding/gifts";
 import { InvitationCard, ScriptureSection, StorySection } from "@/components/wedding/invitation";
 import { MemoriesSection, SiteFooter } from "@/components/wedding/closing";
+import { MonogramWatermark } from "@/components/wedding/primitives";
 import { MusicButton, MusicProvider } from "@/components/wedding/music";
 import { NetelaIntro } from "@/components/wedding/netela-intro";
 import { RsvpSection } from "@/components/wedding/rsvp";
@@ -99,8 +100,9 @@ export default async function CoupleSitePage({ params }: Props) {
           partnerTwo={two}
           dateLine={formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
         />
+        <MonogramWatermark monogram={monogram} />
         <SiteHeader monogram={monogram} links={links} />
-        <main>
+        <main className="relative z-10">
           <Hero site={site} locale={locale} />
           <CountdownSection site={site} locale={locale} />
           <InvitationCard site={site} locale={locale} />

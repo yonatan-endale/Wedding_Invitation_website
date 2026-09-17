@@ -79,6 +79,24 @@ export function WeddingImage({ src, alt, ...props }: Omit<ImageProps, "src"> & {
   return <Image src={src} alt={alt} unoptimized={!canOptimizeImage(src)} {...props} />;
 }
 
+/**
+ * The couple's initials, set huge and very faint behind the page. Sections with
+ * their own background (the invitation card, venues, scripture, footer) cover it,
+ * so it shows through the open stretches between them.
+ */
+export function MonogramWatermark({ monogram }: { monogram: string }) {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden select-none"
+    >
+      <span className="font-display text-[min(58vw,26rem)] leading-none whitespace-nowrap text-ink/4.5">
+        {monogram}
+      </span>
+    </div>
+  );
+}
+
 export function SectionHeading({ id, children, className }: { id?: string; children: React.ReactNode; className?: string }) {
   return (
     <h2 id={id} className={cn("font-display text-[clamp(2.25rem,5.5vw,3.75rem)] leading-[1.05]", className)}>

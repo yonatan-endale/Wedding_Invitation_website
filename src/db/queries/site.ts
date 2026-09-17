@@ -16,6 +16,8 @@ export type SiteCouple = {
   partnerTwo: LocalizedText;
   partnerOneNick: LocalizedText | null;
   partnerTwoNick: LocalizedText | null;
+  partnerOneFather: LocalizedText | null;
+  partnerTwoFather: LocalizedText | null;
   tagline: LocalizedText | null;
   weddingAt: string;
   timezone: string;
@@ -115,6 +117,8 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       partnerTwo: row.partnerTwo,
       partnerOneNick: row.partnerOneNick,
       partnerTwoNick: row.partnerTwoNick,
+      partnerOneFather: row.partnerOneFather,
+      partnerTwoFather: row.partnerTwoFather,
       tagline: row.tagline,
       weddingAt: row.weddingAt.toISOString(),
       timezone: row.timezone,

@@ -117,6 +117,8 @@ export type CoupleDetails = {
   partnerTwo: LocalizedText;
   partnerOneNick: LocalizedText | null;
   partnerTwoNick: LocalizedText | null;
+  partnerOneFather: LocalizedText | null;
+  partnerTwoFather: LocalizedText | null;
   slug: string;
   weddingAt: Date;
   timezone: string;
@@ -160,6 +162,8 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
       partnerTwo,
       partnerOneNick: readLocalized(form, "partnerOneNick"),
       partnerTwoNick: readLocalized(form, "partnerTwoNick"),
+      partnerOneFather: readLocalized(form, "partnerOneFather"),
+      partnerTwoFather: readLocalized(form, "partnerTwoFather"),
       slug,
       weddingAt: weddingAt as Date,
       timezone,

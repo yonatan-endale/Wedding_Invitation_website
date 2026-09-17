@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { listCouples } from "@/db/queries/admin";
+import { fullName } from "@/lib/names";
 import { getTheme } from "@/lib/theme";
 import { formatWeddingDate } from "@/lib/wedding-format";
 
@@ -72,7 +73,8 @@ export default async function AdminHomePage() {
                   </div>
                   <div className="p-4">
                     <p className="font-medium">
-                      {couple.partnerOne.en} &amp; {couple.partnerTwo.en}
+                      {fullName(couple.partnerOne, couple.partnerOneFather, "en")} &amp;{" "}
+                      {fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {formatWeddingDate(couple.weddingAt.toISOString(), couple.timezone, "en")}

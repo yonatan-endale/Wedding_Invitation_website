@@ -15,7 +15,7 @@ Each couple site has:
 - A share preview image for WhatsApp, Telegram and Facebook
 - Nine colour themes, five drawn from Ethiopian weddings and four classic, plus a choice of border: woven tibeb, a floral vine, or a plain line
 - Falling rose petals over the hero photo, off for guests who prefer reduced motion
-- Optional nicknames that replace the full names in the hero and on the opening screen
+- Three forms of each name: the first name on the opening screen, an optional nickname in the hero, and first plus father's name on the invitation card, footer and share preview
 
 ## How it works
 
@@ -65,7 +65,7 @@ For local Clerk keys without an account, run `npx clerk@latest init --framework 
 
 ## Add a new couple
 
-1. Open `/admin` and click **New couple**. Fill in names, optional nicknames, date, time zone, theme, border, cover photo and music, then create it.
+1. Open `/admin` and click **New couple**. Fill in first names, father's names, optional nicknames, date, time zone, theme, border, cover photo and music, then create it.
 2. Fill in the **Invitation text** tab: story, verse, dress code, RSVP deadline, gift message and Telegram link.
 3. Add gallery pictures in **Photos**. The star sets the cover photo.
 4. Add the church or hall and the day's events in **Venues and schedule**. Paste the Google Maps share link, or add latitude and longitude for the embedded map.

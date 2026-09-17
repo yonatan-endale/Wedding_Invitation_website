@@ -15,6 +15,13 @@
       "when": 1789676317746,
       "tag": "0001_white_richard_fisk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789678416143,
+      "tag": "0002_useful_paper_doll",
+      "breakpoints": true
     }
   ]
 }

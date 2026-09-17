@@ -16,6 +16,8 @@ export async function listCouples() {
       status: couples.status,
       partnerOne: couples.partnerOne,
       partnerTwo: couples.partnerTwo,
+      partnerOneFather: couples.partnerOneFather,
+      partnerTwoFather: couples.partnerTwoFather,
       weddingAt: couples.weddingAt,
       timezone: couples.timezone,
       theme: couples.theme,

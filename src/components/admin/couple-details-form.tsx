@@ -47,16 +47,20 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
 
   return (
     <form onSubmit={onSubmit} className="grid gap-8" noValidate>
-      <FormSection title="Couple" description="Names appear in the opening screen, hero and footer.">
+      <FormSection
+        title="Couple"
+        description="The opening screen shows first names, the hero shows nicknames when set, and the invitation card and footer show first and father's names."
+      >
         <div className="grid gap-4 md:grid-cols-2">
           {(["one", "two"] as const).map((which) => {
             const key = which === "one" ? "partnerOne" : "partnerTwo";
             const existing = couple?.[key];
             const nick = couple?.[`${key}Nick`];
+            const father = couple?.[`${key}Father`];
             return (
               <fieldset key={which} className="grid gap-3 rounded-lg border p-4">
                 <legend className="px-1 text-sm font-medium">{which === "one" ? "First partner" : "Second partner"}</legend>
-                <Field label="Name in English" htmlFor={`${key}-en`} error={errors[`${key}.en`]}>
+                <Field label="First name in English" htmlFor={`${key}-en`} error={errors[`${key}.en`]}>
                   <Input
                     id={`${key}-en`}
                     name={`${key}.en`}
@@ -66,14 +70,26 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                     autoComplete="off"
                   />
                 </Field>
-                <Field label="Name in Amharic (optional)" htmlFor={`${key}-am`}>
+                <Field label="First name in Amharic (optional)" htmlFor={`${key}-am`}>
                   <Input id={`${key}-am`} name={`${key}.am`} lang="am" defaultValue={existing?.am} autoComplete="off" />
                 </Field>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field
+                    label="Father's name (optional)"
+                    htmlFor={`${key}Father-en`}
+                    hint="Makes the full name on the invitation card and footer."
+                  >
+                    <Input id={`${key}Father-en`} name={`${key}Father.en`} defaultValue={father?.en} autoComplete="off" />
+                  </Field>
+                  <Field label="Father's name in Amharic" htmlFor={`${key}Father-am`}>
+                    <Input id={`${key}Father-am`} name={`${key}Father.am`} lang="am" defaultValue={father?.am} autoComplete="off" />
+                  </Field>
+                </div>
                 <div className="grid gap-3 border-t pt-3 sm:grid-cols-2">
                   <Field
                     label="Nickname (optional)"
                     htmlFor={`${key}Nick-en`}
-                    hint="Shown in the hero instead of the full name."
+                    hint="Shown in the hero instead of the first name."
                   >
                     <Input id={`${key}Nick-en`} name={`${key}Nick.en`} defaultValue={nick?.en} autoComplete="off" />
                   </Field>

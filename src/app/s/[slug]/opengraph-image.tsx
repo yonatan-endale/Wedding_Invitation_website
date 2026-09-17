@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getSiteData } from "@/db/queries/site";
+import { fullName } from "@/lib/names";
 import { getTheme } from "@/lib/theme";
 import { formatWeddingDate } from "@/lib/wedding-format";
 
@@ -27,7 +28,9 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
   const published = site?.couple.status === "published" ? site : null;
   const colors = getTheme(published?.couple.theme).colors;
 
-  const names = published ? `${published.couple.partnerOne.en} & ${published.couple.partnerTwo.en}` : "Wedding invitation";
+  const names = published
+    ? `${fullName(published.couple.partnerOne, published.couple.partnerOneFather, "en")} & ${fullName(published.couple.partnerTwo, published.couple.partnerTwoFather, "en")}`
+    : "Wedding invitation";
   const date = published ? formatWeddingDate(published.couple.weddingAt, published.couple.timezone, "en") : "";
   const photo = published?.couple.heroPhotoUrl?.startsWith("https://") ? published.couple.heroPhotoUrl : null;
   const font = await loadMarcellus(`${names}${date}You are invited`);

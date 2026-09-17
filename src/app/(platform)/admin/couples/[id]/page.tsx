@@ -9,6 +9,7 @@ import { PhotosManager } from "@/components/admin/photos-manager";
 import { RsvpList } from "@/components/admin/rsvp-list";
 import { ScheduleManager } from "@/components/admin/schedule-manager";
 import { getCoupleForAdmin, listRsvps } from "@/db/queries/admin";
+import { fullName } from "@/lib/names";
 import { siteLinks } from "@/lib/site-links";
 import { formatStandardTime, formatWeddingDate } from "@/lib/wedding-format";
 
@@ -19,7 +20,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const couple = await getCoupleForAdmin((await params).id);
-  return { title: couple ? `${couple.partnerOne.en} & ${couple.partnerTwo.en}` : "Couple" };
+  return {
+    title: couple
+      ? `${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`
+      : "Couple",
+  };
 }
 
 export default async function CouplePage({ params, searchParams }: Props) {
@@ -35,7 +40,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
     <div className="grid gap-8">
       <CoupleHeader
         id={couple.id}
-        names={`${couple.partnerOne.en} & ${couple.partnerTwo.en}`}
+        names={`${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`}
         dateLine={`${formatWeddingDate(iso, couple.timezone, "en")} at ${formatStandardTime(iso, couple.timezone)}`}
         status={couple.status}
         shareUrl={links.share}

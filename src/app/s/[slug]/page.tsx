@@ -18,6 +18,7 @@ import { getSiteData, type SiteData } from "@/db/queries/site";
 import { getAdminUser } from "@/lib/auth";
 import { TENANT_HEADER } from "@/lib/constants";
 import { isLocale, pickText, type Locale } from "@/lib/localized";
+import { fullName } from "@/lib/names";
 import { getTheme } from "@/lib/theme";
 import { formatWeddingDate } from "@/lib/wedding-format";
 
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { site } = await loadVisibleSite(slug);
   const locale = await currentLocale();
   const { couple } = site;
-  const title = `${pickText(couple.partnerOne, locale)} & ${pickText(couple.partnerTwo, locale)}`;
+  const title = `${fullName(couple.partnerOne, couple.partnerOneFather, locale)} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, locale)}`;
   const description = [formatWeddingDate(couple.weddingAt, couple.timezone, locale), pickText(couple.city, locale)]
     .filter(Boolean)
     .join(", ");
@@ -69,11 +70,13 @@ export default async function CoupleSitePage({ params }: Props) {
   const t = await getTranslations("nav");
   const { couple } = site;
 
-  const one = pickText(couple.partnerOne, locale);
-  const two = pickText(couple.partnerTwo, locale);
-  const monogram = `${one.charAt(0)} & ${two.charAt(0)}`;
-  const heroOne = pickText(couple.partnerOneNick, locale) || one;
-  const heroTwo = pickText(couple.partnerTwoNick, locale) || two;
+  // Three forms of each name: first name on the opening screen, nickname in the
+  // hero, and first plus father's name in the formal places.
+  const firstOne = pickText(couple.partnerOne, locale);
+  const firstTwo = pickText(couple.partnerTwo, locale);
+  const one = fullName(couple.partnerOne, couple.partnerOneFather, locale);
+  const two = fullName(couple.partnerTwo, couple.partnerTwoFather, locale);
+  const monogram = `${firstOne.charAt(0)} & ${firstTwo.charAt(0)}`;
 
   const links: NavLink[] = [
     { id: "invitation", label: t("invitation") },
@@ -98,8 +101,8 @@ export default async function CoupleSitePage({ params }: Props) {
         ) : null}
         <NetelaIntro
           slug={couple.slug}
-          partnerOne={heroOne}
-          partnerTwo={heroTwo}
+          partnerOne={firstOne}
+          partnerTwo={firstTwo}
           dateLine={formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
           border={couple.border}
         />

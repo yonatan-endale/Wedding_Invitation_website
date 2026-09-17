@@ -31,6 +31,8 @@ export const couples = pgTable("couples", {
   partnerTwo: localized("partner_two").notNull(),
   partnerOneNick: localized("partner_one_nick"),
   partnerTwoNick: localized("partner_two_nick"),
+  partnerOneFather: localized("partner_one_father"),
+  partnerTwoFather: localized("partner_two_father"),
   tagline: localized("tagline"),
   weddingAt: timestamp("wedding_at", { withTimezone: true }).notNull(),
   timezone: text("timezone").notNull().default("Africa/Addis_Ababa"),

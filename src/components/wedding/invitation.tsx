@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
+import { fullName } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
 import { Band, SectionHeading, WeddingImage, sectionPadding } from "./primitives";
@@ -10,8 +11,8 @@ type Props = { site: SiteData; locale: Locale };
 export async function InvitationCard({ site, locale }: Props) {
   const t = await getTranslations("invitation");
   const { couple, venues } = site;
-  const one = pickText(couple.partnerOne, locale);
-  const two = pickText(couple.partnerTwo, locale);
+  const one = fullName(couple.partnerOne, couple.partnerOneFather, locale);
+  const two = fullName(couple.partnerTwo, couple.partnerTwoFather, locale);
   const hosts = pickText(couple.hosts, locale) || t("hostsFallback");
   const invitation = pickText(couple.invitation, locale) || t("defaultText");
   const dressCode = pickText(couple.dressCode, locale);

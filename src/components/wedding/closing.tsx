@@ -1,7 +1,8 @@
 import { Send } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import type { Locale } from "@/lib/localized";
+import { fullName } from "@/lib/names";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import { Band, buttonPrimary } from "./primitives";
 
@@ -37,9 +38,9 @@ export function SiteFooter({ site, locale }: Props) {
       <Band variant={couple.border} />
       <div className="px-5 pt-16 pb-28 text-center">
         <p className="font-display text-[clamp(2.25rem,6vw,3.5rem)] leading-none">
-          {pickText(couple.partnerOne, locale)}
+          {fullName(couple.partnerOne, couple.partnerOneFather, locale)}
           <span className="mx-3 inline-block align-[0.12em] text-[0.55em]">&amp;</span>
-          {pickText(couple.partnerTwo, locale)}
+          {fullName(couple.partnerTwo, couple.partnerTwoFather, locale)}
         </p>
         <p className="mt-4 opacity-75">{formatWeddingDate(couple.weddingAt, couple.timezone, locale)}</p>
       </div>

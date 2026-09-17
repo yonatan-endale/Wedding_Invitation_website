@@ -11,9 +11,9 @@ type Props = {
   labels: { open: string; show: string; hide: string; title: string };
 };
 
-/** The embedded map loads only when a guest asks for it, keeping the page light on mobile data. */
+/** The embedded map is open from the start; the button lets a guest collapse it. It still loads lazily. */
 export function VenueMap({ href, embedSrc, labels }: Props) {
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
 
   return (
     <div className="mt-6">

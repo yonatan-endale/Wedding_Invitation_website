@@ -1,4 +1,4 @@
-import { CalendarHeart, Plus, Users } from "lucide-react";
+import { CalendarHeart, Plus, Upload, Users } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,11 +22,18 @@ export default async function AdminHomePage() {
           <h1 className="text-2xl font-semibold tracking-tight">Couples</h1>
           <p className="mt-1 text-muted-foreground">Each couple gets their own invitation site. Create one, fill it in, then publish.</p>
         </div>
-        <Button asChild>
-          <Link href="/admin/couples/new">
-            <Plus aria-hidden /> New couple
-          </Link>
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild variant="outline">
+            <Link href="/admin/couples/import">
+              <Upload aria-hidden /> Import JSON
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/admin/couples/new">
+              <Plus aria-hidden /> New couple
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {couples.length === 0 ? (

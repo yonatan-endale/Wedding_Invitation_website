@@ -1,0 +1,86 @@
+{
+  "couple": {
+    "slug": "hanna-dawit",
+    "status": "draft",
+    "partnerOne": { "en": "Hanna", "am": "ሐና" },
+    "partnerOneFather": { "en": "Tesfaye", "am": "ተስፋዬ" },
+    "partnerOneRole": "bride",
+    "partnerTwo": { "en": "Dawit", "am": "ዳዊት" },
+    "partnerTwoFather": { "en": "Ayele", "am": "አየለ" },
+    "partnerTwoRole": "groom",
+    "weddingAt": "2026-10-24T15:00",
+    "timezone": "Africa/Addis_Ababa",
+    "city": { "en": "Addis Ababa", "am": "አዲስ አበባ" },
+    "tagline": { "en": "Two families, one table.", "am": "ሁለት ቤተሰብ፣ አንድ ማዕድ።" },
+    "invitation": {
+      "en": "Together with their families, Hanna and Dawit invite you to celebrate their wedding.",
+      "am": "ሐናና ዳዊት ከቤተሰቦቻቸው ጋር በመሆን በሠርጋቸው ላይ እንዲገኙ በአክብሮት ይጋብዙዎታል።"
+    },
+    "hosts": { "en": "The Tesfaye and Ayele families", "am": "የተስፋዬ እና የአየለ ቤተሰቦች" },
+    "scripture": { "en": "Many waters cannot quench love.", "am": "ብዙ ውኃ ፍቅርን ሊያጠፋው አይችልም።" },
+    "scriptureRef": { "en": "Song of Songs 8:7", "am": "መኃልየ መኃልይ 8፥7" },
+    "dressCode": { "en": "Habesha kemis and suits", "am": "የሀበሻ ቀሚስ እና ሱፍ" },
+    "heroPhotoUrl": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1600",
+    "heroPosition": "50% 40%",
+    "musicUrl": "/demo/canon-in-d.mp3",
+    "musicTitle": "Canon in D",
+    "theme": "tibeb",
+    "layout": "classic",
+    "border": "tibeb",
+    "petals": true,
+    "rsvpEnabled": true,
+    "rsvpDeadline": "2026-10-10T23:59"
+  },
+  "venues": [
+    {
+      "name": { "en": "Holy Trinity Cathedral", "am": "ቅድስት ሥላሴ ካቴድራል" },
+      "address": { "en": "Arat Kilo, Addis Ababa", "am": "አራት ኪሎ፣ አዲስ አበባ" },
+      "mapsUrl": "https://maps.google.com/?q=Holy+Trinity+Cathedral+Addis+Ababa",
+      "lat": 9.0303,
+      "lng": 38.7663
+    },
+    {
+      "name": { "en": "Sheraton Addis, Lalibela Ballroom", "am": "ሸራተን አዲስ፣ ላሊበላ አዳራሽ" },
+      "address": { "en": "Taitu Street, Addis Ababa", "am": "ጣይቱ መንገድ፣ አዲስ አበባ" }
+    }
+  ],
+  "events": [
+    {
+      "title": { "en": "Vow ceremony", "am": "የቃልኪዳን ሥርዓት" },
+      "startsAt": "2026-10-24T15:00",
+      "endsAt": "2026-10-24T17:00",
+      "venue": 0
+    },
+    {
+      "title": { "en": "Reception and dinner", "am": "አቀባበል እና እራት" },
+      "description": { "en": "Dinner, dancing and cake.", "am": "እራት፣ ጭፈራ እና ኬክ።" },
+      "startsAt": "2026-10-24T18:30",
+      "endsAt": "2026-10-24T23:00",
+      "venue": 1
+    }
+  ],
+  "photos": [
+    "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200",
+    { "url": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200", "caption": { "en": "Our engagement", "am": "የእጮኝነታችን ቀን" } }
+  ],
+  "gifts": [
+    {
+      "kind": "bank",
+      "provider": "Commercial Bank of Ethiopia",
+      "accountName": "Hanna Tesfaye",
+      "accountNumber": "1000123456789"
+    },
+    {
+      "kind": "telebirr",
+      "provider": "Telebirr",
+      "accountName": "Dawit Ayele",
+      "accountNumber": "0911000000"
+    }
+  ],
+  "milestones": [
+    { "happenedOn": "2022-01-15", "title": { "en": "We met", "am": "ተዋወቅን" }, "body": { "en": "At a friend's graduation." } }
+  ],
+  "wishlist": [
+    { "title": { "en": "Coffee set", "am": "የቡና ዕቃ" }, "price": "ETB 3,500" }
+  ]
+}

@@ -52,6 +52,7 @@ pnpm install
 cp .env.example .env.local        # then fill in the values
 pnpm db:migrate                   # create the tables
 pnpm db:seed                      # optional: demo couple "hanna-dawit"
+pnpm db:add-couple public/examples/couple.json   # or upload the same JSON at /admin/couples/import
 pnpm dev
 ```
 

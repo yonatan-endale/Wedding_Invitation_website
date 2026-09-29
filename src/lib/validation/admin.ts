@@ -75,7 +75,7 @@ function optionalUrl(
   return value;
 }
 
-function isValidTimeZone(timeZone: string): boolean {
+export function isValidTimeZone(timeZone: string): boolean {
   if (!timeZone) return false;
   try {
     new Intl.DateTimeFormat("en", { timeZone });
@@ -303,7 +303,7 @@ export type MilestoneInput = {
   imageUrl: string | null;
 };
 
-const CALENDAR_DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+export const CALENDAR_DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
 /** A chapter of the couple's story. The date is a plain calendar day, "YYYY-MM-DD". */
 export function parseMilestone(form: FormFields): Parsed<MilestoneInput> {

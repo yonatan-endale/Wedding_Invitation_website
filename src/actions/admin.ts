@@ -5,6 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { getDb } from "@/db";
 import { isUuid } from "@/db/queries/admin";
+import { importCouple, SlugTakenError } from "@/db/queries/couple-import";
 import { couples, events, giftAccounts, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
 import { getAdminUser } from "@/lib/auth";
 import { siteCacheTag, type CoupleStatus } from "@/lib/constants";
@@ -21,6 +22,7 @@ import {
   parseWishlistItem,
   type FieldErrors,
 } from "@/lib/validation/admin";
+import { parseCoupleImport } from "@/lib/validation/couple-import";
 
 export type ActionState = { ok: boolean; message: string | null; fieldErrors: FieldErrors; savedAt: number };
 
@@ -80,6 +82,48 @@ export async function createCouple(_previous: ActionState, formData: FormData): 
 
   revalidatePath("/admin");
   redirect(`/admin/couples/${id}?tab=texts`);
+}
+
+const MAX_IMPORT_BYTES = 1_000_000;
+
+/** Creates (or, when asked, replaces) a whole couple from an uploaded JSON file. */
+export async function importCoupleFromJson(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  if (!(await getAdminUser())) return failure(SESSION_ENDED);
+
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) return failure(CHECK_FIELDS, { file: "Choose a .json file." });
+  if (file.size > MAX_IMPORT_BYTES) return failure(CHECK_FIELDS, { file: "Keep the file under 1 MB." });
+
+  let raw: unknown;
+  try {
+    raw = JSON.parse(await file.text());
+  } catch {
+    return failure("That file is not valid JSON.", { file: "The file could not be read as JSON. Check for a missing comma or quote." });
+  }
+
+  const parsed = parseCoupleImport(raw);
+  if (!parsed.success) {
+    const count = parsed.issues.length;
+    return failure(count === 1 ? "The file has one problem." : `The file has ${count} problems.`, {
+      file: parsed.issues.join("\n"),
+    });
+  }
+
+  const replace = formData.get("replace") === "on";
+  let id: string;
+  try {
+    ({ id } = await importCouple(getDb(), parsed.data, { replace }));
+  } catch (error) {
+    if (error instanceof SlugTakenError) {
+      return failure(CHECK_FIELDS, {
+        file: `A couple already uses /s/${error.slug}. Turn on "Replace the existing couple" to overwrite it, RSVPs included.`,
+      });
+    }
+    throw error;
+  }
+
+  await refreshCouple(id);
+  redirect(`/admin/couples/${id}`);
 }
 
 export async function updateCoupleDetails(coupleId: string, _previous: ActionState, formData: FormData): Promise<ActionState> {

@@ -15,9 +15,9 @@ import { isThemeName } from "@/lib/theme";
 import { CALENDAR_DATE, isSafeUrl, isValidTimeZone } from "./admin";
 
 /*
- * Validates a whole couple in one JSON document, the "import file" the admin
- * page and `pnpm db:add-couple` both accept. The rules mirror the per-form
- * parsers in ./admin.ts; keep them in step.
+ * Validates a whole couple in one JSON document, the file uploaded at
+ * /admin/couples/import. The rules mirror the per-form parsers in ./admin.ts;
+ * keep them in step.
  */
 
 const LOCAL_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/;
@@ -80,7 +80,7 @@ const requiredUrl = z
 
 /**
  * A point in time. `"2026-10-24T15:00"` is wall-clock time in the couple's
- * time zone; a full ISO string with an offset (or a Date from a .ts seed) is taken as-is.
+ * time zone; a full ISO string with an offset (or a Date) is taken as-is.
  */
 function dateTime(timeZone: string) {
   return z.union([z.date(), z.string()]).transform((value, ctx) => {
@@ -247,8 +247,6 @@ function buildSchema(timeZone: string) {
 
 type ImportSchema = ReturnType<typeof buildSchema>;
 
-/** What a data file may contain, before validation. */
-export type CoupleImportInput = z.input<ImportSchema>;
 /** Insert-ready data: dates resolved, blanks collapsed to null, defaults applied. */
 export type CoupleImport = z.output<ImportSchema>;
 

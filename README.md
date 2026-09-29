@@ -52,13 +52,14 @@ pnpm install
 cp .env.example .env.local        # then fill in the values
 pnpm db:migrate                   # create the tables
 pnpm db:seed                      # optional: demo couple "hanna-dawit"
-pnpm db:add-couple public/examples/couple.json   # or upload the same JSON at /admin/couples/import
 pnpm dev
 ```
 
 Then open:
 
 - `http://localhost:3000/s/hanna-dawit` for the demo couple site
+
+To add a real couple, put their data in a JSON file (see `public/examples/couple.json`; real ones live in `data/couples/`) and upload it at `/admin/couples/import`.
 - `http://hanna-dawit.localhost:3000` for the same site on a subdomain (works in Chrome and Firefox)
 - `http://localhost:3000/admin` for the dashboard
 

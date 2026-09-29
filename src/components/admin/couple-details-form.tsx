@@ -283,7 +283,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                   <span className="font-medium">{option.label}</span>
                 </span>
                 <span className="rounded bg-[var(--w-paper)] px-2 py-1" style={themeStyle(couple?.theme)}>
-                  <Band variant={option.value} className="h-6" />
+                  <Band variant={option.value} className="h-10" />
                 </span>
                 <span className="text-sm text-muted-foreground">{option.description}</span>
               </label>

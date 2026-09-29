@@ -37,7 +37,9 @@
     "days": "days",
     "hours": "hours",
     "minutes": "minutes",
-    "seconds": "seconds"
+    "seconds": "seconds",
+    "calendarCaption": "{month} {year} in the Ethiopian calendar, with the wedding day marked",
+    "weddingDay": "Wedding day"
   },
   "invitation": {
     "eyebrow": "Wedding invitation",

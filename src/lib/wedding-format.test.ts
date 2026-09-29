@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatEthiopianDateLine,
   formatGregorianDate,
+  formatGregorianSpan,
   formatStandardTime,
   formatStandardTimeRange,
   formatWeddingDate,
@@ -92,5 +93,23 @@ describe("formatEthiopianDateLine", () => {
 describe("formatGregorianDate", () => {
   it("writes a short Gregorian date for use beside the Ethiopian date", () => {
     expect(formatGregorianDate(ISO, TZ)).toBe("18 July 2026");
+  });
+});
+
+describe("formatGregorianSpan", () => {
+  it("names both months when an Ethiopian month crosses two", () => {
+    expect(formatGregorianSpan({ year: 2026, month: 10, day: 11 }, { year: 2026, month: 11, day: 9 })).toBe(
+      "October – November 2026",
+    );
+  });
+
+  it("names both years when the span crosses the Gregorian new year", () => {
+    expect(formatGregorianSpan({ year: 2025, month: 12, day: 10 }, { year: 2026, month: 1, day: 8 })).toBe(
+      "December 2025 – January 2026",
+    );
+  });
+
+  it("names one month when the span stays inside it", () => {
+    expect(formatGregorianSpan({ year: 2026, month: 9, day: 6 }, { year: 2026, month: 9, day: 10 })).toBe("September 2026");
   });
 });

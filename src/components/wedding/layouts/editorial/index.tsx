@@ -20,7 +20,7 @@ export function EditorialLayout({ site, locale, names, photos }: LayoutProps) {
       <main className="relative z-10">
         <EditorialHero site={site} locale={locale} />
         <EditorialCouple site={site} locale={locale} />
-        <EditorialCountdown site={site} />
+        <EditorialCountdown site={site} locale={locale} />
         <EditorialEvents site={site} locale={locale} />
         <VenuesSection site={site} locale={locale} />
         <EditorialGallery photos={photos} names={fullNames} />

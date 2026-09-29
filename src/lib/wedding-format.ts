@@ -1,4 +1,4 @@
-import { ETHIOPIAN_MONTHS_AM, formatEthiopianDate, gregorianToEthiopian } from "./ethiopian-calendar";
+import { ETHIOPIAN_MONTHS_AM, formatEthiopianDate, gregorianToEthiopian, type GregorianDate } from "./ethiopian-calendar";
 import { zonedParts } from "./datetime";
 import type { Locale } from "./localized";
 
@@ -34,6 +34,15 @@ export function formatEthiopianDateLine(iso: string, timeZone: string): string {
 export function formatGregorianDate(iso: string, timeZone: string): string {
   const p = localParts(iso, timeZone);
   return `${p.day} ${MONTHS_EN[p.month - 1]} ${p.year}`;
+}
+
+/** The Gregorian months an Ethiopian month covers: "October – November 2026". */
+export function formatGregorianSpan(first: GregorianDate, last: GregorianDate): string {
+  const firstMonth = MONTHS_EN[first.month - 1];
+  const lastMonth = MONTHS_EN[last.month - 1];
+  if (first.year !== last.year) return `${firstMonth} ${first.year} – ${lastMonth} ${last.year}`;
+  if (first.month !== last.month) return `${firstMonth} – ${lastMonth} ${last.year}`;
+  return `${lastMonth} ${last.year}`;
 }
 
 /** English: "Saturday, 18 July 2026". Amharic: weekday plus the Ethiopian calendar date. */

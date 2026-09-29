@@ -2,6 +2,7 @@ import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { Countdown } from "./countdown";
+import { EthiopianCalendar } from "./ethiopian-calendar";
 import { FallingPetals } from "./petals";
 import { Band, WeddingImage } from "./primitives";
 
@@ -64,10 +65,17 @@ export function Hero({ site, locale }: Props) {
   );
 }
 
-export function CountdownSection({ site }: Props) {
+export function CountdownSection({ site, locale }: Props) {
   const captionId = "countdown-caption";
   return (
     <section aria-labelledby={captionId} className="px-5 py-14 sm:py-20">
+      <EthiopianCalendar
+        weddingAt={site.couple.weddingAt}
+        timeZone={site.couple.timezone}
+        locale={locale}
+        photo={site.couple.heroPhotoUrl ? { src: site.couple.heroPhotoUrl, position: site.couple.heroPosition } : null}
+        className="mb-12 sm:mb-14"
+      />
       <Countdown target={site.couple.weddingAt} serverNow={new Date().toISOString()} captionId={captionId} />
     </section>
   );

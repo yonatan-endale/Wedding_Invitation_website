@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
+  ethiopianMonth,
+  ethiopianMonthLength,
+  ethiopianToGregorian,
   formatEthiopianDate,
   formatEthiopianTime,
   gregorianToEthiopian,
@@ -62,5 +65,47 @@ describe("formatEthiopianTime", () => {
   it("uses evening and night periods", () => {
     expect(formatEthiopianTime(20, 15)).toBe("ከምሽቱ 2:15 ሰዓት");
     expect(formatEthiopianTime(0, 0)).toBe("ከሌሊቱ 6:00 ሰዓት");
+  });
+});
+
+describe("ethiopianToGregorian", () => {
+  it("converts Ethiopian New Year back", () => {
+    expect(ethiopianToGregorian({ year: 2018, month: 1, day: 1 })).toEqual({ year: 2025, month: 9, day: 11 });
+  });
+
+  it("converts Genna back across the Gregorian new year", () => {
+    expect(ethiopianToGregorian({ year: 2018, month: 4, day: 29 })).toEqual({ year: 2026, month: 1, day: 7 });
+  });
+
+  it("converts the sixth day of Pagume back", () => {
+    expect(ethiopianToGregorian({ year: 2015, month: 13, day: 6 })).toEqual({ year: 2023, month: 9, day: 11 });
+  });
+});
+
+describe("ethiopianMonthLength", () => {
+  it("gives every regular month thirty days", () => {
+    expect(ethiopianMonthLength(2018, 2)).toBe(30);
+  });
+
+  it("gives Pagume six days in the year before a Gregorian leap year", () => {
+    expect(ethiopianMonthLength(2015, 13)).toBe(6);
+  });
+
+  it("gives Pagume five days otherwise", () => {
+    expect(ethiopianMonthLength(2016, 13)).toBe(5);
+  });
+});
+
+describe("ethiopianMonth", () => {
+  it("lists every day with its Gregorian date and weekday", () => {
+    const month = ethiopianMonth(2018, 1);
+    expect(month).toHaveLength(30);
+    // 11 September 2025 was a Thursday; weekdays count from Sunday as 0.
+    expect(month[0]).toEqual({ day: 1, weekday: 4, gregorian: { year: 2025, month: 9, day: 11 } });
+    expect(month[29]).toEqual({ day: 30, weekday: 5, gregorian: { year: 2025, month: 10, day: 10 } });
+  });
+
+  it("stops Pagume after its last day", () => {
+    expect(ethiopianMonth(2016, 13)).toHaveLength(5);
   });
 });

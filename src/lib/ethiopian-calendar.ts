@@ -19,6 +19,23 @@ export const ETHIOPIAN_MONTHS_AM = [
   "ጳጉሜን",
 ] as const;
 
+/** Latin spellings, for guests who don't read Amharic script. */
+export const ETHIOPIAN_MONTHS_LATIN = [
+  "Meskerem",
+  "Tikimt",
+  "Hidar",
+  "Tahsas",
+  "Tir",
+  "Yekatit",
+  "Megabit",
+  "Miyazya",
+  "Ginbot",
+  "Sene",
+  "Hamle",
+  "Nehase",
+  "Pagume",
+] as const;
+
 function gregorianToJdn(year: number, month: number, day: number): number {
   const a = Math.floor((14 - month) / 12);
   const y = year + 4800 - a;
@@ -48,6 +65,48 @@ function jdnToEthiopian(jdn: number): EthiopianDate {
 
 export function gregorianToEthiopian(year: number, month: number, day: number): EthiopianDate {
   return jdnToEthiopian(gregorianToJdn(year, month, day));
+}
+
+export type GregorianDate = { year: number; month: number; day: number };
+
+function ethiopianToJdn({ year, month, day }: EthiopianDate): number {
+  return ETHIOPIC_EPOCH + yearStartOffset(year) + (month - 1) * 30 + day - 1;
+}
+
+function jdnToGregorian(jdn: number): GregorianDate {
+  const a = jdn + 32044;
+  const b = Math.floor((4 * a + 3) / 146097);
+  const c = a - Math.floor((146097 * b) / 4);
+  const d = Math.floor((4 * c + 3) / 1461);
+  const e = c - Math.floor((1461 * d) / 4);
+  const m = Math.floor((5 * e + 2) / 153);
+  return {
+    year: 100 * b + d - 4800 + Math.floor(m / 10),
+    month: m + 3 - 12 * Math.floor(m / 10),
+    day: e - Math.floor((153 * m + 2) / 5) + 1,
+  };
+}
+
+export function ethiopianToGregorian(date: EthiopianDate): GregorianDate {
+  return jdnToGregorian(ethiopianToJdn(date));
+}
+
+/** Twelve months of thirty days, then Pagume: six days in year 3 of each four-year cycle, five otherwise. */
+export function ethiopianMonthLength(year: number, month: number): number {
+  if (month < 13) return 30;
+  return year % 4 === 3 ? 6 : 5;
+}
+
+/** Weekday counted from Sunday as 0, the way the Ethiopian week begins. */
+export type EthiopianMonthDay = { day: number; weekday: number; gregorian: GregorianDate };
+
+export function ethiopianMonth(year: number, month: number): EthiopianMonthDay[] {
+  const first = ethiopianToJdn({ year, month, day: 1 });
+  return Array.from({ length: ethiopianMonthLength(year, month) }, (_, index) => ({
+    day: index + 1,
+    weekday: (first + index + 1) % 7,
+    gregorian: jdnToGregorian(first + index),
+  }));
 }
 
 export function formatEthiopianDate(date: EthiopianDate): string {

@@ -37,7 +37,9 @@
     "days": "ቀናት",
     "hours": "ሰዓታት",
     "minutes": "ደቂቃዎች",
-    "seconds": "ሰከንዶች"
+    "seconds": "ሰከንዶች",
+    "calendarCaption": "{month} {year} ዓ.ም.፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
+    "weddingDay": "የሠርጉ ቀን"
   },
   "invitation": {
     "eyebrow": "የሠርግ ግብዣ",

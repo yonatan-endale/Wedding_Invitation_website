@@ -8,6 +8,7 @@
     "menu": "Menu",
     "close": "Close menu",
     "invitation": "Invitation",
+    "couple": "The couple",
     "story": "Our story",
     "schedule": "The day",
     "venues": "Venues",
@@ -20,7 +21,16 @@
     "en": "English",
     "am": "አማርኛ"
   },
+  "couple": {
+    "heading": "The couple",
+    "bride": "The bride",
+    "groom": "The groom"
+  },
+  "footer": {
+    "families": "With love, the families of the bride and groom"
+  },
   "countdown": {
+    "heading": "Wedding day",
     "label": "Time until the wedding",
     "until": "Left for the big day",
     "since": "Since we got married",
@@ -30,6 +40,7 @@
     "seconds": "seconds"
   },
   "invitation": {
+    "eyebrow": "Wedding invitation",
     "hostsFallback": "Together with their families",
     "defaultText": "request the pleasure of your company as they celebrate their marriage.",
     "dressCode": "Dress code",
@@ -41,6 +52,7 @@
   "schedule": {
     "heading": "The day",
     "directions": "Directions",
+    "viewLocation": "View location",
     "end": "End of the day",
     "endAt": "End of the day, {time}"
   },

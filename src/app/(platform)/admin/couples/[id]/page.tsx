@@ -8,6 +8,7 @@ import { GiftsManager } from "@/components/admin/gifts-manager";
 import { PhotosManager } from "@/components/admin/photos-manager";
 import { RsvpList } from "@/components/admin/rsvp-list";
 import { ScheduleManager } from "@/components/admin/schedule-manager";
+import { StoryManager } from "@/components/admin/story-manager";
 import { getCoupleForAdmin, listRsvps } from "@/db/queries/admin";
 import { fullName } from "@/lib/names";
 import { siteLinks } from "@/lib/site-links";
@@ -72,6 +73,12 @@ export default async function CouplePage({ params, searchParams }: Props) {
                 <CoupleTextsForm couple={couple} />
               </div>
             ),
+          },
+          {
+            value: "story",
+            label: "Our story",
+            count: couple.storyMilestones.length,
+            content: <StoryManager couple={couple} uploadsEnabled={uploadsEnabled} />,
           },
           {
             value: "photos",

@@ -8,6 +8,7 @@
     "menu": "ማውጫ",
     "close": "ማውጫውን ዝጋ",
     "invitation": "ግብዣ",
+    "couple": "ሙሽሮቹ",
     "story": "ታሪካችን",
     "schedule": "የዕለቱ መርሐ ግብር",
     "venues": "ቦታዎች",
@@ -20,7 +21,16 @@
     "en": "English",
     "am": "አማርኛ"
   },
+  "couple": {
+    "heading": "ሙሽሮቹ",
+    "bride": "ሙሽሪት",
+    "groom": "ሙሽራ"
+  },
+  "footer": {
+    "families": "በፍቅር፣ የሙሽሪት እና የሙሽራው ቤተሰቦች"
+  },
   "countdown": {
+    "heading": "የሠርጉ ቀን",
     "label": "ለሠርጉ ቀን የቀረው ጊዜ",
     "until": "ለታላቁ ቀን የቀረው",
     "since": "ከተጋባንበት ቀን ጀምሮ",
@@ -30,6 +40,7 @@
     "seconds": "ሰከንዶች"
   },
   "invitation": {
+    "eyebrow": "የሠርግ ግብዣ",
     "hostsFallback": "ከቤተሰቦቻቸው ጋር በመሆን",
     "defaultText": "በጋብቻቸው ቀን ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል።",
     "dressCode": "የአለባበስ ሥርዓት",
@@ -41,6 +52,7 @@
   "schedule": {
     "heading": "የዕለቱ መርሐ ግብር",
     "directions": "አቅጣጫ",
+    "viewLocation": "ቦታውን ይመልከቱ",
     "end": "የዕለቱ መጨረሻ",
     "endAt": "የዕለቱ መጨረሻ፣ {time}"
   },

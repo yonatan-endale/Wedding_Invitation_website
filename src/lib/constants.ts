@@ -8,6 +8,10 @@ export type GiftKind = (typeof GIFT_KINDS)[number];
 export const BORDER_STYLES = ["tibeb", "floral", "line"] as const;
 export type BorderStyle = (typeof BORDER_STYLES)[number];
 
+/** Caption under each partner's portrait in the Editorial layout, and the footer line. */
+export const PARTNER_ROLES = ["bride", "groom"] as const;
+export type PartnerRole = (typeof PARTNER_ROLES)[number];
+
 export const HERO_POSITIONS = [
   { value: "50% 20%", label: "Top" },
   { value: "50% 40%", label: "Upper middle" },

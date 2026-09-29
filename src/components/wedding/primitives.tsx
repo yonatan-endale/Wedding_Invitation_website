@@ -135,7 +135,7 @@ export function MonogramWatermark({ monogram }: { monogram: string }) {
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden select-none"
     >
-      <span className="font-display text-[min(58vw,26rem)] leading-none whitespace-nowrap text-ink/4.5">
+      <span className="font-display text-[min(30vw,26rem)] leading-none whitespace-nowrap text-ink/4.5">
         {monogram}
       </span>
     </div>

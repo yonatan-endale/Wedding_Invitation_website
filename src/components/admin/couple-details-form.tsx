@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Band } from "@/components/wedding/primitives";
 import type { AdminCouple } from "@/db/queries/admin";
-import { DEFAULT_TIMEZONE, HERO_POSITIONS, type BorderStyle } from "@/lib/constants";
+import { DEFAULT_TIMEZONE, HERO_POSITIONS, PARTNER_ROLES, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
+import { LAYOUT_LIST, type LayoutName } from "@/lib/layout";
 import { slugify } from "@/lib/slug";
 import { THEME_LIST, themeStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,40 @@ const BORDER_OPTIONS: { value: BorderStyle; label: string; description: string }
   { value: "floral", label: "Floral", description: "A rose vine with leaves." },
   { value: "line", label: "Line", description: "Two thin rules. Quiet and modern." },
 ];
+
+const ROLE_LABELS = { bride: "Bride", groom: "Groom" } as const;
+
+/** A thumbnail wireframe of each layout so the choice reads at a glance. */
+function LayoutSketch({ name }: { name: string }) {
+  const stroke = "currentColor";
+  return (
+    <svg viewBox="0 0 96 60" aria-hidden className="h-15 w-24 text-muted-foreground">
+      <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill="none" stroke={stroke} opacity="0.5" />
+      {name === "editorial" ? (
+        <>
+          <rect x="8" y="10" width="26" height="4" fill={stroke} />
+          <rect x="8" y="17" width="20" height="4" fill={stroke} />
+          <rect x="8" y="26" width="24" height="1.5" fill={stroke} opacity="0.5" />
+          <rect x="42" y="8" width="34" height="24" fill={stroke} opacity="0.35" />
+          <rect x="80" y="9" width="8" height="6" fill={stroke} opacity="0.35" />
+          <rect x="80" y="17" width="8" height="6" fill={stroke} opacity="0.35" />
+          <rect x="80" y="25" width="8" height="6" fill={stroke} opacity="0.35" />
+          <ellipse cx="30" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
+          <ellipse cx="66" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
+        </>
+      ) : (
+        <>
+          <rect x="0.5" y="0.5" width="95" height="30" fill={stroke} opacity="0.35" />
+          <rect x="10" y="18" width="40" height="4" fill="white" />
+          <rect x="10" y="24" width="28" height="3" fill="white" opacity="0.8" />
+          <rect x="24" y="38" width="48" height="16" fill="none" stroke={stroke} />
+          <rect x="34" y="44" width="28" height="2" fill={stroke} opacity="0.6" />
+          <rect x="38" y="48" width="20" height="2" fill={stroke} opacity="0.6" />
+        </>
+      )}
+    </svg>
+  );
+}
 
 type Props = {
   couple?: AdminCouple;
@@ -57,9 +92,19 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
             const existing = couple?.[key];
             const nick = couple?.[`${key}Nick`];
             const father = couple?.[`${key}Father`];
+            const role = couple?.[`${key}Role`] ?? (which === "one" ? "bride" : "groom");
             return (
               <fieldset key={which} className="grid gap-3 rounded-lg border p-4">
                 <legend className="px-1 text-sm font-medium">{which === "one" ? "First partner" : "Second partner"}</legend>
+                <Field label="Role" htmlFor={`${key}Role`} error={errors[`${key}Role`]} className="max-w-48">
+                  <NativeSelect id={`${key}Role`} name={`${key}Role`} defaultValue={role}>
+                    {PARTNER_ROLES.map((option) => (
+                      <option key={option} value={option}>
+                        {ROLE_LABELS[option]}
+                      </option>
+                    ))}
+                  </NativeSelect>
+                </Field>
                 <Field label="First name in English" htmlFor={`${key}-en`} error={errors[`${key}.en`]}>
                   <Input
                     id={`${key}-en`}
@@ -96,6 +141,17 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                   <Field label="Nickname in Amharic" htmlFor={`${key}Nick-am`}>
                     <Input id={`${key}Nick-am`} name={`${key}Nick.am`} lang="am" defaultValue={nick?.am} autoComplete="off" />
                   </Field>
+                </div>
+                <div className="border-t pt-3">
+                  <MediaField
+                    name={`${key}PortraitUrl`}
+                    label="Portrait (optional)"
+                    kind="image"
+                    defaultValue={couple?.[`${key}PortraitUrl`]}
+                    uploadsEnabled={uploadsEnabled}
+                    error={errors[`${key}PortraitUrl`]}
+                    hint="A head-and-shoulders photo. Shown in the Editorial layout."
+                  />
                 </div>
               </fieldset>
             );
@@ -150,7 +206,38 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
         <LocalizedField name="city" label="City" defaultValue={couple?.city} placeholder={{ en: "Addis Ababa", am: "አዲስ አበባ" }} />
       </FormSection>
 
-      <FormSection title="Look and sound" description="Pick a palette, the cover photo and the song that plays when guests open the invitation.">
+      <FormSection
+        title="Look and sound"
+        description="Pick a layout, a palette, the cover photo and the song that plays when guests open the invitation."
+      >
+        <fieldset className="grid gap-3">
+          <legend className="mb-2 text-sm font-medium">Layout</legend>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {LAYOUT_LIST.map((layout) => (
+              <label
+                key={layout.name}
+                className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+              >
+                <input
+                  type="radio"
+                  name="layout"
+                  value={layout.name}
+                  defaultChecked={((couple?.layout as LayoutName | undefined) ?? "classic") === layout.name}
+                  className="mt-1"
+                />
+                <span className="grid gap-2">
+                  <span className="flex items-center gap-3">
+                    <LayoutSketch name={layout.name} />
+                    <span className="font-medium">{layout.label}</span>
+                  </span>
+                  <span className="text-sm text-muted-foreground">{layout.description}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+          {errors.layout ? <p className="text-sm text-destructive">{errors.layout}</p> : null}
+        </fieldset>
+
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Theme</legend>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">

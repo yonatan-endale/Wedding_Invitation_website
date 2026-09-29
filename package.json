@@ -14,7 +14,8 @@
     "db:migrate": "dotenv -e .env.local -- tsx scripts/migrate.ts",
     "db:push": "dotenv -e .env.local -- drizzle-kit push",
     "db:studio": "dotenv -e .env.local -- drizzle-kit studio",
-    "db:seed": "dotenv -e .env.local -- tsx scripts/seed.ts"
+    "db:seed": "dotenv -e .env.local -- tsx scripts/seed.ts",
+    "db:add-couple": "dotenv -e .env.local -- tsx scripts/add-couple.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.4",

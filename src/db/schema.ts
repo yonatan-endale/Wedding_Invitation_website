@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  date,
   doublePrecision,
   index,
   integer,
@@ -10,7 +11,7 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { BORDER_STYLES, COUPLE_STATUSES, GIFT_KINDS } from "@/lib/constants";
+import { BORDER_STYLES, COUPLE_STATUSES, GIFT_KINDS, PARTNER_ROLES } from "@/lib/constants";
 import type { LocalizedText } from "@/lib/localized";
 
 const timestamps = {
@@ -33,6 +34,10 @@ export const couples = pgTable("couples", {
   partnerTwoNick: localized("partner_two_nick"),
   partnerOneFather: localized("partner_one_father"),
   partnerTwoFather: localized("partner_two_father"),
+  partnerOneRole: text("partner_one_role", { enum: PARTNER_ROLES }).notNull().default("bride"),
+  partnerTwoRole: text("partner_two_role", { enum: PARTNER_ROLES }).notNull().default("groom"),
+  partnerOnePortraitUrl: text("partner_one_portrait_url"),
+  partnerTwoPortraitUrl: text("partner_two_portrait_url"),
   tagline: localized("tagline"),
   weddingAt: timestamp("wedding_at", { withTimezone: true }).notNull(),
   timezone: text("timezone").notNull().default("Africa/Addis_Ababa"),
@@ -50,6 +55,7 @@ export const couples = pgTable("couples", {
   musicTitle: text("music_title"),
   telegramUrl: text("telegram_url"),
   theme: text("theme").notNull().default("tibeb"),
+  layout: text("layout").notNull().default("classic"),
   border: text("border", { enum: BORDER_STYLES }).notNull().default("tibeb"),
   petals: boolean("petals").notNull().default(true),
   rsvpEnabled: boolean("rsvp_enabled").notNull().default(true),
@@ -143,6 +149,24 @@ export const wishlistItems = pgTable(
   (t) => [index("wishlist_items_couple_idx").on(t.coupleId, t.sortOrder)],
 );
 
+/** Dated chapters of the couple's story, shown as an alternating timeline in the Editorial layout. */
+export const storyMilestones = pgTable(
+  "story_milestones",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    coupleId: uuid("couple_id")
+      .notNull()
+      .references(() => couples.id, { onDelete: "cascade" }),
+    happenedOn: date("happened_on").notNull(),
+    title: localized("title").notNull(),
+    body: localized("body"),
+    imageUrl: text("image_url"),
+    sortOrder: integer("sort_order").notNull().default(0),
+    ...timestamps,
+  },
+  (t) => [index("story_milestones_couple_idx").on(t.coupleId, t.sortOrder)],
+);
+
 export const rsvps = pgTable(
   "rsvps",
   {
@@ -168,7 +192,12 @@ export const couplesRelations = relations(couples, ({ many }) => ({
   events: many(events),
   giftAccounts: many(giftAccounts),
   wishlistItems: many(wishlistItems),
+  storyMilestones: many(storyMilestones),
   rsvps: many(rsvps),
+}));
+
+export const storyMilestonesRelations = relations(storyMilestones, ({ one }) => ({
+  couple: one(couples, { fields: [storyMilestones.coupleId], references: [couples.id] }),
 }));
 
 export const photosRelations = relations(photos, ({ one }) => ({
@@ -202,4 +231,5 @@ export type Venue = typeof venues.$inferSelect;
 export type WeddingEvent = typeof events.$inferSelect;
 export type GiftAccount = typeof giftAccounts.$inferSelect;
 export type WishlistItem = typeof wishlistItems.$inferSelect;
+export type StoryMilestone = typeof storyMilestones.$inferSelect;
 export type Rsvp = typeof rsvps.$inferSelect;

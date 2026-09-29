@@ -5,7 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { getDb } from "@/db";
 import { isUuid } from "@/db/queries/admin";
-import { couples, events, giftAccounts, photos, rsvps, venues, wishlistItems } from "@/db/schema";
+import { couples, events, giftAccounts, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
 import { getAdminUser } from "@/lib/auth";
 import { siteCacheTag, type CoupleStatus } from "@/lib/constants";
 import { moveItem, type Direction } from "@/lib/reorder";
@@ -16,6 +16,7 @@ import {
   parseCoupleTexts,
   parseEvent,
   parseGiftAccount,
+  parseMilestone,
   parseVenue,
   parseWishlistItem,
   type FieldErrors,
@@ -138,8 +139,8 @@ export async function deleteCouple(coupleId: string): Promise<ActionState> {
 
 /* ----------------------------- List helpers ---------------------------- */
 
-const SORTABLE = { photos, venues, giftAccounts, wishlistItems } as const;
-const DELETABLE = { photos, venues, events, giftAccounts, wishlistItems, rsvps } as const;
+const SORTABLE = { photos, venues, giftAccounts, wishlistItems, storyMilestones } as const;
+const DELETABLE = { photos, venues, events, giftAccounts, wishlistItems, storyMilestones, rsvps } as const;
 
 export type SortableList = keyof typeof SORTABLE;
 export type DeletableList = keyof typeof DELETABLE;
@@ -280,6 +281,35 @@ export async function saveEvent(
   }
   await refreshCouple(coupleId);
   return success(eventId ? "Event saved." : "Event added.");
+}
+
+/* ---------------------------- Story milestones ---------------------------- */
+
+export async function saveMilestone(
+  coupleId: string,
+  milestoneId: string | null,
+  _previous: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  if (!(await getAdminUser())) return failure(SESSION_ENDED);
+  if (!(await coupleSlug(coupleId))) return failure(NOT_FOUND);
+  const parsed = parseMilestone(formDataToFields(formData));
+  if (!parsed.success) return failure(CHECK_FIELDS, parsed.fieldErrors);
+
+  const db = getDb();
+  if (milestoneId) {
+    if (!isUuid(milestoneId)) return failure(NOT_FOUND);
+    await db
+      .update(storyMilestones)
+      .set(parsed.data)
+      .where(and(eq(storyMilestones.id, milestoneId), eq(storyMilestones.coupleId, coupleId)));
+  } else {
+    await db
+      .insert(storyMilestones)
+      .values({ ...parsed.data, coupleId, sortOrder: await nextSortOrder("storyMilestones", coupleId) });
+  }
+  await refreshCouple(coupleId);
+  return success(milestoneId ? "Chapter saved." : "Chapter added.");
 }
 
 /* -------------------------------- Gifts -------------------------------- */

@@ -8,11 +8,32 @@ import { buttonOutline, buttonPrimary } from "./primitives";
 
 const initialState: RsvpFormState = { status: "idle" };
 
-const inputClass =
-  "block w-full rounded-[3px] border border-rule bg-paper px-4 py-3 text-lg text-ink outline-none transition-colors placeholder:text-ink-soft/60 focus:border-thread-1 aria-invalid:border-thread-3";
+const inputBase = "block w-full rounded-[3px] border px-4 py-3 text-lg outline-none transition-colors";
 
-export function RsvpForm({ slug }: { slug: string }) {
+/** "paper" sits on the page colors; "dark" sits on an ink panel over a photo. */
+export type RsvpTone = "paper" | "dark";
+
+const TONES: Record<RsvpTone, { input: string; choice: string; choiceActive: string; success: string; error: string }> = {
+  paper: {
+    input: "border-rule bg-paper text-ink placeholder:text-ink-soft/60 focus:border-thread-1 aria-invalid:border-thread-3",
+    choice: "border-rule bg-paper hover:border-ink/40",
+    choiceActive: "border-thread-1 bg-thread-1/[0.07]",
+    success: "border-rule bg-paper",
+    error: "text-thread-3",
+  },
+  dark: {
+    input: "border-paper/30 bg-paper/10 text-paper placeholder:text-paper/50 focus:border-thread-2 aria-invalid:border-thread-2",
+    choice: "border-paper/30 hover:border-paper/70",
+    choiceActive: "border-thread-2 bg-paper/10",
+    success: "border-paper/30 bg-paper/10",
+    error: "text-thread-2",
+  },
+};
+
+export function RsvpForm({ slug, tone = "paper" }: { slug: string; tone?: RsvpTone }) {
   const t = useTranslations("rsvp");
+  const colors = TONES[tone];
+  const inputClass = cn(inputBase, colors.input);
   const id = useId();
   const [state, formAction, pending] = useActionState(submitRsvp.bind(null, slug), initialState);
   const [attending, setAttending] = useState<"yes" | "no" | null>(null);
@@ -27,7 +48,7 @@ export function RsvpForm({ slug }: { slug: string }) {
 
   if (state.status === "success" && formKey === state.submissionId) {
     return (
-      <div role="status" className="mt-10 border border-rule bg-paper px-6 py-10 text-center">
+      <div role="status" className={cn("mt-10 border px-6 py-10 text-center", colors.success)}>
         <p className="font-display text-[clamp(1.5rem,4vw,2rem)] leading-snug">
           {state.attending ? t("thanksYes", { name: state.name }) : t("thanksNo", { name: state.name })}
         </p>
@@ -52,7 +73,7 @@ export function RsvpForm({ slug }: { slug: string }) {
 
   const errorText = (field: string) =>
     hasError(field) ? (
-      <p id={`${id}-${field}-error`} className="mt-2 text-base text-thread-3">
+      <p id={`${id}-${field}-error`} className={cn("mt-2 text-base", colors.error)}>
         {t(`errors.${field}` as "errors.name")}
       </p>
     ) : null;
@@ -130,7 +151,7 @@ export function RsvpForm({ slug }: { slug: string }) {
               key={option}
               className={cn(
                 "flex cursor-pointer items-center gap-3 rounded-[3px] border px-4 py-4 text-lg transition-colors",
-                choice === option ? "border-thread-1 bg-thread-1/[0.07]" : "border-rule bg-paper hover:border-ink/40",
+                choice === option ? colors.choiceActive : colors.choice,
               )}
             >
               <input
@@ -140,7 +161,7 @@ export function RsvpForm({ slug }: { slug: string }) {
                 required
                 checked={choice === option}
                 onChange={() => setAttending(option)}
-                className="size-5 accent-[var(--w-thread-1)]"
+                className={cn("size-5", tone === "dark" ? "accent-thread-2" : "accent-thread-1")}
               />
               {option === "yes" ? t("yes") : t("no")}
             </label>
@@ -188,7 +209,7 @@ export function RsvpForm({ slug }: { slug: string }) {
       </div>
 
       {state.status === "error" && state.formError ? (
-        <p role="alert" className="text-base text-thread-3">
+        <p role="alert" className={cn("text-base", colors.error)}>
           {t(`errors.${state.formError}`)}
         </p>
       ) : null}

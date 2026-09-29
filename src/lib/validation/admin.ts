@@ -1,5 +1,14 @@
-import { BORDER_STYLES, GIFT_KINDS, HERO_POSITIONS, type BorderStyle, type GiftKind } from "@/lib/constants";
+import {
+  BORDER_STYLES,
+  GIFT_KINDS,
+  HERO_POSITIONS,
+  PARTNER_ROLES,
+  type BorderStyle,
+  type GiftKind,
+  type PartnerRole,
+} from "@/lib/constants";
 import { zonedTimeToUtc } from "@/lib/datetime";
+import { isLayoutName, type LayoutName } from "@/lib/layout";
 import type { LocalizedText } from "@/lib/localized";
 import { isValidSlug } from "@/lib/slug";
 import { isThemeName, type ThemeName } from "@/lib/theme";
@@ -119,11 +128,16 @@ export type CoupleDetails = {
   partnerTwoNick: LocalizedText | null;
   partnerOneFather: LocalizedText | null;
   partnerTwoFather: LocalizedText | null;
+  partnerOneRole: PartnerRole;
+  partnerTwoRole: PartnerRole;
+  partnerOnePortraitUrl: string | null;
+  partnerTwoPortraitUrl: string | null;
   slug: string;
   weddingAt: Date;
   timezone: string;
   city: LocalizedText | null;
   theme: ThemeName;
+  layout: LayoutName;
   border: BorderStyle;
   petals: boolean;
   heroPhotoUrl: string | null;
@@ -150,6 +164,14 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
   const theme = text(form, "theme");
   if (!isThemeName(theme)) errors.theme = "Choose one of the themes.";
 
+  const layout = text(form, "layout") || "classic";
+  if (!isLayoutName(layout)) errors.layout = "Choose one of the layouts.";
+
+  const partnerOneRole = (text(form, "partnerOneRole") || "bride") as PartnerRole;
+  const partnerTwoRole = (text(form, "partnerTwoRole") || "groom") as PartnerRole;
+  if (!PARTNER_ROLES.includes(partnerOneRole)) errors.partnerOneRole = "Choose bride or groom.";
+  if (!PARTNER_ROLES.includes(partnerTwoRole)) errors.partnerTwoRole = "Choose bride or groom.";
+
   const border = (text(form, "border") || "tibeb") as BorderStyle;
   if (!BORDER_STYLES.includes(border)) errors.border = "Choose one of the border styles.";
 
@@ -164,11 +186,16 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
       partnerTwoNick: readLocalized(form, "partnerTwoNick"),
       partnerOneFather: readLocalized(form, "partnerOneFather"),
       partnerTwoFather: readLocalized(form, "partnerTwoFather"),
+      partnerOneRole,
+      partnerTwoRole,
+      partnerOnePortraitUrl: optionalUrl(form, "partnerOnePortraitUrl", errors),
+      partnerTwoPortraitUrl: optionalUrl(form, "partnerTwoPortraitUrl", errors),
       slug,
       weddingAt: weddingAt as Date,
       timezone,
       city: readLocalized(form, "city"),
       theme: theme as ThemeName,
+      layout: layout as LayoutName,
       border,
       petals: form.petals === "on",
       heroPhotoUrl: optionalUrl(form, "heroPhotoUrl", errors),
@@ -265,6 +292,31 @@ export function parseEvent(form: FormFields, timeZone: string): Parsed<EventInpu
   if (venueId && !UUID_PATTERN.test(venueId)) errors.venueId = "Choose a venue from the list.";
   return result(
     { title, description: readLocalized(form, "description"), startsAt: startsAt as Date, endsAt, venueId },
+    errors,
+  );
+}
+
+export type MilestoneInput = {
+  happenedOn: string;
+  title: LocalizedText;
+  body: LocalizedText | null;
+  imageUrl: string | null;
+};
+
+const CALENDAR_DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+
+/** A chapter of the couple's story. The date is a plain calendar day, "YYYY-MM-DD". */
+export function parseMilestone(form: FormFields): Parsed<MilestoneInput> {
+  const errors: FieldErrors = {};
+  const happenedOn = text(form, "happenedOn");
+  if (!CALENDAR_DATE.test(happenedOn)) errors.happenedOn = "Choose the date.";
+  return result(
+    {
+      happenedOn,
+      title: requiredLocalized(form, "title", errors, "Enter the title in English."),
+      body: readLocalized(form, "body"),
+      imageUrl: optionalUrl(form, "imageUrl", errors),
+    },
     errors,
   );
 }

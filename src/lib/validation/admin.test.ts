@@ -4,6 +4,7 @@ import {
   parseCoupleTexts,
   parseEvent,
   parseGiftAccount,
+  parseMilestone,
   parseVenue,
   parseWishlistItem,
   readLocalized,
@@ -66,11 +67,16 @@ describe("parseCoupleDetails", () => {
       partnerTwoNick: null,
       partnerOneFather: { en: "Tesfaye", am: "ተስፋዬ" },
       partnerTwoFather: null,
+      partnerOneRole: "bride",
+      partnerTwoRole: "groom",
+      partnerOnePortraitUrl: null,
+      partnerTwoPortraitUrl: null,
       slug: "hanna-dawit",
       weddingAt: new Date("2026-07-18T11:00:00.000Z"),
       timezone: "Africa/Addis_Ababa",
       city: { en: "Addis Ababa", am: "አዲስ አበባ" },
       theme: "tibeb",
+      layout: "classic",
       border: "floral",
       petals: true,
       heroPhotoUrl: "https://images.unsplash.com/photo-1",
@@ -89,6 +95,36 @@ describe("parseCoupleDetails", () => {
     if (!result.success) return;
     expect(result.data.petals).toBe(false);
     expect(result.data.border).toBe("tibeb");
+  });
+
+  it("parses the layout, partner roles and portraits", () => {
+    const result = parseCoupleDetails({
+      ...details,
+      layout: "editorial",
+      partnerOneRole: "groom",
+      partnerTwoRole: "bride",
+      partnerOnePortraitUrl: "https://example.com/one.jpg",
+      partnerTwoPortraitUrl: "",
+    });
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.layout).toBe("editorial");
+    expect(result.data.partnerOneRole).toBe("groom");
+    expect(result.data.partnerTwoRole).toBe("bride");
+    expect(result.data.partnerOnePortraitUrl).toBe("https://example.com/one.jpg");
+    expect(result.data.partnerTwoPortraitUrl).toBeNull();
+  });
+
+  it("rejects an unknown layout, role or unsafe portrait link", () => {
+    const result = parseCoupleDetails({
+      ...details,
+      layout: "magazine",
+      partnerOneRole: "best man",
+      partnerTwoPortraitUrl: "javascript:alert(1)",
+    });
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(Object.keys(result.fieldErrors).sort()).toEqual(["layout", "partnerOneRole", "partnerTwoPortraitUrl"]);
   });
 
   it("rejects an unknown border style", () => {
@@ -132,6 +168,34 @@ describe("parseCoupleDetails", () => {
     expect(result.data.musicUrl).toBeNull();
     expect(result.data.musicTitle).toBeNull();
     expect(result.data.city).toBeNull();
+  });
+});
+
+describe("parseMilestone", () => {
+  it("parses a dated chapter with optional body and photo", () => {
+    const result = parseMilestone({
+      happenedOn: "2023-01-06",
+      "title.en": "Our first meet",
+      "title.am": "መጀመሪያ የተገናኘንበት",
+      "body.en": "At a friend's graduation.",
+      "body.am": "",
+      imageUrl: "",
+    });
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data).toEqual({
+      happenedOn: "2023-01-06",
+      title: { en: "Our first meet", am: "መጀመሪያ የተገናኘንበት" },
+      body: { en: "At a friend's graduation." },
+      imageUrl: null,
+    });
+  });
+
+  it("requires a calendar date and an English title", () => {
+    const result = parseMilestone({ happenedOn: "06/01/2023", "title.en": "", imageUrl: "javascript:x" });
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(Object.keys(result.fieldErrors).sort()).toEqual(["happenedOn", "imageUrl", "title.en"]);
   });
 });
 

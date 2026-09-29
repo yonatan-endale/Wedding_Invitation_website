@@ -37,7 +37,7 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
           defaultValue={couple.story}
           multiline
           rows={8}
-          hint="Leave a blank line between paragraphs."
+          hint="Leave a blank line between paragraphs. The Editorial layout also shows the dated chapters from the Our story tab."
         />
         <LocalizedField name="scripture" label="Verse or quote" defaultValue={couple.scripture} multiline rows={3} />
         <LocalizedField

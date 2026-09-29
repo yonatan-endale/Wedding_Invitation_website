@@ -3,8 +3,8 @@ import "server-only";
 import { asc, eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import { getDb } from "@/db";
-import { couples, events, giftAccounts, photos, venues, wishlistItems } from "@/db/schema";
-import { siteCacheTag, type BorderStyle, type CoupleStatus, type GiftKind } from "@/lib/constants";
+import { couples, events, giftAccounts, photos, storyMilestones, venues, wishlistItems } from "@/db/schema";
+import { siteCacheTag, type BorderStyle, type CoupleStatus, type GiftKind, type PartnerRole } from "@/lib/constants";
 import type { LocalizedText } from "@/lib/localized";
 
 /** Plain, JSON-safe shapes: cached data loses Date objects, so dates travel as ISO strings. */
@@ -18,6 +18,10 @@ export type SiteCouple = {
   partnerTwoNick: LocalizedText | null;
   partnerOneFather: LocalizedText | null;
   partnerTwoFather: LocalizedText | null;
+  partnerOneRole: PartnerRole;
+  partnerTwoRole: PartnerRole;
+  partnerOnePortraitUrl: string | null;
+  partnerTwoPortraitUrl: string | null;
   tagline: LocalizedText | null;
   weddingAt: string;
   timezone: string;
@@ -35,6 +39,7 @@ export type SiteCouple = {
   musicTitle: string | null;
   telegramUrl: string | null;
   theme: string;
+  layout: string;
   border: BorderStyle;
   petals: boolean;
   rsvpEnabled: boolean;
@@ -79,6 +84,15 @@ export type SiteWishlistItem = {
   price: string | null;
 };
 
+/** `happenedOn` is a calendar date, "YYYY-MM-DD", with no time or zone. */
+export type SiteStoryMilestone = {
+  id: string;
+  happenedOn: string;
+  title: LocalizedText;
+  body: LocalizedText | null;
+  imageUrl: string | null;
+};
+
 export type SiteData = {
   couple: SiteCouple;
   photos: SitePhoto[];
@@ -86,6 +100,7 @@ export type SiteData = {
   events: SiteEvent[];
   giftAccounts: SiteGiftAccount[];
   wishlistItems: SiteWishlistItem[];
+  milestones: SiteStoryMilestone[];
 };
 
 async function loadSite(slug: string): Promise<SiteData | null> {
@@ -93,7 +108,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
   const [row] = await db.select().from(couples).where(eq(couples.slug, slug)).limit(1);
   if (!row) return null;
 
-  const [photoRows, venueRows, eventRows, giftRows, wishRows] = await Promise.all([
+  const [photoRows, venueRows, eventRows, giftRows, wishRows, milestoneRows] = await Promise.all([
     db.select().from(photos).where(eq(photos.coupleId, row.id)).orderBy(asc(photos.sortOrder), asc(photos.createdAt)),
     db.select().from(venues).where(eq(venues.coupleId, row.id)).orderBy(asc(venues.sortOrder), asc(venues.createdAt)),
     db.select().from(events).where(eq(events.coupleId, row.id)).orderBy(asc(events.startsAt)),
@@ -107,6 +122,11 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       .from(wishlistItems)
       .where(eq(wishlistItems.coupleId, row.id))
       .orderBy(asc(wishlistItems.sortOrder), asc(wishlistItems.createdAt)),
+    db
+      .select()
+      .from(storyMilestones)
+      .where(eq(storyMilestones.coupleId, row.id))
+      .orderBy(asc(storyMilestones.sortOrder), asc(storyMilestones.happenedOn), asc(storyMilestones.createdAt)),
   ]);
 
   return {
@@ -120,6 +140,10 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       partnerTwoNick: row.partnerTwoNick,
       partnerOneFather: row.partnerOneFather,
       partnerTwoFather: row.partnerTwoFather,
+      partnerOneRole: row.partnerOneRole,
+      partnerTwoRole: row.partnerTwoRole,
+      partnerOnePortraitUrl: row.partnerOnePortraitUrl,
+      partnerTwoPortraitUrl: row.partnerTwoPortraitUrl,
       tagline: row.tagline,
       weddingAt: row.weddingAt.toISOString(),
       timezone: row.timezone,
@@ -137,6 +161,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       musicTitle: row.musicTitle,
       telegramUrl: row.telegramUrl,
       theme: row.theme,
+      layout: row.layout,
       border: row.border,
       petals: row.petals,
       rsvpEnabled: row.rsvpEnabled,
@@ -174,6 +199,13 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       url: w.url,
       imageUrl: w.imageUrl,
       price: w.price,
+    })),
+    milestones: milestoneRows.map((m) => ({
+      id: m.id,
+      happenedOn: m.happenedOn,
+      title: m.title,
+      body: m.body,
+      imageUrl: m.imageUrl,
     })),
   };
 }

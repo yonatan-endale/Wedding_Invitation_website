@@ -3,20 +3,15 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-import { CountdownSection, Hero } from "@/components/wedding/hero";
-import { GallerySection } from "@/components/wedding/gallery";
-import { GiftsSection } from "@/components/wedding/gifts";
-import { InvitationCard, ScriptureSection, StorySection } from "@/components/wedding/invitation";
-import { MemoriesSection, SiteFooter } from "@/components/wedding/closing";
-import { MonogramWatermark } from "@/components/wedding/primitives";
+import { LAYOUT_COMPONENTS, LAYOUT_SHELL } from "@/components/wedding/layouts";
 import { MusicButton, MusicProvider } from "@/components/wedding/music";
 import { NetelaIntro } from "@/components/wedding/netela-intro";
-import { RsvpSection } from "@/components/wedding/rsvp";
-import { ScheduleSection, VenuesSection } from "@/components/wedding/schedule";
-import { SiteHeader, type NavLink } from "@/components/wedding/site-header";
+import { SiteHeader } from "@/components/wedding/site-header";
+import { sectionLinks } from "@/components/wedding/site-links";
 import { getSiteData, type SiteData } from "@/db/queries/site";
 import { getAdminUser } from "@/lib/auth";
 import { TENANT_HEADER } from "@/lib/constants";
+import { getLayout } from "@/lib/layout";
 import { isLocale, pickText, type Locale } from "@/lib/localized";
 import { fullName } from "@/lib/names";
 import { getTheme } from "@/lib/theme";
@@ -76,18 +71,13 @@ export default async function CoupleSitePage({ params }: Props) {
   const firstTwo = pickText(couple.partnerTwo, locale);
   const one = fullName(couple.partnerOne, couple.partnerOneFather, locale);
   const two = fullName(couple.partnerTwo, couple.partnerTwoFather, locale);
-  const monogram = `${firstOne.charAt(0)} & ${firstTwo.charAt(0)}`;
+  const names = { one, two, firstOne, firstTwo, monogram: `${firstOne.charAt(0)} & ${firstTwo.charAt(0)}` };
 
-  const links: NavLink[] = [
-    { id: "invitation", label: t("invitation") },
-    pickText(couple.story, locale) ? { id: "story", label: t("story") } : null,
-    site.events.length ? { id: "schedule", label: t("schedule") } : null,
-    site.venues.length ? { id: "venues", label: t("venues") } : null,
-    site.photos.length ? { id: "gallery", label: t("gallery") } : null,
-    site.giftAccounts.length || site.wishlistItems.length ? { id: "gifts", label: t("gifts") } : null,
-    couple.rsvpEnabled ? { id: "rsvp", label: t("rsvp") } : null,
-  ].filter((link): link is NavLink => link !== null);
-
+  // The layout decides the section order and look; the shell around it is shared.
+  const layout = getLayout(couple.layout);
+  const Layout = LAYOUT_COMPONENTS[layout];
+  const shell = LAYOUT_SHELL[layout];
+  const links = sectionLinks(site, locale, (key) => t(key), { withCouple: shell.withCoupleLink });
   const photos = site.photos.map((photo) => ({ id: photo.id, url: photo.url, caption: pickText(photo.caption, locale) }));
 
   return (
@@ -106,22 +96,8 @@ export default async function CoupleSitePage({ params }: Props) {
           dateLine={formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
           border={couple.border}
         />
-        <MonogramWatermark monogram={monogram} />
-        <SiteHeader monogram={monogram} links={links} />
-        <main className="relative z-10">
-          <Hero site={site} locale={locale} />
-          <CountdownSection site={site} locale={locale} />
-          <InvitationCard site={site} locale={locale} />
-          <StorySection site={site} locale={locale} />
-          <ScriptureSection site={site} locale={locale} />
-          <ScheduleSection site={site} locale={locale} />
-          <VenuesSection site={site} locale={locale} />
-          <GallerySection photos={photos} names={`${one} & ${two}`} />
-          <GiftsSection site={site} locale={locale} />
-          <RsvpSection site={site} locale={locale} />
-          <MemoriesSection site={site} locale={locale} />
-        </main>
-        <SiteFooter site={site} locale={locale} />
+        <SiteHeader monogram={names.monogram} links={links} startSolid={shell.headerStartSolid} />
+        <Layout site={site} locale={locale} names={names} photos={photos} />
         <MusicButton title={couple.musicTitle} />
       </div>
     </MusicProvider>

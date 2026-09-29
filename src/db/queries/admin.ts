@@ -2,7 +2,7 @@ import "server-only";
 
 import { asc, desc, eq, sql } from "drizzle-orm";
 import { getDb } from "@/db";
-import { couples, events, giftAccounts, photos, rsvps, venues, wishlistItems } from "@/db/schema";
+import { couples, events, giftAccounts, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -43,6 +43,9 @@ export async function getCoupleForAdmin(id: string) {
       events: { orderBy: [asc(events.startsAt)] },
       giftAccounts: { orderBy: [asc(giftAccounts.sortOrder), asc(giftAccounts.createdAt)] },
       wishlistItems: { orderBy: [asc(wishlistItems.sortOrder), asc(wishlistItems.createdAt)] },
+      storyMilestones: {
+        orderBy: [asc(storyMilestones.sortOrder), asc(storyMilestones.happenedOn), asc(storyMilestones.createdAt)],
+      },
     },
   });
   return couple ?? null;

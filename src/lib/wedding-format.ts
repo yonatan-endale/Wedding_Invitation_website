@@ -1,4 +1,4 @@
-import { formatEthiopianDate, gregorianToEthiopian } from "./ethiopian-calendar";
+import { ETHIOPIAN_MONTHS_AM, formatEthiopianDate, gregorianToEthiopian } from "./ethiopian-calendar";
 import { zonedParts } from "./datetime";
 import type { Locale } from "./localized";
 
@@ -44,6 +44,27 @@ export function formatWeddingDate(iso: string, timeZone: string, locale: Locale)
     return `${WEEKDAYS_AM[p.weekday]}፣ ${formatEthiopianDate(ethiopian)}`;
   }
   return `${WEEKDAYS_EN[p.weekday]}, ${formatGregorianDate(iso, timeZone)}`;
+}
+
+const MONTHS_EN_SHORT = MONTHS_EN.map((month) => month.slice(0, 3));
+
+/**
+ * The wedding date split for large numerals: English "14 / Mar / 2025",
+ * Amharic the Ethiopian calendar day, month and year.
+ */
+export function weddingDateParts(iso: string, timeZone: string, locale: Locale): { day: string; month: string; year: string } {
+  const p = localParts(iso, timeZone);
+  if (locale === "am") {
+    const ethiopian = gregorianToEthiopian(p.year, p.month, p.day);
+    return { day: String(ethiopian.day), month: ETHIOPIAN_MONTHS_AM[ethiopian.month - 1], year: String(ethiopian.year) };
+  }
+  return { day: String(p.day), month: MONTHS_EN_SHORT[p.month - 1], year: String(p.year) };
+}
+
+/** A plain calendar day, "YYYY-MM-DD", with no weekday: English "6 January 2023", Amharic the Ethiopian date. */
+export function formatCalendarDate(date: string, locale: Locale): string {
+  const iso = `${date}T12:00:00Z`;
+  return locale === "am" ? formatEthiopianDateLine(iso, "UTC") : formatGregorianDate(iso, "UTC");
 }
 
 /** Periods of the Ethiopian day, from midnight. Amharic names go before the clock, English after. */

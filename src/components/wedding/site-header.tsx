@@ -59,17 +59,25 @@ export function LanguageToggle({ tone = "ink" }: { tone?: "ink" | "light" }) {
 
 export type NavLink = { id: string; label: string };
 
-export function SiteHeader({ monogram, links }: { monogram: string; links: NavLink[] }) {
+type HeaderProps = {
+  monogram: string;
+  links: NavLink[];
+  /** Light heroes have no dark photo to sit on, so the header starts in its solid form. */
+  startSolid?: boolean;
+};
+
+export function SiteHeader({ monogram, links, startSolid = false }: HeaderProps) {
   const t = useTranslations("nav");
-  const [solid, setSolid] = useState(false);
+  const [solid, setSolid] = useState(startSolid);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    if (startSolid) return;
     const onScroll = () => setSolid(window.scrollY > window.innerHeight * 0.8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [startSolid]);
 
   return (
     <header

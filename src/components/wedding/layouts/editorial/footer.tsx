@@ -8,7 +8,7 @@ import { eyebrow } from "./shared";
 
 type Props = { site: SiteData; locale: Locale; names: SiteNames };
 
-/** Initials in a large italic, the families' line, then the names and date. */
+/** Initials joined by an ampersand in a large italic, the families' line, then the names and date. */
 export async function EditorialFooter({ site, locale, names }: Props) {
   const t = await getTranslations("footer");
   const { couple } = site;
@@ -16,6 +16,7 @@ export async function EditorialFooter({ site, locale, names }: Props) {
     <footer className="border-t border-rule bg-sheet px-5 pt-16 pb-28 text-center sm:px-8">
       <p aria-hidden className="font-display text-[clamp(4.5rem,14vw,9rem)] leading-none text-thread-2 italic">
         {names.firstOne.charAt(0)}
+        <span className="mx-[0.12em] inline-block align-[0.12em] text-[0.5em] not-italic">&amp;</span>
         {names.firstTwo.charAt(0)}
       </p>
       <p className={cn(eyebrow, "mt-6")}>{t("families")}</p>

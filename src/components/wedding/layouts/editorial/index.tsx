@@ -12,7 +12,7 @@ import { EditorialQuote } from "./quote";
 import { EditorialRsvp } from "./rsvp";
 import { EditorialStory } from "./story";
 
-/** Magazine layout: light split hero, portraits, event cards, dark mosaic gallery, dated story, RSVP over a photo. */
+/** Magazine layout: light split hero, portraits, event cards, dark mosaic gallery, dated story, RSVP beside a photo. */
 export function EditorialLayout({ site, locale, names, photos }: LayoutProps) {
   const fullNames = `${names.one} & ${names.two}`;
   return (

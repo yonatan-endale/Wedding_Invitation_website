@@ -97,6 +97,14 @@ describe("parseCoupleDetails", () => {
     expect(result.data.border).toBe("tibeb");
   });
 
+  it("accepts the second tibeb and rejects an unknown border", () => {
+    const second = parseCoupleDetails({ ...details, border: "tibeb2" });
+    expect(second.success).toBe(true);
+    if (second.success) expect(second.data.border).toBe("tibeb2");
+    const unknown = parseCoupleDetails({ ...details, border: "zigzag" });
+    expect(unknown.success).toBe(false);
+  });
+
   it("parses the layout, partner roles and portraits", () => {
     const result = parseCoupleDetails({
       ...details,

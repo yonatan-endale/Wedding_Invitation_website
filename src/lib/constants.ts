@@ -4,8 +4,12 @@ export type CoupleStatus = (typeof COUPLE_STATUSES)[number];
 export const GIFT_KINDS = ["bank", "telebirr", "other"] as const;
 export type GiftKind = (typeof GIFT_KINDS)[number];
 
-/** Decorative band along the hero, invitation card, opening screen and footer. */
-export const BORDER_STYLES = ["tibeb", "floral", "line"] as const;
+/**
+ * Decorative band along the hero, invitation card, opening screen and footer.
+ * "tibeb" is the original small woven band and the default; "tibeb2" is the
+ * wide band drawn from a real netela, with interlocking diamonds and chevrons.
+ */
+export const BORDER_STYLES = ["tibeb", "tibeb2", "floral", "line"] as const;
 export type BorderStyle = (typeof BORDER_STYLES)[number];
 
 /** Caption under each partner's portrait in the Editorial layout, and the footer line. */

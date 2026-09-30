@@ -6,9 +6,10 @@ import type { BorderStyle } from "@/lib/constants";
 import { Tibeb } from "./tibeb";
 
 /* ------------------------------------------------------------------ */
-/* Border bands. Tibeb is the woven border of a habesha kemis, drawn   */
-/* in ./tibeb.tsx; floral is a rose vine drawn with CSS masks so each  */
-/* thread takes its colour from the couple's theme; line is two rules. */
+/* Border bands. Tibeb is the woven border of a habesha kemis and       */
+/* floral is a rose vine, both drawn with CSS masks so each thread      */
+/* takes its colour from the couple's theme. Tibeb 2 is the wide band   */
+/* drawn from a real netela, in ./tibeb.tsx. Line is two plain rules.   */
 /* ------------------------------------------------------------------ */
 
 type Orientation = "horizontal" | "vertical";
@@ -21,6 +22,24 @@ const svg = (body: string) =>
 
 /** Shapes are authored horizontally; the vertical band transposes x and y. */
 const transpose = (body: string) => body.replace(/<g>/g, "<g transform='matrix(0 1 1 0 0 0)'>");
+
+const TIBEB: Layer[] = [
+  {
+    color: "var(--w-thread-1)",
+    shapes:
+      "<g><rect y='4' width='28' height='1'/><rect y='23' width='28' height='1'/><path fill-rule='evenodd' d='M7 7l7 7-7 7-7-7zM7 10.5l3.5 3.5-3.5 3.5-3.5-3.5z'/></g>",
+  },
+  {
+    color: "var(--w-thread-3)",
+    shapes:
+      "<g><rect x='20' y='8' width='2' height='12'/><rect x='15' y='13' width='12' height='2'/><circle cx='7' cy='14' r='1.5'/></g>",
+  },
+  {
+    color: "var(--w-thread-2)",
+    shapes:
+      "<g><rect width='28' height='2'/><rect y='26' width='28' height='2'/><rect x='20.25' y='13.25' width='1.5' height='1.5'/><rect x='14.5' y='13' width='1' height='2'/></g>",
+  },
+];
 
 /** A rosette every tile, joined by a vine with a leaf on each side. */
 const FLORAL: Layer[] = [
@@ -41,15 +60,19 @@ const FLORAL: Layer[] = [
   },
 ];
 
-const FLORAL_MASKS: Record<Orientation, string[]> = {
-  horizontal: FLORAL.map((l) => svg(l.shapes)),
-  vertical: FLORAL.map((l) => svg(transpose(l.shapes))),
+type MaskedStyle = "tibeb" | "floral";
+
+const MASKS: Record<MaskedStyle, Record<Orientation, string[]>> = {
+  tibeb: { horizontal: TIBEB.map((l) => svg(l.shapes)), vertical: TIBEB.map((l) => svg(transpose(l.shapes))) },
+  floral: { horizontal: FLORAL.map((l) => svg(l.shapes)), vertical: FLORAL.map((l) => svg(transpose(l.shapes))) },
 };
+
+const LAYERS: Record<MaskedStyle, Layer[]> = { tibeb: TIBEB, floral: FLORAL };
 
 /**
  * The couple's border. Thickness comes from the height (horizontal) or width
- * (vertical) class; `columns` widens the woven tibeb with more columns, as on
- * the broad border of a netela.
+ * (vertical) class. `columns` only applies to Tibeb 2, where it stacks more
+ * woven columns across the band, as on the broad border of a netela.
  */
 export function Band({
   variant = "tibeb",
@@ -64,7 +87,7 @@ export function Band({
 }) {
   const horizontal = orientation === "horizontal";
 
-  if (variant === "tibeb") {
+  if (variant === "tibeb2") {
     return (
       <div aria-hidden className={cn("shrink-0", horizontal ? "h-10 w-full" : "h-full w-10", className)}>
         <Tibeb orientation={orientation} columns={columns} />
@@ -91,8 +114,8 @@ export function Band({
   const repeat = horizontal ? "repeat-x" : "repeat-y";
   return (
     <div aria-hidden className={cn("relative shrink-0", horizontal ? "h-7 w-full" : "h-full w-7", className)}>
-      {FLORAL.map((layer, index) => {
-        const mask = FLORAL_MASKS[orientation][index];
+      {LAYERS[variant].map((layer, index) => {
+        const mask = MASKS[variant][orientation][index];
         const style: CSSProperties = {
           backgroundColor: layer.color,
           maskImage: mask,
@@ -110,8 +133,8 @@ export function Band({
   );
 }
 
-/** The woven band on its own, for pages that have no couple (landing, not found). */
-export function TibebBand(props: { orientation?: Orientation; columns?: number; className?: string }) {
+/** The original woven band on its own, for pages that have no couple (landing, not found). */
+export function TibebBand(props: { orientation?: Orientation; className?: string }) {
   return <Band variant="tibeb" {...props} />;
 }
 

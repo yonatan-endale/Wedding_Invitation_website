@@ -67,7 +67,7 @@ export function NetelaIntro({ slug, partnerOne, partnerTwo, dateLine, border }: 
         transition={panelTransition}
         onAnimationComplete={() => opening && setPhase("gone")}
       >
-        <Band variant={border} orientation="vertical" className="mr-2 w-10 sm:mr-4 sm:w-12" />
+        <Band variant={border} orientation="vertical" className={cn("mr-2 sm:mr-4", border === "tibeb2" && "w-10 sm:w-12")} />
       </motion.div>
       <motion.div
         aria-hidden
@@ -76,7 +76,7 @@ export function NetelaIntro({ slug, partnerOne, partnerTwo, dateLine, border }: 
         animate={{ x: opening ? "100%" : "0%" }}
         transition={panelTransition}
       >
-        <Band variant={border} orientation="vertical" className="ml-2 w-10 sm:ml-4 sm:w-12" />
+        <Band variant={border} orientation="vertical" className={cn("ml-2 sm:ml-4", border === "tibeb2" && "w-10 sm:w-12")} />
       </motion.div>
 
       <motion.div

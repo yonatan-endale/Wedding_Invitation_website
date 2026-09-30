@@ -13,7 +13,7 @@ Each couple site has:
 - An RSVP form, and a Telegram link for guests to share photos
 - An English and Amharic switch. Times always use the Ethiopian clock, so 2 PM reads as 8:00 in the afternoon, and Amharic also uses Ethiopian calendar dates
 - A share preview image for WhatsApp, Telegram and Facebook
-- Nine colour themes, five drawn from Ethiopian weddings and four classic, plus a choice of border: woven tibeb, a floral vine, or a plain line
+- Nine colour themes, five drawn from Ethiopian weddings and four classic, plus a choice of border: two woven tibeb bands (the slim original, or a wide one drawn from a real netela), a floral vine, or a plain line
 - Falling rose petals over the hero photo, off for guests who prefer reduced motion
 - Three forms of each name: the first name on the opening screen, an optional nickname in the hero, and first plus father's name on the invitation card, footer and share preview
 

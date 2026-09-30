@@ -17,7 +17,12 @@ import { MediaField } from "./media-field";
 import { useAdminForm } from "./use-action-feedback";
 
 const BORDER_OPTIONS: { value: BorderStyle; label: string; description: string }[] = [
-  { value: "tibeb", label: "Tibeb", description: "The woven border of a habesha kemis." },
+  { value: "tibeb", label: "Tibeb 1", description: "The woven border of a habesha kemis, slim and simple." },
+  {
+    value: "tibeb2",
+    label: "Tibeb 2",
+    description: "A wide woven band of interlocking diamonds and chevrons, drawn from a real netela.",
+  },
   { value: "floral", label: "Floral", description: "A rose vine with leaves." },
   { value: "line", label: "Line", description: "Two thin rules. Quiet and modern." },
 ];
@@ -272,7 +277,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
 
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Border</legend>
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             {BORDER_OPTIONS.map((option) => (
               <label
                 key={option.value}
@@ -283,7 +288,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                   <span className="font-medium">{option.label}</span>
                 </span>
                 <span className="rounded bg-[var(--w-paper)] px-2 py-1" style={themeStyle(couple?.theme)}>
-                  <Band variant={option.value} className="h-10" />
+                  <Band variant={option.value} className={option.value === "tibeb2" ? "h-10" : "h-6"} />
                 </span>
                 <span className="text-sm text-muted-foreground">{option.description}</span>
               </label>

@@ -14,6 +14,21 @@ export const OPENINGS = {
     label: "Netela",
     description: "Two halves of a netela with the couple's border meet in the middle and part when the guest opens it.",
   },
+  seal: {
+    name: "seal",
+    label: "Wax-seal gates",
+    description: "Ivory doors meet at a gold line with the couple's seal on it. The seal splits and the doors swing open.",
+  },
+  envelope: {
+    name: "envelope",
+    label: "Envelope and letter",
+    description: "A sealed envelope lined in the couple's threads. The seal pops, the flap folds back and the letter rises.",
+  },
+  adey: {
+    name: "adey",
+    label: "Adey abeba bloom",
+    description: "A Meskel daisy bud unfolds its eight petals, and its centre opens into a circle that reveals the site.",
+  },
 } as const satisfies Record<string, OpeningMeta>;
 
 export type OpeningName = keyof typeof OPENINGS;

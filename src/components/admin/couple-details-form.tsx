@@ -17,6 +17,7 @@ import {
 import { DEFAULT_TIMEZONE, HERO_POSITIONS, PARTNER_ROLES, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { LAYOUTS, LAYOUT_NAMES, type LayoutName } from "@/lib/layout";
+import { OPENINGS, OPENING_NAMES, getOpening, type OpeningName } from "@/lib/opening";
 import { slugify } from "@/lib/slug";
 import { THEME_LIST, themeStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -65,6 +66,51 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
     </>
   ),
 };
+
+/** A thumbnail of each opening screen, keyed by name like the layout sketches. */
+const OPENING_SKETCHES: Record<OpeningName, ReactNode> = {
+  netela: (
+    <>
+      <rect x="0.5" y="0.5" width="47" height="59" fill={stroke} opacity="0.12" />
+      <rect x="48" y="0.5" width="47.5" height="59" fill={stroke} opacity="0.12" />
+      <rect x="40" y="0.5" width="4" height="59" fill={stroke} opacity="0.45" />
+      <rect x="52" y="0.5" width="4" height="59" fill={stroke} opacity="0.45" />
+      <rect x="30" y="20" width="36" height="20" fill="white" stroke={stroke} strokeWidth="0.6" />
+    </>
+  ),
+  seal: (
+    <>
+      <rect x="47.6" y="4" width="0.8" height="52" fill={stroke} opacity="0.6" />
+      <circle cx="48" cy="28" r="10" fill="white" stroke={stroke} strokeWidth="1" />
+      <circle cx="48" cy="28" r="7" fill="none" stroke={stroke} strokeWidth="0.5" opacity="0.6" />
+      <rect x="38" y="43" width="20" height="3" fill={stroke} opacity="0.5" />
+    </>
+  ),
+  envelope: (
+    <>
+      <rect x="22" y="16" width="52" height="32" rx="1" fill="none" stroke={stroke} />
+      <path d="M22 16 48 36 74 16" fill="none" stroke={stroke} />
+      <circle cx="48" cy="35" r="4" fill={stroke} opacity="0.6" />
+    </>
+  ),
+  adey: (
+    <g transform="translate(48 28)" fill={stroke} opacity="0.5">
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+        <ellipse key={angle} cx="0" cy="-8" rx="2.6" ry="7" transform={`rotate(${angle})`} />
+      ))}
+      <circle r="3.5" opacity="1" />
+    </g>
+  ),
+};
+
+function OpeningSketch({ name }: { name: OpeningName }) {
+  return (
+    <svg viewBox="0 0 96 60" aria-hidden className="h-15 w-24 text-muted-foreground">
+      <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill="none" stroke={stroke} opacity="0.5" />
+      {OPENING_SKETCHES[name]}
+    </svg>
+  );
+}
 
 function LayoutSketch({ name }: { name: LayoutName }) {
   return (
@@ -255,6 +301,58 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
             ))}
           </div>
           {errors.layout ? <p className="text-sm text-destructive">{errors.layout}</p> : null}
+        </fieldset>
+
+        <fieldset className="grid gap-3">
+          <legend className="mb-2 text-sm font-medium">Opening screen</legend>
+          <p className="-mt-1 text-sm text-muted-foreground">
+            What guests tap to open the invitation. It also starts the music. Works with any layout.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {OPENING_NAMES.map((name) => OPENINGS[name]).map((opening) => {
+              const suggestedFor = LAYOUT_NAMES.filter((layout) => LAYOUTS[layout].defaultOpening === opening.name).map(
+                (layout) => LAYOUTS[layout].label,
+              );
+              return (
+                <label
+                  key={opening.name}
+                  className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+                >
+                  <input
+                    type="radio"
+                    name="opening"
+                    value={opening.name}
+                    defaultChecked={getOpening(couple?.opening) === opening.name}
+                    className="mt-1"
+                  />
+                  <span className="grid gap-2">
+                    <span className="flex items-center gap-3">
+                      <OpeningSketch name={opening.name} />
+                      <span className="grid gap-0.5">
+                        <span className="font-medium">{opening.label}</span>
+                        {suggestedFor.length ? (
+                          <span className="text-xs text-muted-foreground">Suggested for {suggestedFor.join(" and ")}</span>
+                        ) : null}
+                      </span>
+                    </span>
+                    <span className="text-sm text-muted-foreground">{opening.description}</span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+          {couple ? (
+            // The path on this (main) domain also works for drafts, which a couple subdomain hides.
+            <a
+              href={`/s/${couple.slug}?replay=1`}
+              target="_blank"
+              rel="noreferrer"
+              className="justify-self-start text-sm underline underline-offset-4"
+            >
+              Watch the saved opening on the site
+            </a>
+          ) : null}
+          {errors.opening ? <p className="text-sm text-destructive">{errors.opening}</p> : null}
         </fieldset>
 
         <fieldset className="grid gap-3">

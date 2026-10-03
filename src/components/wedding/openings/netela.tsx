@@ -13,7 +13,7 @@ import type { OpeningProps } from "./types";
 const PANEL_SECONDS = 1.15;
 
 /** Two halves of a netela with the couple's border meet in the middle and part when the guest opens the invitation. */
-export function NetelaOpening({ names, dateLine, border }: OpeningProps) {
+export function NetelaOpening({ names, dateLine, border, guestName }: OpeningProps) {
   const t = useTranslations("intro");
   const { phase, open, finish } = useIntro();
   const opening = phase === "opening";
@@ -58,6 +58,7 @@ export function NetelaOpening({ names, dateLine, border }: OpeningProps) {
         transition={{ duration: 0.3 }}
       >
         <div className="w-full max-w-sm bg-paper px-6 py-12 text-center sm:max-w-md sm:px-12 sm:py-16">
+          {guestName ? <p className="mb-2 text-lg">{t("dear", { name: guestName })}</p> : null}
           <p className="text-ink-soft">{t("invited")}</p>
           <h2 id="intro-names" className="mt-7 font-display text-[clamp(3rem,13vw,4.75rem)] leading-[0.95]">
             <span className="block">{names.one}</span>

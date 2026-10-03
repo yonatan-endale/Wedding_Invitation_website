@@ -1,16 +1,23 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 import type { OpeningName } from "@/lib/opening";
+import { AdeyOpening } from "./adey";
+import { EnvelopeOpening } from "./envelope";
+import { NetelaOpening } from "./netela";
+import { SealOpening } from "./seal";
 import type { OpeningProps } from "./types";
 
 /*
- * One chunk per opening: the page renders the chosen one on the server, and
- * the guest's browser downloads only that one's code.
+ * Imported statically on purpose. Loading them with next/dynamic gave the
+ * server and client different useId values inside the opening, which broke
+ * the seal's gradients and Tibeb borders on hydration. The four are small.
  */
 const OPENINGS: Record<OpeningName, ComponentType<OpeningProps>> = {
-  netela: dynamic(() => import("./netela").then((mod) => mod.NetelaOpening)),
+  netela: NetelaOpening,
+  seal: SealOpening,
+  envelope: EnvelopeOpening,
+  adey: AdeyOpening,
 };
 
 export function OpeningHost({ name, ...props }: OpeningProps & { name: OpeningName }) {

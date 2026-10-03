@@ -136,7 +136,7 @@ const THEMES = {
     colors: {
       paper: "#f8eeed",
       ink: "#3d2f30",
-      inkSoft: "#7e6b6c",
+      inkSoft: "#776465",
       rule: "#e8d7d5",
       sheet: "#fdf6f5",
       thread1: "#b8737e",

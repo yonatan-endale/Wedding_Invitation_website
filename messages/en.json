@@ -1,7 +1,13 @@
 {
   "intro": {
     "invited": "You are invited to the wedding of",
-    "open": "Open invitation"
+    "open": "Open invitation",
+    "dear": "Dear {name},",
+    "pressToOpen": "Press to open",
+    "sealLabel": "Open the invitation from {one} and {two}",
+    "openEnvelope": "Tap the envelope to open",
+    "letter": "invite you to celebrate their wedding",
+    "tapFlower": "Tap the flower to open"
   },
   "nav": {
     "label": "Sections",

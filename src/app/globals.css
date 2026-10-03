@@ -179,9 +179,11 @@
     text-wrap: pretty;
   }
 
+  /* Two-tone ring: ink with a paper halo reads at 3:1 on light paper, dark sheets and photos alike. */
   .wedding :focus-visible {
-    outline: 2px solid var(--w-thread-2);
+    outline: 2px solid var(--w-ink);
     outline-offset: 3px;
+    box-shadow: 0 0 0 5px var(--w-paper);
   }
 
   /* Anchor jumps land below the fixed 4rem header. */
@@ -604,4 +606,72 @@ html:not([data-hydrated]) [data-opening] {
 html[data-motion-off] .digit-strip,
 .wedding[data-motion="subtle"] .digit-strip {
   transition: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Openings. Idle loops breathe three times (on and on at the rich      */
+/* level, never at subtle) so nothing moves for long unasked.           */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .seal-glow {
+    animation: seal-breathe 3s ease-in-out 0.6s 3;
+  }
+
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .adey-sway {
+    transform-origin: 50% 90%;
+    animation: adey-sway 5s ease-in-out 3;
+  }
+
+  html:not([data-motion-off]) .wedding[data-motion="rich"] :is(.seal-glow, .adey-sway) {
+    animation-iteration-count: infinite;
+  }
+}
+
+.seal-glow {
+  opacity: 0.55;
+}
+
+@keyframes seal-breathe {
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes adey-sway {
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+/*
+ * The adey opening's iris: a hole centred on the flower widens until the
+ * whole site shows through. Browsers without @property skip the widening;
+ * the fade underneath still carries the reveal.
+ */
+@property --iris {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.adey-iris {
+  --iris: 0px;
+  -webkit-mask-image: radial-gradient(circle at var(--iris-x, 50%) var(--iris-y, 46%), transparent calc(var(--iris) - 1px), #000 var(--iris));
+  mask-image: radial-gradient(circle at var(--iris-x, 50%) var(--iris-y, 46%), transparent calc(var(--iris) - 1px), #000 var(--iris));
+}
+
+.adey-iris[data-open] {
+  opacity: 0;
+  transition:
+    --iris 0.9s var(--ease-draw) 0.85s,
+    opacity 0.5s ease 1.3s;
+}
+
+/* Set from script only where --iris can animate (CSS.registerProperty exists). */
+.adey-iris[data-open][data-iris] {
+  --iris: 150vmax;
 }

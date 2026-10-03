@@ -52,7 +52,7 @@ export const LAYOUTS = {
     showsCouple: true,
     showsMilestones: true,
     scheme: "theme",
-    defaultOpening: "netela",
+    defaultOpening: "envelope",
     recommendedThemes: ["ivory", "blush", "tibeb", "dusty"],
   },
 } as const satisfies Record<string, LayoutMeta>;

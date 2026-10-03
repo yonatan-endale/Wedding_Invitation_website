@@ -35,3 +35,15 @@ rows are reviewed. Mark a row done by filling in the reviewer and date.
 | `messages/am.json` | saveTheDate.captionGregorian | {month} {year}, with the wedding day marked | {month} {year}፣ የሠርጉ ቀን ምልክት ተደርጎበታል | |
 | `messages/am.json` | countdown.summary | {days} days, {hours} hours and {minutes} minutes left | {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች ቀርተዋል | |
 | `messages/am.json` | countdown.summarySince | … since the wedding | ከሠርጉ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+
+## Phase 2: openings
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | intro.dear | Dear {name}, | ውድ {name}፣ | |
+| `messages/am.json` | intro.pressToOpen | Press to open | ለመክፈት ይጫኑ | |
+| `messages/am.json` | intro.sealLabel | Open the invitation from {one} and {two} | ከ{one} እና {two} የመጣውን ግብዣ ይክፈቱ | |
+| `messages/am.json` | intro.openEnvelope | Tap the envelope to open | ለመክፈት ፖስታውን ይንኩ | |
+| `messages/am.json` | intro.letter | invite you to celebrate their wedding | በሠርጋቸው ላይ እንዲገኙ ይጋብዙዎታል | |
+| `messages/am.json` | intro.tapFlower | Tap the flower to open | ለመክፈት አበባውን ይንኩ | |
+| Seal monogram | separator on Amharic pages | A & M (interlocked) | ዳ ፡ ሲ | |

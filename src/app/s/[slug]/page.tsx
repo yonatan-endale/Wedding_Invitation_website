@@ -15,6 +15,7 @@ import { sectionLinks } from "@/components/wedding/site-links";
 import { getSiteData, type SiteData } from "@/db/queries/site";
 import { getMotionLevel, getOrnament } from "@/lib/appearance";
 import { getAdminUser } from "@/lib/auth";
+import { parseGuestName } from "@/lib/guest";
 import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
 import { LAYOUTS, getLayout } from "@/lib/layout";
 import { isLocale, pickText, type Locale } from "@/lib/localized";
@@ -132,7 +133,7 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
               border={couple.border}
               ornament={getOrnament(couple.ornament)}
               photo={couple.heroPhotoUrl ? { src: couple.heroPhotoUrl, position: couple.heroPosition } : null}
-              guestName={null}
+              guestName={parseGuestName(query.to)}
               level={motion}
             />
             <div id="site">

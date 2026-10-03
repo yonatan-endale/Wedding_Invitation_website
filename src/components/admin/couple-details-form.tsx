@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { createCouple, updateCoupleDetails } from "@/actions/admin";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -8,7 +8,7 @@ import { Band } from "@/components/wedding/primitives";
 import type { AdminCouple } from "@/db/queries/admin";
 import { DEFAULT_TIMEZONE, HERO_POSITIONS, PARTNER_ROLES, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
-import { LAYOUT_LIST, type LayoutName } from "@/lib/layout";
+import { LAYOUTS, LAYOUT_NAMES, type LayoutName } from "@/lib/layout";
 import { slugify } from "@/lib/slug";
 import { THEME_LIST, themeStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -29,34 +29,40 @@ const BORDER_OPTIONS: { value: BorderStyle; label: string; description: string }
 
 const ROLE_LABELS = { bride: "Bride", groom: "Groom" } as const;
 
-/** A thumbnail wireframe of each layout so the choice reads at a glance. */
-function LayoutSketch({ name }: { name: string }) {
-  const stroke = "currentColor";
+const stroke = "currentColor";
+
+/** A thumbnail wireframe of each layout so the choice reads at a glance. Keyed by name, so a new layout must add one. */
+const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
+  classic: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="30" fill={stroke} opacity="0.35" />
+      <rect x="10" y="18" width="40" height="4" fill="white" />
+      <rect x="10" y="24" width="28" height="3" fill="white" opacity="0.8" />
+      <rect x="24" y="38" width="48" height="16" fill="none" stroke={stroke} />
+      <rect x="34" y="44" width="28" height="2" fill={stroke} opacity="0.6" />
+      <rect x="38" y="48" width="20" height="2" fill={stroke} opacity="0.6" />
+    </>
+  ),
+  editorial: (
+    <>
+      <rect x="8" y="10" width="26" height="4" fill={stroke} />
+      <rect x="8" y="17" width="20" height="4" fill={stroke} />
+      <rect x="8" y="26" width="24" height="1.5" fill={stroke} opacity="0.5" />
+      <rect x="42" y="8" width="34" height="24" fill={stroke} opacity="0.35" />
+      <rect x="80" y="9" width="8" height="6" fill={stroke} opacity="0.35" />
+      <rect x="80" y="17" width="8" height="6" fill={stroke} opacity="0.35" />
+      <rect x="80" y="25" width="8" height="6" fill={stroke} opacity="0.35" />
+      <ellipse cx="30" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
+      <ellipse cx="66" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
+    </>
+  ),
+};
+
+function LayoutSketch({ name }: { name: LayoutName }) {
   return (
     <svg viewBox="0 0 96 60" aria-hidden className="h-15 w-24 text-muted-foreground">
       <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill="none" stroke={stroke} opacity="0.5" />
-      {name === "editorial" ? (
-        <>
-          <rect x="8" y="10" width="26" height="4" fill={stroke} />
-          <rect x="8" y="17" width="20" height="4" fill={stroke} />
-          <rect x="8" y="26" width="24" height="1.5" fill={stroke} opacity="0.5" />
-          <rect x="42" y="8" width="34" height="24" fill={stroke} opacity="0.35" />
-          <rect x="80" y="9" width="8" height="6" fill={stroke} opacity="0.35" />
-          <rect x="80" y="17" width="8" height="6" fill={stroke} opacity="0.35" />
-          <rect x="80" y="25" width="8" height="6" fill={stroke} opacity="0.35" />
-          <ellipse cx="30" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
-          <ellipse cx="66" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
-        </>
-      ) : (
-        <>
-          <rect x="0.5" y="0.5" width="95" height="30" fill={stroke} opacity="0.35" />
-          <rect x="10" y="18" width="40" height="4" fill="white" />
-          <rect x="10" y="24" width="28" height="3" fill="white" opacity="0.8" />
-          <rect x="24" y="38" width="48" height="16" fill="none" stroke={stroke} />
-          <rect x="34" y="44" width="28" height="2" fill={stroke} opacity="0.6" />
-          <rect x="38" y="48" width="20" height="2" fill={stroke} opacity="0.6" />
-        </>
-      )}
+      {LAYOUT_SKETCHES[name]}
     </svg>
   );
 }
@@ -218,7 +224,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Layout</legend>
           <div className="grid gap-3 sm:grid-cols-2">
-            {LAYOUT_LIST.map((layout) => (
+            {LAYOUT_NAMES.map((name) => LAYOUTS[name]).map((layout) => (
               <label
                 key={layout.name}
                 className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"

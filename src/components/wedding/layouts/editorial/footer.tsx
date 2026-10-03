@@ -14,10 +14,10 @@ export async function EditorialFooter({ site, locale, names }: Props) {
   const { couple } = site;
   return (
     <footer className="border-t border-rule bg-sheet px-5 pt-16 pb-28 text-center sm:px-8">
-      <p aria-hidden className="font-display text-[clamp(4.5rem,14vw,9rem)] leading-none text-thread-2 italic">
-        {names.firstOne.charAt(0)}
+      <p aria-hidden className="font-display text-[clamp(4.5rem,14vw,9rem)] leading-none text-metal italic">
+        {names.initials[0]}
         <span className="mx-[0.12em] inline-block align-[0.12em] text-[0.5em] not-italic">&amp;</span>
-        {names.firstTwo.charAt(0)}
+        {names.initials[1]}
       </p>
       <p className={cn(eyebrow, "mt-6")}>{t("families")}</p>
       <p className="mt-6 font-display text-[clamp(1.75rem,4vw,2.5rem)] leading-tight">

@@ -1,4 +1,12 @@
 import {
+  isCalendarStyle,
+  isMotionLevel,
+  isOrnament,
+  type CalendarStyle,
+  type MotionLevel,
+  type Ornament,
+} from "@/lib/appearance";
+import {
   BORDER_STYLES,
   GIFT_KINDS,
   HERO_POSITIONS,
@@ -8,8 +16,10 @@ import {
   type PartnerRole,
 } from "@/lib/constants";
 import { zonedTimeToUtc } from "@/lib/datetime";
+import { isEventKind, type EventKind } from "@/lib/event-kinds";
 import { isLayoutName, type LayoutName } from "@/lib/layout";
 import type { LocalizedText } from "@/lib/localized";
+import { isOpeningName, type OpeningName } from "@/lib/opening";
 import { isValidSlug } from "@/lib/slug";
 import { isThemeName, type ThemeName } from "@/lib/theme";
 
@@ -59,6 +69,25 @@ export function isSafeUrl(value: string, { allowRelative = true } = {}): boolean
   } catch {
     return false;
   }
+}
+
+/**
+ * A setting whose control may not be on the form (yet). Absent means "leave it
+ * unchanged": the parser returns undefined, which Drizzle leaves out of the
+ * UPDATE and replaces with the column default on INSERT.
+ */
+function optionalChoice<T extends string>(
+  form: FormFields,
+  key: string,
+  isValid: (value: unknown) => value is T,
+  errors: FieldErrors,
+  message: string,
+): T | undefined {
+  if (form[key] === undefined) return undefined;
+  const value = text(form, key);
+  if (isValid(value)) return value;
+  errors[key] = message;
+  return undefined;
 }
 
 function optionalUrl(
@@ -139,6 +168,12 @@ export type CoupleDetails = {
   theme: ThemeName;
   layout: LayoutName;
   border: BorderStyle;
+  /* Undefined when the form has no control for it; see optionalChoice. */
+  opening?: OpeningName;
+  calendarStyle?: CalendarStyle;
+  motion?: MotionLevel;
+  ornament?: Ornament;
+  calendarPhotoUrl?: string | null;
   petals: boolean;
   heroPhotoUrl: string | null;
   heroPosition: string;
@@ -197,6 +232,11 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
       theme: theme as ThemeName,
       layout: layout as LayoutName,
       border,
+      opening: optionalChoice(form, "opening", isOpeningName, errors, "Choose one of the opening screens."),
+      calendarStyle: optionalChoice(form, "calendarStyle", isCalendarStyle, errors, "Choose which calendar to show."),
+      motion: optionalChoice(form, "motion", isMotionLevel, errors, "Choose how much the page moves."),
+      ornament: optionalChoice(form, "ornament", isOrnament, errors, "Choose one of the ornaments."),
+      calendarPhotoUrl: form.calendarPhotoUrl === undefined ? undefined : optionalUrl(form, "calendarPhotoUrl", errors),
       petals: form.petals === "on",
       heroPhotoUrl: optionalUrl(form, "heroPhotoUrl", errors),
       heroPosition,
@@ -278,6 +318,8 @@ export type EventInput = {
   startsAt: Date;
   endsAt: Date | null;
   venueId: string | null;
+  /** Undefined when the form has no kind picker; see optionalChoice. */
+  kind?: EventKind;
 };
 
 export function parseEvent(form: FormFields, timeZone: string): Parsed<EventInput> {
@@ -290,8 +332,9 @@ export function parseEvent(form: FormFields, timeZone: string): Parsed<EventInpu
   }
   const venueId = text(form, "venueId") || null;
   if (venueId && !UUID_PATTERN.test(venueId)) errors.venueId = "Choose a venue from the list.";
+  const kind = optionalChoice(form, "kind", isEventKind, errors, "Choose what kind of event this is.");
   return result(
-    { title, description: readLocalized(form, "description"), startsAt: startsAt as Date, endsAt, venueId },
+    { title, description: readLocalized(form, "description"), startsAt: startsAt as Date, endsAt, venueId, kind },
     errors,
   );
 }

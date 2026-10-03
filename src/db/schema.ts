@@ -11,7 +11,9 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
+import { CALENDAR_STYLES, MOTION_LEVELS, ORNAMENTS } from "@/lib/appearance";
 import { BORDER_STYLES, COUPLE_STATUSES, GIFT_KINDS, PARTNER_ROLES } from "@/lib/constants";
+import { EVENT_KINDS } from "@/lib/event-kinds";
 import type { LocalizedText } from "@/lib/localized";
 
 const timestamps = {
@@ -57,6 +59,13 @@ export const couples = pgTable("couples", {
   theme: text("theme").notNull().default("tibeb"),
   layout: text("layout").notNull().default("classic"),
   border: text("border", { enum: BORDER_STYLES }).notNull().default("tibeb"),
+  /** Opening screen name from src/lib/opening.ts; plain text like `layout`, read through getOpening(). */
+  opening: text("opening").notNull().default("netela"),
+  calendarStyle: text("calendar_style", { enum: CALENDAR_STYLES }).notNull().default("both"),
+  motion: text("motion", { enum: MOTION_LEVELS }).notNull().default("moderate"),
+  ornament: text("ornament", { enum: ORNAMENTS }).notNull().default("none"),
+  /** Background of the full-screen save-the-date; falls back to the cover or a gallery photo. */
+  calendarPhotoUrl: text("calendar_photo_url"),
   petals: boolean("petals").notNull().default(true),
   rsvpEnabled: boolean("rsvp_enabled").notNull().default(true),
   rsvpDeadline: timestamp("rsvp_deadline", { withTimezone: true }),
@@ -109,6 +118,7 @@ export const events = pgTable(
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
     endsAt: timestamp("ends_at", { withTimezone: true }),
     venueId: uuid("venue_id").references(() => venues.id, { onDelete: "set null" }),
+    kind: text("kind", { enum: EVENT_KINDS }).notNull().default("other"),
     ...timestamps,
   },
   (t) => [index("events_couple_idx").on(t.coupleId, t.startsAt)],

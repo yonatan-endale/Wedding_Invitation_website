@@ -1,11 +1,33 @@
+import type { NavKey } from "./nav";
+import type { OpeningName } from "./opening";
+import type { ThemeName } from "./theme";
+
 /**
  * Page layouts. A layout is a whole component tree for the couple's site;
- * the theme still supplies the colors on top of it.
+ * the theme still supplies the colors on top of it. Everything here is plain
+ * data so the admin form and tests can read it without the components.
  */
 export type LayoutMeta = {
   name: string;
   label: string;
   description: string;
+  /**
+   * The header starts solid instead of transparent over the hero. Needed for
+   * any layout whose top is light or shorter than most of the screen.
+   */
+  headerStartSolid: boolean;
+  /** Header links in this layout's page order. Each one shows only when its section renders. */
+  navOrder: readonly NavKey[];
+  /** Renders the portraits section (#couple). */
+  showsCouple: boolean;
+  /** The story section (#story) shows the dated milestones, not only the story text. */
+  showsMilestones: boolean;
+  /** "dark" layouts swap a light theme for its dark variant. */
+  scheme: "theme" | "dark";
+  /** Opening screen suggested in admin when this layout is picked. */
+  defaultOpening: OpeningName;
+  /** Themes the admin picker suggests for this layout. */
+  recommendedThemes: readonly ThemeName[];
 };
 
 export const LAYOUTS = {
@@ -13,11 +35,25 @@ export const LAYOUTS = {
     name: "classic",
     label: "Classic",
     description: "Full-screen cover photo, framed invitation card, timeline and carousel gallery.",
+    headerStartSolid: false,
+    navOrder: ["invitation", "story", "schedule", "venues", "gallery", "gifts", "rsvp"],
+    showsCouple: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "netela",
+    recommendedThemes: ["tibeb", "meskel", "buna", "lalibela", "ivory"],
   },
   editorial: {
     name: "editorial",
     label: "Editorial",
-    description: "Magazine style: split hero with the date in large numerals, oval portraits, event cards, mosaic gallery and a dated love story.",
+    description: "Magazine style: split hero with the date in large numerals, oval portraits, a timeline of the day, mosaic gallery and a dated love story.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "rsvp", "gifts"],
+    showsCouple: true,
+    showsMilestones: true,
+    scheme: "theme",
+    defaultOpening: "netela",
+    recommendedThemes: ["ivory", "blush", "tibeb", "dusty"],
   },
 } as const satisfies Record<string, LayoutMeta>;
 

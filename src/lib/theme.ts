@@ -10,6 +10,11 @@ type ThemeColors = {
   thread2: string;
   thread3: string;
   onThread1: string;
+  /**
+   * The gold (silver in tizita) of seals, foil names and gold rules. Decoration
+   * on light paper; text in this colour belongs on dark photo washes only.
+   */
+  metal: string;
   /** Falling petals over the hero photo. */
   petal: string;
 };
@@ -42,6 +47,7 @@ const THEMES = {
       thread1: "#1d6b47",
       thread2: "#c49a22",
       thread3: "#a8372c",
+      metal: "#c49a22",
       onThread1: "#ffffff",
       petal: "#c94a4a",
     },
@@ -60,6 +66,7 @@ const THEMES = {
       thread1: "#f2c12e",
       thread2: "#7fb069",
       thread3: "#e4572e",
+      metal: "#f2c12e",
       onThread1: "#102a1e",
       petal: "#e2604a",
     },
@@ -78,6 +85,7 @@ const THEMES = {
       thread1: "#d08650",
       thread2: "#e8c07d",
       thread3: "#7d9b69",
+      metal: "#e8c07d",
       onThread1: "#221712",
       petal: "#c96b6b",
     },
@@ -96,6 +104,7 @@ const THEMES = {
       thread1: "#8e3b46",
       thread2: "#b98a4e",
       thread3: "#34566b",
+      metal: "#b98a4e",
       onThread1: "#ffffff",
       petal: "#b8515f",
     },
@@ -114,6 +123,7 @@ const THEMES = {
       thread1: "#c9d2e6",
       thread2: "#d6a2ad",
       thread3: "#6f86b8",
+      metal: "#c9d2e6",
       onThread1: "#151b2b",
       petal: "#d98a99",
     },
@@ -132,6 +142,7 @@ const THEMES = {
       thread1: "#b8737e",
       thread2: "#c8a96a",
       thread3: "#d9a1a8",
+      metal: "#c8a96a",
       onThread1: "#ffffff",
       petal: "#d98995",
     },
@@ -150,6 +161,7 @@ const THEMES = {
       thread1: "#4a4741",
       thread2: "#b89b5e",
       thread3: "#9a948a",
+      metal: "#b89b5e",
       onThread1: "#ffffff",
       petal: "#c9a0a4",
     },
@@ -168,6 +180,7 @@ const THEMES = {
       thread1: "#d4a862",
       thread2: "#e8c99a",
       thread3: "#c2626f",
+      metal: "#d4a862",
       onThread1: "#3b1420",
       petal: "#e2919c",
     },
@@ -186,6 +199,7 @@ const THEMES = {
       thread1: "#5b7a99",
       thread2: "#c0a17a",
       thread3: "#c98a94",
+      metal: "#c0a17a",
       onThread1: "#ffffff",
       petal: "#d99aa4",
     },
@@ -197,17 +211,17 @@ export const THEME_NAMES = Object.keys(THEMES) as ThemeName[];
 export const THEME_LIST: Theme[] = Object.values(THEMES);
 
 export function isThemeName(value: unknown): value is ThemeName {
-  return typeof value === "string" && value in THEMES;
+  return typeof value === "string" && Object.hasOwn(THEMES, value);
 }
 
 export function getTheme(name: string | null | undefined): Theme {
   return isThemeName(name) ? THEMES[name] : THEMES.tibeb;
 }
 
-export function themeStyle(name: string | null | undefined): CSSProperties {
-  const { colors, scheme } = getTheme(name);
+/** Every theme colour as the CSS variable the wedding pages read. */
+export function themeVars(theme: Theme): Record<`--w-${string}`, string> {
+  const { colors } = theme;
   return {
-    colorScheme: scheme,
     "--w-paper": colors.paper,
     "--w-ink": colors.ink,
     "--w-ink-soft": colors.inkSoft,
@@ -217,6 +231,21 @@ export function themeStyle(name: string | null | undefined): CSSProperties {
     "--w-thread-2": colors.thread2,
     "--w-thread-3": colors.thread3,
     "--w-on-thread-1": colors.onThread1,
+    "--w-metal": colors.metal,
     "--w-petal": colors.petal,
-  } as CSSProperties;
+  };
+}
+
+/** The theme as an inline style, for previews that tint one element. */
+export function themeStyle(name: string | null | undefined): CSSProperties {
+  const theme = getTheme(name);
+  return { colorScheme: theme.scheme, ...themeVars(theme) } as CSSProperties;
+}
+
+/** The theme as a `:root` rule, injected once at the top of a couple's site. */
+export function themeCss(theme: Theme): string {
+  const vars = Object.entries(themeVars(theme))
+    .map(([key, value]) => `${key}:${value}`)
+    .join(";");
+  return `:root{color-scheme:${theme.scheme};${vars}}body{background:${theme.colors.paper}}`;
 }

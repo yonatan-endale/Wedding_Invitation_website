@@ -177,6 +177,49 @@ describe("parseCoupleDetails", () => {
     expect(result.data.musicTitle).toBeNull();
     expect(result.data.city).toBeNull();
   });
+
+  it("leaves settings that have no form control undefined, so a save never resets them", () => {
+    const result = parseCoupleDetails(details);
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.opening).toBeUndefined();
+    expect(result.data.calendarStyle).toBeUndefined();
+    expect(result.data.motion).toBeUndefined();
+    expect(result.data.ornament).toBeUndefined();
+    expect(result.data.calendarPhotoUrl).toBeUndefined();
+  });
+
+  it("parses the opening, calendar, motion, ornament and save-the-date photo when the form sends them", () => {
+    const result = parseCoupleDetails({
+      ...details,
+      opening: "netela",
+      calendarStyle: "gregorian",
+      motion: "rich",
+      ornament: "harari",
+      calendarPhotoUrl: "",
+    });
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.opening).toBe("netela");
+    expect(result.data.calendarStyle).toBe("gregorian");
+    expect(result.data.motion).toBe("rich");
+    expect(result.data.ornament).toBe("harari");
+    expect(result.data.calendarPhotoUrl).toBeNull();
+  });
+
+  it("rejects unknown appearance settings and an unsafe save-the-date photo", () => {
+    const result = parseCoupleDetails({
+      ...details,
+      opening: "fireworks",
+      calendarStyle: "lunar",
+      motion: "wild",
+      ornament: "star",
+      calendarPhotoUrl: "javascript:alert(1)",
+    });
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(Object.keys(result.fieldErrors).sort()).toEqual(["calendarPhotoUrl", "calendarStyle", "motion", "opening", "ornament"]);
+  });
 });
 
 describe("parseMilestone", () => {
@@ -324,6 +367,18 @@ describe("parseEvent", () => {
     expect(result.success).toBe(false);
     if (result.success) return;
     expect(Object.keys(result.fieldErrors).sort()).toEqual(["startsAt", "title.en"]);
+  });
+
+  it("reads the event kind when the form sends one and leaves it unchanged otherwise", () => {
+    const base = { "title.en": "Mels", startsAt: "2026-07-20T14:00" };
+    const withKind = parseEvent({ ...base, kind: "mels" }, "Africa/Addis_Ababa");
+    expect(withKind.success && withKind.data.kind).toBe("mels");
+    const withoutKind = parseEvent(base, "Africa/Addis_Ababa");
+    expect(withoutKind.success && withoutKind.data.kind).toBeUndefined();
+    const unknown = parseEvent({ ...base, kind: "party" }, "Africa/Addis_Ababa");
+    expect(unknown.success).toBe(false);
+    if (unknown.success) return;
+    expect(Object.keys(unknown.fieldErrors)).toEqual(["kind"]);
   });
 });
 

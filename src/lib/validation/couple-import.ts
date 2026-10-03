@@ -7,9 +7,12 @@ import {
   HERO_POSITIONS,
   PARTNER_ROLES,
 } from "@/lib/constants";
+import { CALENDAR_STYLES, MOTION_LEVELS, ORNAMENTS } from "@/lib/appearance";
 import { zonedTimeToUtc } from "@/lib/datetime";
+import { EVENT_KINDS } from "@/lib/event-kinds";
 import { isLayoutName } from "@/lib/layout";
 import type { LocalizedText } from "@/lib/localized";
+import { isOpeningName } from "@/lib/opening";
 import { isValidSlug } from "@/lib/slug";
 import { isThemeName } from "@/lib/theme";
 import { CALENDAR_DATE, isSafeUrl, isValidTimeZone } from "./admin";
@@ -149,6 +152,11 @@ function buildSchema(timeZone: string) {
       theme: z.string().trim().default("tibeb").refine(isThemeName, "Unknown theme."),
       layout: z.string().trim().default("classic").refine(isLayoutName, "Unknown layout."),
       border: z.enum(BORDER_STYLES).default("tibeb"),
+      opening: z.string().trim().default("netela").refine(isOpeningName, "Unknown opening."),
+      calendarStyle: z.enum(CALENDAR_STYLES).default("both"),
+      motion: z.enum(MOTION_LEVELS).default("moderate"),
+      ornament: z.enum(ORNAMENTS).default("none"),
+      calendarPhotoUrl: url(),
       petals: z.boolean().default(true),
       rsvpEnabled: z.boolean().default(true),
       rsvpDeadline: optionalDateTime(timeZone),
@@ -178,6 +186,7 @@ function buildSchema(timeZone: string) {
       endsAt: optionalDateTime(timeZone),
       /** Index into `venues`; leave it out for steps with no place, like travel. */
       venue: z.number().int().min(0).nullish().transform((value) => value ?? null),
+      kind: z.enum(EVENT_KINDS).default("other"),
     })
     .strict()
     .superRefine((value, ctx) => {

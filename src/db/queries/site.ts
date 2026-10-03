@@ -41,6 +41,16 @@ export type SiteCouple = {
   theme: string;
   layout: string;
   border: BorderStyle;
+  /*
+   * Plain strings on purpose, like `layout`: read them through getOpening(),
+   * getCalendarStyle(), getMotionLevel() and getOrnament(), which fall back
+   * to the defaults for unknown values.
+   */
+  opening: string;
+  calendarStyle: string;
+  motion: string;
+  ornament: string;
+  calendarPhotoUrl: string | null;
   petals: boolean;
   rsvpEnabled: boolean;
   rsvpDeadline: string | null;
@@ -65,6 +75,8 @@ export type SiteEvent = {
   startsAt: string;
   endsAt: string | null;
   venueId: string | null;
+  /** Read through getEventKind(). */
+  kind: string;
 };
 
 export type SiteGiftAccount = {
@@ -163,6 +175,11 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       theme: row.theme,
       layout: row.layout,
       border: row.border,
+      opening: row.opening,
+      calendarStyle: row.calendarStyle,
+      motion: row.motion,
+      ornament: row.ornament,
+      calendarPhotoUrl: row.calendarPhotoUrl,
       petals: row.petals,
       rsvpEnabled: row.rsvpEnabled,
       rsvpDeadline: row.rsvpDeadline?.toISOString() ?? null,
@@ -184,6 +201,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       startsAt: e.startsAt.toISOString(),
       endsAt: e.endsAt?.toISOString() ?? null,
       venueId: e.venueId,
+      kind: e.kind,
     })),
     giftAccounts: giftRows.map((g) => ({
       id: g.id,
@@ -210,9 +228,13 @@ async function loadSite(slug: string): Promise<SiteData | null> {
   };
 }
 
-/** Cached per couple; admin edits call revalidateTag(siteCacheTag(slug)). */
+/**
+ * Cached per couple; admin edits call revalidateTag(siteCacheTag(slug)).
+ * Bump the version in the key whenever SiteData gains fields, so entries
+ * cached before a deploy are never read with the new shape.
+ */
 export function getSiteData(slug: string): Promise<SiteData | null> {
-  return unstable_cache(() => loadSite(slug), ["site-data", slug], {
+  return unstable_cache(() => loadSite(slug), ["site-data", "v2", slug], {
     tags: [siteCacheTag(slug)],
     revalidate: 3600,
   })();

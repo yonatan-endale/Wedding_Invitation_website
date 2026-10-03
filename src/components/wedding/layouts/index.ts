@@ -6,13 +6,8 @@ import type { LayoutProps } from "./types";
 
 export type { LayoutProps, SiteNames } from "./types";
 
+/** The component tree for each layout. Header and nav settings live with the metadata in src/lib/layout.ts. */
 export const LAYOUT_COMPONENTS: Record<LayoutName, ComponentType<LayoutProps>> = {
   classic: ClassicLayout,
   editorial: EditorialLayout,
-};
-
-/** What the shared shell around a layout needs to know about it. */
-export const LAYOUT_SHELL: Record<LayoutName, { headerStartSolid: boolean; withCoupleLink: boolean }> = {
-  classic: { headerStartSolid: false, withCoupleLink: false },
-  editorial: { headerStartSolid: true, withCoupleLink: true },
 };

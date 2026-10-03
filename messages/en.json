@@ -150,5 +150,9 @@
   "notFound": {
     "title": "This invitation isn't available",
     "body": "Check the link you were sent, or ask the couple for a new one."
+  },
+  "motion": {
+    "pause": "Pause motion",
+    "play": "Play motion"
   }
 }

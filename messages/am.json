@@ -38,7 +38,17 @@
     "hours": "ሰዓታት",
     "minutes": "ደቂቃዎች",
     "seconds": "ሰከንዶች",
-    "calendarCaption": "{month} {year} ዓ.ም.፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
+    "summary": "{days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች ቀርተዋል",
+    "summarySince": "ከሠርጉ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች"
+  },
+  "saveTheDate": {
+    "title": "ቀኑን ይያዙ",
+    "couple": "{one} እና {two}",
+    "switchLabel": "የቀን አቆጣጠር",
+    "ethiopian": "ኢትዮጵያ",
+    "gregorian": "ፈረንጅ",
+    "captionEthiopian": "{month} {year} ዓ.ም.፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
+    "captionGregorian": "{month} {year}፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
     "weddingDay": "የሠርጉ ቀን"
   },
   "invitation": {

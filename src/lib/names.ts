@@ -1,4 +1,5 @@
 import { pickText, type Locale, type LocalizedText } from "./localized";
+import { graphemes } from "./text";
 
 /**
  * Ethiopian full names are the first name followed by the father's name.
@@ -11,10 +12,7 @@ export function fullName(first: LocalizedText, father: LocalizedText | null | un
 
 /** The first character as a reader sees it, so an Ethiopic syllable or an accented letter stays whole. */
 export function firstGrapheme(text: string): string {
-  const trimmed = text.trim();
-  if (!trimmed) return "";
-  const first = new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(trimmed)[Symbol.iterator]().next();
-  return first.done ? "" : first.value.segment.toLocaleUpperCase();
+  return (graphemes(text.trim())[0] ?? "").toLocaleUpperCase();
 }
 
 /**

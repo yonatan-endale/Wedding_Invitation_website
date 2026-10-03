@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { LAYOUT_COMPONENTS } from "@/components/wedding/layouts";
@@ -15,7 +15,7 @@ import { sectionLinks } from "@/components/wedding/site-links";
 import { getSiteData, type SiteData } from "@/db/queries/site";
 import { getMotionLevel, getOrnament } from "@/lib/appearance";
 import { getAdminUser } from "@/lib/auth";
-import { TENANT_HEADER } from "@/lib/constants";
+import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
 import { LAYOUTS, getLayout } from "@/lib/layout";
 import { isLocale, pickText, type Locale } from "@/lib/localized";
 import { fullName, initials, monogramText } from "@/lib/names";
@@ -64,14 +64,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 /**
  * Admin-only looks from the query string (?layout=, ?opening=, ?motion=,
  * ?calendar=, ?theme=), for trying a design without saving it. Guests and
- * couple subdomains never get them; the Clerk check runs only when one is present.
+ * couple subdomains never get them; Clerk is asked only when one is present
+ * and the visitor has a session. On `next dev` they work without signing in,
+ * so designs can be checked locally.
  */
 async function adminOverrides(searchParams: SearchParams, preview: boolean): Promise<PreviewOverrides> {
   const overrides = parsePreviewOverrides(searchParams);
   if (!hasPreviewOverrides(overrides)) return {};
   if ((await headers()).get(TENANT_HEADER)) return {};
-  if (preview) return overrides;
-  return (await getAdminUser()) ? overrides : {};
+  if (preview || process.env.NODE_ENV === "development") return overrides;
+  const signedIn = (await cookies()).getAll().some((cookie) => CLERK_SESSION_COOKIE.test(cookie.name));
+  return signedIn && (await getAdminUser()) ? overrides : {};
 }
 
 export default async function CoupleSitePage({ params, searchParams }: Props) {

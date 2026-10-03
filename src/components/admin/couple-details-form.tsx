@@ -6,6 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Band } from "@/components/wedding/primitives";
 import type { AdminCouple } from "@/db/queries/admin";
+import {
+  CALENDAR_STYLES,
+  CALENDAR_STYLE_OPTIONS,
+  MOTION_LEVELS,
+  MOTION_LEVEL_OPTIONS,
+  getCalendarStyle,
+  getMotionLevel,
+} from "@/lib/appearance";
 import { DEFAULT_TIMEZONE, HERO_POSITIONS, PARTNER_ROLES, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { LAYOUTS, LAYOUT_NAMES, type LayoutName } from "@/lib/layout";
@@ -219,7 +227,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
 
       <FormSection
         title="Look and sound"
-        description="Pick a layout, a palette, the cover photo and the song that plays when guests open the invitation."
+        description="Pick a layout, a palette, the cover photo, the calendar and the song that plays when guests open the invitation."
       >
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Layout</legend>
@@ -336,6 +344,60 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
             ))}
           </NativeSelect>
         </Field>
+
+        <MediaField
+          name="calendarPhotoUrl"
+          label="Save-the-date photo (optional)"
+          kind="image"
+          defaultValue={couple?.calendarPhotoUrl}
+          uploadsEnabled={uploadsEnabled}
+          error={errors.calendarPhotoUrl}
+          hint="The full-screen calendar's background. Leave it empty to use the cover or a gallery photo."
+        />
+
+        <fieldset className="grid gap-3">
+          <legend className="mb-2 text-sm font-medium">Save-the-date calendar</legend>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {CALENDAR_STYLES.map((style) => (
+              <label
+                key={style}
+                className="grid cursor-pointer gap-1 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+              >
+                <span className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="calendarStyle"
+                    value={style}
+                    defaultChecked={getCalendarStyle(couple?.calendarStyle) === style}
+                  />
+                  <span className="font-medium">{CALENDAR_STYLE_OPTIONS[style].label}</span>
+                </span>
+                <span className="text-sm text-muted-foreground">{CALENDAR_STYLE_OPTIONS[style].description}</span>
+              </label>
+            ))}
+          </div>
+          {errors.calendarStyle ? <p className="text-sm text-destructive">{errors.calendarStyle}</p> : null}
+        </fieldset>
+
+        <fieldset className="grid gap-3">
+          <legend className="mb-2 text-sm font-medium">Motion</legend>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {MOTION_LEVELS.map((level) => (
+              <label
+                key={level}
+                className="grid cursor-pointer gap-1 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+              >
+                <span className="flex items-center gap-2">
+                  <input type="radio" name="motion" value={level} defaultChecked={getMotionLevel(couple?.motion) === level} />
+                  <span className="font-medium">{MOTION_LEVEL_OPTIONS[level].label}</span>
+                </span>
+                <span className="text-sm text-muted-foreground">{MOTION_LEVEL_OPTIONS[level].description}</span>
+              </label>
+            ))}
+          </div>
+          <p className="text-sm text-muted-foreground">Guests whose phone asks for reduced motion always see a still page.</p>
+          {errors.motion ? <p className="text-sm text-destructive">{errors.motion}</p> : null}
+        </fieldset>
 
         <MediaField
           name="musicUrl"

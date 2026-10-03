@@ -38,7 +38,17 @@
     "hours": "hours",
     "minutes": "minutes",
     "seconds": "seconds",
-    "calendarCaption": "{month} {year} in the Ethiopian calendar, with the wedding day marked",
+    "summary": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} left",
+    "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the wedding"
+  },
+  "saveTheDate": {
+    "title": "Save the date",
+    "couple": "{one} and {two}",
+    "switchLabel": "Calendar",
+    "ethiopian": "Ethiopian",
+    "gregorian": "Gregorian",
+    "captionEthiopian": "{month} {year} in the Ethiopian calendar, with the wedding day marked",
+    "captionGregorian": "{month} {year}, with the wedding day marked",
     "weddingDay": "Wedding day"
   },
   "invitation": {

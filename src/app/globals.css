@@ -413,3 +413,195 @@ html:not([data-hydrated]) [data-opening] {
     pointer-events: none;
   }
 }
+
+/*
+ * Save-the-date entrance, played once when the section (a data-stage) scrolls
+ * into view: the photo settles, SAVE THE DATE draws together, the names rise,
+ * the weekdays and days cascade, the wedding day's mark draws and fills, the
+ * date types out over a growing gold rule. The hidden states exist only after
+ * hydration (data-reveal-ready) and until the stage is shown, so without
+ * scripts the calendar is simply there. Transforms, opacity, clip-path and
+ * stroke offsets only.
+ */
+.std {
+  --std-settle: 1.12;
+  --std-converge: 0.35em;
+}
+
+.wedding[data-motion="subtle"] .std {
+  --std-settle: 1;
+  --std-converge: 0em;
+}
+
+.std .std-mark-fill {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  html[data-reveal-ready]:not([data-motion-off]) .std :is(.std-photo, .std-char, .std-names, .std-switch, .std-month, .std-weekday, .std-day, .std-mark-line, .std-mark-fill, .std-date, .std-rule, .std-alt) {
+    transition-property: opacity, transform, clip-path, stroke-dashoffset;
+    transition-timing-function: var(--ease-out-soft);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-mark-line {
+    stroke-dasharray: 1;
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-photo {
+    transition-duration: 1.6s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-photo {
+    transform: scale(var(--std-settle));
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-char {
+    transition-duration: 0.9s;
+    transition-delay: 0.15s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-char {
+    opacity: 0;
+    transform: translate3d(calc(var(--o) * var(--std-converge)), 0, 0);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-names {
+    transition-duration: 0.7s;
+    transition-delay: 0.45s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-names {
+    opacity: 0;
+    transform: translate3d(0, var(--rise), 0);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std :is(.std-switch, .std-month) {
+    transition-duration: 0.6s;
+    transition-delay: 0.55s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) :is(.std-switch, .std-month) {
+    opacity: 0;
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-weekday {
+    transition-duration: 0.5s;
+    transition-delay: calc(0.6s + var(--c, 0) * 40ms);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-weekday {
+    opacity: 0;
+  }
+
+  /* Days fall into place along the diagonals, top left to bottom right. */
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-day {
+    transition-duration: 0.5s;
+    transition-delay: calc(0.8s + var(--d, 0) * 35ms);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-day {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--rise) / 3), 0);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-mark-line {
+    transition-duration: 0.9s;
+    transition-delay: 1.35s;
+    transition-timing-function: var(--ease-draw);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-mark-line {
+    stroke-dashoffset: 1;
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-mark-fill {
+    transition-duration: 0.6s;
+    transition-delay: 1.95s;
+    transition-timing-function: var(--ease-pop);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-mark-fill {
+    transform: scale(0);
+  }
+
+  /* The date types out left to right; its text is whole in the DOM from the start. */
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-date {
+    clip-path: inset(-0.3em);
+    transition-duration: 1s;
+    transition-delay: 2s;
+    transition-timing-function: steps(20, end);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-date {
+    clip-path: inset(-0.3em 100% -0.3em -0.3em);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-rule {
+    transition-duration: 0.9s;
+    transition-delay: 2.4s;
+    transition-timing-function: var(--ease-draw);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-rule {
+    transform: scaleX(0);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-alt {
+    transition-duration: 0.6s;
+    transition-delay: 2.7s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-alt {
+    opacity: 0;
+  }
+
+  /* Subtle: the date fades instead of typing. */
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std .std-date {
+    clip-path: none;
+    transition-timing-function: var(--ease-out-soft);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) .std-date {
+    clip-path: none;
+    opacity: 0;
+  }
+
+  /* A soft glow breathes around the wedding day: three times, or on and on at the rich level. */
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .std[data-shown] .std-glow {
+    animation: std-glow 2.8s ease-in-out 2.5s 3;
+  }
+  html:not([data-motion-off]) .wedding[data-motion="rich"] .std[data-shown] .std-glow {
+    animation-iteration-count: infinite;
+  }
+
+  /* Rich: the photo keeps drifting slowly after it settles. */
+  html:not([data-motion-off]) .wedding[data-motion="rich"] .std[data-shown] .std-photo > * {
+    animation: std-drift 24s ease-in-out 1.6s infinite alternate;
+  }
+
+  /* Loops rest while the section is off screen (as specific as the rules that start them). */
+  html:not([data-motion-off]) .wedding .std[data-shown]:not([data-inview]) :is(.std-glow, .std-photo > *) {
+    animation-play-state: paused;
+  }
+
+  /* Subtle: the wedding day's mark and the gold rule are simply there; only fades remain. */
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) .std-mark-line {
+    stroke-dashoffset: 0;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) :is(.std-mark-fill, .std-rule) {
+    transform: none;
+  }
+}
+
+@keyframes std-glow {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes std-drift {
+  to {
+    transform: scale(1.06) translate3d(-1%, -1%, 0);
+  }
+}
+
+/* The countdown's digits roll only when motion is welcome; otherwise they change in place. */
+html[data-motion-off] .digit-strip,
+.wedding[data-motion="subtle"] .digit-strip {
+  transition: none !important;
+}

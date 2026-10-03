@@ -3,6 +3,7 @@ import {
   formatEthiopianDateLine,
   formatGregorianDate,
   formatGregorianSpan,
+  formatSaveTheDate,
   formatStandardTime,
   formatStandardTimeRange,
   formatWeddingDate,
@@ -111,5 +112,18 @@ describe("formatGregorianSpan", () => {
 
   it("names one month when the span stays inside it", () => {
     expect(formatGregorianSpan({ year: 2026, month: 9, day: 6 }, { year: 2026, month: 9, day: 10 })).toBe("September 2026");
+  });
+});
+
+describe("formatSaveTheDate", () => {
+  const wedding = "2026-08-29T12:00:00.000Z";
+  it("writes the Gregorian date month first, in both languages", () => {
+    expect(formatSaveTheDate(wedding, TZ, "en", "gregorian")).toBe("August 29, 2026");
+    expect(formatSaveTheDate(wedding, TZ, "am", "gregorian")).toBe("August 29, 2026");
+  });
+
+  it("writes the Ethiopian date with the Latin month in English and in Amharic script otherwise", () => {
+    expect(formatSaveTheDate(wedding, TZ, "en", "ethiopian")).toBe("Nehase 23, 2018 E.C.");
+    expect(formatSaveTheDate(wedding, TZ, "am", "ethiopian")).toBe("ነሐሴ 23 ቀን 2018 ዓ.ም.");
   });
 });

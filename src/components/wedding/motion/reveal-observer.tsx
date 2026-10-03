@@ -30,18 +30,38 @@ export function RevealObserver() {
 
   useEffect(() => {
     if (!introOpen) return;
-    const show = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        entry.target.setAttribute("data-shown", "");
-        observer.unobserve(entry.target);
-      }
-    };
-    const elements = new IntersectionObserver(show, { rootMargin: "0px 0px -10% 0px", threshold: 0 });
-    const stages = new IntersectionObserver(show, { threshold: 0.3 });
+    const elements = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.setAttribute("data-shown", "");
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0 },
+    );
+    // A stage plays once its top passes three quarters of the screen, however tall it is.
+    const stages = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.setAttribute("data-shown", "");
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -25% 0px", threshold: 0 },
+    );
+    // Stages stay watched for data-inview, which pauses their looping animations off screen.
+    const inView = new IntersectionObserver((entries) => {
+      for (const entry of entries) entry.target.toggleAttribute("data-inview", entry.isIntersecting);
+    });
     const watch = (element: Element) => {
-      if (element.hasAttribute("data-shown")) return;
-      (element.hasAttribute("data-stage") ? stages : elements).observe(element);
+      if (element.hasAttribute("data-stage")) {
+        inView.observe(element);
+        if (!element.hasAttribute("data-shown")) stages.observe(element);
+      } else if (!element.hasAttribute("data-shown")) {
+        elements.observe(element);
+      }
     };
     document.querySelectorAll(TARGETS).forEach(watch);
 
@@ -59,6 +79,7 @@ export function RevealObserver() {
     return () => {
       elements.disconnect();
       stages.disconnect();
+      inView.disconnect();
       added.disconnect();
     };
   }, [introOpen]);

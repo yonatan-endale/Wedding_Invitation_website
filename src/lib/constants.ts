@@ -27,6 +27,9 @@ export const DEFAULT_TIMEZONE = "Africa/Addis_Ababa";
 
 export const LOCALE_COOKIE = "NEXT_LOCALE";
 
+/** Clerk session and dev-browser cookies; guests visiting a couple site have none of these. */
+export const CLERK_SESSION_COOKIE = /^(__session|__client_uat|__clerk_db_jwt)/;
+
 /** Set by middleware when a request arrived on a couple's subdomain. */
 export const TENANT_HEADER = "x-wedding-tenant";
 

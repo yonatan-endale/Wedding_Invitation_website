@@ -72,24 +72,32 @@ const LAYERS: Record<MaskedStyle, Layer[]> = { tibeb: TIBEB, floral: FLORAL };
 /**
  * The couple's border. Thickness comes from the height (horizontal) or width
  * (vertical) class. `columns` only applies to Tibeb 2, where it stacks more
- * woven columns across the band, as on the broad border of a netela.
+ * woven columns across the band, as on the broad border of a netela. With
+ * `reveal` it unrolls from its centre as it scrolls into view.
  */
 export function Band({
   variant = "tibeb",
   orientation = "horizontal",
   columns = 1,
+  reveal = false,
   className,
 }: {
   variant?: BorderStyle;
   orientation?: Orientation;
   columns?: number;
+  reveal?: boolean;
   className?: string;
 }) {
   const horizontal = orientation === "horizontal";
+  const unroll = reveal ? "unroll" : undefined;
 
   if (variant === "tibeb2") {
     return (
-      <div aria-hidden className={cn("shrink-0", horizontal ? "h-10 w-full" : "h-full w-10", className)}>
+      <div
+        aria-hidden
+        data-reveal={unroll}
+        className={cn("shrink-0", horizontal ? "h-10 w-full" : "h-full w-10", className)}
+      >
         <Tibeb orientation={orientation} columns={columns} />
       </div>
     );
@@ -99,6 +107,7 @@ export function Band({
     return (
       <div
         aria-hidden
+        data-reveal={unroll}
         className={cn(
           "flex shrink-0 gap-[5px]",
           horizontal ? "h-7 w-full flex-col justify-center px-6" : "h-full w-7 flex-row justify-center py-6",
@@ -113,7 +122,11 @@ export function Band({
 
   const repeat = horizontal ? "repeat-x" : "repeat-y";
   return (
-    <div aria-hidden className={cn("relative shrink-0", horizontal ? "h-7 w-full" : "h-full w-7", className)}>
+    <div
+      aria-hidden
+      data-reveal={unroll}
+      className={cn("relative shrink-0", horizontal ? "h-7 w-full" : "h-full w-7", className)}
+    >
       {LAYERS[variant].map((layer, index) => {
         const mask = MASKS[variant][orientation][index];
         const style: CSSProperties = {
@@ -161,9 +174,28 @@ export function MonogramWatermark({ monogram }: { monogram: string }) {
   );
 }
 
-export function SectionHeading({ id, children, className }: { id?: string; children: React.ReactNode; className?: string }) {
+/**
+ * A section's title, which rises in as it scrolls into view. Pass
+ * reveal={false} when it is sticky (a transform would fight the pinning) or
+ * when an ancestor already moves it.
+ */
+export function SectionHeading({
+  id,
+  children,
+  className,
+  reveal = true,
+}: {
+  id?: string;
+  children: React.ReactNode;
+  className?: string;
+  reveal?: boolean;
+}) {
   return (
-    <h2 id={id} className={cn("font-display text-[clamp(2.25rem,5.5vw,3.75rem)] leading-[1.05]", className)}>
+    <h2
+      id={id}
+      data-reveal={reveal ? "up" : undefined}
+      className={cn("font-display text-[clamp(2.25rem,5.5vw,3.75rem)] leading-[1.05]", className)}
+    >
       {children}
     </h2>
   );

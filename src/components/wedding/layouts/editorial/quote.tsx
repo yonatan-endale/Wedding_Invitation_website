@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
@@ -13,11 +14,20 @@ export function EditorialQuote({ site, locale, overlap }: Props) {
 
   return (
     <section className={cn("px-5 sm:px-8", overlap ? "relative z-10 -mt-16 sm:-mt-20" : "pt-20 sm:pt-28")}>
-      <figure className="mx-auto max-w-2xl border border-rule bg-sheet px-8 py-10 text-center sm:px-14 sm:py-14">
+      {/* The card scales in inside the raised section, so it still sits over the gallery band; the reference follows. */}
+      <figure
+        data-reveal-group
+        data-reveal="scale"
+        className="mx-auto max-w-2xl border border-rule bg-sheet px-8 py-10 text-center sm:px-14 sm:py-14"
+      >
         <blockquote className={cn("text-[clamp(1.35rem,3vw,1.9rem)] leading-[1.4]", locale === "am" ? "font-display" : "italic")}>
           <p>{text}</p>
         </blockquote>
-        {reference ? <figcaption className={cn(eyebrow, "mt-6")}>{reference}</figcaption> : null}
+        {reference ? (
+          <figcaption data-reveal="fade" style={{ "--i": 4 } as CSSProperties} className={cn(eyebrow, "mt-6")}>
+            {reference}
+          </figcaption>
+        ) : null}
       </figure>
     </section>
   );

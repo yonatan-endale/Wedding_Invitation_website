@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
@@ -29,7 +29,8 @@ export async function EditorialCouple({ site, locale }: Props) {
   const t = await getTranslations("couple");
 
   return (
-    <section id="couple" aria-labelledby="couple-heading" className={cn(sectionPadding, "border-t border-rule")}>
+    // overflow-x-clip (not hidden) keeps the side slides from widening the page.
+    <section id="couple" aria-labelledby="couple-heading" className={cn(sectionPadding, "overflow-x-clip border-t border-rule")}>
       <h2 id="couple-heading" className="sr-only">
         {t("heading")}
       </h2>
@@ -37,11 +38,21 @@ export async function EditorialCouple({ site, locale }: Props) {
         {partners.map((partner, index) => (
           <Fragment key={partner.key}>
             {index > 0 ? (
-              <span aria-hidden className="font-display text-[clamp(4rem,10vw,7rem)] leading-none sm:self-center">
+              <span
+                aria-hidden
+                data-reveal="fade"
+                style={{ "--i": 1 } as CSSProperties}
+                className="font-display text-[clamp(4rem,10vw,7rem)] leading-none sm:self-center"
+              >
                 &amp;
               </span>
             ) : null}
-            <figure className="w-64 text-center">
+            {/* The portraits slide in from their own sides. */}
+            <figure
+              data-reveal={index === 0 ? "left" : "right"}
+              style={{ "--i": index * 2 } as CSSProperties}
+              className="w-64 text-center"
+            >
               <div className="relative mx-auto aspect-[4/5] w-52 overflow-hidden rounded-[50%] bg-rule ring-1 ring-thread-2 ring-offset-8 ring-offset-paper sm:w-56">
                 <WeddingImage src={partner.portrait} alt={partner.name} fill sizes="224px" className="object-cover" />
               </div>

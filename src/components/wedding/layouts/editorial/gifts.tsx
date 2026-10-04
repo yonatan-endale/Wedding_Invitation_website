@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
@@ -28,14 +29,21 @@ export async function EditorialGifts({ site, locale }: Props) {
         <SectionHeading id="gifts-heading" className="text-center">
           {t("heading")}
         </SectionHeading>
-        <p className="mx-auto mt-5 max-w-[58ch] text-ink-soft">{note}</p>
+        <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="mx-auto mt-5 max-w-[58ch] text-ink-soft">
+          {note}
+        </p>
 
         {giftAccounts.length > 0 ? (
-          <ul className={cn("mx-auto mt-12 grid gap-6 text-left", columns(giftAccounts.length))}>
-            {giftAccounts.map((account) => {
+          <ul data-reveal-group className={cn("mx-auto mt-12 grid gap-6 text-left", columns(giftAccounts.length))}>
+            {giftAccounts.map((account, index) => {
               const accountNote = pickText(account.note, locale);
               return (
-                <li key={account.id} className="flex flex-col border border-rule bg-sheet p-6 sm:p-8">
+                <li
+                  key={account.id}
+                  data-reveal="up"
+                  style={{ "--i": Math.min(index, 6) } as CSSProperties}
+                  className="flex flex-col border border-rule bg-sheet p-6 sm:p-8"
+                >
                   <p className={eyebrow}>{t(`kind.${account.kind}`)}</p>
                   <h3 className="mt-2 font-display text-[1.75rem] leading-tight">{account.provider}</h3>
                   <dl className="mt-5">
@@ -55,12 +63,19 @@ export async function EditorialGifts({ site, locale }: Props) {
 
         {wishlistItems.length > 0 ? (
           <div className="mt-16">
-            <h3 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)]">{t("wishlist")}</h3>
-            <ul className={cn("mx-auto mt-8 grid gap-6 text-left", columns(wishlistItems.length))}>
-              {wishlistItems.map((item) => {
+            <h3 data-reveal="up" className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)]">
+              {t("wishlist")}
+            </h3>
+            <ul data-reveal-group className={cn("mx-auto mt-8 grid gap-6 text-left", columns(wishlistItems.length))}>
+              {wishlistItems.map((item, index) => {
                 const title = pickText(item.title, locale);
                 return (
-                  <li key={item.id} className="flex flex-col border border-rule bg-sheet">
+                  <li
+                    key={item.id}
+                    data-reveal="up"
+                    style={{ "--i": Math.min(index, 6) } as CSSProperties}
+                    className="flex flex-col border border-rule bg-sheet"
+                  >
                     {item.imageUrl ? (
                       <div className="relative aspect-[4/3] overflow-hidden bg-rule">
                         <WeddingImage src={item.imageUrl} alt="" fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />

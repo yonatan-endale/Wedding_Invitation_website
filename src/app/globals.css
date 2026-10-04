@@ -213,6 +213,16 @@
   }
 }
 
+/* The music button's equalizer; still when the guest pauses motion. */
+.music-bar {
+  animation: music-bar 0.9s ease-in-out infinite;
+}
+
+html[data-motion-off] .music-bar {
+  animation: none;
+  transform: scaleY(0.6);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -618,21 +628,17 @@ html[data-motion-off] .digit-strip,
 }
 
 /* ------------------------------------------------------------------ */
-/* Openings. Idle loops breathe three times (on and on at the rich      */
-/* level, never at subtle) so nothing moves for long unasked.           */
+/* Openings. Idle movement plays once, under five seconds, because the  */
+/* pause-motion button is not reachable while the opening covers it.   */
 /* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: no-preference) {
   html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .seal-glow {
-    animation: seal-breathe 3s ease-in-out 0.6s 3;
+    animation: seal-breathe 3s ease-in-out 0.6s 1;
   }
 
   html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .adey-sway {
     transform-origin: 50% 90%;
-    animation: adey-sway 5s ease-in-out 3;
-  }
-
-  html:not([data-motion-off]) .wedding[data-motion="rich"] :is(.seal-glow, .adey-sway) {
-    animation-iteration-count: infinite;
+    animation: adey-sway 4.5s ease-in-out 1;
   }
 }
 
@@ -693,21 +699,21 @@ html[data-motion-off] .digit-strip,
  * fade up. Without scripts there is no data-intro, so nothing waits.
  */
 @media screen and (prefers-reduced-motion: no-preference) {
-  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]) .wedding:not([data-motion="subtle"]) .hero-word {
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding:not([data-motion="subtle"]) .hero-word {
     animation: hero-rise 0.9s var(--ease-out-soft) both;
     animation-delay: calc(0.25s + var(--i, 0) * 90ms);
   }
 
-  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]) .wedding:not([data-motion="subtle"]) .hero-photo {
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding:not([data-motion="subtle"]) .hero-photo {
     animation: hero-settle 2.4s var(--ease-out-soft) both;
   }
 
-  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]) .wedding .hero-fade {
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding .hero-fade {
     animation: hero-fade 0.8s var(--ease-out-soft) both;
     animation-delay: calc(0.6s + var(--i, 0) * 120ms);
   }
 
-  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]) .wedding[data-motion="subtle"] .hero-fade {
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding[data-motion="subtle"] .hero-fade {
     animation-name: hero-fade-still;
   }
 }
@@ -751,5 +757,12 @@ html[data-motion-off] .digit-strip,
 @keyframes hero-exit {
   to {
     transform: translate3d(0, 18%, 0);
+  }
+}
+
+/* The RSVP thank-you rises in where the form was. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .rsvp-thanks {
+    animation: hero-fade 0.6s var(--ease-out-soft) both;
   }
 }

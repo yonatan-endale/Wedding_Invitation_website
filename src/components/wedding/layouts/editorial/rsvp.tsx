@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import type { Locale } from "@/lib/localized";
@@ -40,11 +41,15 @@ export async function EditorialRsvp({ site, locale, photos }: Props) {
       <div className="flex flex-col justify-center px-5 py-16 sm:px-10 sm:py-20 lg:px-14 xl:px-20">
         <div className="mx-auto w-full max-w-xl">
           <SectionHeading id="rsvp-heading">{t("heading")}</SectionHeading>
+          {/* Only the panel's text reveals; the pinned photo and its wrappers stay untransformed so sticky keeps working.
+              The reveal ends at full opacity, so these lines dim through their colour instead of opacity-80. */}
           {closed ? (
-            <p className="mt-6 opacity-80">{t("closed")}</p>
+            <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="mt-6 text-paper/80">
+              {t("closed")}
+            </p>
           ) : (
             <>
-              <p className="mt-5 opacity-80">
+              <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="mt-5 text-paper/80">
                 {t("intro")}
                 {deadline ? (
                   <span className="block">{t("replyBy", { date: formatWeddingDate(deadline, couple.timezone, locale) })}</span>

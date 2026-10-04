@@ -7,6 +7,7 @@ import { LAYOUT_COMPONENTS } from "@/components/wedding/layouts";
 import { BootScript } from "@/components/wedding/intro/boot-script";
 import { IntroProvider } from "@/components/wedding/intro/intro-context";
 import { MotionProvider } from "@/components/wedding/motion/motion-provider";
+import { MotionToggle } from "@/components/wedding/motion/motion-toggle";
 import { RevealObserver } from "@/components/wedding/motion/reveal-observer";
 import { MusicButton, MusicProvider } from "@/components/wedding/music";
 import { OpeningHost } from "@/components/wedding/openings";
@@ -140,6 +141,8 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
               <SiteHeader monogram={names.monogram} links={links} startSolid={meta.headerStartSolid} />
               <Layout site={site} locale={locale} names={names} photos={photos} />
               <MusicButton title={couple.musicTitle} />
+              {/* Subtle pages have nothing that moves for long; every other level gets the pause. */}
+              <MotionToggle visible={motion !== "subtle"} />
             </div>
             <RevealObserver />
           </div>

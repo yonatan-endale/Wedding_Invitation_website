@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
@@ -18,14 +19,21 @@ export async function GiftsSection({ site, locale }: Props) {
     <section id="gifts" aria-labelledby="gifts-heading" className={cn(sectionPadding, "border-t border-rule")}>
       <div className="mx-auto max-w-5xl">
         <SectionHeading id="gifts-heading">{t("heading")}</SectionHeading>
-        <p className="mt-5 max-w-[58ch] text-ink-soft">{note}</p>
+        <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="mt-5 max-w-[58ch] text-ink-soft">
+          {note}
+        </p>
 
         {giftAccounts.length > 0 ? (
-          <ul className="mt-12 grid gap-6 md:grid-cols-2">
-            {giftAccounts.map((account) => {
+          <ul data-reveal-group className="mt-12 grid gap-6 md:grid-cols-2">
+            {giftAccounts.map((account, index) => {
               const accountNote = pickText(account.note, locale);
               return (
-                <li key={account.id} className="flex flex-col border border-rule bg-sheet p-6 sm:p-8">
+                <li
+                  key={account.id}
+                  data-reveal="up"
+                  style={{ "--i": Math.min(index, 6) } as CSSProperties}
+                  className="flex flex-col border border-rule bg-sheet p-6 sm:p-8"
+                >
                   <p className="text-base text-ink-soft">{t(`kind.${account.kind}`)}</p>
                   <h3 className="mt-1 font-display text-[1.75rem] leading-tight">{account.provider}</h3>
                   <dl className="mt-6">
@@ -45,12 +53,19 @@ export async function GiftsSection({ site, locale }: Props) {
 
         {wishlistItems.length > 0 ? (
           <div className="mt-16">
-            <h3 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)]">{t("wishlist")}</h3>
-            <ul className="mt-6 divide-y divide-rule border-y border-rule">
-              {wishlistItems.map((item) => {
+            <h3 data-reveal="up" className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)]">
+              {t("wishlist")}
+            </h3>
+            <ul data-reveal-group className="mt-6 divide-y divide-rule border-y border-rule">
+              {wishlistItems.map((item, index) => {
                 const title = pickText(item.title, locale);
                 return (
-                  <li key={item.id} className="flex flex-wrap items-center gap-x-5 gap-y-3 py-5">
+                  <li
+                    key={item.id}
+                    data-reveal="up"
+                    style={{ "--i": Math.min(index, 6) } as CSSProperties}
+                    className="flex flex-wrap items-center gap-x-5 gap-y-3 py-5"
+                  >
                     {item.imageUrl ? (
                       <div className="relative size-16 shrink-0 overflow-hidden bg-rule">
                         <WeddingImage src={item.imageUrl} alt="" fill sizes="64px" className="object-cover" />

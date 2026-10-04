@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
@@ -20,7 +21,8 @@ export async function EditorialStory({ site, locale }: Props) {
     .filter(Boolean);
 
   return (
-    <section id="story" aria-labelledby="story-heading" className={sectionPadding}>
+    // overflow-x-clip (not hidden) keeps the side slides from widening the page.
+    <section id="story" aria-labelledby="story-heading" className={cn(sectionPadding, "overflow-x-clip")}>
       <div className="mx-auto max-w-5xl">
         <SectionHeading id="story-heading" className="text-center">
           {t("heading")}
@@ -29,7 +31,12 @@ export async function EditorialStory({ site, locale }: Props) {
         {paragraphs.length > 0 ? (
           <div className="mx-auto mt-10 max-w-[62ch] space-y-6 text-center">
             {paragraphs.map((paragraph, index) => (
-              <p key={index} className={cn("whitespace-pre-line", index === 0 && "text-[1.2em] leading-[1.55]")}>
+              <p
+                key={index}
+                data-reveal="up"
+                style={{ "--i": Math.min(index, 3) } as CSSProperties}
+                className={cn("whitespace-pre-line", index === 0 && "text-[1.2em] leading-[1.55]")}
+              >
                 {paragraph}
               </p>
             ))}
@@ -41,8 +48,13 @@ export async function EditorialStory({ site, locale }: Props) {
             {milestones.map((milestone, index) => {
               const body = pickText(milestone.body, locale);
               const flip = index % 2 === 1;
+              // Each chapter, date included, slides in as one row, alternating sides.
               return (
-                <li key={milestone.id} className={cn("grid overflow-hidden border border-rule", milestone.imageUrl && "md:grid-cols-2")}>
+                <li
+                  key={milestone.id}
+                  data-reveal={flip ? "right" : "left"}
+                  className={cn("grid overflow-hidden border border-rule", milestone.imageUrl && "md:grid-cols-2")}
+                >
                   <div className={cn("bg-sheet px-8 py-10 sm:px-12 sm:py-14", flip && "md:order-2")}>
                     <p className={eyebrow}>
                       <time dateTime={milestone.happenedOn}>{formatCalendarDate(milestone.happenedOn, locale)}</time>

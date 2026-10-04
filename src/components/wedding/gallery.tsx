@@ -3,7 +3,7 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { Lightbox, roundButton, type GalleryPhoto } from "./lightbox";
 import { SectionHeading, WeddingImage } from "./primitives";
@@ -35,10 +35,11 @@ export function GallerySection({ photos, names }: { photos: GalleryPhoto[]; name
   return (
     <section id="gallery" aria-labelledby="gallery-heading" className="py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="flex items-end justify-between gap-6">
+        {/* Only the heading row reveals. The carousel below is never transformed, so Embla can measure and drag it. */}
+        <div data-reveal-group className="flex items-end justify-between gap-6">
           <SectionHeading id="gallery-heading">{t("heading")}</SectionHeading>
           {photos.length > 1 ? (
-            <div className="flex shrink-0 gap-2">
+            <div data-reveal="fade" style={{ "--i": 1 } as CSSProperties} className="flex shrink-0 gap-2">
               <button
                 type="button"
                 onClick={() => emblaApi?.scrollPrev()}

@@ -47,3 +47,10 @@ rows are reviewed. Mark a row done by filling in the reviewer and date.
 | `messages/am.json` | intro.letter | invite you to celebrate their wedding | በሠርጋቸው ላይ እንዲገኙ ይጋብዙዎታል | |
 | `messages/am.json` | intro.tapFlower | Tap the flower to open | ለመክፈት አበባውን ይንኩ | |
 | Seal monogram | separator on Amharic pages | A & M (interlocked) | ዳ ፡ ሲ | |
+
+## Phase 3: section motion
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | motion.pause | Pause motion | እንቅስቃሴን አቁም | |
+| `messages/am.json` | motion.play | Play motion | እንቅስቃሴን አስጀምር | |

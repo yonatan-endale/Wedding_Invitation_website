@@ -48,7 +48,8 @@ export function RsvpForm({ slug, tone = "paper" }: { slug: string; tone?: RsvpTo
 
   if (state.status === "success" && formKey === state.submissionId) {
     return (
-      <div role="status" className={cn("mt-10 border px-6 py-10 text-center", colors.success)}>
+      // rsvp-thanks rises in with CSS (see globals.css), so the form needs no animation library.
+      <div role="status" className={cn("rsvp-thanks mt-10 border px-6 py-10 text-center", colors.success)}>
         <p className="font-display text-[clamp(1.5rem,4vw,2rem)] leading-snug">
           {state.attending ? t("thanksYes", { name: state.name }) : t("thanksNo", { name: state.name })}
         </p>

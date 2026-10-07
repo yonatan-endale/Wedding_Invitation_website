@@ -32,6 +32,7 @@ const TONES: Record<RsvpTone, { input: string; choice: string; choiceActive: str
 
 export function RsvpForm({ slug, tone = "paper" }: { slug: string; tone?: RsvpTone }) {
   const t = useTranslations("rsvp");
+  const tCard = useTranslations("card");
   const colors = TONES[tone];
   const inputClass = cn(inputBase, colors.input);
   const id = useId();
@@ -53,6 +54,29 @@ export function RsvpForm({ slug, tone = "paper" }: { slug: string; tone?: RsvpTo
         <p className="font-display text-[clamp(1.5rem,4vw,2rem)] leading-snug">
           {state.attending ? t("thanksYes", { name: state.name }) : t("thanksNo", { name: state.name })}
         </p>
+        {state.card ? (
+          <div className="mx-auto mt-8 max-w-72">
+            <p className="text-base">{tCard("ready")}</p>
+            <a href={state.card.page} className="mt-4 block">
+              {/* eslint-disable-next-line @next/next/no-img-element -- a generated PNG; next/image would re-encode it */}
+              <img
+                src={state.card.image}
+                alt={tCard("imageAlt", { name: state.name })}
+                width={1080}
+                height={1512}
+                className="aspect-[5/7] h-auto w-full rounded-[3px] border border-rule bg-rule/40 shadow-[0_14px_40px_-18px_rgb(0_0_0/0.4)]"
+              />
+            </a>
+            <div className="mt-5 grid gap-3">
+              <a href={state.card.download} download className={cn(buttonPrimary, "w-full")}>
+                {tCard("download")}
+              </a>
+              <a href={state.card.page} className={cn(buttonOutline, "w-full")}>
+                {tCard("viewAndShare")}
+              </a>
+            </div>
+          </div>
+        ) : null}
         <button
           type="button"
           className={cn(buttonOutline, "mt-8")}

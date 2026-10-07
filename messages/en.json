@@ -137,6 +137,31 @@
       "closed": "RSVPs for this wedding are closed."
     }
   },
+  "card": {
+    "dear": "Dear {name},",
+    "admits": "Admits {count}",
+    "showAtEntrance": "Show this code at the entrance",
+    "ready": "Your personal invitation card is ready.",
+    "download": "Download card",
+    "viewAndShare": "View and share",
+    "imageAlt": "Invitation card for {name}",
+    "pageTitle": "Invitation for {name}",
+    "pageIntro": "Save this card to your phone and show its QR code at the entrance.",
+    "share": "Share",
+    "shareText": "My invitation to the wedding of {couple}",
+    "whatsapp": "WhatsApp",
+    "telegram": "Telegram",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "copyFailed": "Couldn't copy the link.",
+    "openSite": "Open the wedding website",
+    "pass": {
+      "title": "Entry pass",
+      "valid": "Valid invitation",
+      "invalid": "Invitation not valid",
+      "invalidBody": "This invitation was cancelled or the code is wrong. Please check with the couple's family."
+    }
+  },
   "memories": {
     "heading": "Share your photos",
     "body": "Took photos at the wedding? Send them to us on Telegram.",

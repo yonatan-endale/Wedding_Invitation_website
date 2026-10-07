@@ -2,6 +2,7 @@ import Image, { type ImageProps } from "next/image";
 import type { CSSProperties } from "react";
 import { canOptimizeImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
+import { FLORAL_LAYERS, TIBEB_LAYERS, type BorderLayer, type Thread } from "@/lib/border-shapes";
 import type { BorderStyle } from "@/lib/constants";
 import { Tibeb } from "./tibeb";
 
@@ -13,7 +14,12 @@ import { Tibeb } from "./tibeb";
 /* ------------------------------------------------------------------ */
 
 type Orientation = "horizontal" | "vertical";
-type Layer = { color: string; shapes: string };
+
+const THREAD_VARS: Record<Thread, string> = {
+  thread1: "var(--w-thread-1)",
+  thread2: "var(--w-thread-2)",
+  thread3: "var(--w-thread-3)",
+};
 
 const svg = (body: string) =>
   `url("data:image/svg+xml;utf8,${encodeURIComponent(
@@ -23,51 +29,20 @@ const svg = (body: string) =>
 /** Shapes are authored horizontally; the vertical band transposes x and y. */
 const transpose = (body: string) => body.replace(/<g>/g, "<g transform='matrix(0 1 1 0 0 0)'>");
 
-const TIBEB: Layer[] = [
-  {
-    color: "var(--w-thread-1)",
-    shapes:
-      "<g><rect y='4' width='28' height='1'/><rect y='23' width='28' height='1'/><path fill-rule='evenodd' d='M7 7l7 7-7 7-7-7zM7 10.5l3.5 3.5-3.5 3.5-3.5-3.5z'/></g>",
-  },
-  {
-    color: "var(--w-thread-3)",
-    shapes:
-      "<g><rect x='20' y='8' width='2' height='12'/><rect x='15' y='13' width='12' height='2'/><circle cx='7' cy='14' r='1.5'/></g>",
-  },
-  {
-    color: "var(--w-thread-2)",
-    shapes:
-      "<g><rect width='28' height='2'/><rect y='26' width='28' height='2'/><rect x='20.25' y='13.25' width='1.5' height='1.5'/><rect x='14.5' y='13' width='1' height='2'/></g>",
-  },
-];
-
-/** A rosette every tile, joined by a vine with a leaf on each side. */
-const FLORAL: Layer[] = [
-  {
-    color: "var(--w-thread-3)",
-    shapes:
-      "<g><circle cx='9' cy='11' r='2.6'/><circle cx='9' cy='17' r='2.6'/><circle cx='6' cy='14' r='2.6'/><circle cx='12' cy='14' r='2.6'/><circle cx='7.2' cy='11.9' r='2.2'/><circle cx='10.8' cy='11.9' r='2.2'/><circle cx='7.2' cy='16.1' r='2.2'/><circle cx='10.8' cy='16.1' r='2.2'/></g>",
-  },
-  {
-    color: "var(--w-thread-1)",
-    shapes:
-      "<g><path d='M17 14c3-4 6-4 8-3-1 3-4 5-8 3z'/><path d='M17 14c3 4 6 4 8 3-1-3-4-5-8-3z'/></g>",
-  },
-  {
-    color: "var(--w-thread-2)",
-    shapes:
-      "<g><path d='M0 14c4 0 5-3 9-3s5 3 9 3 5-3 10-3v1c-5 0-6 3-10 3s-5-3-9-3-5 3-9 3z'/><circle cx='9' cy='14' r='1.3'/></g>",
-  },
-];
-
 type MaskedStyle = "tibeb" | "floral";
 
-const MASKS: Record<MaskedStyle, Record<Orientation, string[]>> = {
-  tibeb: { horizontal: TIBEB.map((l) => svg(l.shapes)), vertical: TIBEB.map((l) => svg(transpose(l.shapes))) },
-  floral: { horizontal: FLORAL.map((l) => svg(l.shapes)), vertical: FLORAL.map((l) => svg(transpose(l.shapes))) },
-};
+const LAYERS: Record<MaskedStyle, BorderLayer[]> = { tibeb: TIBEB_LAYERS, floral: FLORAL_LAYERS };
 
-const LAYERS: Record<MaskedStyle, Layer[]> = { tibeb: TIBEB, floral: FLORAL };
+const MASKS: Record<MaskedStyle, Record<Orientation, string[]>> = {
+  tibeb: {
+    horizontal: TIBEB_LAYERS.map((l) => svg(l.shapes)),
+    vertical: TIBEB_LAYERS.map((l) => svg(transpose(l.shapes))),
+  },
+  floral: {
+    horizontal: FLORAL_LAYERS.map((l) => svg(l.shapes)),
+    vertical: FLORAL_LAYERS.map((l) => svg(transpose(l.shapes))),
+  },
+};
 
 /**
  * The couple's border. Thickness comes from the height (horizontal) or width
@@ -130,7 +105,7 @@ export function Band({
       {LAYERS[variant].map((layer, index) => {
         const mask = MASKS[variant][orientation][index];
         const style: CSSProperties = {
-          backgroundColor: layer.color,
+          backgroundColor: THREAD_VARS[layer.thread],
           maskImage: mask,
           WebkitMaskImage: mask,
           maskRepeat: repeat,
@@ -140,7 +115,7 @@ export function Band({
           maskPosition: "center",
           WebkitMaskPosition: "center",
         };
-        return <span key={layer.color} className="absolute inset-0" style={style} />;
+        return <span key={layer.thread} className="absolute inset-0" style={style} />;
       })}
     </div>
   );

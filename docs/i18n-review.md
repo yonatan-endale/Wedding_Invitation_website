@@ -54,3 +54,28 @@ rows are reviewed. Mark a row done by filling in the reviewer and date.
 |---|---|---|---|---|
 | `messages/am.json` | motion.pause | Pause motion | እንቅስቃሴን አቁም | |
 | `messages/am.json` | motion.play | Play motion | እንቅስቃሴን አስጀምር | |
+
+## Guest cards and entry pass
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | card.dear | Dear {name}, | ውድ {name}፣ | |
+| `messages/am.json` | card.admits | Admits {count} | የእንግዶች ብዛት፦ {count} | |
+| `messages/am.json` | card.showAtEntrance | Show this code at the entrance | ይህን ኮድ መግቢያ ላይ ያሳዩ | |
+| `messages/am.json` | card.ready | Your personal invitation card is ready. | የግል የግብዣ ካርድዎ ዝግጁ ነው። | |
+| `messages/am.json` | card.download | Download card | ካርዱን ያውርዱ | |
+| `messages/am.json` | card.viewAndShare | View and share | ይመልከቱ እና ያጋሩ | |
+| `messages/am.json` | card.imageAlt | Invitation card for {name} | ለ{name} የተዘጋጀ የግብዣ ካርድ | |
+| `messages/am.json` | card.pageTitle | Invitation for {name} | የ{name} ግብዣ | |
+| `messages/am.json` | card.pageIntro | Save this card to your phone and show its QR code at the entrance. | ይህን ካርድ በስልክዎ ያስቀምጡ፤ መግቢያ ላይ QR ኮዱን ያሳዩ። | |
+| `messages/am.json` | card.share | Share | አጋራ | |
+| `messages/am.json` | card.shareText | My invitation to the wedding of {couple} | የ{couple} የሠርግ ግብዣዬ | |
+| `messages/am.json` | card.whatsapp / card.telegram | WhatsApp / Telegram | ዋትስአፕ / ቴሌግራም | |
+| `messages/am.json` | card.copyLink | Copy link | ማስፈንጠሪያውን ቅዳ | |
+| `messages/am.json` | card.copied | Link copied | ማስፈንጠሪያው ተቀድቷል | |
+| `messages/am.json` | card.copyFailed | Couldn't copy the link. | ማስፈንጠሪያውን መቅዳት አልተቻለም። | |
+| `messages/am.json` | card.openSite | Open the wedding website | የሠርጉን ድረ-ገጽ ይክፈቱ | |
+| `messages/am.json` | card.pass.title | Entry pass | የመግቢያ ማረጋገጫ | |
+| `messages/am.json` | card.pass.valid | Valid invitation | ትክክለኛ ግብዣ | |
+| `messages/am.json` | card.pass.invalid | Invitation not valid | ግብዣው ትክክል አይደለም | |
+| `messages/am.json` | card.pass.invalidBody | This invitation was cancelled or the code is wrong. Please check with the couple's family. | ይህ ግብዣ ተሰርዟል ወይም ኮዱ ትክክል አይደለም። እባክዎ የሙሽሮቹን ቤተሰብ ያነጋግሩ። | |

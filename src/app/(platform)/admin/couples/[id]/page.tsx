@@ -36,12 +36,13 @@ export default async function CouplePage({ params, searchParams }: Props) {
   const links = await siteLinks(couple.slug);
   const uploadsEnabled = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
   const iso = couple.weddingAt.toISOString();
+  const names = `${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`;
 
   return (
     <div className="grid gap-8">
       <CoupleHeader
         id={couple.id}
-        names={`${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`}
+        names={names}
         dateLine={`${formatWeddingDate(iso, couple.timezone, "en")} at ${formatStandardTime(iso, couple.timezone)}`}
         status={couple.status}
         shareUrl={links.share}
@@ -102,7 +103,15 @@ export default async function CouplePage({ params, searchParams }: Props) {
             value: "rsvps",
             label: "RSVPs",
             count: rsvpRows.length,
-            content: <RsvpList coupleId={couple.id} rows={rsvpRows} timezone={couple.timezone} />,
+            content: (
+              <RsvpList
+                coupleId={couple.id}
+                rows={rsvpRows}
+                timezone={couple.timezone}
+                siteBase={links.share}
+                coupleNames={names}
+              />
+            ),
           },
         ]}
       />

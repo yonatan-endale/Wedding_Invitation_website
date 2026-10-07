@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   date,
@@ -191,9 +191,53 @@ export const rsvps = pgTable(
     guestCount: integer("guest_count").notNull(),
     message: text("message"),
     locale: text("locale").notNull().default("en"),
+    /**
+     * Secret in the guest's card and entry-pass links. 32 hex characters from a
+     * random UUID, filled in by the database so existing rows got one too.
+     */
+    cardToken: text("card_token")
+      .notNull()
+      .unique()
+      .default(sql`replace(gen_random_uuid()::text, '-', '')`),
+    /** Set when the couple hides this wish on their private page. The admin still sees it. */
+    hiddenAt: timestamp("hidden_at", { withTimezone: true }),
     ...timestamps,
   },
   (t) => [index("rsvps_couple_idx").on(t.coupleId, t.createdAt)],
+);
+
+/**
+ * The couple's private RSVP and wishes page. Only hashes are stored: the link
+ * token as sha256, the passcode as scrypt. Both are shown to the admin once.
+ */
+export const coupleAccess = pgTable("couple_access", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  coupleId: uuid("couple_id")
+    .notNull()
+    .unique()
+    .references(() => couples.id, { onDelete: "cascade" }),
+  tokenHash: text("token_hash").notNull().unique(),
+  passcodeHash: text("passcode_hash").notNull(),
+  /** Wrong passcodes since the last success; every fifth one locks the page for longer. */
+  failedAttempts: integer("failed_attempts").notNull().default(0),
+  lockedUntil: timestamp("locked_until", { withTimezone: true }),
+  lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
+  ...timestamps,
+});
+
+/** A signed-in device on the couple's private page. The cookie holds the token; only its sha256 is kept. */
+export const coupleSessions = pgTable(
+  "couple_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    coupleId: uuid("couple_id")
+      .notNull()
+      .references(() => couples.id, { onDelete: "cascade" }),
+    tokenHash: text("token_hash").notNull().unique(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("couple_sessions_couple_idx").on(t.coupleId)],
 );
 
 export const couplesRelations = relations(couples, ({ many }) => ({
@@ -233,6 +277,14 @@ export const wishlistItemsRelations = relations(wishlistItems, ({ one }) => ({
 
 export const rsvpsRelations = relations(rsvps, ({ one }) => ({
   couple: one(couples, { fields: [rsvps.coupleId], references: [couples.id] }),
+}));
+
+export const coupleAccessRelations = relations(coupleAccess, ({ one }) => ({
+  couple: one(couples, { fields: [coupleAccess.coupleId], references: [couples.id] }),
+}));
+
+export const coupleSessionsRelations = relations(coupleSessions, ({ one }) => ({
+  couple: one(couples, { fields: [coupleSessions.coupleId], references: [couples.id] }),
 }));
 
 export type Couple = typeof couples.$inferSelect;

@@ -1,25 +1,13 @@
 import { ImageResponse } from "next/og";
 import { getSiteData } from "@/db/queries/site";
 import { fullName } from "@/lib/names";
+import { loadGoogleFont } from "@/lib/og-fonts";
 import { getTheme } from "@/lib/theme";
 import { formatWeddingDate } from "@/lib/wedding-format";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = "Wedding invitation";
-
-async function loadMarcellus(text: string): Promise<ArrayBuffer | null> {
-  try {
-    const css = await (
-      await fetch(`https://fonts.googleapis.com/css2?family=Marcellus&text=${encodeURIComponent(text)}`)
-    ).text();
-    const url = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/)?.[1];
-    if (!url) return null;
-    return await (await fetch(url)).arrayBuffer();
-  } catch {
-    return null;
-  }
-}
 
 /** Share preview for WhatsApp, Telegram and Facebook: photo on the left, names and date on the right. */
 export default async function OpenGraphImage({ params }: { params: Promise<{ slug: string }> }) {
@@ -33,7 +21,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
     : "Wedding invitation";
   const date = published ? formatWeddingDate(published.couple.weddingAt, published.couple.timezone, "en") : "";
   const photo = published?.couple.heroPhotoUrl?.startsWith("https://") ? published.couple.heroPhotoUrl : null;
-  const font = await loadMarcellus(`${names}${date}You are invited`);
+  const font = await loadGoogleFont("Marcellus", `${names}${date}You are invited`);
 
   const stripe = (color: string, height: number) => <div style={{ display: "flex", height, background: color }} />;
 

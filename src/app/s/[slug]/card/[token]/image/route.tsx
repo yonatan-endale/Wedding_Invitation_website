@@ -53,5 +53,5 @@ export async function GET(request: Request, { params }: Params) {
     headers["Content-Disposition"] = `attachment; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(fileName)}`;
   }
 
-  return renderGuestCard(card, { passLink: passUrl(base, token), origin: new URL(base).origin, headers });
+  return renderGuestCard(card, { passLink: passUrl(base, token), requestOrigin: new URL(base).origin, headers });
 }

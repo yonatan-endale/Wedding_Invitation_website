@@ -30,27 +30,49 @@ function clip(text: string, max: number): string {
   return text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text;
 }
 
+const MAX_PHOTO_BYTES = 2_000_000;
+
 /**
- * The hero photo as a data URI, or null. next/og can't read WebP or AVIF, so
- * site photos and photos on optimizable hosts go through next/image, which
- * answers a JPEG-only Accept header with a JPEG. A slow or broken photo leaves
- * the card with the monogram instead.
+ * Where this app's image optimizer is reached for the card's photo: taken from
+ * configuration, never from request headers, so a forged Host can't aim the
+ * server's fetch somewhere else. On `next dev`, the dev server itself.
  */
-async function loadPhoto(src: string | null, origin: string): Promise<string | null> {
-  const local = Boolean(src?.startsWith("/") && !src.startsWith("//"));
-  if (!src || (!local && !src.startsWith("https://"))) return null;
-  const url = canOptimizeImage(src) ? `${origin}/_next/image?url=${encodeURIComponent(src)}&w=384&q=75` : src;
+function optimizerOrigin(requestOrigin: string): string | null {
+  if (process.env.NODE_ENV === "development") return requestOrigin;
+  const host = process.env.NEXT_PUBLIC_ROOT_DOMAIN || process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (!host) return null;
+  return `${/^localhost(:\d+)?$/.test(host) ? "http" : "https"}://${host}`;
+}
+
+/**
+ * The hero photo as a data URI, or null. next/og can't read WebP or AVIF, so the
+ * photo goes through next/image, which answers a JPEG-only Accept header with a
+ * small JPEG. Only site photos and the hosts next.config.ts allows are fetched;
+ * anything else, or a slow or broken photo, leaves the card with the monogram.
+ */
+async function loadPhoto(src: string | null, requestOrigin: string): Promise<string | null> {
+  if (!src || !canOptimizeImage(src)) return null;
+  const origin = optimizerOrigin(requestOrigin);
+  if (!origin) return null;
   try {
-    const response = await fetch(url, { headers: { accept: "image/jpeg,image/png" }, signal: AbortSignal.timeout(5000) });
+    const response = await fetch(`${origin}/_next/image?url=${encodeURIComponent(src)}&w=384&q=75`, {
+      headers: { accept: "image/jpeg,image/png" },
+      redirect: "error",
+      signal: AbortSignal.timeout(5000),
+    });
     const type = response.headers.get("content-type")?.split(";")[0];
     if (!response.ok || (type !== "image/jpeg" && type !== "image/png")) return null;
-    return `data:${type};base64,${Buffer.from(await response.arrayBuffer()).toString("base64")}`;
+    if (Number(response.headers.get("content-length") ?? 0) > MAX_PHOTO_BYTES) return null;
+    const body = await response.arrayBuffer();
+    if (body.byteLength > MAX_PHOTO_BYTES) return null;
+    return `data:${type};base64,${Buffer.from(body).toString("base64")}`;
   } catch {
     return null;
   }
 }
 
-type RenderOptions = { passLink: string; origin: string; headers?: Record<string, string> };
+/** `requestOrigin` is used only on `next dev`, to reach the dev server's image optimizer. */
+type RenderOptions = { passLink: string; requestOrigin: string; headers?: Record<string, string> };
 
 /** A small gold diamond between two short rules, like the printed card's divider. */
 function Ornament({ color }: { color: string }) {
@@ -105,7 +127,7 @@ function Monogram({ text, theme, fontFamily }: { text: string; theme: Theme; fon
  * QR code opens their entry pass. It uses the couple's theme and border, in the
  * language the guest replied in.
  */
-export async function renderGuestCard({ site, guest }: GuestCard, { passLink, origin, headers }: RenderOptions) {
+export async function renderGuestCard({ site, guest }: GuestCard, { passLink, requestOrigin, headers }: RenderOptions) {
   const { couple, venues } = site;
   const locale = guest.locale;
   const t = await getTranslations({ locale, namespace: "card" });
@@ -135,7 +157,7 @@ export async function renderGuestCard({ site, guest }: GuestCard, { passLink, or
     loadFullGoogleFont(DISPLAY),
     loadFullGoogleFont(BODY),
     ETHIOPIC_TEXT.test(allText) ? loadFullGoogleFont(ETHIOPIC) : Promise.resolve(null),
-    loadPhoto(couple.heroPhotoUrl, origin),
+    loadPhoto(couple.heroPhotoUrl, requestOrigin),
   ]);
   const fonts = [
     display && { name: DISPLAY, data: display },

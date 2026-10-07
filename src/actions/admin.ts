@@ -8,8 +8,11 @@ import { isUuid } from "@/db/queries/admin";
 import { importCouple, SlugTakenError } from "@/db/queries/couple-import";
 import { couples, events, giftAccounts, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
 import { getAdminUser } from "@/lib/auth";
+import { couplePortalUrl } from "@/lib/card-links";
 import { siteCacheTag, type CoupleStatus } from "@/lib/constants";
+import { createAccess, revokeAccess, unlockAccess } from "@/lib/couple-access";
 import { moveItem, type Direction } from "@/lib/reorder";
+import { siteLinks } from "@/lib/site-links";
 import {
   formDataToFields,
   isSafeUrl,
@@ -410,4 +413,39 @@ export async function saveWishlistItem(
   }
   await refreshCouple(coupleId);
   return success(itemId ? "Wishlist item saved." : "Wishlist item added.");
+}
+
+/* ------------------------- Couple's private page ------------------------- */
+
+export type CoupleAccessResult = { ok: true; link: string; passcode: string } | { ok: false; message: string };
+
+/**
+ * Makes a new secret link and passcode for the couple's RSVP and wishes page.
+ * They are returned once and only their hashes are stored; the old link,
+ * passcode and every signed-in device stop working.
+ */
+export async function createCoupleAccess(coupleId: string): Promise<CoupleAccessResult> {
+  if (!(await getAdminUser())) return { ok: false, message: SESSION_ENDED };
+  const slug = await coupleSlug(coupleId);
+  if (!slug) return { ok: false, message: NOT_FOUND };
+  const { token, passcode } = await createAccess(coupleId);
+  const { share } = await siteLinks(slug);
+  revalidatePath("/admin", "layout");
+  return { ok: true, link: couplePortalUrl(share, token), passcode };
+}
+
+export async function revokeCoupleAccess(coupleId: string): Promise<ActionState> {
+  if (!(await getAdminUser())) return failure(SESSION_ENDED);
+  if (!isUuid(coupleId)) return failure(NOT_FOUND);
+  await revokeAccess(coupleId);
+  revalidatePath("/admin", "layout");
+  return success("The private page is off. The old link no longer works.");
+}
+
+export async function unlockCoupleAccess(coupleId: string): Promise<ActionState> {
+  if (!(await getAdminUser())) return failure(SESSION_ENDED);
+  if (!isUuid(coupleId)) return failure(NOT_FOUND);
+  await unlockAccess(coupleId);
+  revalidatePath("/admin", "layout");
+  return success("Unlocked. The couple can try their passcode again.");
 }

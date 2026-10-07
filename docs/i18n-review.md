@@ -79,3 +79,33 @@ rows are reviewed. Mark a row done by filling in the reviewer and date.
 | `messages/am.json` | card.pass.valid | Valid invitation | ትክክለኛ ግብዣ | |
 | `messages/am.json` | card.pass.invalid | Invitation not valid | ግብዣው ትክክል አይደለም | |
 | `messages/am.json` | card.pass.invalidBody | This invitation was cancelled or the code is wrong. Please check with the couple's family. | ይህ ግብዣ ተሰርዟል ወይም ኮዱ ትክክል አይደለም። እባክዎ የሙሽሮቹን ቤተሰብ ያነጋግሩ። | |
+
+## Couple's private page
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | couplePortal.title | Your RSVPs and wishes | ምላሾች እና መልካም ምኞቶች | |
+| `messages/am.json` | couplePortal.unlockTitle | Your private page | የግል ገጽዎ | |
+| `messages/am.json` | couplePortal.unlockIntro | Enter the passcode you were sent separately. | ለብቻው የተላከልዎትን የይለፍ ኮድ ያስገቡ። | |
+| `messages/am.json` | couplePortal.passcode | Passcode | የይለፍ ኮድ | |
+| `messages/am.json` | couplePortal.unlock / unlocking | Open / Opening… | ክፈት / በመክፈት ላይ… | |
+| `messages/am.json` | couplePortal.noLink | Open the private link you were sent. If you lost it, ask for a new one. | የተላከልዎትን የግል ማስፈንጠሪያ ይክፈቱ። ከጠፋብዎ አዲስ ይጠይቁ። | |
+| `messages/am.json` | couplePortal.signOut | Sign out | ውጣ | |
+| `messages/am.json` | couplePortal.errors.invalid | That passcode or link isn't right. | የይለፍ ኮዱ ወይም ማስፈንጠሪያው ትክክል አይደለም። | |
+| `messages/am.json` | couplePortal.errors.locked | Too many wrong tries. The page is locked for a while; try again later. | ብዙ የተሳሳቱ ሙከራዎች ተደርገዋል። ገጹ ለተወሰነ ጊዜ ተቆልፏል፤ ቆይተው ይሞክሩ። | |
+| `messages/am.json` | couplePortal.errors.rateLimited | Too many attempts. Wait a minute and try again. | ብዙ ሙከራዎች ተደርገዋል። ከአንድ ደቂቃ በኋላ እንደገና ይሞክሩ። | |
+| `messages/am.json` | couplePortal.errors.generic | Something went wrong. Check your connection and try again. | ችግር ተፈጥሯል። ግንኙነትዎን አረጋግጠው እንደገና ይሞክሩ። | |
+| `messages/am.json` | couplePortal.stats.* | Responses / Guests coming / Can't come | ምላሾች / የሚመጡ እንግዶች / የማይመጡ | |
+| `messages/am.json` | couplePortal.wishesHeading | Wishes | መልካም ምኞቶች | |
+| `messages/am.json` | couplePortal.noWishes | No wishes yet. Messages from the RSVP form appear here. | እስካሁን ምንም መልዕክት የለም። ከምላሽ ቅጹ የሚመጡ መልዕክቶች እዚህ ይታያሉ። | |
+| `messages/am.json` | couplePortal.hide / unhide | Hide / Show again | ደብቅ / መልሰህ አሳይ | |
+| `messages/am.json` | couplePortal.hiddenHeading | Hidden wishes ({count}) | የተደበቁ መልዕክቶች ({count}) | |
+| `messages/am.json` | couplePortal.guestsHeading | Guests | እንግዶች | |
+| `messages/am.json` | couplePortal.noGuests | No responses yet. | እስካሁን ምላሽ የለም። | |
+| `messages/am.json` | couplePortal.coming / notComing | Coming / Can't come | ይመጣሉ / አይመጡም | |
+| `messages/am.json` | couplePortal.guestCount | Guests | እንግዶች | |
+| `messages/am.json` | couplePortal.downloadCard | Download card | ካርዱን አውርድ | |
+| `messages/am.json` | couplePortal.sendWhatsApp | Send on WhatsApp | በዋትስአፕ ላክ | |
+| `messages/am.json` | couplePortal.copyCardLink | Copy card link | የካርዱን ማስፈንጠሪያ ቅዳ | |
+| `messages/am.json` | couplePortal.copied / copyFailed | Copied / Couldn't copy the link. | ተቀድቷል / ማስፈንጠሪያውን መቅዳት አልተቻለም። | |
+| `messages/am.json` | couplePortal.cardShareText | Your invitation card for the wedding of {couple}: {url} | ለ{couple} ሠርግ የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |

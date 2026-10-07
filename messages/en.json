@@ -162,6 +162,43 @@
       "invalidBody": "This invitation was cancelled or the code is wrong. Please check with the couple's family."
     }
   },
+  "couplePortal": {
+    "title": "Your RSVPs and wishes",
+    "unlockTitle": "Your private page",
+    "unlockIntro": "Enter the passcode you were sent separately.",
+    "passcode": "Passcode",
+    "unlock": "Open",
+    "unlocking": "Opening…",
+    "noLink": "Open the private link you were sent. If you lost it, ask for a new one.",
+    "signOut": "Sign out",
+    "errors": {
+      "invalid": "That passcode or link isn't right.",
+      "locked": "Too many wrong tries. The page is locked for a while; try again later.",
+      "rateLimited": "Too many attempts. Wait a minute and try again.",
+      "generic": "Something went wrong. Check your connection and try again."
+    },
+    "stats": {
+      "responses": "Responses",
+      "coming": "Guests coming",
+      "declined": "Can't come"
+    },
+    "wishesHeading": "Wishes",
+    "noWishes": "No wishes yet. Messages from the RSVP form appear here.",
+    "hide": "Hide",
+    "unhide": "Show again",
+    "hiddenHeading": "Hidden wishes ({count})",
+    "guestsHeading": "Guests",
+    "noGuests": "No responses yet.",
+    "coming": "Coming",
+    "notComing": "Can't come",
+    "guestCount": "Guests",
+    "downloadCard": "Download card",
+    "sendWhatsApp": "Send on WhatsApp",
+    "copyCardLink": "Copy card link",
+    "copied": "Copied",
+    "copyFailed": "Couldn't copy the link.",
+    "cardShareText": "Your invitation card for the wedding of {couple}: {url}"
+  },
   "memories": {
     "heading": "Share your photos",
     "body": "Took photos at the wedding? Send them to us on Telegram.",

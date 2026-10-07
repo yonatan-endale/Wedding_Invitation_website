@@ -23,9 +23,10 @@ export async function EditorialRsvp({ site, locale, photos }: Props) {
   return (
     <section id="rsvp" aria-labelledby="rsvp-heading" className={cn("grid bg-ink text-paper", background && "lg:grid-cols-2")}>
       {background ? (
-        <div>
-          {/* Pinned on wide screens so the photo stays in view while the form scrolls past. */}
-          <div className="relative aspect-[4/3] sm:aspect-[3/2] lg:sticky lg:top-0 lg:aspect-auto lg:h-svh">
+        // On wide screens the photo fills its column for the full height of the form,
+        // so photo and form move together (a pinned photo made the form seem to scroll on its own).
+        <div className="relative">
+          <div className="relative aspect-[4/3] sm:aspect-[3/2] lg:absolute lg:inset-0 lg:aspect-auto">
             <WeddingImage
               src={background}
               alt=""
@@ -41,8 +42,7 @@ export async function EditorialRsvp({ site, locale, photos }: Props) {
       <div className="flex flex-col justify-center px-5 py-16 sm:px-10 sm:py-20 lg:px-14 xl:px-20">
         <div className="mx-auto w-full max-w-xl">
           <SectionHeading id="rsvp-heading">{t("heading")}</SectionHeading>
-          {/* Only the panel's text reveals; the pinned photo and its wrappers stay untransformed so sticky keeps working.
-              The reveal ends at full opacity, so these lines dim through their colour instead of opacity-80. */}
+          {/* The reveal ends at full opacity, so these lines dim through their colour instead of opacity-80. */}
           {closed ? (
             <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="mt-6 text-paper/80">
               {t("closed")}

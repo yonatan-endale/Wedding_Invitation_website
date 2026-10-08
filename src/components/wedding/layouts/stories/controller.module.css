@@ -1,0 +1,126 @@
+/*
+ * The story chrome: the progress bar over the top of the current card and,
+ * on wide screens, up and down buttons beside the column. Kept apart from
+ * stories.module.css so the client island only carries these few names.
+ * Geometry (--top, --col, --radius) comes from the layout's root.
+ */
+
+.bar {
+  position: fixed;
+  z-index: 30;
+  top: var(--top);
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 4px;
+  width: var(--col);
+  margin-inline: auto;
+  padding: 0.7rem 0.75rem 1.6rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  pointer-events: none;
+}
+
+/* A soft scrim behind the segments, dark over photos, paper over paper. */
+.bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0.28), transparent);
+}
+
+.bar[data-tone="light"]::before {
+  background: linear-gradient(to bottom, var(--w-paper), transparent);
+  opacity: 0.85;
+}
+
+.segment {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.4);
+  box-shadow: 0 0 3px rgb(0 0 0 / 0.18);
+}
+
+.segment > span {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s var(--ease-out-soft);
+}
+
+.segment[data-on] > span {
+  transform: scaleX(1);
+}
+
+.bar[data-tone="light"] .segment {
+  background: rgb(0 0 0 / 0.12);
+  background: color-mix(in oklab, var(--w-ink) 16%, transparent);
+  box-shadow: none;
+}
+
+.bar[data-tone="light"] .segment > span {
+  background: var(--w-ink);
+}
+
+:global(html[data-motion-off]) .segment > span {
+  transition: none;
+}
+
+/* Up and down beside the column, for mouse users; phones scroll and tap. */
+.nav {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .nav {
+    position: fixed;
+    z-index: 30;
+    top: 50%;
+    left: calc(50% + var(--col) / 2 + 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transform: translateY(-50%);
+  }
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--w-rule);
+  border-radius: 999px;
+  background: var(--w-sheet);
+  color: var(--w-ink);
+  box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.4);
+  transition:
+    transform 0.2s var(--ease-out-soft),
+    opacity 0.2s;
+}
+
+.button:hover {
+  transform: scale(1.06);
+}
+
+.button:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

@@ -93,6 +93,36 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <rect x="60" y="46" width="14" height="9" fill="none" stroke="white" opacity="0.6" />
     </>
   ),
+  stories: (
+    <>
+      {[4, 30, 56].map((x) => (
+        <rect key={x} x={x + 6} y="3" width="20" height="2" rx="1" fill={stroke} opacity={x === 4 ? 0.9 : 0.35} />
+      ))}
+      <rect x="36" y="8" width="26" height="48" rx="3" fill={stroke} opacity="0.35" />
+      <rect x="41" y="40" width="16" height="3" fill="white" />
+      <rect x="44" y="46" width="10" height="2" fill="white" opacity="0.8" />
+      <rect x="12" y="14" width="18" height="36" rx="3" fill="none" stroke={stroke} opacity="0.4" />
+      <rect x="68" y="14" width="18" height="36" rx="3" fill="none" stroke={stroke} opacity="0.4" />
+    </>
+  ),
+  flatlay: (
+    <>
+      <path d="M14 30l20-14h28l20 14v22H14z" fill={stroke} opacity="0.2" />
+      <path d="M14 30l34 14 34-14" fill="none" stroke={stroke} opacity="0.6" />
+      <circle cx="48" cy="40" r="4" fill={stroke} opacity="0.8" />
+      <rect x="24" y="6" width="40" height="18" fill="none" stroke={stroke} opacity="0.6" transform="rotate(-4 44 15)" />
+      <rect x="30" y="10" width="40" height="18" fill="white" stroke={stroke} opacity="0.7" transform="rotate(3 50 19)" />
+    </>
+  ),
+  kaba: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill={stroke} opacity="0.8" />
+      <path d="M8 8h80M8 52h80" stroke="white" strokeDasharray="2 2" opacity="0.7" />
+      <path d="M48 14l6 8-6 8-6-8z" fill="none" stroke="white" opacity="0.85" />
+      <rect x="32" y="36" width="32" height="3" fill="white" opacity="0.9" />
+      <rect x="38" y="42" width="20" height="2" fill="white" opacity="0.6" />
+    </>
+  ),
   arches: (
     <>
       <path d="M34 34V16a14 14 0 0 1 28 0v18z" fill={stroke} opacity="0.35" />

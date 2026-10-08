@@ -144,3 +144,28 @@ title was respelled with ሠ to match ሠርግ everywhere else on the site.
 | Where | Key or context | English | Amharic draft | Reviewer, date |
 |---|---|---|---|---|
 | `src/lib/event-kinds.ts` | reception title | Reception | የሠርግ ግብዣ | |
+
+## Phase 4: Stories layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.stories.open | Open the invitation | ግብዣውን ይክፈቱ | |
+| `messages/am.json` | layouts.stories.previous | Previous page | ቀዳሚ ገጽ | |
+| `messages/am.json` | layouts.stories.next | Next page | ቀጣይ ገጽ | |
+| `messages/am.json` | layouts.stories.thanks | Thank you | እናመሰግናለን | |
+| `messages/am.json` | layouts.stories.restart | Back to the start | ወደ መጀመሪያው ይመለሱ | |
+| `messages/am.json` | layouts.stories.allPhotos | View all {count} photos | ሁሉንም {count} ፎቶዎች ይመልከቱ | |
+
+## Phase 4: Kaba Velvet layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.kaba.mels | A family tradition | የቤተሰብ ወግ | |
+
+## Phase 4: Flat-lay Suite layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.flatlay.thanks | Thank you | እናመሰግናለን | |
+| `messages/am.json` | layouts.flatlay.thanksNote | We are so grateful to share this day with you. | ይህን ቀን ከእናንተ ጋር በማሳለፋችን እጅግ ደስተኞች ነን። | |
+| `messages/am.json` | layouts.flatlay.allPhotos | View all {count} photos | ሁሉንም {count} ፎቶዎች ይመልከቱ | |

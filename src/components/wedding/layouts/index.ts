@@ -3,8 +3,11 @@ import type { LayoutName } from "@/lib/layout";
 import { ArchesLayout } from "./arches";
 import { ClassicLayout } from "./classic";
 import { EditorialLayout } from "./editorial";
+import { FlatlayLayout } from "./flatlay";
+import { KabaLayout } from "./kaba";
 import { NoirLayout } from "./noir";
 import { ReelLayout } from "./reel";
+import { StoriesLayout } from "./stories";
 import type { LayoutProps } from "./types";
 
 export type { LayoutProps, SiteNames } from "./types";
@@ -16,4 +19,7 @@ export const LAYOUT_COMPONENTS: Record<LayoutName, ComponentType<LayoutProps>> =
   reel: ReelLayout,
   noir: NoirLayout,
   arches: ArchesLayout,
+  stories: StoriesLayout,
+  flatlay: FlatlayLayout,
+  kaba: KabaLayout,
 };

@@ -235,6 +235,22 @@
     },
     "arches": {
       "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ"
+    },
+    "stories": {
+      "open": "ግብዣውን ይክፈቱ",
+      "previous": "ቀዳሚ ገጽ",
+      "next": "ቀጣይ ገጽ",
+      "thanks": "እናመሰግናለን",
+      "restart": "ወደ መጀመሪያው ይመለሱ",
+      "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ"
+    },
+    "kaba": {
+      "mels": "የቤተሰብ ወግ"
+    },
+    "flatlay": {
+      "thanks": "እናመሰግናለን",
+      "thanksNote": "ይህን ቀን ከእናንተ ጋር በማሳለፋችን እጅግ ደስተኞች ነን።",
+      "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ"
     }
   }
 }

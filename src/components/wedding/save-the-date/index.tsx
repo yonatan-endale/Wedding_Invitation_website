@@ -12,6 +12,7 @@ import type { GalleryPhoto } from "../gallery";
 import { ArchFrame } from "../kit/arch-frame";
 import { Crest } from "../kit/crest";
 import { KeylineFrame } from "../kit/keyline-frame";
+import { Medallion, StitchFrame, VelvetGround } from "../layouts/kaba/ornaments";
 import type { SiteNames } from "../layouts/types";
 import { WeddingImage } from "../primitives";
 import { CalendarViews } from "./calendar-views";
@@ -23,8 +24,12 @@ import { MonthTable } from "./month-table";
  * - editorial: a split page, photo beside the calendar on the sheet colour
  * - noir: typographic on the page's dark paper, a crest, metal type and a gold-framed grid
  * - arch: light paper, the grid on an arched sheet panel with a gold keyline and a small arched photo
+ * - card (Flat-lay Suite): a printed card of its own height, a double rule inset from the edge, letterpressed title
+ * - story (Stories): a story card, the photo full-bleed, SAVE THE DATE as a white sticker, the month on frosted glass
+ * - velvet (Kaba Velvet): the calendar on velvet in a gold-thread frame under a stitched medallion; it
+ *   uses the thread sprite the Kaba layout renders once per page
  */
-export type SaveTheDateSkin = "cinema" | "editorial" | "noir" | "arch";
+export type SaveTheDateSkin = "cinema" | "editorial" | "noir" | "arch" | "story" | "card" | "velvet";
 
 type Props = {
   site: SiteData;
@@ -61,6 +66,27 @@ const SKINS: Record<SaveTheDateSkin, { tone: Tone; compact: boolean; title: stri
     names: "text-ink-soft",
     date: "font-cormorant font-medium lining-nums text-ink",
   },
+  // A story card: SAVE THE DATE as a white text sticker over the photo. Sizes follow the card (cqi), not the window.
+  story: {
+    tone: "light",
+    compact: false,
+    title:
+      "mx-auto w-fit rounded-[0.4em] bg-white px-[0.5em] py-[0.28em] font-display text-[#141210] text-[clamp(1.45rem,8.4cqi,2.35rem)] tracking-[0.12em] shadow-[0_10px_30px_-12px_rgb(0_0_0/0.55)] [&:lang(am)]:text-[clamp(1.35rem,7.6cqi,2.1rem)]",
+    names:
+      "mt-3 text-[clamp(0.95rem,4.4cqi,1.15rem)] text-[color-mix(in_oklab,var(--w-metal)_60%,white)] [text-shadow:0_1px_6px_rgb(0_0_0/0.7)]",
+    date: "mt-5 font-display text-[clamp(1.3rem,7.2cqi,1.95rem)] [&:lang(am)]:text-[clamp(1.2rem,6.4cqi,1.7rem)]",
+  },
+  // A printed card: ink on the sheet, the title letterpressed into it (a static shadow, never animated).
+  card: {
+    tone: "ink",
+    compact: true,
+    title:
+      "font-display text-ink [text-shadow:0_1px_0_color-mix(in_oklab,var(--w-sheet),white_70%),0_-1px_0_rgb(0_0_0/0.07)]",
+    names: "text-ink-soft",
+    date: "font-display text-ink",
+  },
+  // Kaba Velvet is always dark, so metal type sits on the velvet as it does on noir's paper.
+  velvet: { tone: "ink", compact: false, title: "font-display text-metal", names: "text-metal", date: "font-display foil-text" },
 };
 
 /**
@@ -124,6 +150,33 @@ export async function SaveTheDate({
     />
   );
 
+  if (skin === "card") {
+    // A printed card, its own height: a double rule inset from the edge, and the photo, if any, as a small print at its head.
+    return (
+      <section
+        id="save-the-date"
+        data-stage
+        aria-labelledby="save-the-date-title"
+        className="std relative isolate bg-sheet px-[clamp(1.1rem,5vw,3.25rem)] pt-[clamp(3rem,9vw,4.5rem)] pb-[clamp(2.5rem,7vw,3.75rem)] text-center text-ink"
+      >
+        <span aria-hidden className="std-frame pointer-events-none absolute inset-[clamp(0.55rem,2vw,0.9rem)] border border-metal/60">
+          <span className="absolute inset-[3px] border border-metal/30" />
+        </span>
+        {photo ? (
+          <div className="mx-auto mb-9 w-[min(44%,11rem)] -rotate-2 bg-white p-[5%] pb-[16%] shadow-[0_10px_18px_-8px_rgb(40_30_20/0.35)]">
+            <div className="relative aspect-[4/5] overflow-hidden bg-rule">
+              <Backdrop photo={photo} sizes="11rem" />
+            </div>
+          </div>
+        ) : null}
+        <div className="relative">
+          {heading}
+          <div className="mt-8">{calendar}</div>
+        </div>
+      </section>
+    );
+  }
+
   if (skin === "editorial") {
     return (
       <section
@@ -172,6 +225,36 @@ export async function SaveTheDate({
     );
   }
 
+  if (skin === "velvet") {
+    return (
+      <section
+        id="save-the-date"
+        data-stage
+        aria-labelledby="save-the-date-title"
+        className="std relative isolate flex min-h-svh items-center justify-center overflow-x-clip px-3 py-20 text-ink sm:px-6 sm:py-28"
+      >
+        <VelvetGround className="-z-10" />
+        {/* The calendar on the velvet inside a gold-thread frame, under a medallion with a photo or the initials. */}
+        <div className="relative w-full max-w-[44rem] px-[clamp(1.1rem,5vw,3.5rem)] pt-[clamp(2.75rem,8vw,4.25rem)] pb-[clamp(2.25rem,6vw,3.5rem)] text-center">
+          <StitchFrame id="std-velvet-frame" lineReveal={false} lineClassName="std-frame" />
+          <Medallion id="std-velvet-medallion" draw={false} className="std-frame mx-auto mb-8 w-[clamp(6rem,22vw,8rem)]" windowClassName="bg-sheet">
+            {photo ? (
+              <Backdrop photo={photo} sizes="6rem" />
+            ) : (
+              <span aria-hidden className="flex size-full items-center justify-center font-display text-[clamp(1.4rem,5vw,1.9rem)] leading-none text-metal">
+                {names.initials[0]}
+                <span className="mx-1 font-cormorant text-[0.7em] italic [&:lang(am)]:not-italic">{separator}</span>
+                {names.initials[1]}
+              </span>
+            )}
+          </Medallion>
+          {heading}
+          <div className="mt-10">{calendar}</div>
+        </div>
+      </section>
+    );
+  }
+
   if (skin === "arch") {
     return (
       <section
@@ -202,6 +285,28 @@ export async function SaveTheDate({
               {heading}
               <div className="mt-9">{calendar}</div>
             </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (skin === "story") {
+    // Fills its story card (a flex column), so no height of its own. The month sits on frosted glass.
+    return (
+      <section
+        id="save-the-date"
+        data-stage
+        aria-labelledby="save-the-date-title"
+        className="std @container relative isolate flex flex-1 flex-col items-center justify-center overflow-hidden px-3 pt-11 pb-6 text-white"
+      >
+        {photo ? <Backdrop photo={photo} sizes="(min-width: 48rem) 34rem, 100vw" className="-z-10" /> : null}
+        {/* Light enough at the top that the photo still reads, darkest at the foot behind the date. */}
+        <span aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/35 to-black/80" />
+        <div className="w-full max-w-[26rem] text-center">
+          {heading}
+          <div className="std-frame mt-5 rounded-[1.75rem] border border-white/20 bg-black/30 px-2 pt-4 pb-4 backdrop-blur-md [text-shadow:0_1px_3px_rgb(0_0_0/0.5)]">
+            {calendar}
           </div>
         </div>
       </section>

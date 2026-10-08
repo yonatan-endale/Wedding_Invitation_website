@@ -104,6 +104,48 @@ export const LAYOUTS = {
     defaultOpening: "seal",
     recommendedThemes: ["ivory", "netela", "lalibela", "basalt"],
   },
+  stories: {
+    name: "stories",
+    label: "Stories",
+    description:
+      "Tap through it like stories on a phone: one full-screen card at a time for the cover, the invitation, the day, the photos and the RSVP, with progress bars and arrow keys.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "schedule", "venues", "gallery", "story", "rsvp", "gifts"],
+    showsCouple: false,
+    coupleAlways: false,
+    showsMilestones: true,
+    scheme: "theme",
+    defaultOpening: "adey",
+    recommendedThemes: ["blush", "ivory", "tibeb", "meskel", "adey"],
+  },
+  flatlay: {
+    name: "flatlay",
+    label: "Flat-lay Suite",
+    description:
+      "A stationery suite laid out on linen: a sealed envelope, then the invitation, schedule, details and RSVP cards stacking over each other as you scroll, and fanned photo prints.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "schedule", "venues", "rsvp", "gifts", "gallery", "story"],
+    showsCouple: false,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "envelope",
+    recommendedThemes: ["ivory", "netela", "blush", "adey"],
+  },
+  kaba: {
+    name: "kaba",
+    label: "Kaba Velvet",
+    description:
+      "Regal and always dark, like a groom's velvet kaba: deep velvet, gold-thread embroidery that stitches itself in, a stitched timeline that marks the Mels, and a stitched monogram.",
+    headerStartSolid: false,
+    navOrder: ["invitation", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: false,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "dark",
+    defaultOpening: "netela",
+    recommendedThemes: ["emerald", "burgundy", "meskel", "tizita"],
+  },
 } as const satisfies Record<string, LayoutMeta>;
 
 export type LayoutName = keyof typeof LAYOUTS;

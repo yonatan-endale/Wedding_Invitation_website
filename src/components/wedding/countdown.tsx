@@ -10,9 +10,11 @@ import { DigitRoll } from "./motion/digit-roll";
  * How the digits are dressed. plain: display numerals with colons (Classic,
  * Editorial). timecode: monospaced, like a film timecode (Reel). outline:
  * hollow numerals stroked in the theme's metal (Noir & Gold). niches: each
- * unit in its own arched niche, no colons (Gilded Arches).
+ * unit in its own arched niche, no colons (Gilded Arches). stitch: each unit
+ * on a small embroidered patch, a running stitch inside a fine gold edge, no
+ * colons (Kaba Velvet).
  */
-export type CountdownVariant = "plain" | "timecode" | "outline" | "niches";
+export type CountdownVariant = "plain" | "timecode" | "outline" | "niches" | "stitch";
 
 const VARIANTS: Record<CountdownVariant, { unit: string; digits: string; separator: string | null; label: string }> = {
   plain: {
@@ -36,6 +38,12 @@ const VARIANTS: Record<CountdownVariant, { unit: string; digits: string; separat
   },
   niches: {
     unit: "mx-1 min-w-[3.4em] rounded-t-full border border-metal/60 px-2 pt-7 pb-3 sm:mx-2 sm:min-w-[4.2em]",
+    digits: "font-display text-[clamp(1.9rem,7vw,3.5rem)] leading-none",
+    separator: null,
+    label: "",
+  },
+  stitch: {
+    unit: "mx-1 min-w-[3.3em] rounded-[3px] border border-dashed border-metal/75 px-1.5 pt-5 pb-3 outline outline-1 outline-offset-[3px] outline-metal/45 sm:mx-2 sm:min-w-[4.4em] sm:px-2",
     digits: "font-display text-[clamp(1.9rem,7vw,3.5rem)] leading-none",
     separator: null,
     label: "",

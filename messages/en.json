@@ -235,6 +235,22 @@
     },
     "arches": {
       "allPhotos": "View all {count} photos"
+    },
+    "stories": {
+      "open": "Open the invitation",
+      "previous": "Previous page",
+      "next": "Next page",
+      "thanks": "Thank you",
+      "restart": "Back to the start",
+      "allPhotos": "View all {count} photos"
+    },
+    "kaba": {
+      "mels": "A family tradition"
+    },
+    "flatlay": {
+      "thanks": "Thank you",
+      "thanksNote": "We are so grateful to share this day with you.",
+      "allPhotos": "View all {count} photos"
     }
   }
 }

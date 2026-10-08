@@ -1,3 +1,4 @@
+import type { Ornament } from "./appearance";
 import type { LocalizedText } from "./localized";
 
 /**
@@ -38,7 +39,7 @@ export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
   ceremony_civil: { label: "Vow ceremony", title: { en: "Vow ceremony", am: "የቃልኪዳን ሥርዓት" } },
   nikah: { label: "Nikah", title: { en: "Nikah", am: "ኒካህ" } },
   photos: { label: "Photo session", title: { en: "Photo session", am: "የፎቶ ፕሮግራም" } },
-  reception: { label: "Reception", title: { en: "Reception", am: "የሰርግ ግብዣ" } },
+  reception: { label: "Reception", title: { en: "Reception", am: "የሠርግ ግብዣ" } },
   blessing: { label: "Elders' blessing", title: { en: "Elders' blessing", am: "የሽማግሌዎች ምርቃት" } },
   mels: { label: "Mels (the return)", title: { en: "Mels", am: "መልስ" } },
   kelekel: { label: "Kelekel (the families meet)", title: { en: "Kelekel", am: "ቅልቅል" } },
@@ -52,4 +53,83 @@ export function isEventKind(value: unknown): value is EventKind {
 
 export function getEventKind(value: unknown): EventKind {
   return isEventKind(value) ? value : DEFAULT_EVENT_KIND;
+}
+
+/**
+ * The title after the admin picks another kind: each language takes the new
+ * kind's default where its field is empty or still holds the old kind's
+ * default, so nothing the admin wrote is lost. Other has no default and leaves
+ * the title as it is.
+ */
+export function titleForKind(
+  title: { en: string; am: string },
+  from: EventKind,
+  to: EventKind,
+): { en: string; am: string } {
+  const next = EVENT_KIND_META[to].title;
+  if (!next) return title;
+  const previous = EVENT_KIND_META[from].title;
+  const untouched = (value: string, previousDefault = "") => !value.trim() || value.trim() === previousDefault;
+  return {
+    en: untouched(title.en, previous?.en) ? next.en : title.en,
+    am: untouched(title.am, previous?.am) ? (next.am ?? "") : title.am,
+  };
+}
+
+/** The drawings the timeline can put beside an event title (see ornaments/event-icons.tsx). */
+export type EventIconName =
+  | "gift"
+  | "rings"
+  | "church"
+  | "orthodox-cross"
+  | "cross"
+  | "crescent"
+  | "camera"
+  | "mesob"
+  | "blessing"
+  | "home"
+  | "families"
+  | "jebena"
+  | "diamond";
+
+const EVENT_ICONS: Record<EventKind, EventIconName> = {
+  telosh: "gift",
+  ceremony_orthodox: "church",
+  ceremony_protestant: "church",
+  ceremony_civil: "rings",
+  nikah: "rings",
+  photos: "camera",
+  reception: "mesob",
+  blessing: "blessing",
+  mels: "home",
+  kelekel: "families",
+  buna: "jebena",
+  other: "diamond",
+};
+
+/** Faith imagery, shown only to a couple who chose the matching ornament. */
+const FAITH_ICONS: Partial<Record<EventKind, { ornament: Ornament; icon: EventIconName }>> = {
+  ceremony_orthodox: { ornament: "orthodox", icon: "orthodox-cross" },
+  ceremony_protestant: { ornament: "protestant", icon: "cross" },
+  nikah: { ornament: "harari", icon: "crescent" },
+};
+
+/**
+ * Whether an event gets an icon. "other" is what every event had before kinds
+ * existed, so it shows none: older timelines look as they did until the admin
+ * picks a kind.
+ */
+export function hasEventIcon(kind: EventKind): boolean {
+  return kind !== DEFAULT_EVENT_KIND;
+}
+
+/**
+ * Which drawing an event gets. Every kind can be picked whatever the ornament,
+ * since most weddings have a church ceremony either way; only the imagery is
+ * gated. A cross or a crescent appears only when the couple chose that faith's
+ * ornament, and otherwise the ceremony shows a church without a cross, or rings.
+ */
+export function eventIconFor(kind: EventKind, ornament: Ornament): EventIconName {
+  const faith = FAITH_ICONS[kind];
+  return faith && faith.ornament === ornament ? faith.icon : EVENT_ICONS[kind];
 }

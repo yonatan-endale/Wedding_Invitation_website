@@ -1,13 +1,14 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import { getMotionLevel } from "@/lib/appearance";
+import { getMotionLevel, getOrnament } from "@/lib/appearance";
 import { pickText, type Locale } from "@/lib/localized";
 import { mapsEmbedUrl, mapsLink } from "@/lib/maps";
 import { timelineItems } from "@/lib/timeline";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import { TimelineRail } from "./motion/timeline-rail";
+import { EventIcon, EventIconSprite } from "./ornaments/event-icons";
 import { SectionHeading, WeddingImage, sectionPadding } from "./primitives";
 import { VenueMap } from "./venue-map";
 
@@ -33,9 +34,10 @@ export async function ScheduleSection({ site, locale }: Props) {
 
 /**
  * The day's events down one rail, each marked with a gold diamond, ending on
- * a larger diamond at the close of the day. Shared by every layout. The rail
- * draws as the guest scrolls; each event pops its diamond and rises in on its
- * own as it comes into view.
+ * a larger diamond at the close of the day. Shared by every layout. Each title
+ * carries its kind's icon, drawn from one sprite per timeline. The rail draws
+ * as the guest scrolls; each event pops its diamond and rises in on its own as
+ * it comes into view.
  */
 export async function ScheduleTimeline({ site, locale, className }: Props & { className?: string }) {
   if (site.events.length === 0) return null;
@@ -44,6 +46,7 @@ export async function ScheduleTimeline({ site, locale, className }: Props & { cl
 
   return (
     <TimelineRail level={getMotionLevel(site.couple.motion)} className={cn("ml-1", className)}>
+      <EventIconSprite kinds={items.map((item) => item.kind)} ornament={getOrnament(site.couple.ornament)} />
       <ol>
         {items.map((item) => (
           <li key={item.id} data-reveal-group className="relative pb-12 pl-8 sm:pl-12">
@@ -65,7 +68,13 @@ export async function ScheduleTimeline({ site, locale, className }: Props & { cl
                   <time dateTime={item.startsAt}>{item.time}</time>
                 )}
               </p>
-              <h3 className="mt-1 font-display text-[clamp(1.5rem,3.5vw,2rem)]">{item.title}</h3>
+              <h3 className="relative mt-1 font-display text-[clamp(1.5rem,3.5vw,2rem)]">
+                {/* In the gutter beside the rail and as tall as the first line, so the title stays flush with the time. */}
+                <span className="absolute top-0 right-full flex h-lh items-center pr-[0.3em] text-metal">
+                  <EventIcon kind={item.kind} className="size-[0.75em]" />
+                </span>
+                {item.title}
+              </h3>
               {item.description ? <p className="mt-2 max-w-[52ch]">{item.description}</p> : null}
               {item.venue ? (
                 <p className="mt-2 text-base">

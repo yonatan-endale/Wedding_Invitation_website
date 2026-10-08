@@ -12,7 +12,6 @@ rows are reviewed. Mark a row done by filling in the reviewer and date.
 | `src/lib/event-kinds.ts` | ceremony_civil title | Vow ceremony | የቃልኪዳን ሥርዓት | |
 | `src/lib/event-kinds.ts` | nikah title | Nikah | ኒካህ | |
 | `src/lib/event-kinds.ts` | photos title | Photo session | የፎቶ ፕሮግራም | |
-| `src/lib/event-kinds.ts` | reception title | Reception | የሰርግ ግብዣ | |
 | `src/lib/event-kinds.ts` | blessing title | Elders' blessing | የሽማግሌዎች ምርቃት | |
 | `src/lib/event-kinds.ts` | mels title | Mels | መልስ | |
 | `src/lib/event-kinds.ts` | kelekel title | Kelekel | ቅልቅል | |
@@ -136,3 +135,12 @@ rows are reviewed. Mark a row done by filling in the reviewer and date.
 | Where | Key or context | English | Amharic draft | Reviewer, date |
 |---|---|---|---|---|
 | `messages/am.json` | layouts.arches.allPhotos | View all {count} photos | ሁሉንም {count} ፎቶዎች ይመልከቱ | |
+
+## T2: Habesha event presets
+
+The other default event titles are in the table at the top. The reception
+title was respelled with ሠ to match ሠርግ everywhere else on the site.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `src/lib/event-kinds.ts` | reception title | Reception | የሠርግ ግብዣ | |

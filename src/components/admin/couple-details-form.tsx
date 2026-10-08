@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import { createCouple, updateCoupleDetails } from "@/actions/admin";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { FaithOrnament } from "@/components/wedding/ornaments/faith-ornament";
 import { Band } from "@/components/wedding/primitives";
 import type { AdminCouple } from "@/db/queries/admin";
 import {
@@ -11,8 +12,11 @@ import {
   CALENDAR_STYLE_OPTIONS,
   MOTION_LEVELS,
   MOTION_LEVEL_OPTIONS,
+  ORNAMENTS,
+  ORNAMENT_OPTIONS,
   getCalendarStyle,
   getMotionLevel,
+  getOrnament,
 } from "@/lib/appearance";
 import { DEFAULT_TIMEZONE, HERO_POSITIONS, PARTNER_ROLES, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
@@ -34,6 +38,7 @@ const BORDER_OPTIONS: { value: BorderStyle; label: string; description: string }
   },
   { value: "floral", label: "Floral", description: "A rose vine with leaves." },
   { value: "line", label: "Line", description: "Two thin rules. Quiet and modern." },
+  { value: "harag", label: "Harag", description: "The interlaced knotwork of Ethiopian manuscripts and church carvings." },
 ];
 
 const ROLE_LABELS = { bride: "Bride", groom: "Groom" } as const;
@@ -443,13 +448,56 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                   <span className="font-medium">{option.label}</span>
                 </span>
                 <span className="rounded bg-[var(--w-paper)] px-2 py-1" style={themeStyle(couple?.theme)}>
-                  <Band variant={option.value} className={option.value === "tibeb2" ? "h-10" : "h-6"} />
+                  {/* Harag keeps its full 28px so the checked rails at both edges show. */}
+                  <Band
+                    variant={option.value}
+                    className={option.value === "tibeb2" ? "h-10" : option.value === "harag" ? "h-7" : "h-6"}
+                  />
                 </span>
                 <span className="text-sm text-muted-foreground">{option.description}</span>
               </label>
             ))}
           </div>
           {errors.border ? <p className="text-sm text-destructive">{errors.border}</p> : null}
+        </fieldset>
+
+        <fieldset className="grid gap-3">
+          <legend className="mb-2 text-sm font-medium">Faith ornament</legend>
+          <p className="-mt-1 text-sm text-muted-foreground">
+            A small gold symbol above the names on the invitation. Leave it on None unless the couple asks for one.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {ORNAMENTS.map((ornament) => (
+              <label
+                key={ornament}
+                className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+              >
+                <input
+                  type="radio"
+                  name="ornament"
+                  value={ornament}
+                  defaultChecked={getOrnament(couple?.ornament) === ornament}
+                  className="mt-1"
+                />
+                <span
+                  aria-hidden
+                  className="grid size-12 shrink-0 place-items-center rounded bg-[var(--w-paper)]"
+                  style={themeStyle(couple?.theme)}
+                >
+                  {ornament === "none" ? (
+                    <span className="size-8 rounded-sm border border-dashed border-[var(--w-rule)]" />
+                  ) : (
+                    <FaithOrnament ornament={ornament} reveal={false} className="size-8" />
+                  )}
+                </span>
+                <span className="grid content-start gap-1">
+                  <span className="font-medium">{ORNAMENT_OPTIONS[ornament].label}</span>
+                  <span className="text-sm text-muted-foreground">{ORNAMENT_OPTIONS[ornament].description}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+          {errors.ornament ? <p className="text-sm text-destructive">{errors.ornament}</p> : null}
         </fieldset>
 
         <label className="flex items-center justify-between gap-4 rounded-lg border p-4">

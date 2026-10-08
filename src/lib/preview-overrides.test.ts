@@ -8,6 +8,11 @@ describe("parsePreviewOverrides", () => {
     ).toEqual({ layout: "editorial", opening: "netela", motion: "rich", calendarStyle: "gregorian", theme: "buna" });
   });
 
+  it("reads the border and the faith ornament", () => {
+    expect(parsePreviewOverrides({ border: "harag", ornament: "orthodox" })).toEqual({ border: "harag", ornament: "orthodox" });
+    expect(parsePreviewOverrides({ border: "zigzag", ornament: "valueOf" })).toEqual({});
+  });
+
   it("ignores unknown values, unknown parameters and inherited names", () => {
     const overrides = parsePreviewOverrides({
       layout: "magazine",

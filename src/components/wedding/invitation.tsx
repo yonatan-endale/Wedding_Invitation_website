@@ -1,10 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
+import { getOrnament } from "@/lib/appearance";
 import { pickText, type Locale } from "@/lib/localized";
 import { fullName } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
+import { FaithOrnament } from "./ornaments/faith-ornament";
 import { Band, SectionHeading, WeddingImage, sectionPadding } from "./primitives";
 
 type Props = { site: SiteData; locale: Locale };
@@ -18,6 +20,7 @@ export async function InvitationCard({ site, locale }: Props) {
   const invitation = pickText(couple.invitation, locale) || t("defaultText");
   const dressCode = pickText(couple.dressCode, locale);
   const firstVenue = venues[0];
+  const ornament = getOrnament(couple.ornament);
 
   return (
     <section id="invitation" aria-labelledby="invitation-names" className={sectionPadding}>
@@ -45,11 +48,16 @@ export async function InvitationCard({ site, locale }: Props) {
           <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="text-ink-soft">
             {hosts}
           </p>
+          <FaithOrnament
+            ornament={ornament}
+            style={{ "--i": 2 } as CSSProperties}
+            className="mx-auto mt-8 size-10 sm:size-11"
+          />
           <h2
             id="invitation-names"
             data-reveal="up"
             style={{ "--i": 2 } as CSSProperties}
-            className="mt-8 font-display text-[clamp(2.5rem,7vw,4rem)] leading-none"
+            className={cn("mt-8 font-display text-[clamp(2.5rem,7vw,4rem)] leading-none", ornament !== "none" && "mt-5")}
           >
             {one}
             <span className="mx-3 inline-block align-[0.12em] text-[0.55em]">&amp;</span>

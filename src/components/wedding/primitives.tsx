@@ -2,15 +2,16 @@ import Image, { type ImageProps } from "next/image";
 import type { CSSProperties } from "react";
 import { canOptimizeImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
-import { FLORAL_LAYERS, TIBEB_LAYERS, type BorderLayer, type Thread } from "@/lib/border-shapes";
+import { BORDER_TILES, type BorderTile, type Thread, type TiledBorder } from "@/lib/border-shapes";
 import type { BorderStyle } from "@/lib/constants";
 import { Tibeb } from "./tibeb";
 
 /* ------------------------------------------------------------------ */
-/* Border bands. Tibeb is the woven border of a habesha kemis and       */
-/* floral is a rose vine, both drawn with CSS masks so each thread      */
-/* takes its colour from the couple's theme. Tibeb 2 is the wide band   */
-/* drawn from a real netela, in ./tibeb.tsx. Line is two plain rules.   */
+/* Border bands. Tibeb is the woven border of a habesha kemis, floral   */
+/* is a rose vine and harag the interlace of Ethiopian manuscripts, all */
+/* drawn with CSS masks so each thread takes its colour from the        */
+/* couple's theme. Tibeb 2 is the wide band drawn from a real netela,   */
+/* in ./tibeb.tsx. Line is two plain rules.                             */
 /* ------------------------------------------------------------------ */
 
 type Orientation = "horizontal" | "vertical";
@@ -21,27 +22,26 @@ const THREAD_VARS: Record<Thread, string> = {
   thread3: "var(--w-thread-3)",
 };
 
-const svg = (body: string) =>
+const svg = (body: string, width: number, height: number) =>
   `url("data:image/svg+xml;utf8,${encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'>${body}</svg>`,
+    `<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'>${body}</svg>`,
   )}")`;
 
 /** Shapes are authored horizontally; the vertical band transposes x and y. */
 const transpose = (body: string) => body.replace(/<g>/g, "<g transform='matrix(0 1 1 0 0 0)'>");
 
-type MaskedStyle = "tibeb" | "floral";
+type Mask = { image: string; size: string };
 
-const LAYERS: Record<MaskedStyle, BorderLayer[]> = { tibeb: TIBEB_LAYERS, floral: FLORAL_LAYERS };
+/** One mask per layer in each orientation; the vertical tile is the horizontal one turned on its side. */
+const masks = ({ width, height, layers }: BorderTile): Record<Orientation, Mask[]> => ({
+  horizontal: layers.map((l) => ({ image: svg(l.shapes, width, height), size: `${width}px ${height}px` })),
+  vertical: layers.map((l) => ({ image: svg(transpose(l.shapes), height, width), size: `${height}px ${width}px` })),
+});
 
-const MASKS: Record<MaskedStyle, Record<Orientation, string[]>> = {
-  tibeb: {
-    horizontal: TIBEB_LAYERS.map((l) => svg(l.shapes)),
-    vertical: TIBEB_LAYERS.map((l) => svg(transpose(l.shapes))),
-  },
-  floral: {
-    horizontal: FLORAL_LAYERS.map((l) => svg(l.shapes)),
-    vertical: FLORAL_LAYERS.map((l) => svg(transpose(l.shapes))),
-  },
+const MASKS: Record<TiledBorder, Record<Orientation, Mask[]>> = {
+  tibeb: masks(BORDER_TILES.tibeb),
+  floral: masks(BORDER_TILES.floral),
+  harag: masks(BORDER_TILES.harag),
 };
 
 /**
@@ -102,16 +102,16 @@ export function Band({
       data-reveal={unroll}
       className={cn("relative shrink-0", horizontal ? "h-7 w-full" : "h-full w-7", className)}
     >
-      {LAYERS[variant].map((layer, index) => {
+      {BORDER_TILES[variant].layers.map((layer, index) => {
         const mask = MASKS[variant][orientation][index];
         const style: CSSProperties = {
           backgroundColor: THREAD_VARS[layer.thread],
-          maskImage: mask,
-          WebkitMaskImage: mask,
+          maskImage: mask.image,
+          WebkitMaskImage: mask.image,
           maskRepeat: repeat,
           WebkitMaskRepeat: repeat,
-          maskSize: "28px 28px",
-          WebkitMaskSize: "28px 28px",
+          maskSize: mask.size,
+          WebkitMaskSize: mask.size,
           maskPosition: "center",
           WebkitMaskPosition: "center",
         };

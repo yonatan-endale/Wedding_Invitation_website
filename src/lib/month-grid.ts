@@ -81,5 +81,6 @@ export type MarkerShape = "diamond" | "heart" | "circle" | "square";
 export function markerFor(border: BorderStyle): MarkerShape {
   if (border === "floral") return "heart";
   if (border === "line") return "circle";
+  if (border === "harag") return "square";
   return "diamond";
 }

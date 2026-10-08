@@ -48,16 +48,22 @@ export const MOTION_LEVEL_OPTIONS: Record<MotionLevel, Option> = {
 export const isMotionLevel = (value: unknown): value is MotionLevel => isOneOf(MOTION_LEVELS, value);
 export const getMotionLevel = (value: unknown): MotionLevel => (isMotionLevel(value) ? value : DEFAULT_MOTION_LEVEL);
 
-/** A small religious finial for section heads and the seal rim. Off unless the couple asks for it. */
+/** A small religious symbol over the couple's names, in the theme's gold. Off unless the couple asks for it. */
 export const ORNAMENTS = ["none", "orthodox", "protestant", "harari"] as const;
 export type Ornament = (typeof ORNAMENTS)[number];
 export const DEFAULT_ORNAMENT: Ornament = "none";
 
 export const ORNAMENT_OPTIONS: Record<Ornament, Option> = {
-  none: { label: "None", description: "No religious symbol. An adey abeba flower where an ornament would sit." },
-  orthodox: { label: "Orthodox", description: "A lattice processional cross in gold line." },
-  protestant: { label: "Protestant", description: "A slim plain cross." },
-  harari: { label: "Harari", description: "A geometric rosette from Harari basketry. No script." },
+  none: { label: "None", description: "No religious symbol anywhere on the site." },
+  orthodox: {
+    label: "Orthodox cross",
+    description: "An Ethiopian processional cross: flared arms in outline around an inner cross, bosses on every arm end.",
+  },
+  protestant: { label: "Plain cross", description: "A slim Latin cross with no ornament." },
+  harari: {
+    label: "Harari rosette",
+    description: "An eight-pointed star in a woven band, after the baskets of Harari homes. No cross, no script.",
+  },
 };
 
 export const isOrnament = (value: unknown): value is Ornament => isOneOf(ORNAMENTS, value);

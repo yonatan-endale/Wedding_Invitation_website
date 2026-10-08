@@ -69,5 +69,6 @@ describe("markerFor", () => {
     expect(markerFor("tibeb2")).toBe("diamond");
     expect(markerFor("floral")).toBe("heart");
     expect(markerFor("line")).toBe("circle");
+    expect(markerFor("harag")).toBe("square");
   });
 });

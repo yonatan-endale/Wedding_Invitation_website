@@ -1,3 +1,4 @@
+import { toGeez } from "@/lib/geez";
 import type { Locale } from "@/lib/localized";
 
 const ROMAN: [number, string][] = [
@@ -16,9 +17,6 @@ const ROMAN: [number, string][] = [
   [1, "I"],
 ];
 
-const GEEZ_ONES = ["", "፩", "፪", "፫", "፬", "፭", "፮", "፯", "፰", "፱"];
-const GEEZ_TENS = ["", "፲", "፳", "፴", "፵", "፶", "፷", "፸", "፹", "፺"];
-
 /** 1 → "I", 14 → "XIV". */
 export function romanNumeral(value: number): string {
   let rest = Math.floor(value);
@@ -36,7 +34,7 @@ export function romanNumeral(value: number): string {
 export function geezNumeral(value: number): string {
   const n = Math.floor(value);
   if (n < 1 || n > 99) return String(n);
-  return GEEZ_TENS[Math.floor(n / 10)] + GEEZ_ONES[n % 10];
+  return toGeez(n);
 }
 
 /**

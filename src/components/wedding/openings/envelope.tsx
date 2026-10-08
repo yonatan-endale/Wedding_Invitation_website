@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useIntro } from "../intro/intro-context";
+import { FaithOrnament } from "../ornaments/faith-ornament";
 import { WaxSeal } from "../ornaments/wax-seal";
 import { OpeningShell } from "./shell";
 import type { OpeningProps } from "./types";
@@ -26,7 +27,7 @@ const paper = (shade: number) => `color-mix(in oklab, var(--w-sheet), var(--w-in
  * couple's threads. Tapping it pops the seal, folds the flap back and slides
  * the letter up, then the whole thing fades onto the site.
  */
-export function EnvelopeOpening({ names, initials, separator, dateLine, guestName }: OpeningProps) {
+export function EnvelopeOpening({ names, initials, separator, dateLine, ornament, guestName }: OpeningProps) {
   const t = useTranslations("intro");
   const { phase, open, finish } = useIntro();
   const [step, setStep] = useState(0);
@@ -79,6 +80,8 @@ export function EnvelopeOpening({ names, initials, separator, dateLine, guestNam
             animate={{ y: step >= 4 ? "-58%" : "0%" }}
             transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           >
+            {/* The couple's faith symbol heads the letter, as on a printed invitation. */}
+            <FaithOrnament ornament={ornament} reveal={false} className="size-[clamp(1.25rem,5vw,1.75rem)]" />
             {guestName ? (
               <span className="line-clamp-1 text-[clamp(0.85rem,3vw,1rem)] text-ink-soft">{t("dear", { name: guestName })}</span>
             ) : null}

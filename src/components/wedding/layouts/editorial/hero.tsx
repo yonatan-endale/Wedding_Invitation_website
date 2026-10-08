@@ -1,10 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
+import { getOrnament } from "@/lib/appearance";
 import { pickText, type Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate, formatWeddingTime, weddingDateParts } from "@/lib/wedding-format";
 import { HeroNames } from "../../hero";
+import { FaithOrnament } from "../../ornaments/faith-ornament";
 import { FallingPetals } from "../../petals";
 import { WeddingImage } from "../../primitives";
 import { eyebrow } from "./shared";
@@ -33,6 +35,7 @@ export async function EditorialHero({ site, locale }: Props) {
         className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
       >
         <div>
+          <FaithOrnament ornament={getOrnament(couple.ornament)} className="mb-5 size-9 sm:size-10" />
           <p className={eyebrow}>{t("eyebrow")}</p>
           <h1 className="mt-6 font-display text-[clamp(3rem,9vw,6.5rem)] leading-[0.95] tracking-[-0.01em]">
             <HeroNames one={one} two={two} ampersand="mr-[0.22em] align-[0.1em] text-[0.6em]" />

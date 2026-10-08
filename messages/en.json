@@ -216,5 +216,25 @@
   "motion": {
     "pause": "Pause motion",
     "play": "Play motion"
+  },
+  "layouts": {
+    "reel": {
+      "presents": "Two families present",
+      "starring": "Starring",
+      "scenes": "The scenes",
+      "locations": "Locations",
+      "stills": "Stills",
+      "ending": "And so it begins",
+      "date": "Date",
+      "time": "Time",
+      "venue": "Venue"
+    },
+    "noir": {
+      "accountNumber": "Account number",
+      "morePhotos": "See {count, plural, one {# more photo} other {# more photos}}"
+    },
+    "arches": {
+      "allPhotos": "View all {count} photos"
+    }
   }
 }

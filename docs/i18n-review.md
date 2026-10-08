@@ -109,3 +109,30 @@ rows are reviewed. Mark a row done by filling in the reviewer and date.
 | `messages/am.json` | couplePortal.copyCardLink | Copy card link | የካርዱን ማስፈንጠሪያ ቅዳ | |
 | `messages/am.json` | couplePortal.copied / copyFailed | Copied / Couldn't copy the link. | ተቀድቷል / ማስፈንጠሪያውን መቅዳት አልተቻለም። | |
 | `messages/am.json` | couplePortal.cardShareText | Your invitation card for the wedding of {couple}: {url} | ለ{couple} ሠርግ የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
+
+## Phase 4: Reel layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.reel.presents | Two families present | ሁለት ቤተሰቦች ያቀርባሉ | |
+| `messages/am.json` | layouts.reel.starring | Starring | ዋና ተዋንያን | |
+| `messages/am.json` | layouts.reel.scenes | The scenes | ትዕይንቶች | |
+| `messages/am.json` | layouts.reel.locations | Locations | ቦታዎች | |
+| `messages/am.json` | layouts.reel.stills | Stills | ምስሎች | |
+| `messages/am.json` | layouts.reel.ending | And so it begins | እናም ይጀምራል | |
+| `messages/am.json` | layouts.reel.date | Date | ቀን | |
+| `messages/am.json` | layouts.reel.time | Time | ሰዓት | |
+| `messages/am.json` | layouts.reel.venue | Venue | ቦታ | |
+
+## Phase 4: Noir & Gold layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.noir.accountNumber | Account number | የሂሳብ ቁጥር | |
+| `messages/am.json` | layouts.noir.morePhotos | See {count, plural, one {# more photo} other {# more photos}} | ተጨማሪ {count} ፎቶዎችን ይመልከቱ | |
+
+## Phase 4: Gilded Arches layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.arches.allPhotos | View all {count} photos | ሁሉንም {count} ፎቶዎች ይመልከቱ | |

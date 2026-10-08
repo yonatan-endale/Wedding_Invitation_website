@@ -1,7 +1,10 @@
 import type { ComponentType } from "react";
 import type { LayoutName } from "@/lib/layout";
+import { ArchesLayout } from "./arches";
 import { ClassicLayout } from "./classic";
 import { EditorialLayout } from "./editorial";
+import { NoirLayout } from "./noir";
+import { ReelLayout } from "./reel";
 import type { LayoutProps } from "./types";
 
 export type { LayoutProps, SiteNames } from "./types";
@@ -10,4 +13,7 @@ export type { LayoutProps, SiteNames } from "./types";
 export const LAYOUT_COMPONENTS: Record<LayoutName, ComponentType<LayoutProps>> = {
   classic: ClassicLayout,
   editorial: EditorialLayout,
+  reel: ReelLayout,
+  noir: NoirLayout,
+  arches: ArchesLayout,
 };

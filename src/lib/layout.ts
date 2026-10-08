@@ -20,6 +20,12 @@ export type LayoutMeta = {
   navOrder: readonly NavKey[];
   /** Renders the portraits section (#couple). */
   showsCouple: boolean;
+  /**
+   * The couple section renders even without portraits (Reel's posters and the
+   * Arches' twin arches fall back to the cover photo or an initial), so the
+   * header links to it. Otherwise it needs at least one portrait.
+   */
+  coupleAlways: boolean;
   /** The story section (#story) shows the dated milestones, not only the story text. */
   showsMilestones: boolean;
   /** "dark" layouts swap a light theme for its dark variant. */
@@ -38,6 +44,7 @@ export const LAYOUTS = {
     headerStartSolid: false,
     navOrder: ["invitation", "story", "schedule", "venues", "gallery", "gifts", "rsvp"],
     showsCouple: false,
+    coupleAlways: false,
     showsMilestones: false,
     scheme: "theme",
     defaultOpening: "netela",
@@ -50,10 +57,52 @@ export const LAYOUTS = {
     headerStartSolid: true,
     navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "rsvp", "gifts"],
     showsCouple: true,
+    coupleAlways: false,
     showsMilestones: true,
     scheme: "theme",
     defaultOpening: "envelope",
     recommendedThemes: ["ivory", "blush", "tibeb", "dusty"],
+  },
+  reel: {
+    name: "reel",
+    label: "Reel",
+    description:
+      "Cinematic and dark: a letterboxed cover with opening credits, the couple as the stars, the day as scenes, a film-strip gallery and end credits.",
+    headerStartSolid: false,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "rsvp", "gifts"],
+    showsCouple: true,
+    coupleAlways: true,
+    showsMilestones: true,
+    scheme: "dark",
+    defaultOpening: "seal",
+    recommendedThemes: ["meskel", "buna", "tizita", "burgundy", "emerald"],
+  },
+  noir: {
+    name: "noir",
+    label: "Noir & Gold",
+    description: "Black tie: a gold crest monogram, gold-foil names, a framed gallery wall and black-metal gift cards.",
+    headerStartSolid: false,
+    navOrder: ["invitation", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: false,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "dark",
+    defaultOpening: "seal",
+    recommendedThemes: ["burgundy", "tizita", "buna", "emerald"],
+  },
+  arches: {
+    name: "arches",
+    label: "Gilded Arches",
+    description:
+      "Ivory and gold: the cover photo in an arched window, twin arches for the couple, an arcade of events and an arch-cropped photo strip.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "rsvp", "gifts"],
+    showsCouple: true,
+    coupleAlways: true,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "seal",
+    recommendedThemes: ["ivory", "netela", "lalibela", "basalt"],
   },
 } as const satisfies Record<string, LayoutMeta>;
 

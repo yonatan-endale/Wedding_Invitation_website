@@ -157,6 +157,15 @@
   --w-petal: #c94a4a;
 }
 
+/*
+ * Cormorant Garamond, for the layouts that put cormorant.variable
+ * (src/app/layout-fonts.ts) on their root. Without it the stack falls back to
+ * the display font, and Ge'ez glyphs always fall through to Abyssinica.
+ */
+@utility font-cormorant {
+  font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+}
+
 @layer components {
   .wedding {
     background: var(--w-paper);
@@ -375,16 +384,51 @@ html[data-lite] .petals,
     transition-timing-function: var(--ease-cloth);
   }
 
+  /* SVG strokes with pathLength="1" trace themselves in: arch keylines, crest rings and stems. */
+  html:not([data-motion-off]) .wedding [data-reveal="draw"] {
+    opacity: 1;
+    transform: none;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition-property: stroke-dashoffset, opacity;
+    transition-duration: calc(var(--reveal-time) * 2.4);
+    transition-timing-function: var(--ease-draw);
+  }
+
+  /* A photo rises into its arch window by transform alone; the arch clips the overflow. */
+  html:not([data-motion-off]) .wedding [data-reveal="arch"] {
+    opacity: 1;
+    transform: translate3d(0, 10%, 0) scale(1.16);
+    transform-origin: 50% 100%;
+    transition-duration: calc(var(--reveal-time) * 2);
+  }
+
+  /* Foil text is never hidden; the preset only gets it observed so its sheen can play. */
+  html:not([data-motion-off]) .wedding [data-reveal="sheen"] {
+    opacity: 1;
+    transform: none;
+  }
+
   /* The subtle level only fades. */
-  html:not([data-motion-off]) .wedding[data-motion="subtle"] :is([data-reveal="wipe"], [data-reveal="unroll"], [data-reveal="pop"], [data-reveal="scale"], [data-reveal="rule"]) {
+  html:not([data-motion-off]) .wedding[data-motion="subtle"] :is([data-reveal="wipe"], [data-reveal="unroll"], [data-reveal="pop"], [data-reveal="scale"], [data-reveal="rule"], [data-reveal="arch"]) {
     opacity: 0;
     transform: none;
     clip-path: none;
   }
 
+  html:not([data-motion-off]) .wedding[data-motion="subtle"] [data-reveal="draw"] {
+    opacity: 0;
+    stroke-dashoffset: 0;
+    transition-duration: var(--reveal-time);
+  }
+
   html:not([data-motion-off]) .wedding :is([data-reveal][data-shown], [data-shown] [data-reveal], [data-reveal]:focus-within) {
     opacity: 1;
     transform: none;
+  }
+
+  html:not([data-motion-off]) .wedding :is([data-reveal="draw"][data-shown], [data-shown] [data-reveal="draw"]) {
+    stroke-dashoffset: 0;
   }
 
   /* Wipes end slightly outside the box so focus rings and shadows are never cut off. */
@@ -398,6 +442,17 @@ html[data-lite] .petals,
 
   html:not([data-reveal-ready]) .wedding:not([data-motion="subtle"]) :is([data-reveal="wipe"], [data-reveal="unroll"]) {
     animation: reveal-failsafe-clip 1ms 2.5s forwards;
+  }
+
+  html:not([data-reveal-ready]) .wedding [data-reveal="draw"] {
+    animation: reveal-failsafe-draw 1ms 2.5s forwards;
+  }
+}
+
+@keyframes reveal-failsafe-draw {
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
   }
 }
 
@@ -460,7 +515,7 @@ html:not([data-hydrated]) [data-opening] {
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {
-  html[data-reveal-ready]:not([data-motion-off]) .std :is(.std-photo, .std-char, .std-names, .std-switch, .std-month, .std-weekday, .std-day, .std-mark-line, .std-mark-fill, .std-date, .std-rule, .std-alt) {
+  html[data-reveal-ready]:not([data-motion-off]) .std :is(.std-photo, .std-char, .std-names, .std-frame, .std-switch, .std-month, .std-weekday, .std-day, .std-mark-line, .std-mark-fill, .std-date, .std-rule, .std-alt) {
     transition-property: opacity, transform, clip-path, stroke-dashoffset;
     transition-timing-function: var(--ease-out-soft);
   }
@@ -492,6 +547,16 @@ html:not([data-hydrated]) [data-opening] {
   html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-names {
     opacity: 0;
     transform: translate3d(0, var(--rise), 0);
+  }
+
+  /* Gold keylines and arched panels around the grid (noir and arch skins) settle in. */
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-frame {
+    transition-duration: 0.9s;
+    transition-delay: 0.5s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-frame {
+    opacity: 0;
+    transform: scale(0.97);
   }
 
   html[data-reveal-ready]:not([data-motion-off]) .std :is(.std-switch, .std-month) {
@@ -598,7 +663,7 @@ html:not([data-hydrated]) [data-opening] {
   html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) .std-mark-line {
     stroke-dashoffset: 0;
   }
-  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) :is(.std-mark-fill, .std-rule) {
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) :is(.std-mark-fill, .std-rule, .std-frame) {
     transform: none;
   }
 }
@@ -764,5 +829,73 @@ html[data-motion-off] .digit-strip,
 @media (prefers-reduced-motion: no-preference) {
   html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .rsvp-thanks {
     animation: hero-fade 0.6s var(--ease-out-soft) both;
+  }
+}
+
+/*
+ * Gold foil (FoilText in components/wedding/kit). Solid metal by default; the
+ * gradient, clipped to the glyphs, only where text clipping and color-mix
+ * both work, so the text can never turn invisible. Two layers: a narrow
+ * bright band that rests just off the right edge (the sheen), over the foil
+ * itself, deep at the edges with a soft highlight. For dark grounds or large
+ * display sizes only.
+ */
+.foil-text {
+  color: var(--w-metal);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) and (color: color-mix(in oklab, red, red)) {
+  .foil-text {
+    background-image:
+      linear-gradient(100deg, transparent 42%, color-mix(in oklab, var(--w-metal), white 75%) 50%, transparent 58%),
+      linear-gradient(
+        100deg,
+        color-mix(in oklab, var(--w-metal), black 20%) 0%,
+        var(--w-metal) 25%,
+        color-mix(in oklab, var(--w-metal), white 45%) 48%,
+        var(--w-metal) 70%,
+        color-mix(in oklab, var(--w-metal), black 20%) 100%
+      );
+    background-size:
+      250% 100%,
+      100% 100%;
+    background-position:
+      0% 0,
+      0 0;
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@media (forced-colors: active) {
+  .foil-text {
+    background-image: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+}
+
+/* The sheen sweeps once, left to right, when the text or an ancestor is revealed. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) :is(.foil-sheen[data-shown], [data-shown] .foil-sheen) {
+    animation: foil-sheen 1.6s var(--ease-draw) var(--sheen-delay, 0.4s) 1 both;
+  }
+}
+
+@keyframes foil-sheen {
+  from {
+    background-position:
+      100% 0,
+      0 0;
+  }
+  to {
+    background-position:
+      0% 0,
+      0 0;
   }
 }

@@ -16,10 +16,10 @@ import {
 } from "@/lib/appearance";
 import { DEFAULT_TIMEZONE, HERO_POSITIONS, PARTNER_ROLES, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
-import { LAYOUTS, LAYOUT_NAMES, type LayoutName } from "@/lib/layout";
+import { LAYOUTS, LAYOUT_NAMES, type LayoutMeta, type LayoutName } from "@/lib/layout";
 import { OPENINGS, OPENING_NAMES, getOpening, type OpeningName } from "@/lib/opening";
 import { slugify } from "@/lib/slug";
-import { THEME_LIST, themeStyle } from "@/lib/theme";
+import { THEME_LIST, getTheme, themeStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { Field, FormSection, LocalizedField, NativeSelect, SubmitButton } from "./fields";
 import { MediaField } from "./media-field";
@@ -63,6 +63,38 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <rect x="80" y="25" width="8" height="6" fill={stroke} opacity="0.35" />
       <ellipse cx="30" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
       <ellipse cx="66" cy="47" rx="6" ry="7" fill={stroke} opacity="0.35" />
+    </>
+  ),
+  reel: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="36" fill={stroke} opacity="0.7" />
+      <rect x="0.5" y="0.5" width="95" height="5" fill={stroke} />
+      <rect x="0.5" y="31.5" width="95" height="5" fill={stroke} />
+      <rect x="30" y="16" width="36" height="3" fill="white" />
+      <rect x="38" y="22" width="20" height="2" fill="white" opacity="0.7" />
+      {[6, 26, 46, 66].map((x) => (
+        <rect key={x} x={x} y="42" width="16" height="12" fill={stroke} opacity="0.35" />
+      ))}
+    </>
+  ),
+  noir: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill={stroke} opacity="0.75" />
+      <circle cx="48" cy="20" r="11" fill="none" stroke="white" opacity="0.8" />
+      <circle cx="48" cy="20" r="8" fill="none" stroke="white" opacity="0.5" />
+      <rect x="30" y="37" width="36" height="3" fill="white" opacity="0.9" />
+      <rect x="22" y="46" width="14" height="9" fill="none" stroke="white" opacity="0.6" />
+      <rect x="41" y="46" width="14" height="9" fill="none" stroke="white" opacity="0.6" />
+      <rect x="60" y="46" width="14" height="9" fill="none" stroke="white" opacity="0.6" />
+    </>
+  ),
+  arches: (
+    <>
+      <path d="M34 34V16a14 14 0 0 1 28 0v18z" fill={stroke} opacity="0.35" />
+      <path d="M31 35V16a17 17 0 0 1 34 0v19" fill="none" stroke={stroke} opacity="0.7" />
+      {[14, 34, 54, 74].map((x) => (
+        <path key={x} d={`M${x} 56v-8a4 4 0 0 1 8 0v8z`} fill={stroke} opacity="0.35" />
+      ))}
     </>
   ),
 };
@@ -277,28 +309,39 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
       >
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Layout</legend>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {LAYOUT_NAMES.map((name) => LAYOUTS[name]).map((layout) => (
-              <label
-                key={layout.name}
-                className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
-              >
-                <input
-                  type="radio"
-                  name="layout"
-                  value={layout.name}
-                  defaultChecked={((couple?.layout as LayoutName | undefined) ?? "classic") === layout.name}
-                  className="mt-1"
-                />
-                <span className="grid gap-2">
-                  <span className="flex items-center gap-3">
-                    <LayoutSketch name={layout.name} />
-                    <span className="font-medium">{layout.label}</span>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {LAYOUT_NAMES.map((name) => {
+              // Typed as the wide shape so "dark" stays comparable while every registered layout is "theme".
+              const layout: LayoutMeta = LAYOUTS[name];
+              const themeLabels = layout.recommendedThemes.map((theme) => getTheme(theme).label);
+              return (
+                <label
+                  key={name}
+                  className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+                >
+                  <input
+                    type="radio"
+                    name="layout"
+                    value={name}
+                    defaultChecked={((couple?.layout as LayoutName | undefined) ?? "classic") === name}
+                    className="mt-1"
+                  />
+                  <span className="grid gap-2">
+                    <span className="flex items-center gap-3">
+                      <LayoutSketch name={name} />
+                      <span className="font-medium">{layout.label}</span>
+                    </span>
+                    <span className="text-sm text-muted-foreground">{layout.description}</span>
+                    {themeLabels.length ? (
+                      <span className="text-xs text-muted-foreground">Looks best with: {themeLabels.join(", ")}</span>
+                    ) : null}
+                    {layout.scheme === "dark" ? (
+                      <span className="text-xs text-muted-foreground">Light themes are shown in their dark version.</span>
+                    ) : null}
                   </span>
-                  <span className="text-sm text-muted-foreground">{layout.description}</span>
-                </span>
-              </label>
-            ))}
+                </label>
+              );
+            })}
           </div>
           {errors.layout ? <p className="text-sm text-destructive">{errors.layout}</p> : null}
         </fieldset>

@@ -23,7 +23,7 @@ import { isLocale, pickText, type Locale } from "@/lib/localized";
 import { fullName, initials, monogramText } from "@/lib/names";
 import { getOpening } from "@/lib/opening";
 import { hasPreviewOverrides, parsePreviewOverrides, type PreviewOverrides } from "@/lib/preview-overrides";
-import { getTheme, themeCss } from "@/lib/theme";
+import { getTheme, layoutPalette, themeCss } from "@/lib/theme";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -106,12 +106,14 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
   const links = sectionLinks(site, locale, (key) => t(key), meta);
   const photos = site.photos.map((photo) => ({ id: photo.id, url: photo.url, caption: pickText(photo.caption, locale) }));
   const motion = getMotionLevel(couple.motion);
+  // Dark layouts show a light theme in its dark variant.
+  const palette = layoutPalette(getTheme(couple.theme), meta.scheme);
 
   return (
     <MusicProvider src={couple.musicUrl}>
       <IntroProvider slug={couple.slug}>
         <MotionProvider>
-          <style dangerouslySetInnerHTML={{ __html: themeCss(getTheme(couple.theme)) }} />
+          <style dangerouslySetInnerHTML={{ __html: themeCss(palette) }} />
           <div className="wedding min-h-screen" lang={locale} data-motion={motion}>
             <BootScript slug={couple.slug} replay={query.replay === "1"} />
             <noscript dangerouslySetInnerHTML={{ __html: "<style>[data-opening]{display:none!important}</style>" }} />

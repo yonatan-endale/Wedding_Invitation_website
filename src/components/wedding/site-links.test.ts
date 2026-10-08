@@ -57,6 +57,12 @@ describe("sectionLinks", () => {
     expect(ids(site({ couple: { partnerTwoPortraitUrl: "/b.jpg" } }), "editorial")).toContain("couple");
   });
 
+  it("always links the couple in layouts whose couple section has its own fallback", () => {
+    expect(ids(site(), "reel")).toContain("couple");
+    expect(ids(site(), "arches")).toContain("couple");
+    expect(ids(site(), "noir")).not.toContain("couple");
+  });
+
   it("finds story text in either language", () => {
     expect(ids(site({ couple: { story: { en: "We met." } } }), "classic", "am")).toContain("story");
   });

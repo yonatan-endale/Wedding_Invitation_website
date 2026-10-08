@@ -1,0 +1,134 @@
+/*
+ * Noir & Gold, layout-only styles. Everything that moves animates transform
+ * or opacity, and only for guests who welcome motion.
+ */
+
+/*
+ * Every section heading on the page, the shared ones included, is set in
+ * Cormorant: light for the large titles, medium for the smaller ones. Ge'ez
+ * falls through to Abyssinica.
+ */
+.root :is(h2, h3):not(.label) {
+  font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+}
+
+.root h2:not(.label) {
+  font-weight: 300;
+}
+
+.root h3:not(.label) {
+  font-weight: 500;
+}
+
+/* A heading set as a small label keeps the label's own font. */
+.label {
+  font-family: var(--font-body);
+}
+
+/*
+ * The gallery wall. Phones and tablets: two columns, one wide frame then two
+ * tall ones. Wide screens: a twelve-column salon hang in groups of five, one
+ * large piece beside four smaller ones, the large piece alternating sides;
+ * a short last row splits the width evenly. Each piece's placement comes in
+ * as custom properties from gallery.tsx (worked out in wall.ts).
+ */
+.wall {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
+}
+
+.piece {
+  grid-column: span var(--m-span, 1);
+  aspect-ratio: var(--m-ratio, 3 / 4);
+}
+
+@media (min-width: 1024px) {
+  .wall {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: clamp(2rem, 3.3vw, 2.6rem);
+    gap: 2.5rem;
+  }
+
+  .piece {
+    grid-column: var(--d-col);
+    grid-row: var(--d-row);
+    aspect-ratio: auto;
+  }
+}
+
+/*
+ * Sparkles: a few tiny gold glints around a crest that twinkle in turn.
+ * Rich motion only, never for reduced or paused motion or data saving, and
+ * paused while the crest is off screen (data-inview comes from RevealObserver).
+ */
+.sparkles {
+  display: none;
+}
+
+.glint {
+  position: absolute;
+  translate: -50% -50%;
+  color: var(--w-metal);
+  color: color-mix(in oklab, var(--w-metal), white 50%);
+  opacity: 0;
+  transform: scale(0.3);
+  animation: glint 6.4s var(--ease-out-soft) infinite both;
+}
+
+.sparkles:not([data-inview]) .glint {
+  animation-play-state: paused;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  :global(html):not([data-motion-off]):not([data-lite]) :global(.wedding)[data-motion="rich"] .sparkles {
+    display: block;
+  }
+}
+
+@keyframes glint {
+  0%,
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  78% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+  90% {
+    opacity: 0;
+    transform: scale(0.5) rotate(90deg);
+  }
+}
+
+/*
+ * The black-metal gift card catches the light once as it comes into view: a
+ * soft band crosses the face by transform alone (moderate and rich motion).
+ */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: -20% auto -20% 0;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.09) 45%, rgb(255 255 255 / 0.16) 50%, rgb(255 255 255 / 0.09) 55%, transparent);
+  transform: translate3d(-120%, 0, 0) skewX(-12deg);
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  :global(html):not([data-motion-off]) :global(.wedding):not([data-motion="subtle"]) [data-shown] .card::after,
+  :global(html):not([data-motion-off]) :global(.wedding):not([data-motion="subtle"]) .card[data-shown]::after {
+    animation: card-sheen 1.8s var(--ease-draw) 0.5s 1 both;
+  }
+}
+
+@keyframes card-sheen {
+  from {
+    transform: translate3d(-120%, 0, 0) skewX(-12deg);
+  }
+  to {
+    transform: translate3d(340%, 0, 0) skewX(-12deg);
+  }
+}

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { contrastRatio, mixHex } from "./contrast";
 
 type ThemeColors = {
   paper: string;
@@ -28,7 +29,7 @@ export type Theme = {
 };
 
 /**
- * The first five palettes borrow from Ethiopian weddings; the rest are classic
+ * The first nine palettes borrow from Ethiopian weddings; the rest are classic
  * wedding schemes. The three "threads" colour the border band that runs through
  * the site, whichever border style the couple picks.
  */
@@ -126,6 +127,83 @@ const THEMES = {
       metal: "#c9d2e6",
       onThread1: "#151b2b",
       petal: "#d98a99",
+    },
+  },
+  netela: {
+    name: "netela",
+    label: "Netela",
+    description: "Cotton-white netela with one gold thread at the hem, a deep green and a muted red.",
+    scheme: "light",
+    colors: {
+      paper: "#fbf8f1",
+      ink: "#24221d",
+      inkSoft: "#6a6457",
+      rule: "#e8e0cd",
+      sheet: "#fffdf8",
+      thread1: "#1f5a43",
+      thread2: "#b8913a",
+      thread3: "#9c3b30",
+      metal: "#b8913a",
+      onThread1: "#ffffff",
+      petal: "#c9a24e",
+    },
+  },
+  emerald: {
+    name: "emerald",
+    label: "Emerald & Gold",
+    description: "Deep emerald velvet embroidered in gold, like a wedding kaba. Rich and evening.",
+    scheme: "dark",
+    colors: {
+      paper: "#0e2a22",
+      ink: "#f4ecd6",
+      inkSoft: "#b7b79c",
+      rule: "#244a3d",
+      sheet: "#123429",
+      thread1: "#d4af37",
+      thread2: "#e9cf7a",
+      thread3: "#b5523b",
+      metal: "#d4af37",
+      onThread1: "#0e2a22",
+      petal: "#f2c12e",
+    },
+  },
+  adey: {
+    name: "adey",
+    label: "Adey",
+    description: "Soft sage, adey abeba yellow and clay, like a tibeb border woven in pastels.",
+    scheme: "light",
+    colors: {
+      paper: "#f7f4ea",
+      ink: "#25302a",
+      inkSoft: "#5e6a60",
+      rule: "#e2dfcf",
+      sheet: "#fcfaf3",
+      thread1: "#6f9b7a",
+      thread2: "#e8bf3c",
+      thread3: "#c46a55",
+      metal: "#c49a3c",
+      // Sage is too light for white text, so labels on it are dark.
+      onThread1: "#15211a",
+      petal: "#e8bf3c",
+    },
+  },
+  basalt: {
+    name: "basalt",
+    label: "Basalt",
+    description: "The grey stone of Aksum and Gondar, dark carved wood, bronze and an oxblood accent.",
+    scheme: "light",
+    colors: {
+      paper: "#ebe7e1",
+      ink: "#2b2622",
+      inkSoft: "#635a52",
+      rule: "#d6cfc5",
+      sheet: "#f5f2ed",
+      thread1: "#5a4a3c",
+      thread2: "#b38b4d",
+      thread3: "#7a3a2a",
+      metal: "#b38b4d",
+      onThread1: "#ffffff",
+      petal: "#b5654f",
     },
   },
   blush: {
@@ -248,4 +326,55 @@ export function themeCss(theme: Theme): string {
     .map(([key, value]) => `${key}:${value}`)
     .join(";");
   return `:root{color-scheme:${theme.scheme};${vars}}body{background:${theme.colors.paper}}`;
+}
+
+/** The near-black a dark variant starts from, before the theme ink tints it. */
+const DARK_BASE = "#0b0b0b";
+
+/** Moves `color` toward `toward` in small steps until it reaches `ratio` against `against`. */
+function withContrast(color: string, against: string, ratio: number, toward: string): string {
+  let result = color;
+  for (let step = 1; step <= 20 && contrastRatio(result, against) < ratio; step++) {
+    result = mixHex(color, toward, step / 20);
+  }
+  return result;
+}
+
+/**
+ * A light theme recoloured for the dark layouts: near-black paper tinted with
+ * the theme's ink, the theme's paper as the ink, and the gold doing the work of
+ * the first thread. Dark themes come back unchanged. Pure palette maths, so the
+ * result is a plain theme `themeCss()` can write out.
+ */
+export function darkVariant(theme: Theme): Theme {
+  if (theme.scheme === "dark") return theme;
+  const c = theme.colors;
+  const paper = mixHex(DARK_BASE, c.ink, 0.4);
+  const ink = withContrast(c.paper, paper, 7, "#ffffff");
+  const sheet = mixHex(paper, ink, 0.05);
+  // Checked against the lighter sheet, so the colours also read on cards.
+  const metal = withContrast(c.metal, sheet, 4.5, "#ffffff");
+  return {
+    ...theme,
+    scheme: "dark",
+    colors: {
+      paper,
+      ink,
+      inkSoft: withContrast(mixHex(c.inkSoft, ink, 0.5), sheet, 4.5, ink),
+      rule: mixHex(paper, ink, 0.12),
+      sheet,
+      thread1: metal,
+      thread2: metal,
+      // A border colour, so it needs the 3:1 of non-text contrast; more would wash it out.
+      thread3: withContrast(c.thread3, sheet, 3, ink),
+      metal,
+      onThread1: paper,
+      petal: c.petal,
+    },
+  };
+}
+
+/** The palette a layout shows: a "dark" layout swaps a light theme for its dark variant. */
+export function layoutPalette(theme: Theme, layoutScheme: "theme" | "dark"): Theme {
+  return layoutScheme === "dark" && theme.scheme === "light" ? darkVariant(theme) : theme;
 }

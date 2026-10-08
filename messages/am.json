@@ -216,5 +216,25 @@
   "motion": {
     "pause": "እንቅስቃሴን አቁም",
     "play": "እንቅስቃሴን አስጀምር"
+  },
+  "layouts": {
+    "reel": {
+      "presents": "ሁለት ቤተሰቦች ያቀርባሉ",
+      "starring": "ዋና ተዋንያን",
+      "scenes": "ትዕይንቶች",
+      "locations": "ቦታዎች",
+      "stills": "ምስሎች",
+      "ending": "እናም ይጀምራል",
+      "date": "ቀን",
+      "time": "ሰዓት",
+      "venue": "ቦታ"
+    },
+    "noir": {
+      "accountNumber": "የሂሳብ ቁጥር",
+      "morePhotos": "ተጨማሪ {count} ፎቶዎችን ይመልከቱ"
+    },
+    "arches": {
+      "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ"
+    }
   }
 }

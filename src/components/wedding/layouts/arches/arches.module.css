@@ -1,0 +1,63 @@
+/*
+ * Gilded Arches: keyframes only this layout uses. Transform and opacity only.
+ * Like the shared hero entrance in globals.css, they start as the opening
+ * screen parts (data-intro), never run for reduced or paused motion, and
+ * without scripts nothing waits.
+ */
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* The cover photo rises gently inside its arch. It is the largest paint, so it moves by transform alone and is never hidden. */
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) .rise {
+    animation: rise 2.6s var(--ease-out-soft) both;
+  }
+
+  /* The sunburst behind the arch turns into place and brightens; the subtle level only fades it in. */
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding) .rays {
+    animation: rays 2.8s var(--ease-out-soft) 0.15s both;
+  }
+
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding[data-motion="subtle"]) .rays {
+    animation-name: rays-fade;
+    animation-duration: 1.2s;
+  }
+}
+
+/* Rich: as the guest scrolls past the cover, the sunburst keeps turning slowly. */
+@supports (animation-timeline: view()) {
+  .timeline {
+    view-timeline-name: --arches-hero;
+  }
+
+  @media screen and (prefers-reduced-motion: no-preference) {
+    :global(html:not([data-motion-off])) :global(.wedding[data-motion="rich"]) .drift {
+      animation: drift linear both;
+      animation-timeline: --arches-hero;
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translate3d(0, 7%, 0) scale(1.1);
+  }
+}
+
+@keyframes rays {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.92);
+  }
+}
+
+@keyframes rays-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes drift {
+  to {
+    transform: rotate(12deg);
+  }
+}

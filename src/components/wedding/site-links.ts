@@ -4,7 +4,7 @@ import { pickText, type Locale } from "@/lib/localized";
 import type { NavKey } from "@/lib/nav";
 import type { NavLink } from "./site-header";
 
-type LayoutNav = Pick<LayoutMeta, "navOrder" | "showsCouple" | "showsMilestones">;
+type LayoutNav = Pick<LayoutMeta, "navOrder" | "showsCouple" | "coupleAlways" | "showsMilestones">;
 
 /**
  * Header links, in the layout's page order, for the sections that will
@@ -14,7 +14,9 @@ export function sectionLinks(site: SiteData, locale: Locale, t: (key: NavKey) =>
   const { couple } = site;
   const visible: Record<NavKey, boolean> = {
     invitation: true,
-    couple: layout.showsCouple && Boolean(couple.partnerOnePortraitUrl || couple.partnerTwoPortraitUrl),
+    couple:
+      layout.showsCouple &&
+      (layout.coupleAlways || Boolean(couple.partnerOnePortraitUrl || couple.partnerTwoPortraitUrl)),
     story: Boolean(pickText(couple.story, locale)) || (layout.showsMilestones && site.milestones.length > 0),
     schedule: site.events.length > 0,
     venues: site.venues.length > 0,

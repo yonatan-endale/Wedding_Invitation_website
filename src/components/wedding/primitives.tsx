@@ -183,3 +183,7 @@ export const buttonOutline =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-[3px] border border-ink/25 px-5 py-2.5 text-base text-ink transition-colors hover:border-ink hover:bg-ink/[0.04] disabled:opacity-60";
 
 export const sectionPadding = "px-5 py-20 sm:px-8 sm:py-28";
+
+/** Small tracked capitals for labels above headings. Ge'ez is never uppercased or letter-spaced, and is set a size up so it stays legible. */
+export const eyebrowClass =
+  "text-xs font-medium uppercase tracking-[0.3em] text-ink-soft [&:lang(am)]:text-sm [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case";

@@ -54,6 +54,8 @@ export type SiteCouple = {
   petals: boolean;
   rsvpEnabled: boolean;
   rsvpDeadline: string | null;
+  guestCardsEnabled: boolean;
+  couplePageEnabled: boolean;
 };
 
 export type SitePhoto = { id: string; url: string; caption: LocalizedText | null };
@@ -182,6 +184,8 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       calendarPhotoUrl: row.calendarPhotoUrl,
       petals: row.petals,
       rsvpEnabled: row.rsvpEnabled,
+      guestCardsEnabled: row.guestCardsEnabled,
+      couplePageEnabled: row.couplePageEnabled,
       rsvpDeadline: row.rsvpDeadline?.toISOString() ?? null,
     },
     photos: photoRows.map((p) => ({ id: p.id, url: p.url, caption: p.caption })),
@@ -234,7 +238,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
  * cached before a deploy are never read with the new shape.
  */
 export function getSiteData(slug: string): Promise<SiteData | null> {
-  return unstable_cache(() => loadSite(slug), ["site-data", "v2", slug], {
+  return unstable_cache(() => loadSite(slug), ["site-data", "v3", slug], {
     tags: [siteCacheTag(slug)],
     revalidate: 3600,
   })();

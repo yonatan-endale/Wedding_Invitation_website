@@ -11,14 +11,14 @@ export type CardGuest = { name: string; guestCount: number; locale: Locale; toke
 export type GuestCard = { site: SiteData; guest: CardGuest };
 
 /**
- * A guest's card by its secret token: only for a published couple, the slug in
- * the link and an RSVP that said yes. The RSVP is read fresh, not cached, so
+ * A guest's card by its secret token: only for a published couple with guest
+ * cards turned on, the slug in the link and an RSVP that said yes. The RSVP is read fresh, not cached, so
  * deleting it in the admin voids the card and the entry pass at once.
  */
 export async function getGuestCard(slug: string, token: string): Promise<GuestCard | null> {
   if (!isCardToken(token)) return null;
   const site = await getSiteData(slug);
-  if (!site || site.couple.status !== "published") return null;
+  if (!site || site.couple.status !== "published" || !site.couple.guestCardsEnabled) return null;
 
   const [row] = await getDb()
     .select({ name: rsvps.name, guestCount: rsvps.guestCount, attending: rsvps.attending, locale: rsvps.locale })

@@ -33,7 +33,9 @@
     "ornament": "none",
     "petals": true,
     "rsvpEnabled": true,
-    "rsvpDeadline": "2026-10-10T23:59"
+    "rsvpDeadline": "2026-10-10T23:59",
+    "guestCardsEnabled": false,
+    "couplePageEnabled": false
   },
   "venues": [
     {

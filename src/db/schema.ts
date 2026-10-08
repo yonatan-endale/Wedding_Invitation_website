@@ -69,6 +69,9 @@ export const couples = pgTable("couples", {
   petals: boolean("petals").notNull().default(true),
   rsvpEnabled: boolean("rsvp_enabled").notNull().default(true),
   rsvpDeadline: timestamp("rsvp_deadline", { withTimezone: true }),
+  /** New features start off for every couple; the admin turns them on per couple. */
+  guestCardsEnabled: boolean("guest_cards_enabled").notNull().default(false),
+  couplePageEnabled: boolean("couple_page_enabled").notNull().default(false),
   ...timestamps,
 });
 

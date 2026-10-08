@@ -13,6 +13,7 @@ import { hashPasscode, newPasscode, randomToken, sha256, verifyPasscode } from "
  * sha256) plus a passcode (kept only as salted scrypt). Opening it starts a
  * session: a random token in an HttpOnly cookie, kept only as a sha256 and
  * checked against the database on every request. Nothing here touches Clerk.
+ * Links and sessions only work while the couple's page is turned on in the admin.
  */
 
 const SESSION_DAYS = 30;
@@ -98,7 +99,7 @@ export async function verifyAccess(slug: string, token: string, passcode: string
     .select({ id: coupleAccess.id, coupleId: coupleAccess.coupleId, passcodeHash: coupleAccess.passcodeHash })
     .from(coupleAccess)
     .innerJoin(couples, eq(couples.id, coupleAccess.coupleId))
-    .where(and(eq(coupleAccess.tokenHash, sha256(token)), eq(couples.slug, slug)))
+    .where(and(eq(coupleAccess.tokenHash, sha256(token)), eq(couples.slug, slug), eq(couples.couplePageEnabled, true)))
     .limit(1);
 
   if (!row) {
@@ -164,7 +165,14 @@ export async function getCoupleSession(slug: string): Promise<{ coupleId: string
     .select({ coupleId: coupleSessions.coupleId })
     .from(coupleSessions)
     .innerJoin(couples, eq(couples.id, coupleSessions.coupleId))
-    .where(and(eq(coupleSessions.tokenHash, sha256(token)), eq(couples.slug, slug), gt(coupleSessions.expiresAt, new Date())))
+    .where(
+      and(
+        eq(coupleSessions.tokenHash, sha256(token)),
+        eq(couples.slug, slug),
+        eq(couples.couplePageEnabled, true),
+        gt(coupleSessions.expiresAt, new Date()),
+      ),
+    )
     .limit(1);
   return row ?? null;
 }

@@ -259,6 +259,7 @@ describe("parseCoupleTexts", () => {
         telegramUrl: "https://t.me/hanna_dawit",
         rsvpEnabled: "on",
         rsvpDeadline: "2026-06-30T23:59",
+        guestCardsEnabled: "on",
       },
       "Africa/Addis_Ababa",
     );
@@ -276,6 +277,8 @@ describe("parseCoupleTexts", () => {
       telegramUrl: "https://t.me/hanna_dawit",
       rsvpEnabled: true,
       rsvpDeadline: new Date("2026-06-30T20:59:00.000Z"),
+      guestCardsEnabled: true,
+      couplePageEnabled: false,
     });
   });
 
@@ -285,6 +288,8 @@ describe("parseCoupleTexts", () => {
     if (!result.success) return;
     expect(result.data.rsvpEnabled).toBe(false);
     expect(result.data.rsvpDeadline).toBeNull();
+    expect(result.data.guestCardsEnabled).toBe(false);
+    expect(result.data.couplePageEnabled).toBe(false);
   });
 });
 

@@ -259,6 +259,8 @@ export type CoupleTexts = {
   telegramUrl: string | null;
   rsvpEnabled: boolean;
   rsvpDeadline: Date | null;
+  guestCardsEnabled: boolean;
+  couplePageEnabled: boolean;
 };
 
 export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<CoupleTexts> {
@@ -276,6 +278,8 @@ export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<Cou
       telegramUrl: optionalUrl(form, "telegramUrl", errors, { allowRelative: false }),
       rsvpEnabled: form.rsvpEnabled === "on",
       rsvpDeadline: dateTime(form, "rsvpDeadline", timeZone, errors, { required: false }),
+      guestCardsEnabled: form.guestCardsEnabled === "on",
+      couplePageEnabled: form.couplePageEnabled === "on",
     },
     errors,
   );

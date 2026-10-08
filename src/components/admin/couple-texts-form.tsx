@@ -56,6 +56,24 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
           </span>
           <Switch name="rsvpEnabled" defaultChecked={couple.rsvpEnabled} value="on" />
         </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Guest invitation cards</span>
+            <span className="block text-sm text-muted-foreground">
+              Guests who accept get a personal card to download, with a QR entry pass. Off by default.
+            </span>
+          </span>
+          <Switch name="guestCardsEnabled" defaultChecked={couple.guestCardsEnabled} value="on" />
+        </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Couple&apos;s private page</span>
+            <span className="block text-sm text-muted-foreground">
+              Lets the couple read RSVPs and wishes with a link and passcode, made in the RSVPs tab. Off by default.
+            </span>
+          </span>
+          <Switch name="couplePageEnabled" defaultChecked={couple.couplePageEnabled} value="on" />
+        </label>
         <Field
           label="RSVP deadline (optional)"
           htmlFor="rsvpDeadline"

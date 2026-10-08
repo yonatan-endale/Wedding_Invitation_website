@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function CouplePortalPage({ params }: Props) {
   const { slug } = await params;
   const site = await getSiteData(slug);
-  if (!site) notFound();
+  if (!site?.couple.couplePageEnabled) notFound();
 
   const [t, current, session] = await Promise.all([getTranslations("couplePortal"), getLocale(), getCoupleSession(slug)]);
   const locale = isLocale(current) ? current : "en";
@@ -57,6 +57,7 @@ export default async function CouplePortalPage({ params }: Props) {
         timezone={couple.timezone}
         siteBase={siteBase}
         locale={locale}
+        cardsEnabled={couple.guestCardsEnabled}
       />
     </ThemedPage>
   );

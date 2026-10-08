@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function EntryPassPage({ params }: Props) {
   const { slug, token } = await params;
   const [card, site] = await Promise.all([getGuestCard(slug, token), getSiteData(slug)]);
-  if (!site || site.couple.status !== "published") notFound();
+  if (!site || site.couple.status !== "published" || !site.couple.guestCardsEnabled) notFound();
 
   const [t, tCard, current, base] = await Promise.all([
     getTranslations("card.pass"),

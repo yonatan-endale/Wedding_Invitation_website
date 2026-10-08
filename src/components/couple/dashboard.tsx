@@ -14,10 +14,11 @@ type Props = {
   timezone: string;
   siteBase: string;
   locale: Locale;
+  cardsEnabled: boolean;
 };
 
 /** The couple's private page: how many are coming, the wishes guests left, and every guest with their card. */
-export async function CoupleDashboard({ slug, rows, coupleNames, timezone, siteBase, locale }: Props) {
+export async function CoupleDashboard({ slug, rows, coupleNames, timezone, siteBase, locale, cardsEnabled }: Props) {
   const t = await getTranslations("couplePortal");
   const received = (date: Date) =>
     locale === "am" ? formatEthiopianDateLine(date.toISOString(), timezone) : formatGregorianDate(date.toISOString(), timezone);
@@ -119,7 +120,7 @@ export async function CoupleDashboard({ slug, rows, coupleNames, timezone, siteB
                     {row.attending ? ` · ${t("guestCount")}: ${row.guestCount}` : null}
                   </p>
                 </div>
-                {row.attending ? (
+                {row.attending && cardsEnabled ? (
                   <GuestCardActions siteBase={siteBase} token={row.cardToken} phone={row.phone} coupleNames={coupleNames} />
                 ) : null}
               </li>

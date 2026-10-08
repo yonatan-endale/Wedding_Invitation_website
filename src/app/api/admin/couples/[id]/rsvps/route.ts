@@ -21,7 +21,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     message: r.message,
     language: r.locale === "am" ? "Amharic" : "English",
     received: r.createdAt.toISOString(),
-    card: r.attending ? cardPageUrl(share, r.cardToken) : "",
+    card: r.attending && couple.guestCardsEnabled ? cardPageUrl(share, r.cardToken) : "",
   }));
 
   const csv = toCsv(rows, [

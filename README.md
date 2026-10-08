@@ -79,9 +79,13 @@ For local Clerk keys without an account, run `npx clerk@latest init --framework 
 6. Click **Preview**, check it on your phone, then click **Publish**.
 7. Use **Copy link**, or the menu's WhatsApp and Telegram share, to send the link.
 
-RSVPs appear in the **RSVPs** tab. **Download CSV** opens in Excel with Amharic names intact and includes each guest's card link. The card button on a guest's row downloads their card or sends it to them on WhatsApp.
+RSVPs appear in the **RSVPs** tab. **Download CSV** opens in Excel with Amharic names intact.
 
-To give the couple their own page, click **Create link and passcode** at the top of the RSVPs tab. Send the link and the passcode by different routes, for example the link on Telegram and the passcode by phone. Both are shown only once; if they get lost, make a new pair, which also signs out every device. Five wrong passcodes in a row lock the page for 15 minutes, then longer; **Unlock** lifts it early.
+Guest cards and the couple's private page start **off** for every couple. Turn them on in **Invitation text → RSVP and sharing**. While a feature is off, its pages return "not found" and its links stop working; turning it back on restores them.
+
+With guest cards on, the CSV includes each guest's card link, and the card button on a guest's row downloads their card or sends it to them on WhatsApp.
+
+To give the couple their own page, turn it on, then click **Create link and passcode** at the top of the RSVPs tab. Send the link and the passcode by different routes, for example the link on Telegram and the passcode by phone. Both are shown only once; if they get lost, make a new pair, which also signs out every device. Five wrong passcodes in a row lock the page for 15 minutes, then longer; **Unlock** lifts it early.
 
 ## Deploy to Vercel (free Hobby plan)
 

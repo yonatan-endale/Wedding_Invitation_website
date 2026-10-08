@@ -160,6 +160,8 @@ function buildSchema(timeZone: string) {
       petals: z.boolean().default(true),
       rsvpEnabled: z.boolean().default(true),
       rsvpDeadline: optionalDateTime(timeZone),
+      guestCardsEnabled: z.boolean().default(false),
+      couplePageEnabled: z.boolean().default(false),
     })
     .strict();
 

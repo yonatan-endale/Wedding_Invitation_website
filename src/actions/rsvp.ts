@@ -70,7 +70,10 @@ export async function submitRsvp(slug: string, _previous: RsvpFormState, formDat
       .values({ coupleId: couple.id, ...parsed.data, locale: await getLocale() })
       .returning({ cardToken: rsvps.cardToken });
 
-    const card = parsed.data.attending && saved ? guestCardLinks(await siteBaseFromRequest(slug), saved.cardToken) : null;
+    const card =
+      parsed.data.attending && couple.guestCardsEnabled && saved
+        ? guestCardLinks(await siteBaseFromRequest(slug), saved.cardToken)
+        : null;
     return { status: "success", name: parsed.data.name, attending: parsed.data.attending, submissionId, card };
   } catch (error) {
     console.error("RSVP failed", { slug, error });

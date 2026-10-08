@@ -41,6 +41,8 @@ describe("parseCoupleImport", () => {
       petals: true,
       rsvpEnabled: true,
       rsvpDeadline: null,
+      guestCardsEnabled: false,
+      couplePageEnabled: false,
       city: null,
       heroPhotoUrl: null,
     });

@@ -50,6 +50,13 @@
       "when": 1791398239948,
       "tag": "0006_guest_cards_couple_access",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791432898233,
+      "tag": "0007_feature_switches",
+      "breakpoints": true
     }
   ]
 }

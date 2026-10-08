@@ -23,7 +23,8 @@ import { reportResult } from "./use-action-feedback";
 /** Dates arrive formatted in the couple's time zone. `lockedUntil` is set only while locked. */
 export type AccessSummary = { since: string; lastOpened: string | null; lockedUntil: string | null } | null;
 
-type Props = { coupleId: string; coupleNames: string; status: AccessSummary };
+/** `enabled` is the couple's page switch in Invitation text; while off, links and sessions don't work. */
+type Props = { coupleId: string; coupleNames: string; status: AccessSummary; enabled: boolean };
 
 async function copy(text: string, what: string) {
   try {
@@ -38,7 +39,7 @@ async function copy(text: string, what: string) {
  * The couple's private RSVP and wishes page: a secret link plus a passcode,
  * shown once when made. The admin sends them over different channels.
  */
-export function CoupleAccessPanel({ coupleId, coupleNames, status }: Props) {
+export function CoupleAccessPanel({ coupleId, coupleNames, status, enabled }: Props) {
   const [pending, startTransition] = useTransition();
   const [secret, setSecret] = useState<{ link: string; passcode: string } | null>(null);
   const [confirm, setConfirm] = useState<"rotate" | "revoke" | null>(null);
@@ -70,7 +71,15 @@ export function CoupleAccessPanel({ coupleId, coupleNames, status }: Props) {
             The couple reads RSVPs and wishes there and can send guests their cards. No account: a secret link plus a
             passcode. Only their hashes are stored, so they are shown once.
           </p>
-          {status ? (
+          {!enabled ? (
+            <p className="mt-3 text-sm">
+              <Badge variant="outline">Off</Badge>{" "}
+              <span className="text-muted-foreground">
+                Turn on <span className="font-medium text-foreground">Couple&apos;s private page</span> in the Invitation text tab
+                first.{status ? " The existing link starts working again when you do." : ""}
+              </span>
+            </p>
+          ) : status ? (
             <p className="mt-3 flex flex-wrap items-center gap-2 text-sm">
               <Badge variant={status.lockedUntil ? "destructive" : "secondary"}>
                 {status.lockedUntil ? `Locked until ${status.lockedUntil}` : "On"}
@@ -90,7 +99,7 @@ export function CoupleAccessPanel({ coupleId, coupleNames, status }: Props) {
           ) : null}
           {status ? (
             <>
-              <Button type="button" variant="outline" disabled={pending} onClick={() => setConfirm("rotate")}>
+              <Button type="button" variant="outline" disabled={pending || !enabled} onClick={() => setConfirm("rotate")}>
                 New link and passcode
               </Button>
               <Button type="button" variant="ghost" disabled={pending} onClick={() => setConfirm("revoke")}>
@@ -98,7 +107,7 @@ export function CoupleAccessPanel({ coupleId, coupleNames, status }: Props) {
               </Button>
             </>
           ) : (
-            <Button type="button" disabled={pending} onClick={create}>
+            <Button type="button" disabled={pending || !enabled} onClick={create}>
               {pending ? <Loader2 className="animate-spin" aria-hidden /> : null}
               Create link and passcode
             </Button>

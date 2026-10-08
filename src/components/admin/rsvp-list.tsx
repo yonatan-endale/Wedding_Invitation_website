@@ -16,9 +16,11 @@ type Props = {
   /** The couple's site link, which card links are built on. */
   siteBase: string;
   coupleNames: string;
+  /** Card buttons show only while guest cards are on for this couple. */
+  cardsEnabled: boolean;
 };
 
-export function RsvpList({ coupleId, rows, timezone, siteBase, coupleNames }: Props) {
+export function RsvpList({ coupleId, rows, timezone, siteBase, coupleNames, cardsEnabled }: Props) {
   const attending = rows.filter((r) => r.attending);
   const stats = [
     { label: "Responses", value: rows.length },
@@ -91,7 +93,7 @@ export function RsvpList({ coupleId, rows, timezone, siteBase, coupleNames }: Pr
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-end">
-                      {row.attending ? (
+                      {row.attending && cardsEnabled ? (
                         <CardActions
                           siteBase={siteBase}
                           token={row.cardToken}

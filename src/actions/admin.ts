@@ -426,8 +426,14 @@ export type CoupleAccessResult = { ok: true; link: string; passcode: string } | 
  */
 export async function createCoupleAccess(coupleId: string): Promise<CoupleAccessResult> {
   if (!(await getAdminUser())) return { ok: false, message: SESSION_ENDED };
-  const slug = await coupleSlug(coupleId);
-  if (!slug) return { ok: false, message: NOT_FOUND };
+  if (!isUuid(coupleId)) return { ok: false, message: NOT_FOUND };
+  const [couple] = await getDb()
+    .select({ slug: couples.slug, enabled: couples.couplePageEnabled })
+    .from(couples)
+    .where(eq(couples.id, coupleId));
+  if (!couple) return { ok: false, message: NOT_FOUND };
+  if (!couple.enabled) return { ok: false, message: "Turn on the couple's private page in the Invitation text tab first." };
+  const { slug } = couple;
   const { token, passcode } = await createAccess(coupleId);
   const { share } = await siteLinks(slug);
   revalidatePath("/admin", "layout");

@@ -117,13 +117,19 @@ export default async function CouplePage({ params, searchParams }: Props) {
             count: rsvpRows.length,
             content: (
               <div className="grid gap-6">
-                <CoupleAccessPanel coupleId={couple.id} coupleNames={names} status={accessSummary} />
+                <CoupleAccessPanel
+                  coupleId={couple.id}
+                  coupleNames={names}
+                  status={accessSummary}
+                  enabled={couple.couplePageEnabled}
+                />
                 <RsvpList
                   coupleId={couple.id}
                   rows={rsvpRows}
                   timezone={couple.timezone}
                   siteBase={links.share}
                   coupleNames={names}
+                  cardsEnabled={couple.guestCardsEnabled}
                 />
               </div>
             ),

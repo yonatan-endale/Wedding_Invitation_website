@@ -166,6 +166,11 @@
   font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
 }
 
+/* Script accents (Slate). Ge'ez has no script cut, so Amharic falls to Abyssinica. */
+@utility font-script {
+  font-family: var(--font-script, var(--font-display)), var(--font-abyssinica), cursive;
+}
+
 @layer components {
   .wedding {
     background: var(--w-paper);

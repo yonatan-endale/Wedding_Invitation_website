@@ -35,7 +35,7 @@ import { MonthTable, type Numerals } from "./month-table";
  *   small framed miniature, the month ruled like a computus table; it uses the knot sprite and the
  *   --brana-* colours the Brana layout sets on its root
  */
-export type SaveTheDateSkin = "cinema" | "editorial" | "noir" | "arch" | "story" | "card" | "velvet" | "manuscript";
+export type SaveTheDateSkin = "cinema" | "editorial" | "noir" | "arch" | "story" | "card" | "velvet" | "manuscript" | "slate";
 
 type Props = {
   site: SiteData;
@@ -105,6 +105,14 @@ const SKINS: Record<SaveTheDateSkin, { tone: Tone; compact: boolean; title: stri
     title: "font-cormorant font-medium text-[var(--brana-rubric,var(--w-thread-3))]",
     names: "font-[family-name:var(--brana-display,var(--font-display))] font-medium tracking-[0.22em] text-ink-soft",
     date: "font-cormorant font-medium lining-nums text-ink",
+  },
+  // Until Slate's own look lands it renders like cinema.
+  slate: {
+    tone: "light",
+    compact: false,
+    title: "font-display",
+    names: "text-[color-mix(in_oklab,var(--w-metal)_60%,white)]",
+    date: "font-display",
   },
 };
 

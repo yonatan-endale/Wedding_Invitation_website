@@ -8,6 +8,7 @@ import { FlatlayLayout } from "./flatlay";
 import { KabaLayout } from "./kaba";
 import { NoirLayout } from "./noir";
 import { ReelLayout } from "./reel";
+import { SlateLayout } from "./slate";
 import { StoriesLayout } from "./stories";
 import type { LayoutProps } from "./types";
 
@@ -24,4 +25,5 @@ export const LAYOUT_COMPONENTS: Record<LayoutName, ComponentType<LayoutProps>> =
   flatlay: FlatlayLayout,
   kaba: KabaLayout,
   brana: BranaLayout,
+  slate: SlateLayout,
 };

@@ -138,6 +138,18 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <path d="M48 23v31" stroke={stroke} opacity="0.4" />
     </>
   ),
+  slate: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="32" fill={stroke} opacity="0.45" />
+      <rect x="34" y="18" width="28" height="3" fill="white" />
+      <rect x="30" y="24" width="17" height="4" rx="2" fill="white" opacity="0.9" />
+      <rect x="49" y="24" width="17" height="4" rx="2" fill="none" stroke="white" opacity="0.9" />
+      {[10, 30, 50, 70].map((x) => (
+        <rect key={x} x={x} y="38" width="16" height="8" rx="1.5" fill="none" stroke={stroke} opacity="0.6" />
+      ))}
+      <rect x="0.5" y="51" width="95" height="8.5" fill={stroke} opacity="0.7" />
+    </>
+  ),
   arches: (
     <>
       <path d="M34 34V16a14 14 0 0 1 28 0v18z" fill={stroke} opacity="0.35" />

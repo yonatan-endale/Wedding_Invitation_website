@@ -1,4 +1,4 @@
-import { Cormorant_Garamond } from "next/font/google";
+import { Cormorant_Garamond, Great_Vibes } from "next/font/google";
 
 /**
  * Fonts that only some layouts use. A layout puts the font's `variable` class
@@ -14,6 +14,18 @@ export const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-cormorant",
+  display: "swap",
+  preload: false,
+});
+
+/**
+ * A flowing script for the short accent lines of the Slate layout ("Save the
+ * date", "The day"). Latin only: Ge'ez is never set in it (see .font-script).
+ */
+export const greatVibes = Great_Vibes({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-script",
   display: "swap",
   preload: false,
 });

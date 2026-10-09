@@ -12,9 +12,9 @@ import { DigitRoll } from "./motion/digit-roll";
  * hollow numerals stroked in the theme's metal (Noir & Gold). niches: each
  * unit in its own arched niche, no colons (Gilded Arches). stitch: each unit
  * on a small embroidered patch, a running stitch inside a fine gold edge, no
- * colons (Kaba Velvet).
+ * colons (Kaba Velvet). boxed: each unit in a white card with accent colons (Slate).
  */
-export type CountdownVariant = "plain" | "timecode" | "outline" | "niches" | "stitch";
+export type CountdownVariant = "plain" | "timecode" | "outline" | "niches" | "stitch" | "boxed";
 
 const VARIANTS: Record<CountdownVariant, { unit: string; digits: string; separator: string | null; label: string }> = {
   plain: {
@@ -47,6 +47,12 @@ const VARIANTS: Record<CountdownVariant, { unit: string; digits: string; separat
     digits: "font-display text-[clamp(1.9rem,7vw,3.5rem)] leading-none",
     separator: null,
     label: "",
+  },
+  boxed: {
+    unit: "min-w-[3.6em] rounded-xl border border-rule bg-sheet px-1.5 pt-4 pb-3 shadow-[0_8px_24px_-16px_rgb(0_0_0/0.35)] sm:min-w-[4.6em]",
+    digits: "font-sans text-[clamp(1.6rem,6.5vw,2.75rem)] leading-none font-semibold tabular-nums",
+    separator: "font-sans text-thread-1 opacity-100",
+    label: "uppercase tracking-[0.18em] text-xs sm:text-xs [&:lang(am)]:normal-case [&:lang(am)]:tracking-normal",
   },
 };
 

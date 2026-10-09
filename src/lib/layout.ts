@@ -160,6 +160,20 @@ export const LAYOUTS = {
     defaultOpening: "netela",
     recommendedThemes: ["netela", "ivory", "lalibela", "basalt"],
   },
+  slate: {
+    name: "slate",
+    label: "Slate",
+    description:
+      "Clean and modern: a full photo cover with RSVP and schedule buttons, script accents over serif headings, cards for the day, a boxed countdown and a framed photo strip.",
+    headerStartSolid: false,
+    navOrder: ["invitation", "schedule", "venues", "gallery", "story", "rsvp", "gifts"],
+    showsCouple: false,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "envelope",
+    recommendedThemes: ["slate", "ivory", "basalt", "emerald"],
+  },
 } as const satisfies Record<string, LayoutMeta>;
 
 export type LayoutName = keyof typeof LAYOUTS;

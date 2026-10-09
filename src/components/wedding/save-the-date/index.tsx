@@ -12,11 +12,13 @@ import type { GalleryPhoto } from "../gallery";
 import { ArchFrame } from "../kit/arch-frame";
 import { Crest } from "../kit/crest";
 import { KeylineFrame } from "../kit/keyline-frame";
+import brana from "../layouts/brana/brana.module.css";
+import { Headpiece, MiniatureFrame } from "../layouts/brana/ornaments";
 import { Medallion, StitchFrame, VelvetGround } from "../layouts/kaba/ornaments";
 import type { SiteNames } from "../layouts/types";
 import { WeddingImage } from "../primitives";
 import { CalendarViews } from "./calendar-views";
-import { MonthTable } from "./month-table";
+import { MonthTable, type Numerals } from "./month-table";
 
 /**
  * How the save-the-date is dressed in each layout:
@@ -28,8 +30,11 @@ import { MonthTable } from "./month-table";
  * - story (Stories): a story card, the photo full-bleed, SAVE THE DATE as a white sticker, the month on frosted glass
  * - velvet (Kaba Velvet): the calendar on velvet in a gold-thread frame under a stitched medallion; it
  *   uses the thread sprite the Kaba layout renders once per page
+ * - manuscript (Brana Manuscript): on the parchment under a harag headpiece, the title in red rubric, a
+ *   small framed miniature, the month ruled like a computus table; it uses the knot sprite and the
+ *   --brana-* colours the Brana layout sets on its root
  */
-export type SaveTheDateSkin = "cinema" | "editorial" | "noir" | "arch" | "story" | "card" | "velvet";
+export type SaveTheDateSkin = "cinema" | "editorial" | "noir" | "arch" | "story" | "card" | "velvet" | "manuscript";
 
 type Props = {
   site: SiteData;
@@ -42,6 +47,11 @@ type Props = {
   /** Show a photo at all. On by default, except for noir, which is typographic unless asked. */
   showPhoto?: boolean;
   marker?: MarkerShape;
+  /**
+   * How the days in the grid are written. "geez" (the manuscript skin) writes each day in Ge'ez
+   * numerals, labelled with the plain number, with the plain figure small beneath.
+   */
+  numerals?: Numerals;
 };
 
 type Tone = "light" | "ink";
@@ -87,6 +97,14 @@ const SKINS: Record<SaveTheDateSkin, { tone: Tone; compact: boolean; title: stri
   },
   // Kaba Velvet is always dark, so metal type sits on the velvet as it does on noir's paper.
   velvet: { tone: "ink", compact: false, title: "font-display text-metal", names: "text-metal", date: "font-display foil-text" },
+  // Brana Manuscript: the title in the layout's red rubric (which it checks for contrast), the rest in ink.
+  manuscript: {
+    tone: "ink",
+    compact: true,
+    title: "font-cormorant font-medium text-[var(--brana-rubric,var(--w-thread-3))]",
+    names: "font-[family-name:var(--brana-display,var(--font-display))] font-medium tracking-[0.22em] text-ink-soft",
+    date: "font-cormorant font-medium lining-nums text-ink",
+  },
 };
 
 /**
@@ -105,6 +123,7 @@ export async function SaveTheDate({
   photoPreference = "hero",
   showPhoto = skin !== "noir",
   marker,
+  numerals = "arabic",
 }: Props) {
   const t = await getTranslations("saveTheDate");
   const { couple } = site;
@@ -123,7 +142,7 @@ export async function SaveTheDate({
 
   const views: Partial<Record<CalendarSystem, ReactNode>> = {};
   for (const system of available) {
-    views[system] = <MonthView site={site} locale={locale} system={system} marker={shape} skin={skin} t={t} />;
+    views[system] = <MonthView site={site} locale={locale} system={system} marker={shape} skin={skin} numerals={numerals} t={t} />;
   }
 
   const heading = (
@@ -172,6 +191,29 @@ export async function SaveTheDate({
         <div className="relative">
           {heading}
           <div className="mt-8">{calendar}</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (skin === "manuscript") {
+    // A page of the Brana book: a harag headpiece, the photo as a small framed miniature, then the ruled month.
+    return (
+      <section
+        id="save-the-date"
+        data-stage
+        aria-labelledby="save-the-date-title"
+        className="std relative isolate overflow-x-clip px-4 py-12 text-center text-ink sm:px-8 sm:py-16 lg:py-20"
+      >
+        <div className="mx-auto w-full max-w-[40rem]">
+          <Headpiece reveal={false} className="std-frame mx-[18px] mb-12" />
+          {photo ? (
+            <MiniatureFrame className="std-frame mx-auto mb-10 w-[min(40%,10rem)]" windowClassName="aspect-[4/5]">
+              <Backdrop photo={photo} sizes="10rem" />
+            </MiniatureFrame>
+          ) : null}
+          {heading}
+          <div className="mt-10">{calendar}</div>
         </div>
       </section>
     );
@@ -438,6 +480,7 @@ function MonthView({
   system,
   marker,
   skin,
+  numerals,
   t,
 }: {
   site: SiteData;
@@ -445,6 +488,7 @@ function MonthView({
   system: CalendarSystem;
   marker: MarkerShape;
   skin: SaveTheDateSkin;
+  numerals: Numerals;
   t: Translate;
 }) {
   const { weddingAt, timezone } = site.couple;
@@ -480,14 +524,28 @@ function MonthView({
         {monthLabel}
       </p>
       <div className="mx-auto w-full max-w-[min(92vw,40rem)]">
-        <MonthTable grid={grid} locale={locale} marker={marker} caption={caption} weddingDayLabel={t("weddingDay")} tone={tone} />
+        <MonthTable
+          grid={grid}
+          locale={locale}
+          marker={marker}
+          caption={caption}
+          weddingDayLabel={t("weddingDay")}
+          tone={tone}
+          numerals={numerals}
+        />
       </div>
     </>
   );
 
   return (
     <>
-      {skin === "noir" ? (
+      {skin === "manuscript" ? (
+        // Ruled like a computus table, in a frame of red and ink rules.
+        <div className="relative px-[clamp(0.5rem,2.5vw,1.5rem)] pt-6 pb-4">
+          <span aria-hidden className={cn(brana.calendarFrame, "std-frame")} />
+          <div className={cn(brana.calendar, "relative")}>{table}</div>
+        </div>
+      ) : skin === "noir" ? (
         <KeylineFrame double corners inset={0} lineClassName="std-frame" className="px-[clamp(0.5rem,3vw,2rem)] pt-7 pb-5">
           {table}
         </KeylineFrame>

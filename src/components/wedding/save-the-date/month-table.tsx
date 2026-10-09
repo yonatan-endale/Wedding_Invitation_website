@@ -1,7 +1,11 @@
 import type { CSSProperties } from "react";
+import { toGeez } from "@/lib/geez";
 import type { Locale } from "@/lib/localized";
 import type { MarkerShape, MonthCell, MonthGrid } from "@/lib/month-grid";
 import { cn } from "@/lib/utils";
+
+/** How the days are written: plain figures, or Ge'ez numerals with the plain figure small beneath (the manuscript skin). */
+export type Numerals = "arabic" | "geez";
 
 /** The Ethiopian week starts on Sunday, like the Gregorian one. */
 const WEEKDAYS: Record<Locale, { short: string; full: string }[]> = {
@@ -41,10 +45,11 @@ type Props = {
   weddingDayLabel: string;
   /** "light" for white type over a photo, "ink" for theme ink on paper. */
   tone: "light" | "ink";
+  numerals?: Numerals;
 };
 
 /** The wedding month as a real table, with each day's date in the other calendar in small figures. */
-export function MonthTable({ grid, locale, marker, caption, weddingDayLabel, tone }: Props) {
+export function MonthTable({ grid, locale, marker, caption, weddingDayLabel, tone, numerals = "arabic" }: Props) {
   return (
     <table className="w-full table-fixed border-collapse text-center">
       <caption className="sr-only">{caption}</caption>
@@ -72,7 +77,7 @@ export function MonthTable({ grid, locale, marker, caption, weddingDayLabel, ton
             {week.map((cell, column) => (
               <td key={column} className="h-[clamp(2.75rem,9vw,4.4rem)] p-0 align-middle">
                 {cell ? (
-                  <DayCell cell={cell} delay={row + column} marker={marker} label={weddingDayLabel} tone={tone} />
+                  <DayCell cell={cell} delay={row + column} marker={marker} label={weddingDayLabel} tone={tone} numerals={numerals} />
                 ) : null}
               </td>
             ))}
@@ -89,12 +94,14 @@ function DayCell({
   marker,
   label,
   tone,
+  numerals,
 }: {
   cell: MonthCell;
   delay: number;
   marker: MarkerShape;
   label: string;
   tone: "light" | "ink";
+  numerals: Numerals;
 }) {
   return (
     <span
@@ -117,17 +124,42 @@ function DayCell({
           </svg>
         </>
       ) : null}
-      <span className={cn("relative font-sans text-[clamp(1rem,3.4vw,1.5rem)] leading-none tabular-nums", cell.wedding && "font-semibold")}>
-        {cell.day}
-      </span>
-      <span
-        className={cn(
-          "relative mt-1 font-sans text-[clamp(0.55rem,1.7vw,0.7rem)] leading-none tabular-nums",
-          tone === "light" ? "text-white/80" : cell.wedding ? "text-ink" : "text-ink-soft",
-        )}
-      >
-        {cell.other}
-      </span>
+      {numerals === "geez" ? (
+        <>
+          {/* Read as the plain number: speech engines rarely voice Ge'ez numerals. The small figure beneath is for the eye. */}
+          <span
+            lang="am"
+            role="img"
+            aria-label={String(cell.day)}
+            className="relative font-[family-name:var(--font-abyssinica)] text-[clamp(1.05rem,3.7vw,1.6rem)] leading-none whitespace-nowrap"
+          >
+            {toGeez(cell.day)}
+          </span>
+          <span
+            aria-hidden
+            className={cn(
+              "relative mt-1 font-sans text-[clamp(0.55rem,1.6vw,0.66rem)] leading-none tabular-nums",
+              cell.wedding ? "text-ink" : "text-ink-soft",
+            )}
+          >
+            {cell.day}
+          </span>
+        </>
+      ) : (
+        <>
+          <span className={cn("relative font-sans text-[clamp(1rem,3.4vw,1.5rem)] leading-none tabular-nums", cell.wedding && "font-semibold")}>
+            {cell.day}
+          </span>
+          <span
+            className={cn(
+              "relative mt-1 font-sans text-[clamp(0.55rem,1.7vw,0.7rem)] leading-none tabular-nums",
+              tone === "light" ? "text-white/80" : cell.wedding ? "text-ink" : "text-ink-soft",
+            )}
+          >
+            {cell.other}
+          </span>
+        </>
+      )}
       {cell.wedding ? <span className="sr-only">{label}</span> : null}
     </span>
   );

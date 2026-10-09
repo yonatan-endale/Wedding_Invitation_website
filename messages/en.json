@@ -91,7 +91,7 @@
   },
   "gifts": {
     "heading": "Gifts",
-    "defaultNote": "Your presence is the greatest gift. If you would like to bless us further, you can use the details below.",
+    "defaultNote": "Your presence is the greatest gift. If you would like to give a gift, you can use the details below.",
     "accountName": "Account name",
     "copy": "Copy number",
     "copied": "Copied",
@@ -251,6 +251,17 @@
       "thanks": "Thank you",
       "thanksNote": "We are so grateful to share this day with you.",
       "allPhotos": "View all {count} photos"
+    },
+    "brana": {
+      "date": "Date",
+      "time": "Time",
+      "place": "Place",
+      "event": "Event",
+      "number": "Number",
+      "allPhotos": "View all {count} photos",
+      "chapter": "Chapter",
+      "colophon": "Here ends this book; may the love written in it never end.",
+      "writtenIn": "Written in the year <year></year> of the Ethiopian calendar"
     }
   }
 }

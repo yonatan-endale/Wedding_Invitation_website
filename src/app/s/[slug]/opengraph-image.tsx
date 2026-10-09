@@ -23,6 +23,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
   const photo = published?.couple.heroPhotoUrl?.startsWith("https://") ? published.couple.heroPhotoUrl : null;
   const font = await loadGoogleFont("Marcellus", `${names}${date}You are invited`);
 
+  // Thin gold rules only: green, gold and red stripes stacked together would read as the flag.
   const stripe = (color: string, height: number) => <div style={{ display: "flex", height, background: color }} />;
 
   return new ImageResponse(
@@ -32,9 +33,9 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
           <img src={photo} alt="" width={520} height={630} style={{ width: 520, height: 630, objectFit: "cover" }} />
         ) : null}
         <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-          {stripe(colors.thread2, 6)}
+          {stripe(colors.metal, 6)}
           {stripe(colors.paper, 6)}
-          {stripe(colors.thread1, 4)}
+          {stripe(colors.metal, 4)}
           <div
             style={{
               display: "flex",
@@ -49,9 +50,9 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
             <div style={{ fontSize: names.length > 22 ? 68 : 84, lineHeight: 1.05, marginTop: 24 }}>{names}</div>
             {date ? <div style={{ fontSize: 34, marginTop: 32 }}>{date}</div> : null}
           </div>
-          {stripe(colors.thread3, 4)}
+          {stripe(colors.metal, 4)}
           {stripe(colors.paper, 6)}
-          {stripe(colors.thread2, 6)}
+          {stripe(colors.metal, 6)}
         </div>
       </div>
     ),

@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import type { LayoutName } from "@/lib/layout";
 import { ArchesLayout } from "./arches";
+import { BranaLayout } from "./brana";
 import { ClassicLayout } from "./classic";
 import { EditorialLayout } from "./editorial";
 import { FlatlayLayout } from "./flatlay";
@@ -22,4 +23,5 @@ export const LAYOUT_COMPONENTS: Record<LayoutName, ComponentType<LayoutProps>> =
   stories: StoriesLayout,
   flatlay: FlatlayLayout,
   kaba: KabaLayout,
+  brana: BranaLayout,
 };

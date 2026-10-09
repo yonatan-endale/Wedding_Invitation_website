@@ -146,6 +146,20 @@ export const LAYOUTS = {
     defaultOpening: "netela",
     recommendedThemes: ["emerald", "burgundy", "meskel", "tizita"],
   },
+  brana: {
+    name: "brana",
+    label: "Brana Manuscript",
+    description:
+      "An illuminated Ge'ez manuscript on parchment: harag headpieces, the names in red rubric, Ge'ez numerals, the day as a canon table and a colophon at the end.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "schedule", "venues", "gallery", "story", "rsvp", "gifts"],
+    showsCouple: false,
+    coupleAlways: false,
+    showsMilestones: true,
+    scheme: "theme",
+    defaultOpening: "netela",
+    recommendedThemes: ["netela", "ivory", "lalibela", "basalt"],
+  },
 } as const satisfies Record<string, LayoutMeta>;
 
 export type LayoutName = keyof typeof LAYOUTS;

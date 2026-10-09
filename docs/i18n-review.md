@@ -169,3 +169,243 @@ title was respelled with ሠ to match ሠርግ everywhere else on the site.
 | `messages/am.json` | layouts.flatlay.thanks | Thank you | እናመሰግናለን | |
 | `messages/am.json` | layouts.flatlay.thanksNote | We are so grateful to share this day with you. | ይህን ቀን ከእናንተ ጋር በማሳለፋችን እጅግ ደስተኞች ነን። | |
 | `messages/am.json` | layouts.flatlay.allPhotos | View all {count} photos | ሁሉንም {count} ፎቶዎች ይመልከቱ | |
+
+## Core site text (written before this list existed)
+
+These strings came with the original site and were never logged. They need the same native review.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | intro.invited | You are invited to the wedding of | በሠርጋችን ላይ እንዲገኙ ተጋብዘዋል | |
+| `messages/am.json` | intro.open | Open invitation | ግብዣውን ይክፈቱ | |
+| `messages/am.json` | nav.label | Sections | ክፍሎች | |
+| `messages/am.json` | nav.menu | Menu | ማውጫ | |
+| `messages/am.json` | nav.close | Close menu | ማውጫውን ዝጋ | |
+| `messages/am.json` | nav.invitation | Invitation | ግብዣ | |
+| `messages/am.json` | nav.couple | The couple | ሙሽሮቹ | |
+| `messages/am.json` | nav.story | Our story | ታሪካችን | |
+| `messages/am.json` | nav.schedule | The day | የዕለቱ መርሐ ግብር | |
+| `messages/am.json` | nav.venues | Venues | ቦታዎች | |
+| `messages/am.json` | nav.gallery | Gallery | ፎቶዎች | |
+| `messages/am.json` | nav.gifts | Gifts | ስጦታ | |
+| `messages/am.json` | nav.rsvp | RSVP | ምላሽ | |
+| `messages/am.json` | language.label | Language | ቋንቋ | |
+| `messages/am.json` | language.en | English | English | |
+| `messages/am.json` | language.am | አማርኛ | አማርኛ | |
+| `messages/am.json` | couple.heading | The couple | ሙሽሮቹ | |
+| `messages/am.json` | couple.bride | The bride | ሙሽሪት | |
+| `messages/am.json` | couple.groom | The groom | ሙሽራ | |
+| `messages/am.json` | footer.families | With love, the families of the bride and groom | በፍቅር፣ የሙሽሪት እና የሙሽራው ቤተሰቦች | |
+| `messages/am.json` | countdown.heading | Wedding day | የሠርጉ ቀን | |
+| `messages/am.json` | countdown.label | Time until the wedding | ለሠርጉ ቀን የቀረው ጊዜ | |
+| `messages/am.json` | countdown.until | Left for the big day | ለታላቁ ቀን የቀረው | |
+| `messages/am.json` | countdown.since | Since we got married | ከተጋባንበት ቀን ጀምሮ | |
+| `messages/am.json` | countdown.days | days | ቀናት | |
+| `messages/am.json` | countdown.hours | hours | ሰዓታት | |
+| `messages/am.json` | countdown.minutes | minutes | ደቂቃዎች | |
+| `messages/am.json` | countdown.seconds | seconds | ሰከንዶች | |
+| `messages/am.json` | saveTheDate.captionEthiopian | {month} {year} in the Ethiopian calendar, with the wedding day marked | {month} {year} ዓ.ም.፣ የሠርጉ ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | saveTheDate.weddingDay | Wedding day | የሠርጉ ቀን | |
+| `messages/am.json` | invitation.eyebrow | Wedding invitation | የሠርግ ግብዣ | |
+| `messages/am.json` | invitation.hostsFallback | Together with their families | ከቤተሰቦቻቸው ጋር በመሆን | |
+| `messages/am.json` | invitation.defaultText | request the pleasure of your company as they celebrate their marriage. | በጋብቻቸው ቀን ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል። | |
+| `messages/am.json` | invitation.dressCode | Dress code | የአለባበስ ሥርዓት | |
+| `messages/am.json` | invitation.ethiopianDate | Ethiopian calendar | በኢትዮጵያ አቆጣጠር | |
+| `messages/am.json` | story.heading | Our story | ታሪካችን | |
+| `messages/am.json` | schedule.heading | The day | የዕለቱ መርሐ ግብር | |
+| `messages/am.json` | schedule.directions | Directions | አቅጣጫ | |
+| `messages/am.json` | schedule.viewLocation | View location | ቦታውን ይመልከቱ | |
+| `messages/am.json` | schedule.end | End of the day | የዕለቱ መጨረሻ | |
+| `messages/am.json` | schedule.endAt | End of the day, {time} | የዕለቱ መጨረሻ፣ {time} | |
+| `messages/am.json` | venues.heading | Where to find us | የሥነ ሥርዓቱ ቦታዎች | |
+| `messages/am.json` | venues.openMaps | Open in Google Maps | በጎግል ካርታ ይክፈቱ | |
+| `messages/am.json` | venues.showMap | Show map | ካርታ አሳይ | |
+| `messages/am.json` | venues.hideMap | Hide map | ካርታ ደብቅ | |
+| `messages/am.json` | venues.mapTitle | Map of {name} | የ{name} ካርታ | |
+| `messages/am.json` | gallery.heading | Gallery | ፎቶዎች | |
+| `messages/am.json` | gallery.previous | Previous photo | ቀዳሚ ፎቶ | |
+| `messages/am.json` | gallery.next | Next photo | ቀጣይ ፎቶ | |
+| `messages/am.json` | gallery.open | View photo {index} full screen | ፎቶ {index}ን በሙሉ ገጽ ይመልከቱ | |
+| `messages/am.json` | gallery.close | Close | ዝጋ | |
+| `messages/am.json` | gallery.counter | {current} of {total} | {current} / {total} | |
+| `messages/am.json` | gifts.heading | Gifts | ስጦታ | |
+| `messages/am.json` | gifts.defaultNote | Your presence is the greatest gift. If you would like to bless us further, you can use the details below. | የእርስዎ መገኘት ትልቁ ስጦታችን ነው። ተጨማሪ ስጦታ መስጠት ከፈለጉ ከዚህ በታች ያሉትን መረጃዎች መጠቀም ይችላሉ። | |
+| `messages/am.json` | gifts.accountName | Account name | የሂሳብ ባለቤት ስም | |
+| `messages/am.json` | gifts.copy | Copy number | ቁጥሩን ቅዳ | |
+| `messages/am.json` | gifts.copied | Copied | ተቀድቷል | |
+| `messages/am.json` | gifts.copyFailed | Copy didn't work. Select the number and copy it manually. | መቅዳት አልተሳካም። ቁጥሩን መርጠው በእጅ ይቅዱ። | |
+| `messages/am.json` | gifts.showQr | Show QR code | QR ኮድ አሳይ | |
+| `messages/am.json` | gifts.hideQr | Hide QR code | QR ኮድ ደብቅ | |
+| `messages/am.json` | gifts.qrAlt | QR code for {number} | የ{number} QR ኮድ | |
+| `messages/am.json` | gifts.wishlist | Wishlist | የስጦታ ዝርዝር | |
+| `messages/am.json` | gifts.viewItem | View item | ዕቃውን ይመልከቱ | |
+| `messages/am.json` | gifts.kind.bank | Bank transfer | የባንክ ዝውውር | |
+| `messages/am.json` | gifts.kind.telebirr | Telebirr | ቴሌብር | |
+| `messages/am.json` | gifts.kind.other | Other | ሌላ | |
+| `messages/am.json` | rsvp.heading | RSVP | መገኘትዎን ያሳውቁን | |
+| `messages/am.json` | rsvp.intro | Please let us know whether you can join us. | መገኘት ይችሉ እንደሆነ እባክዎ ያሳውቁን። | |
+| `messages/am.json` | rsvp.replyBy | Please reply by {date}. | እባክዎ እስከ {date} ድረስ ምላሽ ይስጡ። | |
+| `messages/am.json` | rsvp.closed | RSVPs are closed. Please contact the couple directly. | የምላሽ መስጫ ጊዜው አልፏል። እባክዎ ሙሽሮቹን በቀጥታ ያነጋግሩ። | |
+| `messages/am.json` | rsvp.name | Full name | ሙሉ ስም | |
+| `messages/am.json` | rsvp.phone | Phone number | ስልክ ቁጥር | |
+| `messages/am.json` | rsvp.email | Email (optional) | ኢሜይል (አማራጭ) | |
+| `messages/am.json` | rsvp.attendance | Will you attend? | ይገኛሉ? | |
+| `messages/am.json` | rsvp.yes | Joyfully accept | በደስታ እገኛለሁ | |
+| `messages/am.json` | rsvp.no | Regretfully decline | መገኘት አልችልም | |
+| `messages/am.json` | rsvp.guestCount | Guests, including you | እርስዎን ጨምሮ የእንግዶች ብዛት | |
+| `messages/am.json` | rsvp.message | Message for the couple (optional) | ለሙሽሮቹ መልዕክት (አማራጭ) | |
+| `messages/am.json` | rsvp.submit | Send RSVP | ምላሽ ላክ | |
+| `messages/am.json` | rsvp.sending | Sending… | በመላክ ላይ… | |
+| `messages/am.json` | rsvp.thanksYes | Thank you, {name}. We can't wait to celebrate with you. | እናመሰግናለን {name}። አብረን ለማክበር በጉጉት እንጠብቃለን። | |
+| `messages/am.json` | rsvp.thanksNo | Thank you for letting us know, {name}. You'll be missed. | ስላሳወቁን እናመሰግናለን {name}። እንናፍቅዎታለን። | |
+| `messages/am.json` | rsvp.another | Send another response | ሌላ ምላሽ ላክ | |
+| `messages/am.json` | rsvp.errors.name | Enter your full name. | ሙሉ ስምዎን ያስገቡ። | |
+| `messages/am.json` | rsvp.errors.phone | Enter a phone number, for example +251 911 234 567. | ስልክ ቁጥር ያስገቡ፤ ለምሳሌ +251 911 234 567። | |
+| `messages/am.json` | rsvp.errors.email | Enter a valid email or leave it empty. | ትክክለኛ ኢሜይል ያስገቡ ወይም ባዶ ይተዉት። | |
+| `messages/am.json` | rsvp.errors.guestCount | Choose between 1 and 10 guests. | ከ1 እስከ 10 እንግዶች ይምረጡ። | |
+| `messages/am.json` | rsvp.errors.message | Keep the message under 500 characters. | መልዕክቱ ከ500 ፊደላት ያነሰ ይሁን። | |
+| `messages/am.json` | rsvp.errors.attending | Choose whether you will attend. | ይገኙ እንደሆነ ይምረጡ። | |
+| `messages/am.json` | rsvp.errors.generic | Your RSVP wasn't sent. Check your connection and try again. | ምላሽዎ አልተላከም። ግንኙነትዎን አረጋግጠው እንደገና ይሞክሩ። | |
+| `messages/am.json` | rsvp.errors.rateLimited | Too many attempts. Wait a minute and try again. | ብዙ ሙከራዎች ተደርገዋል። ከአንድ ደቂቃ በኋላ እንደገና ይሞክሩ። | |
+| `messages/am.json` | rsvp.errors.closed | RSVPs for this wedding are closed. | የዚህ ሠርግ የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | memories.heading | Share your photos | ፎቶዎችዎን ያጋሩን | |
+| `messages/am.json` | memories.body | Took photos at the wedding? Send them to us on Telegram. | በሠርጉ ላይ ፎቶ አንስተዋል? በቴሌግራም ይላኩልን። | |
+| `messages/am.json` | memories.cta | Open Telegram | ቴሌግራም ክፈት | |
+| `messages/am.json` | music.play | Play music | ሙዚቃ አጫውት | |
+| `messages/am.json` | music.pause | Pause music | ሙዚቃ አቁም | |
+| `messages/am.json` | music.nowPlaying | Now playing: {title} | አሁን እየተጫወተ ያለው፦ {title} | |
+| `messages/am.json` | notFound.title | This invitation isn't available | ይህ ግብዣ አይገኝም | |
+| `messages/am.json` | notFound.body | Check the link you were sent, or ask the couple for a new one. | የተላከልዎትን ማስፈንጠሪያ ያረጋግጡ ወይም ሙሽሮቹን አዲስ ማስፈንጠሪያ ይጠይቁ። | |
+
+## Amharic written directly in code
+
+Calendar words, weekdays, time-of-day words, Ge'ez numerals and separators that live in code instead of the message files.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `src/app/s/[slug]/page.tsx:129` | literal in code | | ፡ | |
+| `src/components/wedding/site-header.tsx:52` | literal in code | | አማ | |
+| `src/components/wedding/save-the-date/index.tsx:130` | literal in code | | ፡ | |
+| `src/components/wedding/save-the-date/month-table.tsx:9` | literal in code | | እሑ | |
+| `src/components/wedding/save-the-date/month-table.tsx:9` | literal in code | | እሑድ | |
+| `src/components/wedding/save-the-date/month-table.tsx:10` | literal in code | | ሰኞ | |
+| `src/components/wedding/save-the-date/month-table.tsx:11` | literal in code | | ማክ | |
+| `src/components/wedding/save-the-date/month-table.tsx:11` | literal in code | | ማክሰኞ | |
+| `src/components/wedding/save-the-date/month-table.tsx:12` | literal in code | | ረቡ | |
+| `src/components/wedding/save-the-date/month-table.tsx:12` | literal in code | | ረቡዕ | |
+| `src/components/wedding/save-the-date/month-table.tsx:13` | literal in code | | ሐሙ | |
+| `src/components/wedding/save-the-date/month-table.tsx:13` | literal in code | | ሐሙስ | |
+| `src/components/wedding/save-the-date/month-table.tsx:14` | literal in code | | ዓር | |
+| `src/components/wedding/save-the-date/month-table.tsx:14` | literal in code | | ዓርብ | |
+| `src/components/wedding/save-the-date/month-table.tsx:15` | literal in code | | ቅዳ | |
+| `src/components/wedding/save-the-date/month-table.tsx:15` | literal in code | | ቅዳሜ | |
+| `src/components/wedding/kit/crest.tsx:49` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/arches/hero.tsx:80` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/arches/footer.tsx:30` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/noir/hero.tsx:97` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/noir/hero.tsx:111` | literal in code | | እና | |
+| `src/components/wedding/layouts/noir/gifts.tsx:116` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/noir/footer.tsx:30` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/noir/footer.tsx:40` | literal in code | | እና | |
+| `src/components/wedding/layouts/flatlay/hero.tsx:28` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/flatlay/footer.tsx:43` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/stories/index.tsx:56` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/stories/cover.tsx:66` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/stories/invitation.tsx:59` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/stories/thanks.tsx:40` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/kaba/hero.tsx:39` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/kaba/hero.tsx:80` | literal in code | | እና | |
+| `src/components/wedding/layouts/kaba/footer.tsx:29` | literal in code | | ፡ | |
+| `src/components/wedding/layouts/kaba/footer.tsx:52` | literal in code | | እና | |
+| `src/components/wedding/ornaments/wax-seal.tsx:10` | literal in code | | ፡ | |
+| `src/components/wedding/openings/types.ts:10` | literal in code | | ፡ | |
+| `src/components/admin/couple-texts-form.tsx:21` | literal in code | | ሁለት ቤተሰብ፣ አንድ ማዕድ። | |
+| `src/components/admin/couple-texts-form.tsx:47` | literal in code | | መኃልየ መኃልይ 8፥7 | |
+| `src/components/admin/couple-import-form.tsx:13` | literal in code | | ሐና | |
+| `src/components/admin/couple-import-form.tsx:14` | literal in code | | ዳዊት | |
+| `src/components/admin/couple-import-form.tsx:17` | literal in code | | አዲስ አበባ | |
+| `src/components/admin/couple-details-form.tsx:353` | literal in code | | አዲስ አበባ | |
+| `src/lib/geez.ts:9` | literal in code | | ፩ | |
+| `src/lib/geez.ts:9` | literal in code | | ፪ | |
+| `src/lib/geez.ts:9` | literal in code | | ፫ | |
+| `src/lib/geez.ts:9` | literal in code | | ፬ | |
+| `src/lib/geez.ts:9` | literal in code | | ፭ | |
+| `src/lib/geez.ts:9` | literal in code | | ፮ | |
+| `src/lib/geez.ts:9` | literal in code | | ፯ | |
+| `src/lib/geez.ts:9` | literal in code | | ፰ | |
+| `src/lib/geez.ts:9` | literal in code | | ፱ | |
+| `src/lib/geez.ts:10` | literal in code | | ፲ | |
+| `src/lib/geez.ts:10` | literal in code | | ፳ | |
+| `src/lib/geez.ts:10` | literal in code | | ፴ | |
+| `src/lib/geez.ts:10` | literal in code | | ፵ | |
+| `src/lib/geez.ts:10` | literal in code | | ፶ | |
+| `src/lib/geez.ts:10` | literal in code | | ፷ | |
+| `src/lib/geez.ts:10` | literal in code | | ፸ | |
+| `src/lib/geez.ts:10` | literal in code | | ፹ | |
+| `src/lib/geez.ts:10` | literal in code | | ፺ | |
+| `src/lib/geez.ts:11` | literal in code | | ፻ | |
+| `src/lib/geez.ts:12` | literal in code | | ፼ | |
+| `src/lib/ethiopian-calendar.ts:7` | literal in code | | መስከረም | |
+| `src/lib/ethiopian-calendar.ts:8` | literal in code | | ጥቅምት | |
+| `src/lib/ethiopian-calendar.ts:9` | literal in code | | ኅዳር | |
+| `src/lib/ethiopian-calendar.ts:10` | literal in code | | ታኅሣሥ | |
+| `src/lib/ethiopian-calendar.ts:11` | literal in code | | ጥር | |
+| `src/lib/ethiopian-calendar.ts:12` | literal in code | | የካቲት | |
+| `src/lib/ethiopian-calendar.ts:13` | literal in code | | መጋቢት | |
+| `src/lib/ethiopian-calendar.ts:14` | literal in code | | ሚያዝያ | |
+| `src/lib/ethiopian-calendar.ts:15` | literal in code | | ግንቦት | |
+| `src/lib/ethiopian-calendar.ts:16` | literal in code | | ሰኔ | |
+| `src/lib/ethiopian-calendar.ts:17` | literal in code | | ሐምሌ | |
+| `src/lib/ethiopian-calendar.ts:18` | literal in code | | ነሐሴ | |
+| `src/lib/ethiopian-calendar.ts:19` | literal in code | | ጳጉሜን | |
+| `src/lib/ethiopian-calendar.ts:129` | literal in code | | ${ETHIOPIAN_MONTHS_AM[date.month - 1]} ${date.day} ቀን ${date.year} ዓ.ም. | |
+| `src/lib/ethiopian-calendar.ts:134` | literal in code | | ከሌሊቱ | |
+| `src/lib/ethiopian-calendar.ts:134` | literal in code | | ከጠዋቱ | |
+| `src/lib/ethiopian-calendar.ts:134` | literal in code | | ከቀኑ | |
+| `src/lib/ethiopian-calendar.ts:134` | literal in code | | ከምሽቱ | |
+| `src/lib/ethiopian-calendar.ts:136` | literal in code | | )} ሰዓት | |
+| `src/lib/wedding-format.ts:26` | literal in code | | እሑድ | |
+| `src/lib/wedding-format.ts:26` | literal in code | | ሰኞ | |
+| `src/lib/wedding-format.ts:26` | literal in code | | ማክሰኞ | |
+| `src/lib/wedding-format.ts:26` | literal in code | | ረቡዕ | |
+| `src/lib/wedding-format.ts:26` | literal in code | | ሐሙስ | |
+| `src/lib/wedding-format.ts:26` | literal in code | | ዓርብ | |
+| `src/lib/wedding-format.ts:26` | literal in code | | ቅዳሜ | |
+| `src/lib/wedding-format.ts:59` | literal in code | | ${WEEKDAYS_AM[p.weekday]}፣ ${formatEthiopianDate(ethiopian)} | |
+| `src/lib/wedding-format.ts:87` | literal in code | | ከሌሊቱ | |
+| `src/lib/wedding-format.ts:88` | literal in code | | ከጠዋቱ | |
+| `src/lib/wedding-format.ts:89` | literal in code | | ከቀኑ | |
+| `src/lib/wedding-format.ts:90` | literal in code | | ከምሽቱ | |
+| `src/lib/wedding-format.ts:106` | literal in code | | ${period} ${clock} ሰዓት | |
+| `src/lib/wedding-format.ts:116` | literal in code | | ${start.period} ${start.clock} እስከ ${end.clock} ሰዓት | |
+| `src/lib/wedding-format.ts:117` | literal in code | | ${start.period} ${start.clock} እስከ ${end.period} ${end.clock} ሰዓት | |
+| `src/lib/event-kinds.ts:36` | literal in code | | ጥሎሽ | |
+| `src/lib/event-kinds.ts:37` | literal in code | | የቤተክርስቲያን ሥርዓት | |
+| `src/lib/event-kinds.ts:38` | literal in code | | የጋብቻ አገልግሎት | |
+| `src/lib/event-kinds.ts:39` | literal in code | | የቃልኪዳን ሥርዓት | |
+| `src/lib/event-kinds.ts:40` | literal in code | | ኒካህ | |
+| `src/lib/event-kinds.ts:41` | literal in code | | የፎቶ ፕሮግራም | |
+| `src/lib/event-kinds.ts:42` | literal in code | | የሠርግ ግብዣ | |
+| `src/lib/event-kinds.ts:43` | literal in code | | የሽማግሌዎች ምርቃት | |
+| `src/lib/event-kinds.ts:44` | literal in code | | መልስ | |
+| `src/lib/event-kinds.ts:45` | literal in code | | ቅልቅል | |
+| `src/lib/event-kinds.ts:46` | literal in code | | የቡና ሥነ ሥርዓት | |
+
+## Notes for the reviewer
+
+- `intro.invited`: the Amharic says "our wedding", while the English is third person ("the wedding of"). Pick one voice.
+- `saveTheDate.gregorian`: "ፈረንጅ" is colloquial. Is a more formal word for the Gregorian calendar better here?
+
+## Phase 4: Brana Manuscript layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.brana.date | Date | ቀን | |
+| `messages/am.json` | layouts.brana.time | Time | ሰዓት | |
+| `messages/am.json` | layouts.brana.place | Place | ቦታ | |
+| `messages/am.json` | layouts.brana.event | Event | ዝግጅት | |
+| `messages/am.json` | layouts.brana.number | Number | ተራ ቁጥር | |
+| `messages/am.json` | layouts.brana.allPhotos | View all {count} photos | ሁሉንም {count} ፎቶዎች ይመልከቱ | |
+| `messages/am.json` | layouts.brana.chapter | Chapter | ምዕራፍ | |
+| `messages/am.json` | layouts.brana.writtenIn | Written in the year <year></year> of the Ethiopian calendar | በ<year></year> ዓ.ም. ተጻፈ። | |
+| `messages/am.json` | layouts.brana.colophon | Here ends this book; may the love written in it never end. | ይህ መጽሐፍ እዚህ ላይ ተፈጸመ፤ በውስጡ የተጻፈው ፍቅር ግን ፍጻሜ አይኑረው። | |

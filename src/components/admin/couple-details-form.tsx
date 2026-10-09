@@ -123,6 +123,21 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <rect x="38" y="42" width="20" height="2" fill="white" opacity="0.6" />
     </>
   ),
+  brana: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill={stroke} opacity="0.12" />
+      <rect x="12" y="6" width="72" height="6" fill="none" stroke={stroke} opacity="0.7" />
+      <path d="M14 9h68" stroke={stroke} strokeDasharray="3 2" opacity="0.6" />
+      <rect x="34" y="17" width="28" height="3" fill={stroke} opacity="0.85" />
+      {[24, 31, 38, 45, 52].map((y) => (
+        <g key={y}>
+          <rect x="14" y={y} width="30" height="2" fill={stroke} opacity="0.4" />
+          <rect x="52" y={y} width="30" height="2" fill={stroke} opacity="0.4" />
+        </g>
+      ))}
+      <path d="M48 23v31" stroke={stroke} opacity="0.4" />
+    </>
+  ),
   arches: (
     <>
       <path d="M34 34V16a14 14 0 0 1 28 0v18z" fill={stroke} opacity="0.35" />

@@ -57,6 +57,13 @@
     "captionGregorian": "{month} {year}፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
     "weddingDay": "የሠርጉ ቀን"
   },
+  "calendar": {
+    "add": "ሠርጉን በቀን መቁጠሪያዎ ያስቀምጡ",
+    "google": "Google ቀን መቁጠሪያ",
+    "ics": "Apple / Outlook",
+    "eventTitle": "የ{one} እና የ{two} ሠርግ",
+    "details": "ተጋብዘዋል። ሙሉ ግብዣው፣ የዕለቱ መርሐ ግብር እና የምላሽ ቅጹ በድረ-ገጹ ላይ ይገኛሉ።"
+  },
   "invitation": {
     "eyebrow": "የሠርግ ግብዣ",
     "hostsFallback": "ከቤተሰቦቻቸው ጋር በመሆን",
@@ -72,7 +79,9 @@
     "directions": "አቅጣጫ",
     "viewLocation": "ቦታውን ይመልከቱ",
     "end": "የዕለቱ መጨረሻ",
-    "endAt": "የዕለቱ መጨረሻ፣ {time}"
+    "endAt": "የዕለቱ መጨረሻ፣ {time}",
+    "showDetails": "ዝርዝሩን አሳይ",
+    "hideDetails": "ዝርዝሩን ደብቅ"
   },
   "venues": {
     "heading": "የሥነ ሥርዓቱ ቦታዎች",
@@ -87,7 +96,9 @@
     "next": "ቀጣይ ፎቶ",
     "open": "ፎቶ {index}ን በሙሉ ገጽ ይመልከቱ",
     "close": "ዝጋ",
-    "counter": "{current} / {total}"
+    "counter": "{current} / {total}",
+    "pause": "ፎቶዎቹን አቁም",
+    "play": "ፎቶዎቹን አጫውት"
   },
   "gifts": {
     "heading": "ስጦታ",

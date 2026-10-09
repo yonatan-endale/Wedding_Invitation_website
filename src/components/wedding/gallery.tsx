@@ -1,21 +1,87 @@
 "use client";
 
+import AutoScroll from "embla-carousel-auto-scroll";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { Lightbox, roundButton, type GalleryPhoto } from "./lightbox";
+import { useMotionPaused } from "./motion/motion-toggle";
 import { SectionHeading, WeddingImage } from "./primitives";
 
 export type { GalleryPhoto } from "./lightbox";
 
-export function GallerySection({ photos, names }: { photos: GalleryPhoto[]; names: string }) {
+type Props = {
+  photos: GalleryPhoto[];
+  names: string;
+  /**
+   * The couple's "drifting gallery" switch: the photos slide slowly and endlessly.
+   * Hovering, focusing or touching pauses them, guests can still swipe and use
+   * the arrows, and it never moves for reduced motion, while the site's motion is
+   * paused, off screen or in a hidden tab. Its own pause button covers WCAG 2.2.2.
+   */
+  drift?: boolean;
+};
+
+export function GallerySection({ photos, names, drift = false }: Props) {
   const t = useTranslations("gallery");
-  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", containScroll: "trimSnaps" });
+  const plugins = useMemo(
+    () =>
+      drift
+        ? [
+            AutoScroll({
+              playOnInit: false,
+              speed: 0.6,
+              startDelay: 1500,
+              stopOnMouseEnter: true,
+              stopOnFocusIn: true,
+              // Keep drifting after a swipe: it picks up again after startDelay.
+              stopOnInteraction: false,
+            }),
+          ]
+        : [],
+    [drift],
+  );
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    drift ? { align: "start", loop: true } : { align: "start", containScroll: "trimSnaps" },
+    plugins,
+  );
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(photos.length > 1);
   const [open, setOpen] = useState<number | null>(null);
+  const reduceMotion = useReducedMotion();
+  const motionPaused = useMotionPaused();
+  // Starts false on the server and in the first client render, so the pause button never mismatches.
+  const [canDrift, setCanDrift] = useState(false);
+  const [guestPaused, setGuestPaused] = useState(false);
+  const [onScreen, setOnScreen] = useState(false);
+  const [tabVisible, setTabVisible] = useState(true);
+  const section = useRef<HTMLElement>(null);
+
+  useEffect(() => setCanDrift(drift && photos.length > 1 && !reduceMotion && !motionPaused), [drift, photos.length, reduceMotion, motionPaused]);
+
+  useEffect(() => {
+    if (!drift || !section.current) return;
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting));
+    observer.observe(section.current);
+    const onVisibility = () => setTabVisible(document.visibilityState === "visible");
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [drift]);
+
+  // The lightbox open also stops the drift, so the strip doesn't move behind it.
+  const playing = canDrift && !guestPaused && onScreen && tabVisible && open === null;
+  useEffect(() => {
+    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (!autoScroll) return;
+    if (playing) autoScroll.play();
+    else autoScroll.stop();
+  }, [emblaApi, playing]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -33,13 +99,24 @@ export function GallerySection({ photos, names }: { photos: GalleryPhoto[]; name
   if (photos.length === 0) return null;
 
   return (
-    <section id="gallery" aria-labelledby="gallery-heading" className="py-20 sm:py-28">
+    <section ref={section} id="gallery" aria-labelledby="gallery-heading" className="py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         {/* Only the heading row reveals. The carousel below is never transformed, so Embla can measure and drag it. */}
         <div data-reveal-group className="flex items-end justify-between gap-6">
           <SectionHeading id="gallery-heading">{t("heading")}</SectionHeading>
           {photos.length > 1 ? (
             <div data-reveal="fade" style={{ "--i": 1 } as CSSProperties} className="flex shrink-0 gap-2">
+              {canDrift ? (
+                <button
+                  type="button"
+                  onClick={() => setGuestPaused((paused) => !paused)}
+                  aria-label={guestPaused ? t("play") : t("pause")}
+                  aria-pressed={guestPaused}
+                  className={cn(roundButton, "border-ink/25 hover:border-ink")}
+                >
+                  {guestPaused ? <Play aria-hidden className="size-4" /> : <Pause aria-hidden className="size-4" />}
+                </button>
+              ) : null}
               <button
                 type="button"
                 onClick={() => emblaApi?.scrollPrev()}

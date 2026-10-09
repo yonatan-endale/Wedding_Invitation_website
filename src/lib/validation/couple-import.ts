@@ -162,6 +162,10 @@ function buildSchema(timeZone: string) {
       rsvpDeadline: optionalDateTime(timeZone),
       guestCardsEnabled: z.boolean().default(false),
       couplePageEnabled: z.boolean().default(false),
+      galleryDrift: z.boolean().default(false),
+      calendarButtons: z.boolean().default(false),
+      scrollProgress: z.boolean().default(false),
+      collapsibleEvents: z.boolean().default(false),
     })
     .strict();
 

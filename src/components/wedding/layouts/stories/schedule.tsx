@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
+import { EventDescription } from "../../event-description";
 import { hasEventIcon } from "@/lib/event-kinds";
 import { toGeez } from "@/lib/geez";
 import type { Locale } from "@/lib/localized";
@@ -91,7 +92,7 @@ export async function StoriesSchedule({ site, locale }: Props) {
           </div>
 
           {solo ? (
-            <SoloEvent item={events[0]} number={numeral(first + 1, locale)} />
+            <SoloEvent item={events[0]} number={numeral(first + 1, locale)} collapsible={site.couple.collapsibleEvents} />
           ) : (
             <ol start={first + 1} className="mt-9">
               {events.map((item, row) => (
@@ -101,6 +102,7 @@ export async function StoriesSchedule({ site, locale }: Props) {
                   number={numeral(first + row + 1, locale)}
                   index={row}
                   thread={row < events.length - 1 || !last}
+                  collapsible={site.couple.collapsibleEvents}
                 />
               ))}
             </ol>
@@ -170,7 +172,19 @@ function Venue({ item, className }: { item: TimelineItem; className?: string }) 
 }
 
 /** One event on a grouped card: its badge on the thread, then the time, title, venue and note. */
-function EventRow({ item, number, index, thread }: { item: TimelineItem; number: string; index: number; thread: boolean }) {
+function EventRow({
+  item,
+  number,
+  index,
+  thread,
+  collapsible,
+}: {
+  item: TimelineItem;
+  number: string;
+  index: number;
+  thread: boolean;
+  collapsible: boolean;
+}) {
   return (
     <li data-reveal="up" style={order(index + 2)} className="relative flex gap-4 pb-8 last:pb-0">
       {thread ? <span aria-hidden className="absolute top-12 bottom-1 left-[1.375rem] border-l border-dashed border-metal/60" /> : null}
@@ -180,7 +194,7 @@ function EventRow({ item, number, index, thread }: { item: TimelineItem; number:
           <When item={item} />
         </p>
         <h3 className="mt-0.5 font-display text-[clamp(1.3rem,6.4cqi,1.65rem)] leading-snug">{item.title}</h3>
-        {item.description ? <p className="mt-1 text-base text-ink-soft">{item.description}</p> : null}
+        <EventDescription text={item.description} collapsible={collapsible} className="mt-1 text-base text-ink-soft" />
         {item.venue ? <Venue item={item} className="mt-2.5 justify-start text-left" /> : null}
       </div>
     </li>
@@ -188,7 +202,7 @@ function EventRow({ item, number, index, thread }: { item: TimelineItem; number:
 }
 
 /** One event on a card of its own: the badge large in the middle, the time as a sticker, the title big. */
-function SoloEvent({ item, number }: { item: TimelineItem; number: string }) {
+function SoloEvent({ item, number, collapsible }: { item: TimelineItem; number: string; collapsible: boolean }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center py-8">
       <span data-reveal="pop" style={order(2)} className="block">
@@ -204,11 +218,13 @@ function SoloEvent({ item, number }: { item: TimelineItem; number: string }) {
       >
         {item.title}
       </h3>
-      {item.description ? (
-        <p data-reveal="up" style={order(5)} className="mx-auto mt-3 max-w-[34ch] text-ink-soft">
-          {item.description}
-        </p>
-      ) : null}
+      <EventDescription
+        text={item.description}
+        collapsible={collapsible}
+        data-reveal="up"
+        style={order(5)}
+        className="mx-auto mt-3 max-w-[34ch] text-ink-soft"
+      />
       {item.venue ? (
         <div data-reveal="pop" style={order(5)} className="mt-5">
           <Venue item={item} />

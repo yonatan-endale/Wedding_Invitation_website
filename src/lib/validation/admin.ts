@@ -261,6 +261,10 @@ export type CoupleTexts = {
   rsvpDeadline: Date | null;
   guestCardsEnabled: boolean;
   couplePageEnabled: boolean;
+  galleryDrift: boolean;
+  calendarButtons: boolean;
+  scrollProgress: boolean;
+  collapsibleEvents: boolean;
 };
 
 export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<CoupleTexts> {
@@ -280,6 +284,10 @@ export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<Cou
       rsvpDeadline: dateTime(form, "rsvpDeadline", timeZone, errors, { required: false }),
       guestCardsEnabled: form.guestCardsEnabled === "on",
       couplePageEnabled: form.couplePageEnabled === "on",
+      galleryDrift: form.galleryDrift === "on",
+      calendarButtons: form.calendarButtons === "on",
+      scrollProgress: form.scrollProgress === "on",
+      collapsibleEvents: form.collapsibleEvents === "on",
     },
     errors,
   );

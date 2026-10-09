@@ -35,7 +35,11 @@
     "rsvpEnabled": true,
     "rsvpDeadline": "2026-10-10T23:59",
     "guestCardsEnabled": false,
-    "couplePageEnabled": false
+    "couplePageEnabled": false,
+    "galleryDrift": false,
+    "calendarButtons": false,
+    "scrollProgress": false,
+    "collapsibleEvents": false
   },
   "venues": [
     {

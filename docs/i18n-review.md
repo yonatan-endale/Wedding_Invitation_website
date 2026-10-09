@@ -409,3 +409,16 @@ Calendar words, weekdays, time-of-day words, Ge'ez numerals and separators that 
 | `messages/am.json` | layouts.brana.chapter   | Chapter                                                     | ምዕራፍ                                              |                |
 | `messages/am.json` | layouts.brana.writtenIn | Written in the year <year></year> of the Ethiopian calendar | በ<year></year> ዓ.ም. ተጻፈ።                          |                |
 | `messages/am.json` | layouts.brana.colophon  | Here ends this book; may the love written in it never end.  | ይህ መጽሐፍ እዚህ ላይ ተፈጸመ፤ በውስጡ የተጻፈው ፍቅር ግን ፍጻሜ አይኑረው። |                |
+
+## Extras: drifting gallery, add to calendar, event details
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | gallery.pause | Pause the photos | ፎቶዎቹን አቁም | |
+| `messages/am.json` | gallery.play | Play the photos | ፎቶዎቹን አጫውት | |
+| `messages/am.json` | calendar.add | Add the wedding to your calendar | ሠርጉን በቀን መቁጠሪያዎ ያስቀምጡ | |
+| `messages/am.json` | calendar.google | Google Calendar | Google ቀን መቁጠሪያ | |
+| `messages/am.json` | calendar.eventTitle | Wedding of {one} and {two} | የ{one} እና የ{two} ሠርግ | |
+| `messages/am.json` | calendar.details | You are invited. The full invitation, the day's schedule and the RSVP are on the website. | ተጋብዘዋል። ሙሉ ግብዣው፣ የዕለቱ መርሐ ግብር እና የምላሽ ቅጹ በድረ-ገጹ ላይ ይገኛሉ። | |
+| `messages/am.json` | schedule.showDetails | Show details | ዝርዝሩን አሳይ | |
+| `messages/am.json` | schedule.hideDetails | Hide details | ዝርዝሩን ደብቅ | |

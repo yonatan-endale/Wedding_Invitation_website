@@ -36,7 +36,7 @@ export function KabaLayout({ site, locale, names, photos }: LayoutProps) {
         <CountdownSection site={site} variant="stitch" className="py-20 sm:py-24" />
         <KabaSchedule site={site} locale={locale} />
         <VenuesSection site={site} locale={locale} />
-        <KabaGallery photos={photos} names={`${names.one} & ${names.two}`} />
+        <KabaGallery photos={photos} names={`${names.one} & ${names.two}`} drift={site.couple.galleryDrift} />
         <StorySection site={site} locale={locale} />
         <KabaVerse site={site} locale={locale} />
         <GiftsSection site={site} locale={locale} />

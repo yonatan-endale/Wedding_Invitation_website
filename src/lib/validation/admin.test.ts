@@ -260,6 +260,8 @@ describe("parseCoupleTexts", () => {
         rsvpEnabled: "on",
         rsvpDeadline: "2026-06-30T23:59",
         guestCardsEnabled: "on",
+        galleryDrift: "on",
+        collapsibleEvents: "on",
       },
       "Africa/Addis_Ababa",
     );
@@ -279,6 +281,10 @@ describe("parseCoupleTexts", () => {
       rsvpDeadline: new Date("2026-06-30T20:59:00.000Z"),
       guestCardsEnabled: true,
       couplePageEnabled: false,
+      galleryDrift: true,
+      calendarButtons: false,
+      scrollProgress: false,
+      collapsibleEvents: true,
     });
   });
 
@@ -290,6 +296,10 @@ describe("parseCoupleTexts", () => {
     expect(result.data.rsvpDeadline).toBeNull();
     expect(result.data.guestCardsEnabled).toBe(false);
     expect(result.data.couplePageEnabled).toBe(false);
+    expect(result.data.galleryDrift).toBe(false);
+    expect(result.data.calendarButtons).toBe(false);
+    expect(result.data.scrollProgress).toBe(false);
+    expect(result.data.collapsibleEvents).toBe(false);
   });
 });
 

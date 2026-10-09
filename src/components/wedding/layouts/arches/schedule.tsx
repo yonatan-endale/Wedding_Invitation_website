@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import type { Locale } from "@/lib/localized";
+import { EventDescription } from "../../event-description";
 import { timelineItems } from "@/lib/timeline";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
@@ -108,7 +109,11 @@ export async function ArchesSchedule({ site, locale }: Props) {
                     )}
                   </p>
                 ) : null}
-                {item.description ? <p className="mt-3 max-w-[40ch] text-base text-ink-soft">{item.description}</p> : null}
+                <EventDescription
+                  text={item.description}
+                  collapsible={site.couple.collapsibleEvents}
+                  className="mt-3 max-w-[40ch] text-base text-ink-soft"
+                />
               </div>
             </li>
           );

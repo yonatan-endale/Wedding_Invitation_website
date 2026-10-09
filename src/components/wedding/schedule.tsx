@@ -10,6 +10,7 @@ import { formatWeddingDate } from "@/lib/wedding-format";
 import { TimelineRail } from "./motion/timeline-rail";
 import { EventIcon, EventIconSprite } from "./ornaments/event-icons";
 import { SectionHeading, WeddingImage, sectionPadding } from "./primitives";
+import { EventDescription } from "./event-description";
 import { VenueMap } from "./venue-map";
 
 type Props = { site: SiteData; locale: Locale };
@@ -75,7 +76,7 @@ export async function ScheduleTimeline({ site, locale, className }: Props & { cl
                 </span>
                 {item.title}
               </h3>
-              {item.description ? <p className="mt-2 max-w-[52ch]">{item.description}</p> : null}
+              <EventDescription text={item.description} collapsible={site.couple.collapsibleEvents} className="mt-2 max-w-[52ch]" />
               {item.venue ? (
                 <p className="mt-2 text-base">
                   {item.venue.href ? (

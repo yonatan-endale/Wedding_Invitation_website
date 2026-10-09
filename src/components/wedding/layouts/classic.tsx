@@ -28,7 +28,7 @@ export function ClassicLayout({ site, locale, names, photos }: LayoutProps) {
         <ScriptureSection site={site} locale={locale} />
         <ScheduleSection site={site} locale={locale} />
         <VenuesSection site={site} locale={locale} />
-        <GallerySection photos={photos} names={`${names.one} & ${names.two}`} />
+        <GallerySection photos={photos} names={`${names.one} & ${names.two}`} drift={site.couple.galleryDrift} />
         <GiftsSection site={site} locale={locale} />
         <RsvpSection site={site} locale={locale} />
         <MemoriesSection site={site} locale={locale} />

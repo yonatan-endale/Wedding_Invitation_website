@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
+import { EventDescription } from "../../event-description";
 import { hasEventIcon } from "@/lib/event-kinds";
 import { toGeez } from "@/lib/geez";
 import type { Locale } from "@/lib/localized";
@@ -102,7 +103,13 @@ export async function KabaSchedule({ site, locale }: Props) {
               )}
             </p>
           ) : null;
-          const description = item.description ? <p className="mt-2 max-w-[48ch] text-base text-ink-soft">{item.description}</p> : null;
+          const description = (
+            <EventDescription
+              text={item.description}
+              collapsible={site.couple.collapsibleEvents}
+              className="mt-2 max-w-[48ch] text-base text-ink-soft"
+            />
+          );
 
           return (
             <li key={item.id} data-reveal-group className={cn(styles.step, row)}>

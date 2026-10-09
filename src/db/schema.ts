@@ -72,6 +72,14 @@ export const couples = pgTable("couples", {
   /** New features start off for every couple; the admin turns them on per couple. */
   guestCardsEnabled: boolean("guest_cards_enabled").notNull().default(false),
   couplePageEnabled: boolean("couple_page_enabled").notNull().default(false),
+  /** The carousel gallery drifts on its own (Classic, Kaba and Slate). */
+  galleryDrift: boolean("gallery_drift").notNull().default(false),
+  /** "Add to calendar" buttons on the save-the-date and countdown, and the .ics download. */
+  calendarButtons: boolean("calendar_buttons").notNull().default(false),
+  /** A thin line under the header that fills as the guest scrolls. */
+  scrollProgress: boolean("scroll_progress").notNull().default(false),
+  /** Event descriptions fold behind "Show details" in every timeline. */
+  collapsibleEvents: boolean("collapsible_events").notNull().default(false),
   ...timestamps,
 });
 

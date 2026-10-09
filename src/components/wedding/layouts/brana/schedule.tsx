@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties, ReactNode } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
+import { EventDescription } from "../../event-description";
 import { hasEventIcon } from "@/lib/event-kinds";
 import type { Locale } from "@/lib/localized";
 import { timelineItems, type TimelineItem } from "@/lib/timeline";
@@ -75,6 +76,7 @@ export async function BranaCanon({ site, locale }: Props) {
   const t = await getTranslations("schedule");
   const tb = await getTranslations("layouts.brana");
   const { couple } = site;
+  const collapsible = couple.collapsibleEvents;
   const { items, end } = timelineItems(site, locale);
   const weddingDay = formatWeddingDate(couple.weddingAt, couple.timezone, locale);
   const withPlace = items.some((item) => item.venue);
@@ -143,8 +145,14 @@ export async function BranaCanon({ site, locale }: Props) {
                 <td>
                   <Title item={item}>
                     <span className="block font-cormorant text-[1.45rem] leading-snug font-medium [&:lang(am)]:text-[1.25rem]">{item.title}</span>
-                    {item.description ? <span className="mt-1 block text-base text-ink-soft">{item.description}</span> : null}
+                    {item.description && !collapsible ? (
+                      <span className="mt-1 block text-base text-ink-soft">{item.description}</span>
+                    ) : null}
                   </Title>
+                  {/* Folded details can't sit inside the title's spans, so they follow it. */}
+                  {collapsible ? (
+                    <EventDescription text={item.description} collapsible className="mt-1 pl-[1.6em] text-base text-ink-soft" />
+                  ) : null}
                 </td>
                 {withPlace ? (
                   <td className="pt-[1.2rem] text-base">
@@ -181,7 +189,7 @@ export async function BranaCanon({ site, locale }: Props) {
                   <Place venue={item.venue} />
                 </p>
               ) : null}
-              {item.description ? <p className="mt-1 text-base text-ink-soft">{item.description}</p> : null}
+              <EventDescription text={item.description} collapsible={collapsible} className="mt-1 text-base text-ink-soft" />
             </div>
           </li>
         ))}

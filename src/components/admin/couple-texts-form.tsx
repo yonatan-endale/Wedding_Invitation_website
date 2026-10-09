@@ -106,6 +106,37 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
         </Field>
       </FormSection>
 
+      <FormSection title="Extras" description="Optional touches. Each one is off until you turn it on.">
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Drifting photo gallery</span>
+            <span className="block text-sm text-muted-foreground">In the Classic and Kaba layouts the photos slide slowly on their own; guests can still swipe, and touching pauses them. Off by default.</span>
+          </span>
+          <Switch name="galleryDrift" defaultChecked={couple.galleryDrift} value="on" />
+        </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Add to calendar</span>
+            <span className="block text-sm text-muted-foreground">Google Calendar and Apple/Outlook buttons under the save-the-date and countdown. Off by default.</span>
+          </span>
+          <Switch name="calendarButtons" defaultChecked={couple.calendarButtons} value="on" />
+        </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Scroll progress line</span>
+            <span className="block text-sm text-muted-foreground">A thin line under the header that fills as guests scroll down the page. Off by default.</span>
+          </span>
+          <Switch name="scrollProgress" defaultChecked={couple.scrollProgress} value="on" />
+        </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Tap-to-expand event details</span>
+            <span className="block text-sm text-muted-foreground">Event descriptions fold behind “Show details” in the timeline, so the day reads at a glance. Off by default.</span>
+          </span>
+          <Switch name="collapsibleEvents" defaultChecked={couple.collapsibleEvents} value="on" />
+        </label>
+      </FormSection>
+
       <div className="flex justify-end">
         <SubmitButton pending={pending}>Save text</SubmitButton>
       </div>

@@ -140,7 +140,12 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
               level={motion}
             />
             <div id="site">
-              <SiteHeader monogram={names.monogram} links={links} startSolid={meta.headerStartSolid} />
+              <SiteHeader
+                monogram={names.monogram}
+                links={links}
+                startSolid={meta.headerStartSolid}
+                progress={couple.scrollProgress}
+              />
               <Layout site={site} locale={locale} names={names} photos={photos} />
               <MusicButton title={couple.musicTitle} />
               {/* Subtle pages have nothing that moves for long; every other level gets the pause. */}

@@ -17,6 +17,7 @@ import { Headpiece, MiniatureFrame } from "../layouts/brana/ornaments";
 import { Medallion, StitchFrame, VelvetGround } from "../layouts/kaba/ornaments";
 import type { SiteNames } from "../layouts/types";
 import { WeddingImage } from "../primitives";
+import { AddToCalendar } from "../add-to-calendar";
 import { CalendarViews } from "./calendar-views";
 import { MonthTable, type Numerals } from "./month-table";
 
@@ -159,14 +160,18 @@ export async function SaveTheDate({
     </>
   );
   const calendar = (
-    <CalendarViews
-      // A new language or calendar setting starts the switch over on the server's choice.
-      key={`${locale}-${available.join("-")}`}
-      initial={initial}
-      views={views}
-      tone={tone}
-      labels={{ group: t("switchLabel"), ethiopian: t("ethiopian"), gregorian: t("gregorian") }}
-    />
+    <>
+      <CalendarViews
+        // A new language or calendar setting starts the switch over on the server's choice.
+        key={`${locale}-${available.join("-")}`}
+        initial={initial}
+        views={views}
+        tone={tone}
+        labels={{ group: t("switchLabel"), ethiopian: t("ethiopian"), gregorian: t("gregorian") }}
+      />
+      {/* Under the month in every skin, when the couple turned "Add to calendar" on. */}
+      <AddToCalendar site={site} locale={locale} className="mt-7" />
+    </>
   );
 
   if (skin === "card") {

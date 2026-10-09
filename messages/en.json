@@ -57,6 +57,13 @@
     "captionGregorian": "{month} {year}, with the wedding day marked",
     "weddingDay": "Wedding day"
   },
+  "calendar": {
+    "add": "Add the wedding to your calendar",
+    "google": "Google Calendar",
+    "ics": "Apple / Outlook",
+    "eventTitle": "Wedding of {one} and {two}",
+    "details": "You are invited. The full invitation, the day's schedule and the RSVP are on the website."
+  },
   "invitation": {
     "eyebrow": "Wedding invitation",
     "hostsFallback": "Together with their families",
@@ -72,7 +79,9 @@
     "directions": "Directions",
     "viewLocation": "View location",
     "end": "End of the day",
-    "endAt": "End of the day, {time}"
+    "endAt": "End of the day, {time}",
+    "showDetails": "Show details",
+    "hideDetails": "Hide details"
   },
   "venues": {
     "heading": "Where to find us",
@@ -87,7 +96,9 @@
     "next": "Next photo",
     "open": "View photo {index} full screen",
     "close": "Close",
-    "counter": "{current} of {total}"
+    "counter": "{current} of {total}",
+    "pause": "Pause the photos",
+    "play": "Play the photos"
   },
   "gifts": {
     "heading": "Gifts",

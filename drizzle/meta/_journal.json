@@ -57,6 +57,13 @@
       "when": 1791432898233,
       "tag": "0007_feature_switches",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791572304906,
+      "tag": "0008_extras_switches",
+      "breakpoints": true
     }
   ]
 }

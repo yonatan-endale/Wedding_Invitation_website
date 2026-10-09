@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { splitWords } from "@/lib/hero-words";
 import { pickText, type Locale } from "@/lib/localized";
+import { widestWordEm } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { FallingPetals } from "./petals";
@@ -46,7 +47,11 @@ export function Hero({ site, locale }: Props) {
         {couple.petals ? <FallingPetals /> : null}
         <div className="relative mx-auto w-full max-w-6xl px-5 pb-14 pt-32 sm:px-8 sm:pb-20">
           {tagline ? <p className="mb-5 max-w-md text-lg text-white/85 sm:text-xl">{tagline}</p> : null}
-          <h1 className="font-display text-[clamp(3.75rem,14vw,10.5rem)] leading-[0.88] tracking-[-0.01em] [text-shadow:0_2px_24px_rgba(0,0,0,0.25)]">
+          {/* Capped by the widest word (plus the second line's indent and ampersand) so long names stay on a phone screen. */}
+          <h1
+            className="font-display text-[length:min(clamp(3.75rem,14vw,10.5rem),calc((100vw_-_2.5rem)/var(--name-em)))] leading-[0.88] tracking-[-0.01em] [text-shadow:0_2px_24px_rgba(0,0,0,0.25)]"
+            style={{ "--name-em": Math.max(widestWordEm(one), widestWordEm(two) + 1.4).toFixed(2) } as CSSProperties}
+          >
             <HeroNames
               one={one}
               two={two}

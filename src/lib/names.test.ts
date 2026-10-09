@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { firstGrapheme, fullName, initials, monogramText } from "./names";
+import { firstGrapheme, fullName, initials, monogramText, widestWordEm } from "./names";
 
 describe("fullName", () => {
   it("joins the first name and the father's name", () => {
@@ -42,3 +42,19 @@ describe("monogramText", () => {
     expect(monogramText(["", "D"])).toBe("D");
   });
 });
+
+describe("widestWordEm", () => {
+  it("measures the widest word, not the whole name", () => {
+    expect(widestWordEm("Woldegiyorgis Hailemariam")).toBeCloseTo(widestWordEm("Woldegiyorgis"));
+    expect(widestWordEm("Woldegiyorgis")).toBeGreaterThan(widestWordEm("Dawit"));
+  });
+
+  it("counts Ge'ez syllables wider than Latin letters", () => {
+    expect(widestWordEm("ዳዊት")).toBeGreaterThan(widestWordEm("abc"));
+  });
+
+  it("never returns less than 1em", () => {
+    expect(widestWordEm("")).toBe(1);
+  });
+});
+

@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { splitWords } from "@/lib/hero-words";
 import { pickText, type Locale } from "@/lib/localized";
+import { widestWordEm } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { FallingPetals } from "../../petals";
@@ -107,7 +108,9 @@ export async function ReelHero({ site, locale }: Props) {
         </p>
         <h1
           id="reel-title"
-          className="mt-5 font-display text-[clamp(3.25rem,13.5vw,8rem)] leading-[0.95] tracking-[0.01em] [text-shadow:0_2px_30px_rgba(0,0,0,0.35)] [&:lang(am)]:tracking-normal"
+          className="mt-5 font-display text-[length:min(clamp(3.25rem,13.5vw,8rem),calc((100vw_-_2.5rem)/var(--name-em)))] leading-[0.95] tracking-[0.01em] [text-shadow:0_2px_30px_rgba(0,0,0,0.35)] [&:lang(am)]:tracking-normal"
+          // Capped by the widest word so a long name never runs off a phone screen.
+          style={{ "--name-em": (widestWordEm(one, two) + 0.2).toFixed(2) } as CSSProperties}
         >
           <span className="sr-only">{`${one} & ${two}`}</span>
           <span aria-hidden>

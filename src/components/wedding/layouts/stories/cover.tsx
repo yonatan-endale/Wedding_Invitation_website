@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
+import { widestWordEm } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, weddingDateParts } from "@/lib/wedding-format";
 import { HeroNames } from "../../hero";
@@ -86,7 +87,9 @@ export async function StoriesCover({ site, locale, names }: Props) {
         ) : null}
         <h1
           id="stories-title"
-          className="mt-5 font-display text-[clamp(2.9rem,16cqi,4.4rem)] leading-[0.95] [&:lang(am)]:text-[clamp(2.4rem,13cqi,3.6rem)] [&:lang(am)]:leading-[1.15]"
+          className="mt-5 font-display text-[length:min(clamp(2.9rem,16cqi,4.4rem),calc((100cqi_-_3rem)/var(--name-em)))] leading-[0.95] [&:lang(am)]:text-[length:min(clamp(2.4rem,13cqi,3.6rem),calc((100cqi_-_3rem)/var(--name-em)))] [&:lang(am)]:leading-[1.15]"
+          // Capped by the widest word (plus the ampersand before the second name) so long names fit the card.
+          style={{ "--name-em": Math.max(widestWordEm(one), widestWordEm(two) + 0.9).toFixed(2) } as CSSProperties}
         >
           <HeroNames one={one} two={two} ampersand="mr-[0.22em] align-[0.12em] text-[0.5em] text-[color-mix(in_oklab,var(--w-metal)_60%,white)]" />
         </h1>

@@ -4,9 +4,12 @@ One Next.js 15 app that hosts a separate invitation website for every couple, pl
 
 Each couple site has:
 
-- An opening screen styled like a netela, which starts the couple's music when a guest opens it
-- A hero with the couple's photo, a live countdown and a formal invitation card
-- Their story, a verse or quote, and the day's timeline with start and optional end times, closing with an end-of-day marker
+- Nine layouts to choose from, each with its own design: Classic, Editorial, Reel (cinematic), Noir & Gold (black tie), Gilded Arches, Stories (one full-screen card at a time), Flat-lay Suite (stationery on linen), Kaba Velvet and Brana Manuscript (an illuminated Ge'ez manuscript)
+- A choice of opening screen, which starts the couple's music when a guest opens it: a netela, wax-seal gates, a 3D envelope with a letter, or an adey abeba flower that blooms. A `?to=Name` link greets the guest by name
+- A full-screen save-the-date with the wedding month and the day marked, in the Ethiopian calendar, the Gregorian one, or both with a switch, plus a live countdown
+- A hero with the couple's photo and a formal invitation card
+- Section animations at three levels per couple (subtle, moderate, rich), with a pause button and no motion for guests who prefer reduced motion
+- Their story, a verse or quote, and the day's timeline with start and optional end times, closing with an end-of-day marker. Each event can be a Habesha step (telosh, church ceremony, mels, kelekel, buna and more) with a bilingual title and its own icon
 - Venues with "Open in Google Maps" and an optional embedded map
 - A swipeable photo gallery with a full-screen viewer
 - Gifts: bank and Telebirr details with copy buttons and QR codes, plus a wishlist that links to shops
@@ -15,7 +18,9 @@ Each couple site has:
 - A private page where the couple reads RSVPs and wishes and sends guests their cards. There is no sign-up: a secret link plus a passcode
 - An English and Amharic switch. Times always use the Ethiopian clock, so 2 PM reads as 8:00 in the afternoon, and Amharic also uses Ethiopian calendar dates
 - A share preview image for WhatsApp, Telegram and Facebook
-- Nine colour themes, five drawn from Ethiopian weddings and four classic, plus a choice of border: two woven tibeb bands (the slim original, or a wide one drawn from a real netela), a floral vine, or a plain line
+- Thirteen colour themes, drawn from Ethiopian weddings and classic schemes; dark layouts turn light themes into dark versions that keep their contrast
+- A choice of border: two woven tibeb bands (the slim original, or a wide one drawn from a real netela), harag manuscript interlace, a floral vine, or a plain line
+- An optional faith ornament (Orthodox cross, plain cross or Harari rosette), off unless the couple picks one
 - Falling rose petals over the hero photo, off for guests who prefer reduced motion
 - Three forms of each name: the first name on the opening screen, an optional nickname in the hero, and first plus father's name on the invitation card, footer and share preview
 
@@ -78,6 +83,8 @@ For local Clerk keys without an account, run `npx clerk@latest init --framework 
 5. Add bank or Telebirr accounts and wishlist items in **Gifts**.
 6. Click **Preview**, check it on your phone, then click **Publish**.
 7. Use **Copy link**, or the menu's WhatsApp and Telegram share, to send the link.
+
+To try a look before saving it, add preview options to the site link while signed in as admin, for example `/s/<slug>?layout=noir&theme=burgundy&opening=seal&motion=rich&border=harag&ornament=orthodox`. They also work without signing in on `next dev`.
 
 RSVPs appear in the **RSVPs** tab. **Download CSV** opens in Excel with Amharic names intact.
 

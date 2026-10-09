@@ -1,5 +1,6 @@
 "use client";
 
+import { useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -30,15 +31,18 @@ const paper = (shade: number) => `color-mix(in oklab, var(--w-sheet), var(--w-in
 export function EnvelopeOpening({ names, initials, separator, dateLine, ornament, guestName }: OpeningProps) {
   const t = useTranslations("intro");
   const { phase, open, finish } = useIntro();
+  const reduceMotion = useReducedMotion();
   const [step, setStep] = useState(0);
   const opening = phase === "opening";
 
   useEffect(() => {
     if (!opening) return;
-    const timers = STEPS.map(({ step: next, at }) => window.setTimeout(() => setStep(next), at));
-    timers.push(window.setTimeout(finish, DONE_AT));
+    // With reduced motion the envelope doesn't unfold; it fades straight onto the site, as the adey does.
+    const steps = reduceMotion ? [{ step: 5, at: 0 }] : STEPS;
+    const timers = steps.map(({ step: next, at }) => window.setTimeout(() => setStep(next), at));
+    timers.push(window.setTimeout(finish, reduceMotion ? 400 : DONE_AT));
     return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [opening, finish]);
+  }, [opening, finish, reduceMotion]);
 
   return (
     <OpeningShell titleId="intro-names">

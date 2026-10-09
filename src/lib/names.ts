@@ -27,3 +27,21 @@ export function initials(one: string, two: string): [string, string] {
 export function monogramText([one, two]: [string, string]): string {
   return [one, two].filter(Boolean).join(" & ");
 }
+
+const ETHIOPIC = /[\u1200-\u139F\u2D80-\u2DDF\uAB00-\uAB2F]/;
+
+/** A word's rough width in em: Ge'ez syllables run wider than Latin letters, capitals wider than lower case. */
+function wordWidthEm(word: string): number {
+  return graphemes(word).reduce((sum, char) => sum + (ETHIOPIC.test(char) ? 0.86 : /\p{Lu}/u.test(char) ? 0.66 : 0.52), 0);
+}
+
+/**
+ * The widest single word across the names, in em. Hero headings divide the
+ * screen width by it to cap their size, so a long name like "Woldegiyorgis"
+ * stays on screen instead of running past the edge of a phone.
+ */
+export function widestWordEm(...texts: string[]): number {
+  const words = texts.flatMap((text) => text.split(/\s+/)).filter(Boolean);
+  return Math.max(1, ...words.map(wordWidthEm));
+}
+

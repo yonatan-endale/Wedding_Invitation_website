@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
 import { pickText, type Locale } from "@/lib/localized";
+import { initials } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate, formatWeddingTime, weddingDateParts } from "@/lib/wedding-format";
 import { HeroNames } from "../../hero";
@@ -24,6 +25,7 @@ export async function EditorialHero({ site, locale }: Props) {
   const tagline = pickText(couple.tagline, locale);
   const city = pickText(couple.city, locale);
   const date = weddingDateParts(couple.weddingAt, couple.timezone, locale);
+  const [initialOne, initialTwo] = initials(pickText(couple.partnerOne, locale), pickText(couple.partnerTwo, locale));
   // The lines under the names fade up in reading order; without a tagline the rest move up one step.
   const after = tagline ? 1 : 0;
 
@@ -79,7 +81,17 @@ export async function EditorialHero({ site, locale }: Props) {
                     style={{ objectPosition: couple.heroPosition }}
                   />
                 </div>
-              ) : null}
+              ) : (
+                // No cover photo yet: the couple's initials on a soft wash of the theme colour.
+                <div
+                  aria-hidden
+                  className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_50%_38%,color-mix(in_oklab,var(--w-thread-1)_72%,var(--w-sheet))_0%,var(--w-thread-1)_78%)] font-display text-[clamp(3rem,11vw,6.5rem)] leading-none text-on-thread-1"
+                >
+                  {initialOne}
+                  <span className="mx-[0.3em] text-[0.45em] opacity-75">{locale === "am" ? "፡" : "&"}</span>
+                  {initialTwo}
+                </div>
+              )}
             </div>
           </div>
           <div

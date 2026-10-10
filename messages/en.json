@@ -273,6 +273,26 @@
       "chapter": "Chapter",
       "colophon": "Here ends this book; may the love written in it never end.",
       "writtenIn": "Written in the year <year></year> of the Ethiopian calendar"
+    },
+    "slate": {
+      "confirm": "Confirm attendance",
+      "seeDay": "See the day",
+      "scroll": "Scroll",
+      "kicker": {
+        "invitation": "You are invited",
+        "schedule": "Hour by hour",
+        "venues": "Find your way",
+        "gallery": "A few favourites",
+        "story": "How it began",
+        "rsvp": "We hope you can come",
+        "gifts": "With gratitude",
+        "thanks": "Thank you"
+      },
+      "footerNav": "On this page",
+      "backToTop": "Back to top",
+      "signature": "With love, {one} and {two}",
+      "when": "When",
+      "where": "Where"
     }
   }
 }

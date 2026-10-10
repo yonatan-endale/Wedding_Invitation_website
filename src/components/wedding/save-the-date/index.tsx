@@ -34,6 +34,8 @@ import { MonthTable, type Numerals } from "./month-table";
  * - manuscript (Brana Manuscript): on the parchment under a harag headpiece, the title in red rubric, a
  *   small framed miniature, the month ruled like a computus table; it uses the knot sprite and the
  *   --brana-* colours the Brana layout sets on its root
+ * - slate (Slate): a dark photo card on the paper, the title in script, the day ringed in the accent; it uses
+ *   the --slate-* colours the Slate layout sets on its root
  */
 export type SaveTheDateSkin = "cinema" | "editorial" | "noir" | "arch" | "story" | "card" | "velvet" | "manuscript" | "slate";
 
@@ -106,13 +108,14 @@ const SKINS: Record<SaveTheDateSkin, { tone: Tone; compact: boolean; title: stri
     names: "font-[family-name:var(--brana-display,var(--font-display))] font-medium tracking-[0.22em] text-ink-soft",
     date: "font-cormorant font-medium lining-nums text-ink",
   },
-  // Until Slate's own look lands it renders like cinema.
+  // Slate: white type on a dark photo card, the title in the layout's script (the display face in Amharic).
   slate: {
     tone: "light",
-    compact: false,
-    title: "font-display",
-    names: "text-[color-mix(in_oklab,var(--w-metal)_60%,white)]",
-    date: "font-display",
+    compact: true,
+    title:
+      "font-script normal-case tracking-normal text-white text-[clamp(2.75rem,11vw,4rem)] leading-[1.15] lg:text-[clamp(2.75rem,4.6vw,4rem)] [&:lang(am)]:font-display [&:lang(am)]:text-[clamp(1.9rem,6.4vw,2.6rem)]",
+    names: "text-[clamp(0.78rem,2.2vw,0.92rem)] text-white/85 uppercase [&:lang(am)]:normal-case [&:lang(am)]:text-base",
+    date: "font-display text-[clamp(1.35rem,4.6vw,2.1rem)] leading-tight tracking-[0.06em] [&:lang(am)]:text-[clamp(1.25rem,4.2vw,1.8rem)]",
   },
 };
 
@@ -368,6 +371,36 @@ export async function SaveTheDate({
     );
   }
 
+  if (skin === "slate") {
+    // A dark photo card on the paper: the layout's deep band washed over the photo, a fine inner keyline, the
+    // wedding day ringed in the layout's accent (the card points the metal at --slate-glow, which the Slate
+    // layout sets on its root) and the other calendar's date as a pill under the month.
+    return (
+      <section
+        id="save-the-date"
+        data-stage
+        aria-labelledby="save-the-date-title"
+        className="std relative isolate overflow-x-clip px-3 py-10 sm:px-8 sm:py-14"
+      >
+        <div
+          className={cn(
+            "relative isolate mx-auto w-full max-w-2xl overflow-hidden rounded-[1.75rem] bg-(--slate-band,var(--w-ink)) px-[clamp(0.5rem,3.5vw,2.75rem)] pt-[clamp(2.5rem,8vw,3.75rem)] pb-[clamp(2.25rem,6vw,3.25rem)] text-center text-white",
+            "shadow-[0_32px_64px_-34px_rgb(0_0_0/0.6)] [--w-metal:var(--slate-glow,var(--w-thread-1))] [text-shadow:0_1px_3px_rgb(0_0_0/0.45)]",
+            "[&_.std-alt]:mx-auto [&_.std-alt]:w-fit [&_.std-alt]:rounded-full [&_.std-alt]:border [&_.std-alt]:border-white/25 [&_.std-alt]:bg-white/10 [&_.std-alt]:px-4 [&_.std-alt]:py-1.5 [&_.std-alt]:text-white",
+          )}
+        >
+          {photo ? <Backdrop photo={photo} sizes="(min-width: 42rem) 42rem, 100vw" className="-z-10" /> : null}
+          <span aria-hidden className="absolute inset-0 -z-10" style={SLATE_WASH} />
+          <span aria-hidden className="std-frame pointer-events-none absolute inset-2.5 rounded-[1.35rem] border border-white/15" />
+          <div className="relative">
+            {heading}
+            <div className="mt-8">{calendar}</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       id="save-the-date"
@@ -391,6 +424,12 @@ export async function SaveTheDate({
  * would paint them in full-strength metal where color-mix is unsupported,
  * whereas an inline declaration the browser cannot parse is simply skipped.
  */
+
+/** Slate's deep band over the photo: lightest at the head so the photo still reads, near solid behind the month. */
+const SLATE_WASH: CSSProperties = {
+  backgroundImage:
+    "linear-gradient(to bottom, color-mix(in oklab, var(--slate-band, #000) 70%, transparent), color-mix(in oklab, var(--slate-band, #000) 86%, transparent) 42%, color-mix(in oklab, var(--slate-band, #000) 93%, transparent))",
+};
 
 /** A faint warm light behind noir's crest and title. */
 const NOIR_GLOW: CSSProperties = {

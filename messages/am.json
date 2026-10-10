@@ -273,6 +273,26 @@
       "chapter": "ምዕራፍ",
       "colophon": "ይህ መጽሐፍ እዚህ ላይ ተፈጸመ፤ በውስጡ የተጻፈው ፍቅር ግን ፍጻሜ አይኑረው።",
       "writtenIn": "በ<year></year> ዓ.ም. ተጻፈ።"
+    },
+    "slate": {
+      "confirm": "መገኘትዎን ያረጋግጡ",
+      "seeDay": "መርሐ ግብሩን ይመልከቱ",
+      "scroll": "ወደ ታች",
+      "kicker": {
+        "invitation": "ተጋብዘዋል",
+        "schedule": "ሰዓት በሰዓት",
+        "venues": "እንዴት እንደሚደርሱ",
+        "gallery": "የምንወዳቸው ፎቶዎች",
+        "story": "እንዴት ተጀመረ",
+        "rsvp": "እንደሚመጡ ተስፋ እናደርጋለን",
+        "gifts": "በምስጋና",
+        "thanks": "እናመሰግናለን"
+      },
+      "footerNav": "በዚህ ገጽ ላይ",
+      "backToTop": "ወደ ላይ ይመለሱ",
+      "signature": "በፍቅር፣ {one} እና {two}",
+      "when": "መቼ",
+      "where": "የት"
     }
   }
 }

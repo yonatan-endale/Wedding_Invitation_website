@@ -422,3 +422,24 @@ Calendar words, weekdays, time-of-day words, Ge'ez numerals and separators that 
 | `messages/am.json` | calendar.details | You are invited. The full invitation, the day's schedule and the RSVP are on the website. | ተጋብዘዋል። ሙሉ ግብዣው፣ የዕለቱ መርሐ ግብር እና የምላሽ ቅጹ በድረ-ገጹ ላይ ይገኛሉ። | |
 | `messages/am.json` | schedule.showDetails | Show details | ዝርዝሩን አሳይ | |
 | `messages/am.json` | schedule.hideDetails | Hide details | ዝርዝሩን ደብቅ | |
+
+## Phase 4: Slate layout
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.slate.confirm | Confirm attendance | መገኘትዎን ያረጋግጡ | |
+| `messages/am.json` | layouts.slate.seeDay | See the day | መርሐ ግብሩን ይመልከቱ | |
+| `messages/am.json` | layouts.slate.scroll | Scroll | ወደ ታች | |
+| `messages/am.json` | layouts.slate.kicker.invitation | You are invited | ተጋብዘዋል | |
+| `messages/am.json` | layouts.slate.kicker.schedule | Hour by hour | ሰዓት በሰዓት | |
+| `messages/am.json` | layouts.slate.kicker.venues | Find your way | እንዴት እንደሚደርሱ | |
+| `messages/am.json` | layouts.slate.kicker.gallery | A few favourites | የምንወዳቸው ፎቶዎች | |
+| `messages/am.json` | layouts.slate.kicker.story | How it began | እንዴት ተጀመረ | |
+| `messages/am.json` | layouts.slate.kicker.rsvp | We hope you can come | እንደሚመጡ ተስፋ እናደርጋለን | |
+| `messages/am.json` | layouts.slate.kicker.gifts | With gratitude | በምስጋና | |
+| `messages/am.json` | layouts.slate.kicker.thanks | Thank you | እናመሰግናለን | |
+| `messages/am.json` | layouts.slate.footerNav | On this page | በዚህ ገጽ ላይ | |
+| `messages/am.json` | layouts.slate.backToTop | Back to top | ወደ ላይ ይመለሱ | |
+| `messages/am.json` | layouts.slate.signature | With love, {one} and {two} | በፍቅር፣ {one} እና {two} | |
+| `messages/am.json` | layouts.slate.when | When | መቼ | |
+| `messages/am.json` | layouts.slate.where | Where | የት | |

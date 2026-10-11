@@ -87,8 +87,9 @@ export async function SlateSchedule({ site, locale }: Props) {
                 </span>
               </div>
 
-              <div className="pb-6 sm:pb-8">
-                <article data-reveal="up" style={order(1)} className={cn(styles.card, "rounded-[1.25rem] px-5 py-5 sm:px-7 sm:py-6")}>
+              {/* Straight on the page, no card: the top padding lines the time up with its circle. */}
+              <div className="pb-10 sm:pb-12">
+                <article data-reveal="up" style={order(1)} className="pt-3 sm:pt-3.5">
                   <When item={item} day={day === weddingDay ? null : day} />
                   <h3 className="mt-2 text-[clamp(1.35rem,3.4vw,1.7rem)] leading-snug text-ink [&:lang(am)]:text-[clamp(1.25rem,3.2vw,1.5rem)]">
                     {item.title}

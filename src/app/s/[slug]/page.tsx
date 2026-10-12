@@ -22,6 +22,7 @@ import { LAYOUTS, getLayout } from "@/lib/layout";
 import { isLocale, pickText, type Locale } from "@/lib/localized";
 import { fullName, initials, monogramText } from "@/lib/names";
 import { getOpening } from "@/lib/opening";
+import { siteTitleNames } from "@/lib/site-names";
 import { hasPreviewOverrides, parsePreviewOverrides, type PreviewOverrides } from "@/lib/preview-overrides";
 import { getTheme, layoutPalette, themeCss } from "@/lib/theme";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
@@ -50,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { site } = await loadVisibleSite(slug);
   const locale = await currentLocale();
   const { couple } = site;
-  const title = `${fullName(couple.partnerOne, couple.partnerOneFather, locale)} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, locale)}`;
+  const title = siteTitleNames(site, locale);
   const description = [formatWeddingDate(couple.weddingAt, couple.timezone, locale), pickText(couple.city, locale)]
     .filter(Boolean)
     .join(", ");
@@ -100,7 +101,7 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
   const names = { one, two, firstOne, firstTwo, initials: coupleInitials, monogram: monogramText(coupleInitials) };
 
   // The layout decides the section order and look; the shell around it is shared.
-  const layout = getLayout(couple.layout);
+  const layout = getLayout(couple.layout, couple.eventType);
   const Layout = LAYOUT_COMPONENTS[layout];
   const meta = LAYOUTS[layout];
   const links = sectionLinks(site, locale, (key) => t(key), meta);

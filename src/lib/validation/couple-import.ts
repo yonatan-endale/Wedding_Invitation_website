@@ -9,8 +9,9 @@ import {
 } from "@/lib/constants";
 import { CALENDAR_STYLES, MOTION_LEVELS, ORNAMENTS } from "@/lib/appearance";
 import { zonedTimeToUtc } from "@/lib/datetime";
-import { EVENT_KINDS } from "@/lib/event-kinds";
-import { isLayoutName } from "@/lib/layout";
+import { EVENT_KINDS, kindsFor } from "@/lib/event-kinds";
+import { EVENT_TYPES, EVENT_TYPE_META, usesHonorees } from "@/lib/event-types";
+import { LAYOUTS, isLayoutName, type LayoutMeta } from "@/lib/layout";
 import type { LocalizedText } from "@/lib/localized";
 import { isOpeningName } from "@/lib/opening";
 import { isValidSlug } from "@/lib/slug";
@@ -20,7 +21,8 @@ import { CALENDAR_DATE, isSafeUrl, isValidTimeZone } from "./admin";
 /*
  * Validates a whole couple in one JSON document, the file uploaded at
  * /admin/couples/import. The rules mirror the per-form parsers in ./admin.ts;
- * keep them in step.
+ * keep them in step. A file without `eventType` is a wedding, as every file
+ * was before other event types existed.
  */
 
 const LOCAL_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/;
@@ -119,8 +121,13 @@ function buildSchema(timeZone: string) {
         .trim()
         .refine(isValidSlug, "Use 3 to 40 lowercase letters, numbers and single hyphens. Some words like admin are reserved."),
       status: z.enum(COUPLE_STATUSES).default("draft"),
-      partnerOne: requiredLocalized,
-      partnerTwo: requiredLocalized,
+      eventType: z
+        .enum(EVENT_TYPES)
+        .default("wedding")
+        .refine((type) => EVENT_TYPE_META[type].enabled, "This event type is not open yet."),
+      /* Required for couple types and left out for honoree types; checked below once the type is known. */
+      partnerOne: optionalLocalized,
+      partnerTwo: optionalLocalized,
       partnerOneNick: optionalLocalized,
       partnerTwoNick: optionalLocalized,
       partnerOneFather: optionalLocalized,
@@ -203,8 +210,25 @@ function buildSchema(timeZone: string) {
 
   const photo = z.preprocess(
     (value) => (typeof value === "string" ? { url: value } : value),
-    z.object({ url: requiredUrl, caption: optionalLocalized }).strict(),
+    z.object({ url: requiredUrl, caption: optionalLocalized, groupLabel: optionalLocalized }).strict(),
   );
+
+  const honoree = z
+    .object({
+      name: requiredLocalized,
+      nick: optionalLocalized,
+      father: optionalLocalized,
+      headline: optionalLocalized,
+      subheadline: optionalLocalized,
+      story: optionalLocalized,
+      portraitUrl: url(),
+      portraitPosition: z
+        .string()
+        .trim()
+        .default(HERO_POSITIONS[1].value)
+        .refine((value) => HERO_POSITIONS.some((p) => p.value === value), `Use one of ${HERO_POSITIONS.map((p) => `"${p.value}"`).join(", ")}.`),
+    })
+    .strict();
 
   const gift = z
     .object({
@@ -237,6 +261,8 @@ function buildSchema(timeZone: string) {
   return z
     .object({
       couple,
+      /** The people a non-wedding site celebrates, in display order. Weddings leave it out. */
+      honorees: z.array(honoree).default([]),
       /** Display order; the first venue is the one shown on the invitation card. */
       venues: z.array(venue).default([]),
       events: z.array(event).default([]),
@@ -248,6 +274,43 @@ function buildSchema(timeZone: string) {
     })
     .strict()
     .superRefine((value, ctx) => {
+      const type = value.couple.eventType;
+      const meta = EVENT_TYPE_META[type];
+      // A closed type is already reported; checking its people and layout would only add noise.
+      if (meta.enabled) {
+        if (usesHonorees(type)) {
+          const { min, max } = meta.honorees;
+          if (value.honorees.length < min || value.honorees.length > max) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["honorees"],
+              message: `A ${meta.label.toLowerCase()} needs ${min === max ? min : `${min} to ${max}`} honorees.`,
+            });
+          }
+          for (const field of ["partnerOne", "partnerTwo"] as const) {
+            if (value.couple[field]) {
+              ctx.addIssue({ code: "custom", path: ["couple", field], message: "List the people under honorees instead." });
+            }
+          }
+        } else {
+          for (const field of ["partnerOne", "partnerTwo"] as const) {
+            if (!value.couple[field]?.en) ctx.addIssue({ code: "custom", path: ["couple", field], message: "Add the English text." });
+          }
+          if (value.honorees.length) {
+            ctx.addIssue({ code: "custom", path: ["honorees"], message: `A ${meta.label.toLowerCase()} names its two partners on the couple instead.` });
+          }
+        }
+        const layout = value.couple.layout;
+        if (isLayoutName(layout) && !(LAYOUTS[layout] as LayoutMeta).eventTypes.includes(type)) {
+          ctx.addIssue({ code: "custom", path: ["couple", "layout"], message: `This layout is not drawn for a ${meta.label.toLowerCase()}.` });
+        }
+        const kinds = kindsFor(type);
+        value.events.forEach((event, index) => {
+          if (!kinds.includes(event.kind)) {
+            ctx.addIssue({ code: "custom", path: ["events", index, "kind"], message: `This kind is not offered for a ${meta.label.toLowerCase()}.` });
+          }
+        });
+      }
       value.events.forEach((event, index) => {
         if (event.venue !== null && event.venue >= value.venues.length) {
           ctx.addIssue({

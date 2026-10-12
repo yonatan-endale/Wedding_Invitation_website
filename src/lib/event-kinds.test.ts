@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { ORNAMENTS } from "./appearance";
-import { EVENT_KINDS, EVENT_KIND_META, eventIconFor, getEventKind, hasEventIcon, isEventKind, titleForKind } from "./event-kinds";
+import { EVENT_TYPES } from "./event-types";
+import {
+  EVENT_KINDS,
+  EVENT_KIND_META,
+  eventIconFor,
+  getEventKind,
+  hasEventIcon,
+  isEventKind,
+  kindsFor,
+  titleForKind,
+} from "./event-kinds";
 
 describe("event kinds", () => {
   it("fall back to other for unknown or missing kinds", () => {
@@ -94,5 +104,25 @@ describe("hasEventIcon", () => {
   it("leaves events of kind other without an icon, so older timelines are unchanged", () => {
     expect(hasEventIcon("other")).toBe(false);
     for (const kind of EVENT_KINDS.filter((k) => k !== "other")) expect(hasEventIcon(kind), kind).toBe(true);
+  });
+});
+
+describe("kindsFor", () => {
+  it("offers weddings every kind, in the original order", () => {
+    expect(kindsFor("wedding")).toEqual(EVENT_KINDS);
+  });
+
+  it("gives every type known kinds, once each, ending with other", () => {
+    for (const type of EVENT_TYPES) {
+      const kinds = kindsFor(type);
+      for (const kind of kinds) expect(isEventKind(kind), `${type} ${kind}`).toBe(true);
+      expect(new Set(kinds).size, type).toBe(kinds.length);
+      expect(kinds.at(-1), type).toBe("other");
+    }
+  });
+
+  it("keeps wedding-only ceremonies off graduations", () => {
+    expect(kindsFor("graduation")).not.toContain("mels");
+    expect(kindsFor("graduation")).not.toContain("ceremony_orthodox");
   });
 });

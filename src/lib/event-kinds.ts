@@ -1,4 +1,5 @@
 import type { Ornament } from "./appearance";
+import type { EventType } from "./event-types";
 import type { LocalizedText } from "./localized";
 
 /**
@@ -46,6 +47,22 @@ export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
   buna: { label: "Coffee ceremony", title: { en: "Coffee ceremony", am: "የቡና ሥነ ሥርዓት" } },
   other: { label: "Other", title: null },
 };
+
+/**
+ * The kinds the admin picker offers for each event type, in picker order.
+ * Every type keeps "other". A type's own kinds arrive with its layouts.
+ */
+export const EVENT_KINDS_BY_TYPE: Record<EventType, readonly EventKind[]> = {
+  wedding: EVENT_KINDS,
+  graduation: ["photos", "buna", "other"],
+  birthday: ["photos", "buna", "other"],
+  baptism: ["photos", "buna", "other"],
+  engagement: ["telosh", "blessing", "kelekel", "photos", "buna", "other"],
+};
+
+export function kindsFor(type: EventType): readonly EventKind[] {
+  return EVENT_KINDS_BY_TYPE[type];
+}
 
 export function isEventKind(value: unknown): value is EventKind {
   return typeof value === "string" && (EVENT_KINDS as readonly string[]).includes(value);

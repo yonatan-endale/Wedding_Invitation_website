@@ -10,7 +10,7 @@ import { getGuestCard } from "@/db/queries/cards";
 import { cardFileName, cardImageUrl, cardPageUrl } from "@/lib/card-links";
 import { siteBaseFromRequest } from "@/lib/card/site-base";
 import { isLocale } from "@/lib/localized";
-import { fullName } from "@/lib/names";
+import { siteTitleNames } from "@/lib/site-names";
 import { cn } from "@/lib/utils";
 
 // Never cached: deleting the RSVP takes the card down at once.
@@ -45,7 +45,7 @@ export default async function GuestCardPage({ params }: Props) {
   const [t, current, base] = await Promise.all([getTranslations("card"), getLocale(), siteBaseFromRequest(slug)]);
   const locale = isLocale(current) ? current : "en";
   const { couple } = card.site;
-  const coupleNames = `${fullName(couple.partnerOne, couple.partnerOneFather, locale)} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, locale)}`;
+  const coupleNames = siteTitleNames(card.site, locale);
   const fileName = cardFileName(card.guest.name);
 
   return (

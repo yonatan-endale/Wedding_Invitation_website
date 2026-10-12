@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { firstGrapheme, fullName, initials, monogramText, widestWordEm } from "./names";
+import { firstGrapheme, fullName, initials, initialsOf, joinNames, monogramText, widestWordEm } from "./names";
 
 describe("fullName", () => {
   it("joins the first name and the father's name", () => {
@@ -58,3 +58,25 @@ describe("widestWordEm", () => {
   });
 });
 
+
+describe("joinNames", () => {
+  it("reads two names the way couples always have", () => {
+    expect(joinNames(["Hanna Tesfaye", "Dawit Alemu"])).toBe("Hanna Tesfaye & Dawit Alemu");
+  });
+
+  it("handles one name and lists of three or more", () => {
+    expect(joinNames(["Ruth"])).toBe("Ruth");
+    expect(joinNames(["Ruth", "Mahlet", "Selam"])).toBe("Ruth, Mahlet & Selam");
+  });
+
+  it("skips blank names and works in Amharic", () => {
+    expect(joinNames(["ሩት", " ", "ማህሌት"])).toBe("ሩት & ማህሌት");
+    expect(joinNames([])).toBe("");
+  });
+});
+
+describe("initialsOf", () => {
+  it("takes each first grapheme and drops blanks", () => {
+    expect(initialsOf(["Ruth", "", "ማህሌት"])).toEqual(["R", "ማ"]);
+  });
+});

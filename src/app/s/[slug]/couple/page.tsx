@@ -9,7 +9,7 @@ import { getSiteData } from "@/db/queries/site";
 import { siteBaseFromRequest } from "@/lib/card/site-base";
 import { getCoupleSession } from "@/lib/couple-access";
 import { isLocale } from "@/lib/localized";
-import { fullName } from "@/lib/names";
+import { siteTitleNames } from "@/lib/site-names";
 
 // Reads the session cookie on every request; never cached.
 export const dynamic = "force-dynamic";
@@ -33,7 +33,7 @@ export default async function CouplePortalPage({ params }: Props) {
   const [t, current, session] = await Promise.all([getTranslations("couplePortal"), getLocale(), getCoupleSession(slug)]);
   const locale = isLocale(current) ? current : "en";
   const { couple } = site;
-  const coupleNames = `${fullName(couple.partnerOne, couple.partnerOneFather, locale)} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, locale)}`;
+  const coupleNames = siteTitleNames(site, locale);
 
   if (!session) {
     return (

@@ -64,6 +64,13 @@
       "when": 1791572304906,
       "tag": "0008_extras_switches",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791814342742,
+      "tag": "0009_event_types",
+      "breakpoints": true
     }
   ]
 }

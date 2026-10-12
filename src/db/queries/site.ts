@@ -3,8 +3,9 @@ import "server-only";
 import { asc, eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import { getDb } from "@/db";
-import { couples, events, giftAccounts, photos, storyMilestones, venues, wishlistItems } from "@/db/schema";
+import { couples, events, giftAccounts, honorees, photos, storyMilestones, venues, wishlistItems } from "@/db/schema";
 import { siteCacheTag, type BorderStyle, type CoupleStatus, type GiftKind, type PartnerRole } from "@/lib/constants";
+import type { EventType } from "@/lib/event-types";
 import type { LocalizedText } from "@/lib/localized";
 
 /** Plain, JSON-safe shapes: cached data loses Date objects, so dates travel as ISO strings. */
@@ -12,6 +13,7 @@ export type SiteCouple = {
   id: string;
   slug: string;
   status: CoupleStatus;
+  eventType: EventType;
   partnerOne: LocalizedText;
   partnerTwo: LocalizedText;
   partnerOneNick: LocalizedText | null;
@@ -24,6 +26,8 @@ export type SiteCouple = {
   partnerTwoPortraitUrl: string | null;
   tagline: LocalizedText | null;
   weddingAt: string;
+  /** The same moment as `weddingAt`, under a name that fits every event type. New code reads this one. */
+  eventAt: string;
   timezone: string;
   city: LocalizedText | null;
   invitation: LocalizedText | null;
@@ -62,7 +66,20 @@ export type SiteCouple = {
   collapsibleEvents: boolean;
 };
 
-export type SitePhoto = { id: string; url: string; caption: LocalizedText | null };
+export type SitePhoto = { id: string; url: string; caption: LocalizedText | null; groupLabel: LocalizedText | null };
+
+/** One person a non-wedding site celebrates, in the admin's order. */
+export type SiteHonoree = {
+  id: string;
+  name: LocalizedText;
+  nick: LocalizedText | null;
+  father: LocalizedText | null;
+  headline: LocalizedText | null;
+  subheadline: LocalizedText | null;
+  story: LocalizedText | null;
+  portraitUrl: string | null;
+  portraitPosition: string;
+};
 
 export type SiteVenue = {
   id: string;
@@ -113,6 +130,8 @@ export type SiteStoryMilestone = {
 
 export type SiteData = {
   couple: SiteCouple;
+  /** Empty for weddings and engagements, which name the two partners on the couple. */
+  honorees: SiteHonoree[];
   photos: SitePhoto[];
   venues: SiteVenue[];
   events: SiteEvent[];
@@ -126,7 +145,12 @@ async function loadSite(slug: string): Promise<SiteData | null> {
   const [row] = await db.select().from(couples).where(eq(couples.slug, slug)).limit(1);
   if (!row) return null;
 
-  const [photoRows, venueRows, eventRows, giftRows, wishRows, milestoneRows] = await Promise.all([
+  const [honoreeRows, photoRows, venueRows, eventRows, giftRows, wishRows, milestoneRows] = await Promise.all([
+    db
+      .select()
+      .from(honorees)
+      .where(eq(honorees.coupleId, row.id))
+      .orderBy(asc(honorees.sortOrder), asc(honorees.createdAt)),
     db.select().from(photos).where(eq(photos.coupleId, row.id)).orderBy(asc(photos.sortOrder), asc(photos.createdAt)),
     db.select().from(venues).where(eq(venues.coupleId, row.id)).orderBy(asc(venues.sortOrder), asc(venues.createdAt)),
     db.select().from(events).where(eq(events.coupleId, row.id)).orderBy(asc(events.startsAt)),
@@ -152,6 +176,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       id: row.id,
       slug: row.slug,
       status: row.status,
+      eventType: row.eventType,
       partnerOne: row.partnerOne,
       partnerTwo: row.partnerTwo,
       partnerOneNick: row.partnerOneNick,
@@ -164,6 +189,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       partnerTwoPortraitUrl: row.partnerTwoPortraitUrl,
       tagline: row.tagline,
       weddingAt: row.weddingAt.toISOString(),
+      eventAt: row.weddingAt.toISOString(),
       timezone: row.timezone,
       city: row.city,
       invitation: row.invitation,
@@ -196,7 +222,18 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       collapsibleEvents: row.collapsibleEvents,
       rsvpDeadline: row.rsvpDeadline?.toISOString() ?? null,
     },
-    photos: photoRows.map((p) => ({ id: p.id, url: p.url, caption: p.caption })),
+    honorees: honoreeRows.map((h) => ({
+      id: h.id,
+      name: h.name,
+      nick: h.nick,
+      father: h.father,
+      headline: h.headline,
+      subheadline: h.subheadline,
+      story: h.story,
+      portraitUrl: h.portraitUrl,
+      portraitPosition: h.portraitPosition,
+    })),
+    photos: photoRows.map((p) => ({ id: p.id, url: p.url, caption: p.caption, groupLabel: p.groupLabel })),
     venues: venueRows.map((v) => ({
       id: v.id,
       name: v.name,
@@ -246,7 +283,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
  * cached before a deploy are never read with the new shape.
  */
 export function getSiteData(slug: string): Promise<SiteData | null> {
-  return unstable_cache(() => loadSite(slug), ["site-data", "v4", slug], {
+  return unstable_cache(() => loadSite(slug), ["site-data", "v5", slug], {
     tags: [siteCacheTag(slug)],
     revalidate: 3600,
   })();

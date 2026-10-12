@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { NAV_KEYS } from "./nav";
 import { isOpeningName } from "./opening";
 import { isThemeName } from "./theme";
-import { LAYOUT_LIST, LAYOUT_NAMES, getLayout, isLayoutName } from "./layout";
+import { EVENT_TYPE_META, EVENT_TYPES } from "./event-types";
+import { LAYOUT_LIST, LAYOUT_NAMES, getLayout, isLayoutName, layoutsFor } from "./layout";
 
 describe("getLayout", () => {
   it("returns the named layout", () => {
@@ -13,6 +14,14 @@ describe("getLayout", () => {
     expect(getLayout("magazine")).toBe("classic");
     expect(getLayout(null)).toBe("classic");
     expect(getLayout(undefined)).toBe("classic");
+  });
+
+  it("keeps a layout drawn for one event type away from the others", () => {
+    expect(getLayout("slate", "wedding")).toBe("slate");
+    for (const type of EVENT_TYPES) {
+      const layout = getLayout("slate", type);
+      if (layoutsFor(type).length > 0) expect(LAYOUT_LIST.find((meta) => meta.name === layout)?.eventTypes, type).toContain(type);
+    }
   });
 });
 
@@ -54,5 +63,23 @@ describe("layout metadata", () => {
       expect(layout.recommendedThemes.length, layout.name).toBeGreaterThan(0);
       for (const theme of layout.recommendedThemes) expect(isThemeName(theme), `${layout.name} ${theme}`).toBe(true);
     }
+  });
+});
+
+describe("layoutsFor", () => {
+  it("draws every wedding layout for weddings", () => {
+    const wedding = LAYOUT_LIST.filter((layout) => layout.eventTypes.includes("wedding"));
+    expect(layoutsFor("wedding")).toEqual(wedding);
+    expect(wedding.map((layout) => layout.name).slice(0, 2)).toEqual(["classic", "editorial"]);
+  });
+
+  it("gives every open event type at least one layout", () => {
+    for (const type of EVENT_TYPES) {
+      if (EVENT_TYPE_META[type].enabled) expect(layoutsFor(type).length, type).toBeGreaterThan(0);
+    }
+  });
+
+  it("tags every layout with at least one event type", () => {
+    for (const layout of LAYOUT_LIST) expect(layout.eventTypes.length, layout.name).toBeGreaterThan(0);
   });
 });

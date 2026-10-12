@@ -13,6 +13,7 @@ function site(overrides: { couple?: Partial<SiteData["couple"]> } & Partial<Omit
       rsvpEnabled: true,
       ...couple,
     } as SiteData["couple"],
+    honorees: [],
     photos: [],
     venues: [],
     events: [],
@@ -28,7 +29,7 @@ const ids = (data: SiteData, layout: keyof typeof LAYOUTS, locale: "en" | "am" =
 
 const full = site({
   couple: { story: { en: "We met." }, partnerOnePortraitUrl: "/a.jpg" },
-  photos: [{ id: "p", url: "/p.jpg", caption: null }],
+  photos: [{ id: "p", url: "/p.jpg", caption: null, groupLabel: null }],
   venues: [{ id: "v", name: { en: "Hall" }, address: null, mapsUrl: null, lat: null, lng: null, imageUrl: null }],
   events: [{ id: "e", title: { en: "Ceremony" }, description: null, startsAt: "2026-07-18T11:00:00.000Z", endsAt: null, venueId: null, kind: "other" }],
   giftAccounts: [{ id: "g", kind: "bank", provider: "CBE", accountName: "Hanna", accountNumber: "1", note: null }],

@@ -109,6 +109,22 @@ export function ethiopianMonth(year: number, month: number): EthiopianMonthDay[]
   }));
 }
 
+export function gregorianMonthLength(year: number, month: number): number {
+  return new Date(Date.UTC(year, month, 0)).getUTCDate();
+}
+
+/** Weekday counted from Sunday as 0, with each day's Ethiopian date for the small figures. */
+export type GregorianMonthDay = { day: number; weekday: number; ethiopian: EthiopianDate };
+
+export function gregorianMonth(year: number, month: number): GregorianMonthDay[] {
+  const first = gregorianToJdn(year, month, 1);
+  return Array.from({ length: gregorianMonthLength(year, month) }, (_, index) => ({
+    day: index + 1,
+    weekday: (first + index + 1) % 7,
+    ethiopian: jdnToEthiopian(first + index),
+  }));
+}
+
 export function formatEthiopianDate(date: EthiopianDate): string {
   return `${ETHIOPIAN_MONTHS_AM[date.month - 1]} ${date.day} ቀን ${date.year} ዓ.ም.`;
 }

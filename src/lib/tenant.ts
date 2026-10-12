@@ -72,6 +72,9 @@ export function coupleSiteUrl(slug: string, opts: { rootDomain: string | undefin
     return `${origin.origin}/s/${slug}`;
   }
   const [rootHost, rootPort] = opts.rootDomain.split(":");
-  const port = rootPort ? `:${rootPort}` : "";
+  // `next dev` may land on another port than the one configured (3000 is often taken),
+  // so on localhost the port this request came in on is the one that works.
+  const devPort = rootHost === "localhost" ? origin.port : "";
+  const port = devPort || rootPort ? `:${devPort || rootPort}` : "";
   return `${origin.protocol}//${slug}.${rootHost}${port}`;
 }

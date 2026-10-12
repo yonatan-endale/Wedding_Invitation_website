@@ -1,6 +1,6 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
-import { TENANT_HEADER } from "@/lib/constants";
+import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
 import { routeRequest } from "@/lib/tenant";
 
 const isAdminRoute = (request: NextRequest) => /^\/(api\/)?admin(\/|$)/.test(request.nextUrl.pathname);
@@ -9,15 +9,13 @@ const withClerk = clerkMiddleware(async (auth, request) => {
   if (isAdminRoute(request)) await auth.protect();
 });
 
-/** Clerk session and dev-browser cookies; guests visiting a couple site have none of these. */
-const SESSION_COOKIE = /^(__session|__client_uat|__clerk_db_jwt)/;
 
 /** Without Clerk keys the admin can't work; public pages should still render. */
 const clerkConfigured = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY);
 
 export default function middleware(request: NextRequest, event: NextFetchEvent) {
   const { pathname, search } = request.nextUrl;
-  const hasSession = request.cookies.getAll().some((cookie) => SESSION_COOKIE.test(cookie.name));
+  const hasSession = request.cookies.getAll().some((cookie) => CLERK_SESSION_COOKIE.test(cookie.name));
   const route = routeRequest(request.headers.get("host"), pathname, process.env.NEXT_PUBLIC_ROOT_DOMAIN, { hasSession });
 
   // Admin and sign-in live only on the main domain.

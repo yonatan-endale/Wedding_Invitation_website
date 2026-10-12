@@ -1,0 +1,680 @@
+/*
+ * Brana Manuscript, layout-only styles. The parchment, its darkened edges and
+ * its foxing are gradients only, with no texture image. Everything that moves
+ * animates transform, opacity or a stroke offset, and only for guests who
+ * welcome motion.
+ */
+
+/* ------------------------------------------------------------------ */
+/* The parchment                                                        */
+/* ------------------------------------------------------------------ */
+
+/*
+ * The theme's paper warmed with vellum. color-mix in srgb is the same sum as
+ * mixHex in palette.ts, where the rubric and the soft ink are checked against
+ * this colour and its foxed edge: keep VELLUM, VELLUM_SHARE and FOXING in step.
+ * --brana-rubric and --w-ink-soft come in inline from the layout, worked out
+ * per theme so they pass AA here.
+ */
+.root {
+  --brana-parchment: color-mix(in srgb, var(--w-paper) 84%, #c9a46c);
+  /* A lighter leaf, for panels and the margins of miniatures. */
+  --brana-vellum: color-mix(in srgb, var(--w-sheet) 93%, #c9a46c);
+  /* The scribe's ruling: faint for lines of a table, firmer for the frames. */
+  --brana-rule: color-mix(in srgb, var(--w-ink) 20%, transparent);
+  --brana-ink-rule: color-mix(in srgb, var(--w-ink) 72%, transparent);
+  --brana-rubric: var(--w-thread-3);
+  --brana-display: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+  --brana-geez: var(--font-abyssinica), var(--font-noto-serif-ethiopic), serif;
+  position: relative;
+  isolation: isolate;
+  color: var(--w-ink);
+  background-color: var(--brana-parchment);
+  /*
+   * Foxing: a few small brown spots, never more than 9% deep, and broad
+   * patches where the skin is a little lighter or darker. One tile repeats
+   * down the page.
+   */
+  background-image:
+    radial-gradient(13px 10px at 14% 11%, rgb(138 101 52 / 0.09), transparent),
+    radial-gradient(6px 5px at 16.4% 13.2%, rgb(138 101 52 / 0.08), transparent),
+    radial-gradient(20px 15px at 83% 31%, rgb(138 101 52 / 0.06), transparent),
+    radial-gradient(9px 8px at 41% 52%, rgb(138 101 52 / 0.07), transparent),
+    radial-gradient(4px 4px at 43% 54.5%, rgb(138 101 52 / 0.08), transparent),
+    radial-gradient(16px 12px at 7% 74%, rgb(138 101 52 / 0.06), transparent),
+    radial-gradient(11px 8px at 67% 86%, rgb(138 101 52 / 0.08), transparent),
+    radial-gradient(60% 34% at 26% 22%, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.04) 45%, transparent),
+    radial-gradient(55% 38% at 78% 64%, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.03) 45%, transparent),
+    radial-gradient(65% 36% at 58% 6%, rgb(138 101 52 / 0.03), rgb(138 101 52 / 0.012) 45%, transparent);
+  background-size: 1100px 1500px;
+}
+
+/*
+ * The edges of the page, darkened as old skin is where hands hold it: down
+ * both sides and a little into the corners, at most 12% deep (with a foxing
+ * spot, the 20% palette.ts checks against). Fixed, so it costs no repaint
+ * while scrolling; under the text, never over it.
+ */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(138 101 52 / 0.07), transparent 8%, transparent 92%, rgb(138 101 52 / 0.07)),
+    radial-gradient(130% 95% at 50% 50%, transparent 62%, rgb(138 101 52 / 0.05));
+}
+
+/* Ge'ez set in Abyssinica SIL, drawn after the scribes' hand. Never uppercased or letter-spaced. */
+.geez {
+  font-family: var(--brana-geez);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.rubric {
+  color: var(--brana-rubric);
+}
+
+.display {
+  font-family: var(--brana-display);
+}
+
+/* ------------------------------------------------------------------ */
+/* Headpieces, side bands and marks                                     */
+/* ------------------------------------------------------------------ */
+
+/*
+ * The harag in a box ruled in ink, as a scribe frames the headpiece (ርእስ)
+ * over a new section, with a small red lozenge at each end.
+ */
+.headpiece {
+  position: relative;
+  padding: 3px;
+  border: 1.5px solid var(--brana-ink-rule);
+  box-shadow: 0 0 0 3px var(--brana-parchment), 0 0 0 4px var(--brana-rule);
+}
+
+.headpiece::before,
+.headpiece::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  background: var(--brana-rubric);
+  box-shadow: 0 0 0 1px var(--brana-parchment);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.headpiece::before {
+  left: -17px;
+}
+
+.headpiece::after {
+  right: -17px;
+}
+
+/* The opening page's headpiece runs nearly edge to edge on phones and tablets, so its ears wait for room. */
+@media (max-width: 1023.98px) {
+  .earsWide::before,
+  .earsWide::after {
+    display: none;
+  }
+}
+
+/* The taller headpiece of the opening page: a second row, mirrored so the over and under swap. */
+.secondRow {
+  margin-top: 3px;
+  transform: scaleX(-1);
+}
+
+.sideBand {
+  width: 37px;
+  padding: 3px;
+  border: 1.5px solid var(--brana-ink-rule);
+  border-top: 0;
+  box-shadow: 0 0 0 3px var(--brana-parchment), 0 0 0 4px var(--brana-rule);
+  clip-path: inset(0 -6px -14px);
+}
+
+/* A red lozenge finishes each band at its foot. */
+.sideBand::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  background: var(--brana-rubric);
+  box-shadow: 0 0 0 2px var(--brana-parchment);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* The Ethiopic paragraph mark ፨, set in red between passages. */
+.mark {
+  display: inline-block;
+  font-family: var(--brana-geez);
+  color: var(--brana-rubric);
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+/* A section title in rubric: Cormorant for Latin, Abyssinica for Ge'ez. */
+.heading {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  color: var(--brana-rubric);
+  font-size: clamp(2.15rem, 5.4vw, 3.25rem);
+  line-height: 1.1;
+}
+
+.heading:lang(am) {
+  font-size: clamp(1.8rem, 4.6vw, 2.6rem);
+  line-height: 1.3;
+}
+
+/* Under a title: ፨ between two red hairlines. */
+.underline {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: min(11rem, 60%);
+  margin: 0.9rem auto 0;
+  color: var(--brana-rubric);
+}
+
+.underline > span:not(.mark) {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.geezNumeral {
+  font-family: var(--brana-geez);
+  letter-spacing: 0;
+  font-variant-numeric: normal;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Miniatures                                                           */
+/* ------------------------------------------------------------------ */
+
+/* A red rule outside, a margin of lighter vellum, an ink rule round the picture. */
+.miniature {
+  position: relative;
+  padding: 6px;
+  border: 1.5px solid var(--brana-rubric);
+  background: var(--brana-vellum);
+  box-shadow: 0 16px 30px -24px rgb(60 40 15 / 0.6);
+}
+
+.window {
+  position: relative;
+  overflow: hidden;
+  outline: 1px solid var(--brana-ink-rule);
+  background: var(--w-rule);
+}
+
+/* ------------------------------------------------------------------ */
+/* The opening page                                                     */
+/* ------------------------------------------------------------------ */
+
+/*
+ * The side bands hang from the headpiece like the legs of a Π: short on
+ * phones, where the page is narrow, and down the whole page on wide screens.
+ */
+.legs {
+  position: absolute;
+  top: 0;
+  height: min(15rem, 46%);
+}
+
+@media (min-width: 1024px) {
+  .legs {
+    height: 100%;
+  }
+}
+
+.legLeft {
+  left: 0;
+}
+
+.legRight {
+  right: 0;
+}
+
+/* The hero's Ge'ez names: large, red, in the manuscript hand. */
+.heroGeez {
+  font-family: var(--brana-geez);
+  color: var(--brana-rubric);
+  font-size: clamp(2.6rem, min(12vw, 8svh), 4.75rem);
+  line-height: 1.22;
+}
+
+/* Under a Ge'ez name its Latin form, smaller, as a gloss in spaced red capitals. */
+.heroGloss {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  color: var(--brana-rubric);
+  font-size: clamp(1.1rem, min(4.4vw, 3svh), 1.6rem);
+  line-height: 1.2;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* A Latin name with no Ge'ez above it takes the large place itself. */
+.heroLatin {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  color: var(--brana-rubric);
+  font-size: clamp(2.9rem, min(13vw, 9svh), 5.25rem);
+  line-height: 1.02;
+}
+
+.heroLatin:lang(am),
+.heroGloss:lang(am) {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/*
+ * The opening page's entrance, keyed to the opening like the shared hero
+ * entrance: the headpiece unfurls from its centre, then the interlace runs
+ * down the side bands' ruled boxes. Transforms only; never at the subtle level.
+ */
+@media screen and (prefers-reduced-motion: no-preference) {
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) .unfurl {
+    animation: unfurl 1.3s var(--ease-cloth) 0.15s both;
+  }
+
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) .descend {
+    animation: descend 1.5s var(--ease-draw) 0.9s both;
+  }
+}
+
+@keyframes unfurl {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes descend {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* The invitation page                                                  */
+/* ------------------------------------------------------------------ */
+
+/* The incipit: the first line in red, as a scribe begins a text. */
+.incipit {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  color: var(--brana-rubric);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.incipit:lang(am) {
+  font-family: var(--brana-geez);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* A long invitation runs in two columns on wide screens, ruled between like a manuscript page. */
+.columns {
+  column-rule: 1px solid var(--brana-rule);
+}
+
+/* ------------------------------------------------------------------ */
+/* The canon table                                                      */
+/* ------------------------------------------------------------------ */
+
+/*
+ * After the Eusebian canon tables of Ethiopian gospel books: a great arch in
+ * red over a small arch for each column, gold pillars with capitals between
+ * the columns, and a harag plinth. The arcade shares the table's column
+ * widths (--cols), so each small arch stands over its own column.
+ */
+.arcade {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--cols);
+  height: clamp(6.5rem, 11vw, 8.5rem);
+}
+
+/* A stilted arch: a curve of fixed rise on straight sides, so the small arches never meet it. */
+.greatArch {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--w-thread-3);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / clamp(3.25rem, 5vw, 4.25rem) clamp(3.25rem, 5vw, 4.25rem) 0 0;
+}
+
+/* Inside it a band of gold dots and an ink hairline, concentric with it. */
+.greatArch::before,
+.greatArch::after {
+  content: "";
+  position: absolute;
+  border-bottom: 0;
+  border-radius: inherit;
+}
+
+.greatArch::before {
+  inset: 4px 4px 0;
+  border: 3px dotted var(--w-thread-2);
+  border-bottom: 0;
+}
+
+.greatArch::after {
+  inset: 11px 11px 0;
+  border: 1px solid var(--brana-ink-rule);
+  border-bottom: 0;
+}
+
+/* The keystone: a red lozenge on the crown of the great arch. */
+.keystone {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  background: var(--brana-rubric);
+  box-shadow: 0 0 0 2px var(--brana-parchment);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.smallArch {
+  position: relative;
+  align-self: end;
+  height: 46%;
+  margin-inline: clamp(6px, 1.2vw, 14px);
+  border: 2px solid var(--w-thread-1);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 80% 80% 0 0;
+}
+
+.smallArch::after {
+  content: "";
+  position: absolute;
+  inset: 4px 4px 0;
+  border: 1px solid var(--w-thread-3);
+  border-bottom: 0;
+  border-radius: inherit;
+}
+
+/* Capitals on the pillars, where the arches spring. */
+.capital {
+  position: absolute;
+  bottom: -3px;
+  width: 16px;
+  height: 7px;
+  background: var(--w-thread-2);
+  border: 1px solid var(--brana-ink-rule);
+  transform: translateX(-50%);
+}
+
+.canon {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.canon :is(th, td) {
+  padding: 0.95rem clamp(0.75rem, 1.6vw, 1.25rem);
+  vertical-align: top;
+  text-align: left;
+  border-inline: 4px double var(--w-thread-2);
+}
+
+.canon th {
+  padding-block: 0.55rem 0.7rem;
+  border-bottom: 3px double var(--brana-ink-rule);
+  font-family: var(--brana-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brana-rubric);
+}
+
+.canon th:lang(am) {
+  font-family: var(--brana-geez);
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.canon tbody tr + tr td {
+  border-top: 1px solid var(--brana-rule);
+}
+
+.canon td:first-child,
+.canon th:first-child {
+  text-align: center;
+}
+
+/* On phones each event stands under a small arch of its own, numbered in its head. */
+.niche {
+  position: relative;
+  box-shadow: 0 3px 0 -1px var(--w-thread-2);
+  display: flex;
+  height: 4.5rem;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0.6rem;
+  border: 2px solid var(--w-thread-1);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+}
+
+.niche::after {
+  content: "";
+  position: absolute;
+  inset: 4px 4px 0;
+  border: 1px solid var(--w-thread-3);
+  border-bottom: 0;
+  border-radius: inherit;
+}
+
+/* ------------------------------------------------------------------ */
+/* The save-the-date's calendar, ruled like a computus table            */
+/* ------------------------------------------------------------------ */
+
+.calendarFrame {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--brana-rubric);
+  outline: 1px solid var(--brana-ink-rule);
+  outline-offset: 4px;
+  background: color-mix(in srgb, var(--brana-vellum) 55%, transparent);
+  pointer-events: none;
+}
+
+.calendar :global(th) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  font-size: clamp(0.8rem, 2.4vw, 1rem);
+  color: var(--brana-rubric);
+  border-bottom: 3px double var(--brana-ink-rule);
+}
+
+.calendar :global(th:lang(am)) {
+  font-family: var(--brana-geez);
+}
+
+.calendar :global(.std-month) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  font-variant-numeric: lining-nums;
+  color: var(--w-ink-soft);
+}
+
+.calendar :global(.std-month :lang(am)),
+.calendar :global(.std-month:lang(am)) {
+  font-family: var(--brana-geez);
+  font-size: 1.05rem;
+}
+
+.calendar :global(td) {
+  border: 1px solid var(--brana-rule);
+}
+
+.calendar :global(thead th) {
+  border-inline: 1px solid transparent;
+}
+
+/* Sundays in red, as a scribe rubricates the feast days. */
+.calendar :global(td:first-child [role="img"]) {
+  color: var(--brana-rubric);
+}
+
+/* The wedding day ringed in red. */
+.calendar :global(.std-wedding svg) {
+  color: var(--brana-rubric);
+}
+
+/* ------------------------------------------------------------------ */
+/* Story chapters                                                       */
+/* ------------------------------------------------------------------ */
+
+.chapterLabel {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  color: var(--brana-rubric);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.chapterLabel:lang(am) {
+  font-family: var(--brana-geez);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* The colophon                                                         */
+/* ------------------------------------------------------------------ */
+
+.colophon {
+  position: relative;
+  border: 1.5px solid var(--brana-rubric);
+  outline: 1px solid var(--brana-ink-rule);
+  outline-offset: 5px;
+  background: color-mix(in srgb, var(--brana-vellum) 70%, transparent);
+}
+
+/* ------------------------------------------------------------------ */
+/* The countdown and the shared sections, set on the parchment          */
+/* ------------------------------------------------------------------ */
+
+.countdown :global(#countdown-caption) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--brana-rubric);
+}
+
+.countdown :global(#countdown-caption:lang(am)) {
+  font-family: var(--brana-geez);
+}
+
+.countdown :global([role="timer"]) {
+  max-width: 34rem;
+  margin-inline: auto;
+  padding-block: 1.5rem 1.2rem;
+  border-block: 3px double var(--brana-ink-rule);
+}
+
+.countdown :global(.font-display),
+.countdown :global(.font-display *) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/*
+ * The save-the-date's calendar switch, as two rubric labels rather than a
+ * black pill: the chosen one filled in red (the rubric on vellum is the same
+ * checked pair), and the other calendar's date in the body face.
+ */
+.root :global(#save-the-date .std-switch) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  border-color: var(--brana-rubric);
+  background: var(--brana-vellum);
+}
+
+.root :global(#save-the-date .std-switch [aria-pressed="true"]) {
+  background: var(--brana-rubric);
+  color: var(--brana-parchment);
+}
+
+.root :global(#save-the-date .std-alt) {
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+/* A shared section under a headpiece: no sheet of its own, the title in rubric with ፨ under it. */
+.leaf > :global(section) {
+  padding-top: 2.5rem;
+  padding-bottom: clamp(3rem, 7vw, 4.5rem);
+  border: 0;
+  background: transparent;
+}
+
+.leaf :global(section h2) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  color: var(--brana-rubric);
+  font-size: clamp(2.15rem, 5.4vw, 3.25rem);
+  text-align: center;
+}
+
+.leaf :global(section h2:lang(am)) {
+  font-size: clamp(1.8rem, 4.6vw, 2.6rem);
+  line-height: 1.3;
+}
+
+.leaf :global(section h2)::after {
+  content: "፨";
+  content: "፨" / "";
+  display: block;
+  margin-top: 0.7rem;
+  font-family: var(--brana-geez);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.leaf :global(section h3) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+}
+
+/* The gifts' introduction sits under its centred title. */
+.leaf :global(#gifts h2 + p) {
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* Gift accounts as leaves of vellum ruled in red and ink. */
+.leaf :global(#gifts ul.grid > li) {
+  border: 1.5px solid var(--brana-rubric);
+  background: var(--brana-vellum);
+  outline: 1px solid var(--brana-ink-rule);
+  outline-offset: -7px;
+}
+
+.root :global(#memories-heading) {
+  font-family: var(--brana-display);
+  font-weight: 500;
+  color: var(--brana-rubric);
+}

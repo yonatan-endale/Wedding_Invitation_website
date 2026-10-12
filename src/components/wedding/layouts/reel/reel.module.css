@@ -1,0 +1,159 @@
+/*
+ * Reel: the keyframes only this layout uses. Every moved or hidden starting
+ * state exists only when motion is welcome (no reduced motion, not paused),
+ * and the hero's only once the opening screen parts, as in globals.css.
+ * Transforms and opacity only. Nothing here ever hides the hero photo.
+ */
+
+/* Letterbox bar height, shared by the bars and the space the credits keep clear of them. */
+.hero {
+  --bar: clamp(2.75rem, 11svh, 6.5rem);
+}
+
+/*
+ * Static film grain: a 160px fractal-noise tile (about 400 bytes), grey,
+ * blended over the picture. Never animated.
+ */
+.grain {
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+  opacity: 0.16;
+}
+
+/* Sprocket holes along a film edge: a rounded hole every 22px, cut from a mask so the colour comes from the theme. */
+.sprockets {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='5' y='6' width='12' height='10' rx='2'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='5' y='6' width='12' height='10' rx='2'/%3E%3C/svg%3E");
+  -webkit-mask-size: 22px 22px;
+  mask-size: 22px 22px;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-position: 0 center;
+  mask-position: 0 center;
+}
+
+/* The strip scrolls on its own; its scrollbar is hidden because the arrows, swipes and keys all move it. */
+.strip {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.strip::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* The bars close in on the picture as the opening parts. */
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) :global(.wedding):not([data-motion="subtle"]) .barTop {
+    animation: bar-top 1.3s var(--ease-cloth) 0.1s both;
+  }
+
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) :global(.wedding):not([data-motion="subtle"]) .barBottom {
+    animation: bar-bottom 1.3s var(--ease-cloth) 0.1s both;
+  }
+
+  /* Opening credits: the small lines fade in, the title rises out of its line masks, the rule draws. */
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) :global(.wedding):not([data-motion="subtle"]) .credit {
+    animation: credit-in 1.2s var(--ease-out-soft) both;
+    animation-delay: calc(0.55s + var(--i, 0) * 0.45s);
+  }
+
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) :global(.wedding):not([data-motion="subtle"]) .word {
+    animation: word-rise 1.1s var(--ease-out-soft) both;
+    animation-delay: calc(0.95s + var(--i, 0) * 0.12s);
+  }
+
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) :global(.wedding):not([data-motion="subtle"]) .heroRule {
+    animation: rule-in 1.4s var(--ease-draw) 1.5s both;
+  }
+
+  /* Moderate: the picture settles from a slight zoom, by scale alone. */
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) :global(.wedding)[data-motion="moderate"] .photo {
+    animation: settle 2.6s var(--ease-out-soft) both;
+  }
+
+  /* Rich: a slow Ken Burns push toward the photo's focal point, once. */
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]) :global(.wedding)[data-motion="rich"] .photo {
+    animation: ken-burns 36s cubic-bezier(0.45, 0, 0.55, 1) 0.2s both;
+  }
+
+  /*
+   * Rich: the credits roll up once as they are revealed, while their lines
+   * fade in one after another (data-reveal="fade"). The text is in place and
+   * readable the whole time; only the column moves.
+   */
+  html[data-reveal-ready]:not([data-motion-off]) :global(.wedding)[data-motion="rich"] [data-shown] .roll {
+    animation: roll 3.4s var(--ease-out-soft) both;
+  }
+}
+
+@keyframes bar-top {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes bar-bottom {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes credit-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.5rem, 0);
+  }
+}
+
+@keyframes word-rise {
+  from {
+    transform: translate3d(0, 115%, 0);
+  }
+}
+
+@keyframes rule-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ken-burns {
+  to {
+    transform: scale(1.14);
+  }
+}
+
+@keyframes roll {
+  from {
+    transform: translate3d(0, 9rem, 0);
+  }
+}
+
+/*
+ * The film base, and the strip's side padding: the first frame lines up with
+ * the heading's column (max-w-6xl with its gutter), and snapping keeps it there.
+ */
+.film {
+  background: #0b0a09;
+  padding-inline: var(--edge-pad);
+}
+
+.edge {
+  --edge-pad: max(1.25rem, calc((100% - 72rem) / 2 + 1.25rem));
+  scroll-padding-inline: var(--edge-pad);
+}
+
+@media (min-width: 40rem) {
+  .edge {
+    --edge-pad: max(2rem, calc((100% - 72rem) / 2 + 2rem));
+  }
+}

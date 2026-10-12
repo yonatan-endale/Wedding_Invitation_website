@@ -92,8 +92,8 @@ export function MusicButton({ title }: { title: string | null }) {
           {[0, 0.25, 0.5, 0.15].map((delay, index) => (
             <span
               key={index}
-              className="block h-full w-[3px] origin-bottom rounded-full bg-current"
-              style={{ animation: `music-bar 0.9s ease-in-out ${delay}s infinite` }}
+              className="music-bar block h-full w-[3px] origin-bottom rounded-full bg-current"
+              style={{ animationDelay: `${delay}s` }}
             />
           ))}
         </span>

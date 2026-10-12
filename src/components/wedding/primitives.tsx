@@ -2,94 +2,77 @@ import Image, { type ImageProps } from "next/image";
 import type { CSSProperties } from "react";
 import { canOptimizeImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
+import { BORDER_TILES, type BorderTile, type Thread, type TiledBorder } from "@/lib/border-shapes";
 import type { BorderStyle } from "@/lib/constants";
 import { Tibeb } from "./tibeb";
 
 /* ------------------------------------------------------------------ */
-/* Border bands. Tibeb is the woven border of a habesha kemis and       */
-/* floral is a rose vine, both drawn with CSS masks so each thread      */
-/* takes its colour from the couple's theme. Tibeb 2 is the wide band   */
-/* drawn from a real netela, in ./tibeb.tsx. Line is two plain rules.   */
+/* Border bands. Tibeb is the woven border of a habesha kemis, floral   */
+/* is a rose vine and harag the interlace of Ethiopian manuscripts, all */
+/* drawn with CSS masks so each thread takes its colour from the        */
+/* couple's theme. Tibeb 2 is the wide band drawn from a real netela,   */
+/* in ./tibeb.tsx. Line is two plain rules.                             */
 /* ------------------------------------------------------------------ */
 
 type Orientation = "horizontal" | "vertical";
-type Layer = { color: string; shapes: string };
 
-const svg = (body: string) =>
+const THREAD_VARS: Record<Thread, string> = {
+  thread1: "var(--w-thread-1)",
+  thread2: "var(--w-thread-2)",
+  thread3: "var(--w-thread-3)",
+};
+
+const svg = (body: string, width: number, height: number) =>
   `url("data:image/svg+xml;utf8,${encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'>${body}</svg>`,
+    `<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'>${body}</svg>`,
   )}")`;
 
 /** Shapes are authored horizontally; the vertical band transposes x and y. */
 const transpose = (body: string) => body.replace(/<g>/g, "<g transform='matrix(0 1 1 0 0 0)'>");
 
-const TIBEB: Layer[] = [
-  {
-    color: "var(--w-thread-1)",
-    shapes:
-      "<g><rect y='4' width='28' height='1'/><rect y='23' width='28' height='1'/><path fill-rule='evenodd' d='M7 7l7 7-7 7-7-7zM7 10.5l3.5 3.5-3.5 3.5-3.5-3.5z'/></g>",
-  },
-  {
-    color: "var(--w-thread-3)",
-    shapes:
-      "<g><rect x='20' y='8' width='2' height='12'/><rect x='15' y='13' width='12' height='2'/><circle cx='7' cy='14' r='1.5'/></g>",
-  },
-  {
-    color: "var(--w-thread-2)",
-    shapes:
-      "<g><rect width='28' height='2'/><rect y='26' width='28' height='2'/><rect x='20.25' y='13.25' width='1.5' height='1.5'/><rect x='14.5' y='13' width='1' height='2'/></g>",
-  },
-];
+type Mask = { image: string; size: string };
 
-/** A rosette every tile, joined by a vine with a leaf on each side. */
-const FLORAL: Layer[] = [
-  {
-    color: "var(--w-thread-3)",
-    shapes:
-      "<g><circle cx='9' cy='11' r='2.6'/><circle cx='9' cy='17' r='2.6'/><circle cx='6' cy='14' r='2.6'/><circle cx='12' cy='14' r='2.6'/><circle cx='7.2' cy='11.9' r='2.2'/><circle cx='10.8' cy='11.9' r='2.2'/><circle cx='7.2' cy='16.1' r='2.2'/><circle cx='10.8' cy='16.1' r='2.2'/></g>",
-  },
-  {
-    color: "var(--w-thread-1)",
-    shapes:
-      "<g><path d='M17 14c3-4 6-4 8-3-1 3-4 5-8 3z'/><path d='M17 14c3 4 6 4 8 3-1-3-4-5-8-3z'/></g>",
-  },
-  {
-    color: "var(--w-thread-2)",
-    shapes:
-      "<g><path d='M0 14c4 0 5-3 9-3s5 3 9 3 5-3 10-3v1c-5 0-6 3-10 3s-5-3-9-3-5 3-9 3z'/><circle cx='9' cy='14' r='1.3'/></g>",
-  },
-];
+/** One mask per layer in each orientation; the vertical tile is the horizontal one turned on its side. */
+const masks = ({ width, height, layers }: BorderTile): Record<Orientation, Mask[]> => ({
+  horizontal: layers.map((l) => ({ image: svg(l.shapes, width, height), size: `${width}px ${height}px` })),
+  vertical: layers.map((l) => ({ image: svg(transpose(l.shapes), height, width), size: `${height}px ${width}px` })),
+});
 
-type MaskedStyle = "tibeb" | "floral";
-
-const MASKS: Record<MaskedStyle, Record<Orientation, string[]>> = {
-  tibeb: { horizontal: TIBEB.map((l) => svg(l.shapes)), vertical: TIBEB.map((l) => svg(transpose(l.shapes))) },
-  floral: { horizontal: FLORAL.map((l) => svg(l.shapes)), vertical: FLORAL.map((l) => svg(transpose(l.shapes))) },
+const MASKS: Record<TiledBorder, Record<Orientation, Mask[]>> = {
+  tibeb: masks(BORDER_TILES.tibeb),
+  floral: masks(BORDER_TILES.floral),
+  harag: masks(BORDER_TILES.harag),
 };
-
-const LAYERS: Record<MaskedStyle, Layer[]> = { tibeb: TIBEB, floral: FLORAL };
 
 /**
  * The couple's border. Thickness comes from the height (horizontal) or width
  * (vertical) class. `columns` only applies to Tibeb 2, where it stacks more
- * woven columns across the band, as on the broad border of a netela.
+ * woven columns across the band, as on the broad border of a netela. With
+ * `reveal` it unrolls from its centre as it scrolls into view.
  */
 export function Band({
   variant = "tibeb",
   orientation = "horizontal",
   columns = 1,
+  reveal = false,
   className,
 }: {
   variant?: BorderStyle;
   orientation?: Orientation;
   columns?: number;
+  reveal?: boolean;
   className?: string;
 }) {
   const horizontal = orientation === "horizontal";
+  const unroll = reveal ? "unroll" : undefined;
 
   if (variant === "tibeb2") {
     return (
-      <div aria-hidden className={cn("shrink-0", horizontal ? "h-10 w-full" : "h-full w-10", className)}>
+      <div
+        aria-hidden
+        data-reveal={unroll}
+        className={cn("shrink-0", horizontal ? "h-10 w-full" : "h-full w-10", className)}
+      >
         <Tibeb orientation={orientation} columns={columns} />
       </div>
     );
@@ -99,6 +82,7 @@ export function Band({
     return (
       <div
         aria-hidden
+        data-reveal={unroll}
         className={cn(
           "flex shrink-0 gap-[5px]",
           horizontal ? "h-7 w-full flex-col justify-center px-6" : "h-full w-7 flex-row justify-center py-6",
@@ -113,21 +97,25 @@ export function Band({
 
   const repeat = horizontal ? "repeat-x" : "repeat-y";
   return (
-    <div aria-hidden className={cn("relative shrink-0", horizontal ? "h-7 w-full" : "h-full w-7", className)}>
-      {LAYERS[variant].map((layer, index) => {
+    <div
+      aria-hidden
+      data-reveal={unroll}
+      className={cn("relative shrink-0", horizontal ? "h-7 w-full" : "h-full w-7", className)}
+    >
+      {BORDER_TILES[variant].layers.map((layer, index) => {
         const mask = MASKS[variant][orientation][index];
         const style: CSSProperties = {
-          backgroundColor: layer.color,
-          maskImage: mask,
-          WebkitMaskImage: mask,
+          backgroundColor: THREAD_VARS[layer.thread],
+          maskImage: mask.image,
+          WebkitMaskImage: mask.image,
           maskRepeat: repeat,
           WebkitMaskRepeat: repeat,
-          maskSize: "28px 28px",
-          WebkitMaskSize: "28px 28px",
+          maskSize: mask.size,
+          WebkitMaskSize: mask.size,
           maskPosition: "center",
           WebkitMaskPosition: "center",
         };
-        return <span key={layer.color} className="absolute inset-0" style={style} />;
+        return <span key={layer.thread} className="absolute inset-0" style={style} />;
       })}
     </div>
   );
@@ -161,9 +149,28 @@ export function MonogramWatermark({ monogram }: { monogram: string }) {
   );
 }
 
-export function SectionHeading({ id, children, className }: { id?: string; children: React.ReactNode; className?: string }) {
+/**
+ * A section's title, which rises in as it scrolls into view. Pass
+ * reveal={false} when it is sticky (a transform would fight the pinning) or
+ * when an ancestor already moves it.
+ */
+export function SectionHeading({
+  id,
+  children,
+  className,
+  reveal = true,
+}: {
+  id?: string;
+  children: React.ReactNode;
+  className?: string;
+  reveal?: boolean;
+}) {
   return (
-    <h2 id={id} className={cn("font-display text-[clamp(2.25rem,5.5vw,3.75rem)] leading-[1.05]", className)}>
+    <h2
+      id={id}
+      data-reveal={reveal ? "up" : undefined}
+      className={cn("font-display text-[clamp(2.25rem,5.5vw,3.75rem)] leading-[1.05]", className)}
+    >
       {children}
     </h2>
   );
@@ -176,3 +183,7 @@ export const buttonOutline =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-[3px] border border-ink/25 px-5 py-2.5 text-base text-ink transition-colors hover:border-ink hover:bg-ink/[0.04] disabled:opacity-60";
 
 export const sectionPadding = "px-5 py-20 sm:px-8 sm:py-28";
+
+/** Small tracked capitals for labels above headings. Ge'ez is never uppercased or letter-spaced, and is set a size up so it stays legible. */
+export const eyebrowClass =
+  "text-xs font-medium uppercase tracking-[0.3em] text-ink-soft [&:lang(am)]:text-sm [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case";

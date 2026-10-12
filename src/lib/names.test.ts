@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fullName } from "./names";
+import { firstGrapheme, fullName, initials, monogramText, widestWordEm } from "./names";
 
 describe("fullName", () => {
   it("joins the first name and the father's name", () => {
@@ -19,3 +19,42 @@ describe("fullName", () => {
     expect(fullName({ en: "Hanna" }, { en: "  " }, "en")).toBe("Hanna");
   });
 });
+
+describe("initials", () => {
+  it("takes the first letter of each first name", () => {
+    expect(initials("Hanna", "dawit")).toEqual(["H", "D"]);
+  });
+
+  it("keeps an Ethiopic syllable and a combining accent whole", () => {
+    expect(firstGrapheme("ሐና")).toBe("ሐ");
+    expect(firstGrapheme("élise")).toBe("É");
+  });
+
+  it("ignores leading spaces and returns nothing for a blank name", () => {
+    expect(firstGrapheme("  Meron")).toBe("M");
+    expect(firstGrapheme("   ")).toBe("");
+  });
+});
+
+describe("monogramText", () => {
+  it("joins the initials with an ampersand and drops a missing one", () => {
+    expect(monogramText(["H", "D"])).toBe("H & D");
+    expect(monogramText(["", "D"])).toBe("D");
+  });
+});
+
+describe("widestWordEm", () => {
+  it("measures the widest word, not the whole name", () => {
+    expect(widestWordEm("Woldegiyorgis Hailemariam")).toBeCloseTo(widestWordEm("Woldegiyorgis"));
+    expect(widestWordEm("Woldegiyorgis")).toBeGreaterThan(widestWordEm("Dawit"));
+  });
+
+  it("counts Ge'ez syllables wider than Latin letters", () => {
+    expect(widestWordEm("ዳዊት")).toBeGreaterThan(widestWordEm("abc"));
+  });
+
+  it("never returns less than 1em", () => {
+    expect(widestWordEm("")).toBe(1);
+  });
+});
+

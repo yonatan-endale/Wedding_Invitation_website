@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { CoupleAccessPanel, type AccessSummary } from "@/components/admin/couple-access-panel";
 import { CoupleDetailsForm } from "@/components/admin/couple-details-form";
 import { CoupleHeader } from "@/components/admin/couple-header";
 import { CoupleTabs } from "@/components/admin/couple-tabs";
@@ -10,9 +11,10 @@ import { RsvpList } from "@/components/admin/rsvp-list";
 import { ScheduleManager } from "@/components/admin/schedule-manager";
 import { StoryManager } from "@/components/admin/story-manager";
 import { getCoupleForAdmin, listRsvps } from "@/db/queries/admin";
+import { getAccessStatus } from "@/lib/couple-access";
 import { fullName } from "@/lib/names";
 import { siteLinks } from "@/lib/site-links";
-import { formatStandardTime, formatWeddingDate } from "@/lib/wedding-format";
+import { formatGregorianDate, formatStandardTime, formatWeddingDate } from "@/lib/wedding-format";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -32,16 +34,27 @@ export default async function CouplePage({ params, searchParams }: Props) {
   const [{ id }, { tab }] = await Promise.all([params, searchParams]);
   const [couple, rsvpRows] = await Promise.all([getCoupleForAdmin(id), listRsvps(id)]);
   if (!couple) notFound();
+  const access = await getAccessStatus(couple.id);
 
   const links = await siteLinks(couple.slug);
   const uploadsEnabled = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
   const iso = couple.weddingAt.toISOString();
+  const names = `${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`;
+  const when = (date: Date) =>
+    `${formatGregorianDate(date.toISOString(), couple.timezone)}, ${formatStandardTime(date.toISOString(), couple.timezone)}`;
+  const accessSummary: AccessSummary = access
+    ? {
+        since: when(access.updatedAt),
+        lastOpened: access.lastUsedAt ? when(access.lastUsedAt) : null,
+        lockedUntil: access.lockedUntil && access.lockedUntil.getTime() > Date.now() ? when(access.lockedUntil) : null,
+      }
+    : null;
 
   return (
     <div className="grid gap-8">
       <CoupleHeader
         id={couple.id}
-        names={`${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`}
+        names={names}
         dateLine={`${formatWeddingDate(iso, couple.timezone, "en")} at ${formatStandardTime(iso, couple.timezone)}`}
         status={couple.status}
         shareUrl={links.share}
@@ -102,7 +115,24 @@ export default async function CouplePage({ params, searchParams }: Props) {
             value: "rsvps",
             label: "RSVPs",
             count: rsvpRows.length,
-            content: <RsvpList coupleId={couple.id} rows={rsvpRows} timezone={couple.timezone} />,
+            content: (
+              <div className="grid gap-6">
+                <CoupleAccessPanel
+                  coupleId={couple.id}
+                  coupleNames={names}
+                  status={accessSummary}
+                  enabled={couple.couplePageEnabled}
+                />
+                <RsvpList
+                  coupleId={couple.id}
+                  rows={rsvpRows}
+                  timezone={couple.timezone}
+                  siteBase={links.share}
+                  coupleNames={names}
+                  cardsEnabled={couple.guestCardsEnabled}
+                />
+              </div>
+            ),
           },
         ]}
       />

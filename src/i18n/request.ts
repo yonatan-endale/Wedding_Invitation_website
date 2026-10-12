@@ -10,8 +10,9 @@ async function detectLocale(): Promise<Locale> {
   return /^am\b/i.test(accept.trim()) ? "am" : "en";
 }
 
-export default getRequestConfig(async () => {
-  const locale = await detectLocale();
+/** An explicit locale, as in getTranslations({ locale }) for a guest's card, wins over the visitor's own. */
+export default getRequestConfig(async ({ locale: requested }) => {
+  const locale = isLocale(requested) ? requested : await detectLocale();
   return {
     locale,
     messages: (await import(`../../messages/${locale}.json`)).default,

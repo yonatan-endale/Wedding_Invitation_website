@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import type { Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
@@ -13,19 +14,31 @@ export async function EditorialFooter({ site, locale, names }: Props) {
   const t = await getTranslations("footer");
   const { couple } = site;
   return (
-    <footer className="border-t border-rule bg-sheet px-5 pt-16 pb-28 text-center sm:px-8">
-      <p aria-hidden className="font-display text-[clamp(4.5rem,14vw,9rem)] leading-none text-thread-2 italic">
-        {names.firstOne.charAt(0)}
+    <footer data-reveal-group className="border-t border-rule bg-sheet px-5 pt-16 pb-28 text-center sm:px-8">
+      <p
+        aria-hidden
+        data-reveal="scale"
+        className="font-display text-[clamp(4.5rem,14vw,9rem)] leading-none text-metal italic"
+      >
+        {names.initials[0]}
         <span className="mx-[0.12em] inline-block align-[0.12em] text-[0.5em] not-italic">&amp;</span>
-        {names.firstTwo.charAt(0)}
+        {names.initials[1]}
       </p>
-      <p className={cn(eyebrow, "mt-6")}>{t("families")}</p>
-      <p className="mt-6 font-display text-[clamp(1.75rem,4vw,2.5rem)] leading-tight">
+      <p data-reveal="up" style={{ "--i": 2 } as CSSProperties} className={cn(eyebrow, "mt-6")}>
+        {t("families")}
+      </p>
+      <p
+        data-reveal="up"
+        style={{ "--i": 3 } as CSSProperties}
+        className="mt-6 font-display text-[clamp(1.75rem,4vw,2.5rem)] leading-tight"
+      >
         {names.one}
         <span className="mx-3 inline-block align-[0.12em] text-[0.55em]">&amp;</span>
         {names.two}
       </p>
-      <p className="mt-3 text-ink-soft">{formatWeddingDate(couple.weddingAt, couple.timezone, locale)}</p>
+      <p data-reveal="up" style={{ "--i": 4 } as CSSProperties} className="mt-3 text-ink-soft">
+        {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
+      </p>
     </footer>
   );
 }

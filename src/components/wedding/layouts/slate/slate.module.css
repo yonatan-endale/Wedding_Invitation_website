@@ -1,0 +1,231 @@
+/*
+ * Slate, layout-only styles. The --slate-* colours come from palette.ts (set
+ * on the root); everything else is the theme's tokens. Anything that moves
+ * animates transform or opacity only, and only for guests who welcome motion.
+ */
+
+/*
+ * Slate rounds what the shared kit draws square: buttons, fields and the
+ * RSVP choices take the layout's softer corners.
+ */
+.root :global(.rounded-\[3px\]) {
+  border-radius: 0.875rem;
+}
+
+/* A white card: a hairline edge and a long, soft shadow cooled by the band colour. */
+.card {
+  background-color: var(--w-sheet);
+  border-radius: 1.75rem;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--w-rule) 80%, transparent),
+    0 1px 2px color-mix(in oklab, var(--slate-band) 8%, transparent),
+    0 24px 48px -28px color-mix(in oklab, var(--slate-band) 38%, transparent);
+}
+
+/*
+ * The deep band (the footer and the dark cards). The theme's tokens are
+ * re-pointed for light type, so shared sections set on it (Memories) and
+ * the focus ring read without knowing they are on a dark ground.
+ */
+.onBand {
+  --w-ink: var(--slate-on-band);
+  --w-ink-soft: color-mix(in srgb, var(--slate-on-band) 78%, transparent);
+  --w-rule: color-mix(in srgb, var(--slate-on-band) 18%, transparent);
+  --w-paper: var(--slate-band);
+  --w-sheet: color-mix(in srgb, var(--slate-on-band) 7%, var(--slate-band));
+  --slate-accent: var(--slate-glow);
+  background-color: var(--slate-band);
+  color: var(--slate-on-band);
+}
+
+/* ------------------------------------------------------------------ */
+/* The divider: a hairline either side of a small diamond, in accent.   */
+/* One colour through a mask, so it follows the theme.                  */
+/* ------------------------------------------------------------------ */
+
+.divider,
+.shared :global(:is(#gallery-heading, #story-heading, #rsvp-heading, #gifts-heading))::after {
+  display: block;
+  width: min(13rem, 62%);
+  height: 8px;
+  margin-inline: auto;
+  background-color: var(--slate-accent);
+  -webkit-mask:
+    linear-gradient(to right, transparent, #000) left center / calc(50% - 13px) 1px no-repeat,
+    linear-gradient(to left, transparent, #000) right center / calc(50% - 13px) 1px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M4 0 8 4 4 8 0 4Z'/%3E%3C/svg%3E") center / 8px 8px no-repeat;
+  mask:
+    linear-gradient(to right, transparent, #000) left center / calc(50% - 13px) 1px no-repeat,
+    linear-gradient(to left, transparent, #000) right center / calc(50% - 13px) 1px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M4 0 8 4 4 8 0 4Z'/%3E%3C/svg%3E") center / 8px 8px no-repeat;
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared sections set in Slate's cards: their own band, rule and top   */
+/* padding give way to the card, and their headings take Slate's voice. */
+/* ------------------------------------------------------------------ */
+
+.shared > section {
+  padding-top: 0;
+  border-top-width: 0;
+  background: transparent;
+}
+
+.shared :global(:is(#gallery-heading, #story-heading, #rsvp-heading, #gifts-heading)) {
+  font-size: clamp(2rem, 5.6vw, 3rem);
+  line-height: 1.12;
+  text-align: center;
+}
+
+.shared :global(:is(#gallery-heading, #story-heading, #rsvp-heading, #gifts-heading))::after {
+  content: "";
+  margin-top: 1.1rem;
+}
+
+.shared :global(:is(#gallery-heading, #story-heading, #rsvp-heading, #gifts-heading)):lang(am) {
+  font-size: clamp(1.7rem, 5vw, 2.4rem);
+  line-height: 1.3;
+}
+
+/* Gifts: the intro under the centred heading is centred too, and the account cards sit on the paper. */
+.shared :global(#gifts-heading + p) {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.shared :global(#gifts .grid > li) {
+  border-radius: 1.25rem;
+  background-color: var(--w-paper);
+  border-color: transparent;
+}
+
+/* The story: one centred column in the card instead of a pinned heading beside the text. */
+.shared :global(#story) > div {
+  display: block;
+  max-width: 40rem;
+}
+
+.shared :global(#story-heading) {
+  position: static;
+}
+
+.shared :global(#story) > div > div {
+  margin-top: 2.5rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* The gallery: the shared carousel hung as framed prints. Only the     */
+/* heading row and the prints inside each slide are styled; the Embla   */
+/* viewport and track are never transformed.                            */
+/* ------------------------------------------------------------------ */
+
+.gallery :global(#gallery) {
+  padding-top: 0;
+}
+
+/* The heading row stacks: the title over its controls, centred. */
+.gallery :global(#gallery) > div > div:first-child {
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* The title spans the row, so its divider keeps its full width. */
+.gallery :global(#gallery-heading) {
+  align-self: stretch;
+}
+
+/* Room for the prints' shadows and their offsets inside the clipped viewport (padding, not a transform). */
+.gallery :global(#gallery) > div > div:nth-child(2) {
+  margin-top: 1.75rem;
+  padding-block: 1rem 3rem;
+}
+
+/* Each print: a white mat round the photo, a hairline edge and a soft shadow under it. */
+.gallery :global(#gallery) li > button {
+  border: clamp(8px, 2.2vw, 12px) solid var(--w-sheet);
+  border-radius: 0.5rem;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--w-rule) 90%, transparent),
+    0 22px 34px -22px color-mix(in oklab, var(--slate-band) 60%, transparent);
+}
+
+/* Every other print hangs a little lower, so the strip reads as a row of prints, not a grid. */
+.gallery :global(#gallery) li:nth-child(even) > button {
+  margin-top: 1.5rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* The cover                                                            */
+/* ------------------------------------------------------------------ */
+
+/* The deep band rising from the foot of the cover, with a light shade at the head for the header. */
+.coverShade {
+  background-image:
+    linear-gradient(
+      to top,
+      var(--slate-band) 0%,
+      color-mix(in oklab, var(--slate-band) 88%, transparent) 20%,
+      color-mix(in oklab, var(--slate-band) 55%, transparent) 42%,
+      transparent 68%
+    ),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.38), transparent 22%);
+}
+
+/* Without a photo: the band with a soft glow of the accent behind the monogram. */
+.coverPlain {
+  background-color: var(--slate-band);
+  background-image:
+    radial-gradient(55% 40% at 50% 34%, color-mix(in oklab, var(--slate-glow) 22%, transparent), transparent 72%),
+    repeating-linear-gradient(135deg, color-mix(in oklab, var(--slate-on-band) 4%, transparent) 0 1px, transparent 1px 22px);
+}
+
+/* The scroll cue nods a few times once the cover has settled. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-motion-off]) .wedding:not([data-motion="subtle"])) .cue {
+    animation: cue-nod 1.8s var(--ease-out-soft) 2.4s 4;
+  }
+}
+
+@keyframes cue-nod {
+  0%,
+  100% {
+    transform: none;
+  }
+  45% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* The day                                                              */
+/* ------------------------------------------------------------------ */
+
+/* Each length of rail fills with the accent as its event scrolls into view (CSS scroll timelines only). */
+.railFill {
+  transform-origin: top;
+}
+
+@supports (animation-timeline: view()) {
+  @media screen and (prefers-reduced-motion: no-preference) {
+    :global(html:not([data-motion-off]) .wedding:not([data-motion="subtle"])) .railFill {
+      animation: rail-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 50%;
+    }
+  }
+}
+
+@keyframes rail-fill {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+/* Venue maps take the card's corners. */
+.venue iframe {
+  border-radius: 1rem;
+  border-color: transparent;
+}

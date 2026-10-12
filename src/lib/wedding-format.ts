@@ -1,8 +1,14 @@
-import { ETHIOPIAN_MONTHS_AM, formatEthiopianDate, gregorianToEthiopian, type GregorianDate } from "./ethiopian-calendar";
+import {
+  ETHIOPIAN_MONTHS_AM,
+  ETHIOPIAN_MONTHS_LATIN,
+  formatEthiopianDate,
+  gregorianToEthiopian,
+  type GregorianDate,
+} from "./ethiopian-calendar";
 import { zonedParts } from "./datetime";
 import type { Locale } from "./localized";
 
-const MONTHS_EN = [
+export const MONTHS_EN = [
   "January",
   "February",
   "March",
@@ -124,4 +130,17 @@ export function formatStandardTime(iso: string, timeZone: string): string {
 
 export function formatStandardTimeRange(startIso: string, endIso: string, timeZone: string): string {
   return `${formatStandardTime(startIso, timeZone)} to ${formatStandardTime(endIso, timeZone)}`;
+}
+
+/**
+ * The big date on the save-the-date, month first: English "August 29, 2026"
+ * or "Nehase 23, 2018 E.C.", Amharic "ነሐሴ 23 ቀን 2018 ዓ.ም.". Gregorian dates
+ * keep English month names on Amharic pages, as elsewhere on the site.
+ */
+export function formatSaveTheDate(iso: string, timeZone: string, locale: Locale, system: "ethiopian" | "gregorian"): string {
+  const p = localParts(iso, timeZone);
+  if (system === "gregorian") return `${MONTHS_EN[p.month - 1]} ${p.day}, ${p.year}`;
+  const ethiopian = gregorianToEthiopian(p.year, p.month, p.day);
+  if (locale === "am") return formatEthiopianDate(ethiopian);
+  return `${ETHIOPIAN_MONTHS_LATIN[ethiopian.month - 1]} ${ethiopian.day}, ${ethiopian.year} E.C.`;
 }

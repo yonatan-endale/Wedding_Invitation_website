@@ -5,6 +5,8 @@ import { headers } from "next/headers";
 import { getDb } from "@/db";
 import { getSiteData } from "@/db/queries/site";
 import { rsvps } from "@/db/schema";
+import { guestCardLinks, type GuestCardLinks } from "@/lib/card-links";
+import { siteBaseFromRequest } from "@/lib/card/site-base";
 import { formDataToFields } from "@/lib/validation/admin";
 import { createRateLimiter } from "@/lib/rate-limit";
 import { parseRsvp, type RsvpField } from "@/lib/validation/rsvp";
@@ -17,7 +19,14 @@ export type RsvpFormState =
       formError: "generic" | "rateLimited" | "closed" | null;
       values: Record<string, string>;
     }
-  | { status: "success"; name: string; attending: boolean; submissionId: number };
+  | {
+      status: "success";
+      name: string;
+      attending: boolean;
+      submissionId: number;
+      /** Links to the guest's invitation card; only for a saved "yes", never for bots. */
+      card: GuestCardLinks | null;
+    };
 
 const perGuest = createRateLimiter({ limit: 6, windowMs: 60_000 });
 /** Caps a burst of submissions to one couple even if client IPs are spoofed. */
@@ -45,7 +54,8 @@ export async function submitRsvp(slug: string, _previous: RsvpFormState, formDat
   const parsed = parseRsvp(fields);
   if (!parsed.success) {
     // Bots get a normal-looking success so they don't retry.
-    if (parsed.isBot) return { status: "success", name: values.name, attending: values.attending === "yes", submissionId };
+    if (parsed.isBot)
+      return { status: "success", name: values.name, attending: values.attending === "yes", submissionId, card: null };
     return fail(null, Object.keys(parsed.fieldErrors) as RsvpField[]);
   }
 
@@ -55,11 +65,16 @@ export async function submitRsvp(slug: string, _previous: RsvpFormState, formDat
     const deadlinePassed = couple?.rsvpDeadline ? new Date(couple.rsvpDeadline).getTime() < Date.now() : false;
     if (!couple || couple.status !== "published" || !couple.rsvpEnabled || deadlinePassed) return fail("closed");
 
-    await getDb()
+    const [saved] = await getDb()
       .insert(rsvps)
-      .values({ coupleId: couple.id, ...parsed.data, locale: await getLocale() });
+      .values({ coupleId: couple.id, ...parsed.data, locale: await getLocale() })
+      .returning({ cardToken: rsvps.cardToken });
 
-    return { status: "success", name: parsed.data.name, attending: parsed.data.attending, submissionId };
+    const card =
+      parsed.data.attending && couple.guestCardsEnabled && saved
+        ? guestCardLinks(await siteBaseFromRequest(slug), saved.cardToken)
+        : null;
+    return { status: "success", name: parsed.data.name, attending: parsed.data.attending, submissionId, card };
   } catch (error) {
     console.error("RSVP failed", { slug, error });
     return fail("generic");

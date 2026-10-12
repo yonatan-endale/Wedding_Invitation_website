@@ -125,4 +125,19 @@ describe("coupleSiteUrl", () => {
       "http://demo.localhost:3000",
     );
   });
+
+  it("uses the dev server's real port when it differs from the configured localhost one", () => {
+    expect(coupleSiteUrl("demo", { rootDomain: "localhost:3000", origin: "http://localhost:3002" })).toBe(
+      "http://demo.localhost:3002",
+    );
+    expect(coupleSiteUrl("demo", { rootDomain: "localhost", origin: "http://localhost:3002" })).toBe(
+      "http://demo.localhost:3002",
+    );
+  });
+
+  it("never takes the port from the request for a real domain", () => {
+    expect(coupleSiteUrl("demo", { rootDomain: "example.com", origin: "http://example.com:8080" })).toBe(
+      "http://demo.example.com",
+    );
+  });
 });

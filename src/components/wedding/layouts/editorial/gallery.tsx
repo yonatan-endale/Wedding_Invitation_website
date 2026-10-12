@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { Lightbox, type GalleryPhoto } from "../../lightbox";
 import { SectionHeading, WeddingImage } from "../../primitives";
@@ -19,8 +19,14 @@ export function EditorialGallery({ photos, names }: { photos: GalleryPhoto[]; na
           {t("heading")}
         </SectionHeading>
         <ul className="mt-12 grid grid-cols-2 gap-3 md:auto-rows-[220px] md:grid-cols-3 md:gap-4">
+          {/* Each tile wipes open from the bottom as it scrolls in; RevealObserver also catches tiles rendered after hydration. */}
           {photos.map((photo, index) => (
-            <li key={photo.id} className={cn("relative aspect-[4/5] md:aspect-auto", index % 5 === 0 && "md:row-span-2")}>
+            <li
+              key={photo.id}
+              data-reveal="wipe"
+              style={{ "--i": index % 6 } as CSSProperties}
+              className={cn("relative aspect-[4/5] md:aspect-auto", index % 5 === 0 && "md:row-span-2")}
+            >
               <button
                 type="button"
                 onClick={() => setOpen(index)}

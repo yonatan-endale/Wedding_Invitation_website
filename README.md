@@ -4,16 +4,23 @@ One Next.js 15 app that hosts a separate invitation website for every couple, pl
 
 Each couple site has:
 
-- An opening screen styled like a netela, which starts the couple's music when a guest opens it
-- A hero with the couple's photo, a live countdown and a formal invitation card
-- Their story, a verse or quote, and the day's timeline with start and optional end times, closing with an end-of-day marker
+- Nine layouts to choose from, each with its own design: Classic, Editorial, Reel (cinematic), Noir & Gold (black tie), Gilded Arches, Stories (one full-screen card at a time), Flat-lay Suite (stationery on linen), Kaba Velvet and Brana Manuscript (an illuminated Ge'ez manuscript)
+- A choice of opening screen, which starts the couple's music when a guest opens it: a netela, wax-seal gates, a 3D envelope with a letter, or an adey abeba flower that blooms. A `?to=Name` link greets the guest by name
+- A full-screen save-the-date with the wedding month and the day marked, in the Ethiopian calendar, the Gregorian one, or both with a switch, plus a live countdown
+- A hero with the couple's photo and a formal invitation card
+- Section animations at three levels per couple (subtle, moderate, rich), with a pause button and no motion for guests who prefer reduced motion
+- Their story, a verse or quote, and the day's timeline with start and optional end times, closing with an end-of-day marker. Each event can be a Habesha step (telosh, church ceremony, mels, kelekel, buna and more) with a bilingual title and its own icon
 - Venues with "Open in Google Maps" and an optional embedded map
 - A swipeable photo gallery with a full-screen viewer
 - Gifts: bank and Telebirr details with copy buttons and QR codes, plus a wishlist that links to shops
 - An RSVP form, and a Telegram link for guests to share photos
+- A personal invitation card for every guest who accepts: their name on the couple's invitation, in the couple's theme, ready to download. Its QR code opens an entry pass that ushers can check at the door
+- A private page where the couple reads RSVPs and wishes and sends guests their cards. There is no sign-up: a secret link plus a passcode
 - An English and Amharic switch. Times always use the Ethiopian clock, so 2 PM reads as 8:00 in the afternoon, and Amharic also uses Ethiopian calendar dates
 - A share preview image for WhatsApp, Telegram and Facebook
-- Nine colour themes, five drawn from Ethiopian weddings and four classic, plus a choice of border: two woven tibeb bands (the slim original, or a wide one drawn from a real netela), a floral vine, or a plain line
+- Thirteen colour themes, drawn from Ethiopian weddings and classic schemes; dark layouts turn light themes into dark versions that keep their contrast
+- A choice of border: two woven tibeb bands (the slim original, or a wide one drawn from a real netela), harag manuscript interlace, a floral vine, or a plain line
+- An optional faith ornament (Orthodox cross, plain cross or Harari rosette), off unless the couple picks one
 - Falling rose petals over the hero photo, off for guests who prefer reduced motion
 - Three forms of each name: the first name on the opening screen, an optional nickname in the hero, and first plus father's name on the invitation card, footer and share preview
 
@@ -24,7 +31,9 @@ Each couple site has:
 | Guest site | `src/app/s/[slug]/page.tsx`, sections in `src/components/wedding/` |
 | Subdomain routing | `src/middleware.ts` rewrites `<slug>.<root domain>` to `/s/<slug>` |
 | Admin dashboard | `src/app/(platform)/admin/`, forms in `src/components/admin/` |
-| Server actions | `src/actions/admin.ts` (admin), `src/actions/rsvp.ts` (guests) |
+| Server actions | `src/actions/admin.ts` (admin), `src/actions/rsvp.ts` (guests), `src/actions/couple-portal.ts` (the couple's private page) |
+| Guest card and entry pass | `src/lib/card/` draws the PNG; pages under `src/app/s/[slug]/card/` and `pass/` |
+| Couple's private page | `src/app/s/[slug]/couple/`, access and sessions in `src/lib/couple-access.ts` |
 | Database schema | `src/db/schema.ts` (Drizzle ORM, Postgres) |
 | Themes | `src/lib/theme.ts` |
 | UI text in English and Amharic | `messages/en.json`, `messages/am.json` |
@@ -75,7 +84,15 @@ For local Clerk keys without an account, run `npx clerk@latest init --framework 
 6. Click **Preview**, check it on your phone, then click **Publish**.
 7. Use **Copy link**, or the menu's WhatsApp and Telegram share, to send the link.
 
+To try a look before saving it, add preview options to the site link while signed in as admin, for example `/s/<slug>?layout=noir&theme=burgundy&opening=seal&motion=rich&border=harag&ornament=orthodox`. They also work without signing in on `next dev`.
+
 RSVPs appear in the **RSVPs** tab. **Download CSV** opens in Excel with Amharic names intact.
+
+Guest cards and the couple's private page start **off** for every couple. Turn them on in **Invitation text → RSVP and sharing**. While a feature is off, its pages return "not found" and its links stop working; turning it back on restores them.
+
+With guest cards on, the CSV includes each guest's card link, and the card button on a guest's row downloads their card or sends it to them on WhatsApp.
+
+To give the couple their own page, turn it on, then click **Create link and passcode** at the top of the RSVPs tab. Send the link and the passcode by different routes, for example the link on Telegram and the passcode by phone. Both are shown only once; if they get lost, make a new pair, which also signs out every device. Five wrong passcodes in a row lock the page for 15 minutes, then longer; **Unlock** lifts it early.
 
 ## Deploy to Vercel (free Hobby plan)
 
@@ -123,3 +140,5 @@ pnpm db:studio     # browse the database
 - **Demo photos:** they come from Unsplash, and the seed's account numbers are placeholders.
 - **Image limits:** the Hobby plan has a monthly image-optimization quota. Uploaded photos are served from Vercel Blob. Links from other hosts are shown unoptimized.
 - **RSVP spam:** a hidden honeypot field and a per-IP limit protect the form. If spam becomes a problem, move the limit to Upstash Redis.
+- **Entry passes:** anyone with the site link can RSVP, so a pass shows that the person said yes, not that they were on a guest list. Deleting an RSVP voids its card and pass at once.
+- **Couple's page security:** the link's secret sits after `#`, so it never reaches the server logs or another site. Only hashes of the link, the passcode and each session are stored, and every request checks the session against the database.

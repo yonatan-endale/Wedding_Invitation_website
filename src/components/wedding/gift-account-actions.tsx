@@ -2,10 +2,19 @@
 
 import { Check, Copy, QrCode } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { QRCodeSVG } from "qrcode.react";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { buttonOutline } from "./primitives";
+
+/**
+ * The QR library loads only when a guest asks for a code, so it stays out of
+ * every page's first download. Client-only, since the code is never in the HTML.
+ */
+const QRCodeSVG = dynamic(() => import("qrcode.react").then((mod) => mod.QRCodeSVG), {
+  ssr: false,
+  loading: () => <span aria-hidden className="block size-[168px] bg-white" />,
+});
 
 export function GiftAccountActions({ number, withQr }: { number: string; withQr: boolean }) {
   const t = useTranslations("gifts");

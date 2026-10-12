@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const locale = await getLocale();
   return (
-    <html lang={locale} className={fontVariables} data-scroll-behavior="smooth">
+    // Wedding pages set data-intro, data-motion-off and data-lite on <html> before the first paint.
+    <html lang={locale} className={fontVariables} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="antialiased">
         <NextIntlClientProvider>
           {children}

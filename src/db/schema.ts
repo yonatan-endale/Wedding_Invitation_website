@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   date,
@@ -11,7 +11,9 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
+import { CALENDAR_STYLES, MOTION_LEVELS, ORNAMENTS } from "@/lib/appearance";
 import { BORDER_STYLES, COUPLE_STATUSES, GIFT_KINDS, PARTNER_ROLES } from "@/lib/constants";
+import { EVENT_KINDS } from "@/lib/event-kinds";
 import type { LocalizedText } from "@/lib/localized";
 
 const timestamps = {
@@ -57,9 +59,27 @@ export const couples = pgTable("couples", {
   theme: text("theme").notNull().default("tibeb"),
   layout: text("layout").notNull().default("classic"),
   border: text("border", { enum: BORDER_STYLES }).notNull().default("tibeb"),
+  /** Opening screen name from src/lib/opening.ts; plain text like `layout`, read through getOpening(). */
+  opening: text("opening").notNull().default("netela"),
+  calendarStyle: text("calendar_style", { enum: CALENDAR_STYLES }).notNull().default("both"),
+  motion: text("motion", { enum: MOTION_LEVELS }).notNull().default("moderate"),
+  ornament: text("ornament", { enum: ORNAMENTS }).notNull().default("none"),
+  /** Background of the full-screen save-the-date; falls back to the cover or a gallery photo. */
+  calendarPhotoUrl: text("calendar_photo_url"),
   petals: boolean("petals").notNull().default(true),
   rsvpEnabled: boolean("rsvp_enabled").notNull().default(true),
   rsvpDeadline: timestamp("rsvp_deadline", { withTimezone: true }),
+  /** New features start off for every couple; the admin turns them on per couple. */
+  guestCardsEnabled: boolean("guest_cards_enabled").notNull().default(false),
+  couplePageEnabled: boolean("couple_page_enabled").notNull().default(false),
+  /** The carousel gallery drifts on its own (Classic, Kaba and Slate). */
+  galleryDrift: boolean("gallery_drift").notNull().default(false),
+  /** "Add to calendar" buttons on the save-the-date and countdown, and the .ics download. */
+  calendarButtons: boolean("calendar_buttons").notNull().default(false),
+  /** A thin line under the header that fills as the guest scrolls. */
+  scrollProgress: boolean("scroll_progress").notNull().default(false),
+  /** Event descriptions fold behind "Show details" in every timeline. */
+  collapsibleEvents: boolean("collapsible_events").notNull().default(false),
   ...timestamps,
 });
 
@@ -109,6 +129,7 @@ export const events = pgTable(
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
     endsAt: timestamp("ends_at", { withTimezone: true }),
     venueId: uuid("venue_id").references(() => venues.id, { onDelete: "set null" }),
+    kind: text("kind", { enum: EVENT_KINDS }).notNull().default("other"),
     ...timestamps,
   },
   (t) => [index("events_couple_idx").on(t.coupleId, t.startsAt)],
@@ -181,9 +202,53 @@ export const rsvps = pgTable(
     guestCount: integer("guest_count").notNull(),
     message: text("message"),
     locale: text("locale").notNull().default("en"),
+    /**
+     * Secret in the guest's card and entry-pass links. 32 hex characters from a
+     * random UUID, filled in by the database so existing rows got one too.
+     */
+    cardToken: text("card_token")
+      .notNull()
+      .unique()
+      .default(sql`replace(gen_random_uuid()::text, '-', '')`),
+    /** Set when the couple hides this wish on their private page. The admin still sees it. */
+    hiddenAt: timestamp("hidden_at", { withTimezone: true }),
     ...timestamps,
   },
   (t) => [index("rsvps_couple_idx").on(t.coupleId, t.createdAt)],
+);
+
+/**
+ * The couple's private RSVP and wishes page. Only hashes are stored: the link
+ * token as sha256, the passcode as scrypt. Both are shown to the admin once.
+ */
+export const coupleAccess = pgTable("couple_access", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  coupleId: uuid("couple_id")
+    .notNull()
+    .unique()
+    .references(() => couples.id, { onDelete: "cascade" }),
+  tokenHash: text("token_hash").notNull().unique(),
+  passcodeHash: text("passcode_hash").notNull(),
+  /** Wrong passcodes since the last success; every fifth one locks the page for longer. */
+  failedAttempts: integer("failed_attempts").notNull().default(0),
+  lockedUntil: timestamp("locked_until", { withTimezone: true }),
+  lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
+  ...timestamps,
+});
+
+/** A signed-in device on the couple's private page. The cookie holds the token; only its sha256 is kept. */
+export const coupleSessions = pgTable(
+  "couple_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    coupleId: uuid("couple_id")
+      .notNull()
+      .references(() => couples.id, { onDelete: "cascade" }),
+    tokenHash: text("token_hash").notNull().unique(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("couple_sessions_couple_idx").on(t.coupleId)],
 );
 
 export const couplesRelations = relations(couples, ({ many }) => ({
@@ -223,6 +288,14 @@ export const wishlistItemsRelations = relations(wishlistItems, ({ one }) => ({
 
 export const rsvpsRelations = relations(rsvps, ({ one }) => ({
   couple: one(couples, { fields: [rsvps.coupleId], references: [couples.id] }),
+}));
+
+export const coupleAccessRelations = relations(coupleAccess, ({ one }) => ({
+  couple: one(couples, { fields: [coupleAccess.coupleId], references: [couples.id] }),
+}));
+
+export const coupleSessionsRelations = relations(coupleSessions, ({ one }) => ({
+  couple: one(couples, { fields: [coupleSessions.coupleId], references: [couples.id] }),
 }));
 
 export type Couple = typeof couples.$inferSelect;

@@ -23,6 +23,7 @@
   --color-thread-2: var(--w-thread-2);
   --color-thread-3: var(--w-thread-3);
   --color-on-thread-1: var(--w-on-thread-1);
+  --color-metal: var(--w-metal);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -152,6 +153,22 @@
   --w-thread-2: #c49a22;
   --w-thread-3: #a8372c;
   --w-on-thread-1: #ffffff;
+  --w-metal: #c49a22;
+  --w-petal: #c94a4a;
+}
+
+/*
+ * Cormorant Garamond, for the layouts that put cormorant.variable
+ * (src/app/layout-fonts.ts) on their root. Without it the stack falls back to
+ * the display font, and Ge'ez glyphs always fall through to Abyssinica.
+ */
+@utility font-cormorant {
+  font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+}
+
+/* Script accents (Slate). Ge'ez has no script cut, so Amharic falls to Abyssinica. */
+@utility font-script {
+  font-family: var(--font-script, var(--font-display)), var(--font-abyssinica), cursive;
 }
 
 @layer components {
@@ -176,9 +193,16 @@
     text-wrap: pretty;
   }
 
+  /* Two-tone ring: ink with a paper halo reads at 3:1 on light paper, dark sheets and photos alike. */
   .wedding :focus-visible {
-    outline: 2px solid var(--w-thread-2);
+    outline: 2px solid var(--w-ink);
     outline-offset: 3px;
+    box-shadow: 0 0 0 5px var(--w-paper);
+  }
+
+  /* Anchor jumps land below the fixed 4rem header. */
+  .wedding [id] {
+    scroll-margin-top: 4.5rem;
   }
 
   .wedding ::selection {
@@ -201,6 +225,16 @@
   50% {
     transform: scaleY(1);
   }
+}
+
+/* The music button's equalizer; still when the guest pauses motion. */
+.music-bar {
+  animation: music-bar 0.9s ease-in-out infinite;
+}
+
+html[data-motion-off] .music-bar {
+  animation: none;
+  transform: scaleY(0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -243,4 +277,630 @@ html {
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
   will-change: transform;
+}
+
+/* Petals stay out of the way for reduced or paused motion, data saving and the subtle level. */
+@media (prefers-reduced-motion: reduce) {
+  .petals {
+    display: none;
+  }
+}
+
+html[data-motion-off] .petals,
+html[data-lite] .petals,
+.wedding[data-motion="subtle"] .petals {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion. Eases match src/lib/motion-tokens.ts. The server sets        */
+/* data-motion on .wedding from the couple's motion level.              */
+/* ------------------------------------------------------------------ */
+
+@theme static {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-cloth: cubic-bezier(0.7, 0, 0.2, 1);
+  --ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wedding {
+  --rise: 1.5rem;
+  --slide: 2.5rem;
+  --reveal-time: 0.6s;
+  --stagger: 80ms;
+}
+
+.wedding[data-motion="subtle"] {
+  --rise: 0px;
+  --slide: 0px;
+  --reveal-time: 0.4s;
+  --stagger: 30ms;
+}
+
+.wedding[data-motion="rich"] {
+  --rise: 2rem;
+  --slide: 3rem;
+  --reveal-time: 0.8s;
+  --stagger: 90ms;
+}
+
+/*
+ * Reveals. A server component marks an element with data-reveal (stagger it
+ * with style={{ "--i": index }}); RevealObserver adds data-shown when it
+ * scrolls into view. The hidden starting state only exists when scripts run,
+ * motion is welcome and the guest has not paused it, so content is never lost.
+ * If the observer never starts, a failsafe shows everything after 2.5s.
+ */
+@media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-off]) .wedding [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, var(--rise), 0);
+    transition-property: opacity, transform, clip-path;
+    transition-duration: var(--reveal-time);
+    transition-timing-function: var(--ease-out-soft);
+    transition-delay: calc(var(--i, 0) * var(--stagger));
+  }
+
+  html:not([data-motion-off]) .wedding [data-reveal="fade"] {
+    transform: none;
+  }
+
+  html:not([data-motion-off]) .wedding [data-reveal="left"] {
+    transform: translate3d(calc(-1 * var(--slide)), 0, 0);
+  }
+
+  html:not([data-motion-off]) .wedding [data-reveal="right"] {
+    transform: translate3d(var(--slide), 0, 0);
+  }
+
+  html:not([data-motion-off]) .wedding [data-reveal="scale"] {
+    transform: scale(0.94);
+  }
+
+  /* Composes with Tailwind's rotate-45 (the separate `rotate` property) on diamonds. */
+  html:not([data-motion-off]) .wedding [data-reveal="pop"] {
+    transform: scale(0.4);
+    transition-timing-function: var(--ease-pop);
+  }
+
+  html:not([data-motion-off]) .wedding [data-reveal="wipe"] {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(100% 0 0 0);
+    transition-duration: calc(var(--reveal-time) * 1.5);
+    transition-timing-function: var(--ease-draw);
+  }
+
+  /* Hairline rules grow out from their centre. */
+  html:not([data-motion-off]) .wedding [data-reveal="rule"] {
+    opacity: 1;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition-duration: calc(var(--reveal-time) * 1.5);
+    transition-timing-function: var(--ease-draw);
+  }
+
+  html:not([data-motion-off]) .wedding [data-reveal="unroll"] {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 50% 0 50%);
+    transition-duration: calc(var(--reveal-time) * 1.8);
+    transition-timing-function: var(--ease-cloth);
+  }
+
+  /* SVG strokes with pathLength="1" trace themselves in: arch keylines, crest rings and stems. */
+  html:not([data-motion-off]) .wedding [data-reveal="draw"] {
+    opacity: 1;
+    transform: none;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition-property: stroke-dashoffset, opacity;
+    transition-duration: calc(var(--reveal-time) * 2.4);
+    transition-timing-function: var(--ease-draw);
+  }
+
+  /* A photo rises into its arch window by transform alone; the arch clips the overflow. */
+  html:not([data-motion-off]) .wedding [data-reveal="arch"] {
+    opacity: 1;
+    transform: translate3d(0, 10%, 0) scale(1.16);
+    transform-origin: 50% 100%;
+    transition-duration: calc(var(--reveal-time) * 2);
+  }
+
+  /* Foil text is never hidden; the preset only gets it observed so its sheen can play. */
+  html:not([data-motion-off]) .wedding [data-reveal="sheen"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The subtle level only fades. */
+  html:not([data-motion-off]) .wedding[data-motion="subtle"] :is([data-reveal="wipe"], [data-reveal="unroll"], [data-reveal="pop"], [data-reveal="scale"], [data-reveal="rule"], [data-reveal="arch"]) {
+    opacity: 0;
+    transform: none;
+    clip-path: none;
+  }
+
+  html:not([data-motion-off]) .wedding[data-motion="subtle"] [data-reveal="draw"] {
+    opacity: 0;
+    stroke-dashoffset: 0;
+    transition-duration: var(--reveal-time);
+  }
+
+  html:not([data-motion-off]) .wedding :is([data-reveal][data-shown], [data-shown] [data-reveal], [data-reveal]:focus-within) {
+    opacity: 1;
+    transform: none;
+  }
+
+  html:not([data-motion-off]) .wedding :is([data-reveal="draw"][data-shown], [data-shown] [data-reveal="draw"]) {
+    stroke-dashoffset: 0;
+  }
+
+  /* Wipes end slightly outside the box so focus rings and shadows are never cut off. */
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) :is([data-reveal="wipe"], [data-reveal="unroll"]):is([data-shown], [data-shown] *, :focus-within) {
+    clip-path: inset(-1rem);
+  }
+
+  html:not([data-reveal-ready]) .wedding [data-reveal] {
+    animation: reveal-failsafe 1ms 2.5s forwards;
+  }
+
+  html:not([data-reveal-ready]) .wedding:not([data-motion="subtle"]) :is([data-reveal="wipe"], [data-reveal="unroll"]) {
+    animation: reveal-failsafe-clip 1ms 2.5s forwards;
+  }
+
+  html:not([data-reveal-ready]) .wedding [data-reveal="draw"] {
+    animation: reveal-failsafe-draw 1ms 2.5s forwards;
+  }
+}
+
+@keyframes reveal-failsafe-draw {
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes reveal-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-failsafe-clip {
+  to {
+    clip-path: inset(-1rem);
+  }
+}
+
+/*
+ * The opening screen. Hidden before the first paint for guests who already
+ * opened it (the boot script sets data-intro="done"), and never left blocking
+ * the page if the scripts fail to start.
+ */
+html[data-intro="done"] [data-opening] {
+  display: none;
+}
+
+/* Without scripts the <noscript> style hides it outright; this covers scripts that never start. */
+html:not([data-hydrated]) [data-opening] {
+  animation: opening-failsafe 1ms 8s forwards;
+}
+
+@keyframes opening-failsafe {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/*
+ * Save-the-date entrance, played once when the section (a data-stage) scrolls
+ * into view: the photo settles, SAVE THE DATE draws together, the names rise,
+ * the weekdays and days cascade, the wedding day's mark draws and fills, the
+ * date types out over a growing gold rule. The hidden states exist only after
+ * hydration (data-reveal-ready) and until the stage is shown, so without
+ * scripts the calendar is simply there. Transforms, opacity, clip-path and
+ * stroke offsets only.
+ */
+.std {
+  --std-settle: 1.12;
+  --std-converge: 0.35em;
+}
+
+.wedding[data-motion="subtle"] .std {
+  --std-settle: 1;
+  --std-converge: 0em;
+}
+
+.std .std-mark-fill {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  html[data-reveal-ready]:not([data-motion-off]) .std :is(.std-photo, .std-char, .std-names, .std-frame, .std-switch, .std-month, .std-weekday, .std-day, .std-mark-line, .std-mark-fill, .std-date, .std-rule, .std-alt) {
+    transition-property: opacity, transform, clip-path, stroke-dashoffset;
+    transition-timing-function: var(--ease-out-soft);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-mark-line {
+    stroke-dasharray: 1;
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-photo {
+    transition-duration: 1.6s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-photo {
+    transform: scale(var(--std-settle));
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-char {
+    transition-duration: 0.9s;
+    transition-delay: 0.15s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-char {
+    opacity: 0;
+    transform: translate3d(calc(var(--o) * var(--std-converge)), 0, 0);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-names {
+    transition-duration: 0.7s;
+    transition-delay: 0.45s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-names {
+    opacity: 0;
+    transform: translate3d(0, var(--rise), 0);
+  }
+
+  /* Gold keylines and arched panels around the grid (noir and arch skins) settle in. */
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-frame {
+    transition-duration: 0.9s;
+    transition-delay: 0.5s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-frame {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std :is(.std-switch, .std-month) {
+    transition-duration: 0.6s;
+    transition-delay: 0.55s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) :is(.std-switch, .std-month) {
+    opacity: 0;
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-weekday {
+    transition-duration: 0.5s;
+    transition-delay: calc(0.6s + var(--c, 0) * 40ms);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-weekday {
+    opacity: 0;
+  }
+
+  /* Days fall into place along the diagonals, top left to bottom right. */
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-day {
+    transition-duration: 0.5s;
+    transition-delay: calc(0.8s + var(--d, 0) * 35ms);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-day {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--rise) / 3), 0);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-mark-line {
+    transition-duration: 0.9s;
+    transition-delay: 1.35s;
+    transition-timing-function: var(--ease-draw);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-mark-line {
+    stroke-dashoffset: 1;
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-mark-fill {
+    transition-duration: 0.6s;
+    transition-delay: 1.95s;
+    transition-timing-function: var(--ease-pop);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-mark-fill {
+    transform: scale(0);
+  }
+
+  /* The date types out left to right; its text is whole in the DOM from the start. */
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-date {
+    clip-path: inset(-0.3em);
+    transition-duration: 1s;
+    transition-delay: 2s;
+    transition-timing-function: steps(20, end);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-date {
+    clip-path: inset(-0.3em 100% -0.3em -0.3em);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-rule {
+    transition-duration: 0.9s;
+    transition-delay: 2.4s;
+    transition-timing-function: var(--ease-draw);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-rule {
+    transform: scaleX(0);
+  }
+
+  html[data-reveal-ready]:not([data-motion-off]) .std .std-alt {
+    transition-duration: 0.6s;
+    transition-delay: 2.7s;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .std:not([data-shown]):not(:focus-within) .std-alt {
+    opacity: 0;
+  }
+
+  /* Subtle: the date fades instead of typing. */
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std .std-date {
+    clip-path: none;
+    transition-timing-function: var(--ease-out-soft);
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) .std-date {
+    clip-path: none;
+    opacity: 0;
+  }
+
+  /* A soft glow breathes around the wedding day: three times, or on and on at the rich level. */
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .std[data-shown] .std-glow {
+    animation: std-glow 2.8s ease-in-out 2.5s 3;
+  }
+  html:not([data-motion-off]) .wedding[data-motion="rich"] .std[data-shown] .std-glow {
+    animation-iteration-count: infinite;
+  }
+
+  /* Rich: the photo keeps drifting slowly after it settles. */
+  html:not([data-motion-off]) .wedding[data-motion="rich"] .std[data-shown] .std-photo > * {
+    animation: std-drift 24s ease-in-out 1.6s infinite alternate;
+  }
+
+  /* Loops rest while the section is off screen (as specific as the rules that start them). */
+  html:not([data-motion-off]) .wedding .std[data-shown]:not([data-inview]) :is(.std-glow, .std-photo > *) {
+    animation-play-state: paused;
+  }
+
+  /* Subtle: the wedding day's mark and the gold rule are simply there; only fades remain. */
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) .std-mark-line {
+    stroke-dashoffset: 0;
+  }
+  html[data-reveal-ready]:not([data-motion-off]) .wedding[data-motion="subtle"] .std:not([data-shown]):not(:focus-within) :is(.std-mark-fill, .std-rule, .std-frame) {
+    transform: none;
+  }
+}
+
+@keyframes std-glow {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes std-drift {
+  to {
+    transform: scale(1.06) translate3d(-1%, -1%, 0);
+  }
+}
+
+/* The countdown's digits roll only when motion is welcome; otherwise they change in place. */
+html[data-motion-off] .digit-strip,
+.wedding[data-motion="subtle"] .digit-strip {
+  transition: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Openings. Idle movement plays once, under five seconds, because the  */
+/* pause-motion button is not reachable while the opening covers it.   */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .seal-glow {
+    animation: seal-breathe 3s ease-in-out 0.6s 1;
+  }
+
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .adey-sway {
+    transform-origin: 50% 90%;
+    animation: adey-sway 4.5s ease-in-out 1;
+  }
+}
+
+.seal-glow {
+  opacity: 0.55;
+}
+
+@keyframes seal-breathe {
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes adey-sway {
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+/*
+ * The adey opening's iris: a hole centred on the flower widens until the
+ * whole site shows through. Browsers without @property skip the widening;
+ * the fade underneath still carries the reveal.
+ */
+@property --iris {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.adey-iris {
+  --iris: 0px;
+  -webkit-mask-image: radial-gradient(circle at var(--iris-x, 50%) var(--iris-y, 46%), transparent calc(var(--iris) - 1px), #000 var(--iris));
+  mask-image: radial-gradient(circle at var(--iris-x, 50%) var(--iris-y, 46%), transparent calc(var(--iris) - 1px), #000 var(--iris));
+}
+
+.adey-iris[data-open] {
+  opacity: 0;
+  transition:
+    --iris 0.9s var(--ease-draw) 0.85s,
+    opacity 0.5s ease 1.3s;
+}
+
+/* Set from script only where --iris can animate (CSS.registerProperty exists). */
+.adey-iris[data-open][data-iris] {
+  --iris: 150vmax;
+}
+
+/*
+ * Hero entrance. Pure CSS keyframes keyed to the opening: they start as the
+ * opening screen parts (data-intro="opening"), or at once for a guest who
+ * already opened it. Words rise out of line masks, the photo settles by scale
+ * only (never from opacity 0, which would delay LCP), and the lines after
+ * fade up. Without scripts there is no data-intro, so nothing waits.
+ */
+@media screen and (prefers-reduced-motion: no-preference) {
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding:not([data-motion="subtle"]) .hero-word {
+    animation: hero-rise 0.9s var(--ease-out-soft) both;
+    animation-delay: calc(0.25s + var(--i, 0) * 90ms);
+  }
+
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding:not([data-motion="subtle"]) .hero-photo {
+    animation: hero-settle 2.4s var(--ease-out-soft) both;
+  }
+
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding .hero-fade {
+    animation: hero-fade 0.8s var(--ease-out-soft) both;
+    animation-delay: calc(0.6s + var(--i, 0) * 120ms);
+  }
+
+  html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played]) .wedding[data-motion="subtle"] .hero-fade {
+    animation-name: hero-fade-still;
+  }
+}
+
+/* Rich: as the guest scrolls past, the hero photo drifts slower than the page. */
+@supports (animation-timeline: view()) {
+  @media screen and (prefers-reduced-motion: no-preference) {
+    html:not([data-motion-off]) .wedding[data-motion="rich"] .hero-drift {
+      animation: hero-exit linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    transform: translate3d(0, 110%, 0);
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0);
+  }
+}
+
+@keyframes hero-fade-still {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-exit {
+  to {
+    transform: translate3d(0, 18%, 0);
+  }
+}
+
+/* The RSVP thank-you rises in where the form was. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) .rsvp-thanks {
+    animation: hero-fade 0.6s var(--ease-out-soft) both;
+  }
+}
+
+/*
+ * Gold foil (FoilText in components/wedding/kit). Solid metal by default; the
+ * gradient, clipped to the glyphs, only where text clipping and color-mix
+ * both work, so the text can never turn invisible. Two layers: a narrow
+ * bright band that rests just off the right edge (the sheen), over the foil
+ * itself, deep at the edges with a soft highlight. For dark grounds or large
+ * display sizes only.
+ */
+.foil-text {
+  color: var(--w-metal);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) and (color: color-mix(in oklab, red, red)) {
+  .foil-text {
+    background-image:
+      linear-gradient(100deg, transparent 42%, color-mix(in oklab, var(--w-metal), white 75%) 50%, transparent 58%),
+      linear-gradient(
+        100deg,
+        color-mix(in oklab, var(--w-metal), black 20%) 0%,
+        var(--w-metal) 25%,
+        color-mix(in oklab, var(--w-metal), white 45%) 48%,
+        var(--w-metal) 70%,
+        color-mix(in oklab, var(--w-metal), black 20%) 100%
+      );
+    background-size:
+      250% 100%,
+      100% 100%;
+    background-position:
+      0% 0,
+      0 0;
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@media (forced-colors: active) {
+  .foil-text {
+    background-image: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+}
+
+/* The sheen sweeps once, left to right, when the text or an ancestor is revealed. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-off]) .wedding:not([data-motion="subtle"]) :is(.foil-sheen[data-shown], [data-shown] .foil-sheen) {
+    animation: foil-sheen 1.6s var(--ease-draw) var(--sheen-delay, 0.4s) 1 both;
+  }
+}
+
+@keyframes foil-sheen {
+  from {
+    background-position:
+      100% 0,
+      0 0;
+  }
+  to {
+    background-position:
+      0% 0,
+      0 0;
+  }
 }

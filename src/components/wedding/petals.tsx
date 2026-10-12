@@ -1,18 +1,19 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { petalLayout } from "@/lib/petals";
+import { useIntroOpen } from "./intro/intro-context";
 
 const PETALS = petalLayout(12);
 
 /**
  * A slow fall of rose petals over the hero. Rendered nowhere else, paused
- * while the hero is off screen, and left out entirely for guests who prefer
- * reduced motion.
+ * while the hero is off screen, and started once the opening screen is gone.
+ * CSS hides them for reduced motion, paused motion, data saving and the
+ * subtle motion level, so the markup is the same on server and client.
  */
 export function FallingPetals() {
-  const reduceMotion = useReducedMotion();
+  const introOpen = useIntroOpen();
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
 
@@ -22,15 +23,15 @@ export function FallingPetals() {
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0 });
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [introOpen]);
 
-  if (reduceMotion) return null;
+  if (!introOpen) return null;
 
   return (
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      className="petals pointer-events-none absolute inset-0 z-0 overflow-hidden"
       style={{ animationPlayState: visible ? "running" : "paused" }}
     >
       {PETALS.map((petal, index) => (

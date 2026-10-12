@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   turbopack: { root: import.meta.dirname },
   outputFileTracingRoot: import.meta.dirname,
   images: {
+    // Vercel Hobby includes 5,000 image transformations a month. A short list of
+    // widths and one quality keep each photo to a few variants, and a long cache
+    // lifetime stops them being regenerated.
+    deviceSizes: [640, 828, 1080, 1440, 1920],
+    imageSizes: [64, 128, 256, 384],
+    qualities: [75],
+    minimumCacheTTL: 2678400,
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },

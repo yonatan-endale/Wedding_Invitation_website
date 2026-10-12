@@ -1,0 +1,731 @@
+/*
+ * Flat-lay Suite: the page is linen and every section is a piece of
+ * stationery laid on it. Linen, paper, deckled edges and shadows are all CSS.
+ * Everything that moves animates transform or opacity, and only for guests
+ * who welcome motion; held cards are position: sticky, which is not an
+ * animation, and fall back to the normal flow for reduced or paused motion.
+ */
+
+.root {
+  /* The theme's soft ink, kept under another name so the linen sections can darken it without a cycle. */
+  --fl-soft: var(--w-ink-soft);
+  --linen: color-mix(in oklab, var(--w-paper), var(--w-ink) 7%);
+  --weft: color-mix(in oklab, var(--w-ink) 5%, transparent);
+  --slub-light: color-mix(in oklab, var(--w-sheet) 42%, transparent);
+  --slub-dark: color-mix(in oklab, var(--w-ink) 5%, transparent);
+  /* Under the fixed 4rem header, with a little air. Each held card sits 10px below the one before. */
+  --hold-top: calc(4rem + 2svh);
+  /* A card taller than the screen is held with its foot this far above the bottom edge. */
+  --hold-foot: 1.25rem;
+  --card-shadow: 0 1px 1px rgb(40 30 20 / 0.07), 0 6px 14px -6px rgb(40 30 20 / 0.16), 0 26px 44px -22px rgb(40 30 20 / 0.28);
+  --deckle-shadow: drop-shadow(0 1px 1px rgb(40 30 20 / 0.08)) drop-shadow(0 14px 18px rgb(40 30 20 / 0.17));
+  /* Feathered deckle edges: a ragged line, softly blurred, tiled along each side. */
+  --deckle-top: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='10'%3E%3Cfilter id='f' x='-1' width='3'%3E%3CfeGaussianBlur stdDeviation='.4'/%3E%3C/filter%3E%3Cpath filter='url%28%23f%29' d='M-10 13L-10 6.4 -7.5 6.2 -5 4.3 -2.5 4 0 4 2.5 3.6 5 3.9 7.5 3 10 2.4 12.5 3.1 15 2.5 17.5 3.8 20 4.3 22.5 3.7 25 3.4 27.5 2.6 30 3 32.5 4 35 3.3 37.5 2.4 40 2.5 42.5 2.3 45 3.9 47.5 5.3 50 5.1 52.5 5.4 55 5.2 57.5 5 60 6 62.5 6.3 65 4.8 67.5 4.8 70 3.6 72.5 3.8 75 5.1 77.5 4.7 80 5.4 82.5 5.3 85 4.1 87.5 4.6 90 4.6 92.5 3.5 95 3.3 97.5 1.7 100 1.4 102.5 2.2 105 2.8 107.5 2.7 110 3.9 112.5 3 115 3 117.5 4.5 120 5 122.5 5.2 125 4.9 127.5 3.1 130 3.6 132.5 4.3 135 4.7 137.5 5.2 140 4.1 142.5 4.5 145 6.2 147.5 6.1 150 6.4 152.5 6.2 155 4.3 157.5 4 160 4 162.5 3.6 165 3.9 167.5 3 170 2.4L170 13Z'/%3E%3C/svg%3E");
+  --deckle-bottom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='10'%3E%3Cfilter id='f' x='-1' width='3'%3E%3CfeGaussianBlur stdDeviation='.4'/%3E%3C/filter%3E%3Cpath filter='url%28%23f%29' transform='matrix%281 0 0 -1 0 10%29' d='M-10 13L-10 6.4 -7.5 6.2 -5 4.3 -2.5 4 0 4 2.5 3.6 5 3.9 7.5 3 10 2.4 12.5 3.1 15 2.5 17.5 3.8 20 4.3 22.5 3.7 25 3.4 27.5 2.6 30 3 32.5 4 35 3.3 37.5 2.4 40 2.5 42.5 2.3 45 3.9 47.5 5.3 50 5.1 52.5 5.4 55 5.2 57.5 5 60 6 62.5 6.3 65 4.8 67.5 4.8 70 3.6 72.5 3.8 75 5.1 77.5 4.7 80 5.4 82.5 5.3 85 4.1 87.5 4.6 90 4.6 92.5 3.5 95 3.3 97.5 1.7 100 1.4 102.5 2.2 105 2.8 107.5 2.7 110 3.9 112.5 3 115 3 117.5 4.5 120 5 122.5 5.2 125 4.9 127.5 3.1 130 3.6 132.5 4.3 135 4.7 137.5 5.2 140 4.1 142.5 4.5 145 6.2 147.5 6.1 150 6.4 152.5 6.2 155 4.3 157.5 4 160 4 162.5 3.6 165 3.9 167.5 3 170 2.4L170 13Z'/%3E%3C/svg%3E");
+  --deckle-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='160'%3E%3Cfilter id='f' x='-1' width='3'%3E%3CfeGaussianBlur stdDeviation='.4'/%3E%3C/filter%3E%3Cpath filter='url%28%23f%29' transform='matrix%280 1 1 0 0 0%29' d='M-10 13L-10 6.4 -7.5 6.2 -5 4.3 -2.5 4 0 4 2.5 3.6 5 3.9 7.5 3 10 2.4 12.5 3.1 15 2.5 17.5 3.8 20 4.3 22.5 3.7 25 3.4 27.5 2.6 30 3 32.5 4 35 3.3 37.5 2.4 40 2.5 42.5 2.3 45 3.9 47.5 5.3 50 5.1 52.5 5.4 55 5.2 57.5 5 60 6 62.5 6.3 65 4.8 67.5 4.8 70 3.6 72.5 3.8 75 5.1 77.5 4.7 80 5.4 82.5 5.3 85 4.1 87.5 4.6 90 4.6 92.5 3.5 95 3.3 97.5 1.7 100 1.4 102.5 2.2 105 2.8 107.5 2.7 110 3.9 112.5 3 115 3 117.5 4.5 120 5 122.5 5.2 125 4.9 127.5 3.1 130 3.6 132.5 4.3 135 4.7 137.5 5.2 140 4.1 142.5 4.5 145 6.2 147.5 6.1 150 6.4 152.5 6.2 155 4.3 157.5 4 160 4 162.5 3.6 165 3.9 167.5 3 170 2.4L170 13Z'/%3E%3C/svg%3E");
+  --deckle-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='160'%3E%3Cfilter id='f' x='-1' width='3'%3E%3CfeGaussianBlur stdDeviation='.4'/%3E%3C/filter%3E%3Cpath filter='url%28%23f%29' transform='matrix%280 1 -1 0 10 0%29' d='M-10 13L-10 6.4 -7.5 6.2 -5 4.3 -2.5 4 0 4 2.5 3.6 5 3.9 7.5 3 10 2.4 12.5 3.1 15 2.5 17.5 3.8 20 4.3 22.5 3.7 25 3.4 27.5 2.6 30 3 32.5 4 35 3.3 37.5 2.4 40 2.5 42.5 2.3 45 3.9 47.5 5.3 50 5.1 52.5 5.4 55 5.2 57.5 5 60 6 62.5 6.3 65 4.8 67.5 4.8 70 3.6 72.5 3.8 75 5.1 77.5 4.7 80 5.4 82.5 5.3 85 4.1 87.5 4.6 90 4.6 92.5 3.5 95 3.3 97.5 1.7 100 1.4 102.5 2.2 105 2.8 107.5 2.7 110 3.9 112.5 3 115 3 117.5 4.5 120 5 122.5 5.2 125 4.9 127.5 3.1 130 3.6 132.5 4.3 135 4.7 137.5 5.2 140 4.1 142.5 4.5 145 6.2 147.5 6.1 150 6.4 152.5 6.2 155 4.3 157.5 4 160 4 162.5 3.6 165 3.9 167.5 3 170 2.4L170 13Z'/%3E%3C/svg%3E");
+  background-color: var(--linen);
+  /* A soft window light across the top, over the fine weave of weft and warp. */
+  background-image:
+    radial-gradient(70rem 46rem at 12% -6rem, color-mix(in oklab, var(--w-sheet) 75%, transparent), transparent 70%),
+    repeating-linear-gradient(0deg, var(--weft) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, var(--weft) 0 1px, transparent 1px 4px);
+  position: relative;
+  isolation: isolate;
+  /* Turned cards and fanned prints never widen the page. Clip, not hidden, so the held cards still stick. */
+  overflow-x: clip;
+}
+
+/*
+ * Slubs: the thicker, uneven threads that make linen linen. Light and dark
+ * weft streaks at odd intervals, broken into short runs by a slanted mask,
+ * so they never line up into a check.
+ */
+.root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0 11px,
+    var(--slub-light) 11px 12px,
+    transparent 12px 23px,
+    var(--slub-dark) 23px 25px,
+    transparent 25px 37px,
+    var(--slub-light) 37px 39px,
+    transparent 39px 53px,
+    var(--slub-dark) 53px 54px,
+    transparent 54px 67px
+  );
+  -webkit-mask-image: repeating-linear-gradient(78deg, #000 0 31px, transparent 47px 71px, #000 89px 149px, transparent 167px 181px, #000 199px 227px, transparent 241px 263px);
+  mask-image: repeating-linear-gradient(78deg, #000 0 31px, transparent 47px 71px, #000 89px 149px, transparent 167px 181px, #000 199px 227px, transparent 241px 263px);
+}
+
+/* Text set straight on the linen keeps 4.5:1: its soft ink is taken a step toward the ink. */
+.onLinen {
+  --w-ink-soft: color-mix(in oklab, var(--fl-soft), var(--w-ink) 35%);
+}
+
+/* ------------------------------------------------------------------ */
+/* Paper                                                               */
+/* ------------------------------------------------------------------ */
+
+/* Card stock: the sheet colour with a faint sheen where the window light falls. */
+.sheet {
+  position: relative;
+  background-color: var(--w-sheet);
+  background-image: linear-gradient(150deg, color-mix(in oklab, white 30%, transparent), transparent 38%);
+  color: var(--w-ink);
+}
+
+/* Straight-cut cards cast a box shadow. */
+.cut {
+  box-shadow: var(--card-shadow);
+}
+
+/*
+ * Deckled cards: the torn, feathered edge is a mask, which would also cut a
+ * box shadow, so their shadow is a drop-shadow on the parent (.deckleShadow).
+ */
+.deckle {
+  -webkit-mask:
+    var(--deckle-top) top left / 160px 10px repeat-x,
+    var(--deckle-bottom) bottom left / 160px 10px repeat-x,
+    linear-gradient(#000 0 0) center / 100% calc(100% - 16px) no-repeat;
+  mask:
+    var(--deckle-top) top left / 160px 10px repeat-x,
+    var(--deckle-bottom) bottom left / 160px 10px repeat-x,
+    linear-gradient(#000 0 0) center / 100% calc(100% - 16px) no-repeat;
+}
+
+.deckleAll {
+  -webkit-mask:
+    var(--deckle-top) top left / 160px 10px repeat-x,
+    var(--deckle-bottom) bottom left / 160px 10px repeat-x,
+    var(--deckle-left) top left / 10px 160px repeat-y,
+    var(--deckle-right) top right / 10px 160px repeat-y,
+    linear-gradient(#000 0 0) center / calc(100% - 16px) calc(100% - 16px) no-repeat;
+  mask:
+    var(--deckle-top) top left / 160px 10px repeat-x,
+    var(--deckle-bottom) bottom left / 160px 10px repeat-x,
+    var(--deckle-left) top left / 10px 160px repeat-y,
+    var(--deckle-right) top right / 10px 160px repeat-y,
+    linear-gradient(#000 0 0) center / calc(100% - 16px) calc(100% - 16px) no-repeat;
+}
+
+.deckleShadow {
+  filter: var(--deckle-shadow);
+}
+
+/* The dimming over a deckled card stays inside its torn edge. */
+.deckleShadow > .shade {
+  inset: 8px;
+}
+
+/* Letterpress: the type sits pressed into the card, a light lip below and a hint of shade above. Never animated. */
+.sheet :is(h1, h2, h3),
+.press {
+  text-shadow:
+    0 1px 0 color-mix(in oklab, var(--w-sheet), white 70%),
+    0 -1px 0 rgb(0 0 0 / 0.07);
+}
+
+/* A printed double rule a few millimetres in from the card's edge. */
+.keyline {
+  pointer-events: none;
+  position: absolute;
+  inset: clamp(0.55rem, 2vw, 0.9rem);
+  border: 1px solid color-mix(in oklab, var(--w-metal) 60%, transparent);
+}
+
+.keyline::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid color-mix(in oklab, var(--w-metal) 32%, transparent);
+}
+
+/* ------------------------------------------------------------------ */
+/* The stack                                                           */
+/* ------------------------------------------------------------------ */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: clamp(3rem, 8svh, 5rem);
+  /* Each card's view timeline is visible to the card before it, which shrinks back as it slides over. */
+  timeline-scope: --fl-0, --fl-1, --fl-2, --fl-3, --fl-4, --fl-5;
+}
+
+/*
+ * Where each card starts in the normal flow. The header links point here, not
+ * at the cards: a held card reports where it is pinned, so a jump straight to
+ * it would go nowhere.
+ */
+.root .stack .anchor {
+  display: block;
+  align-self: stretch;
+  height: 0;
+  margin-top: clamp(3rem, 12svh, 7rem);
+  scroll-margin-top: calc(var(--hold-top) + var(--i) * 10px);
+}
+
+.root .stack .anchor:first-child {
+  margin-top: 0;
+}
+
+/* A card that follows a passing card tucks under its foot, so the held pile never shows between them. */
+.root .stack .tuck {
+  margin-top: -1.5rem;
+}
+
+.under {
+  z-index: 1;
+}
+
+.over {
+  z-index: 2;
+}
+
+.card {
+  --t: calc(var(--hold-top) + var(--i) * 10px);
+  position: relative;
+  width: min(calc(100% - 2rem), var(--cw, 40rem));
+  rotate: calc(var(--r, 0) * 0.5deg);
+}
+
+@media (min-width: 768px) {
+  .card {
+    rotate: calc(var(--r, 0) * 1deg);
+  }
+}
+
+/*
+ * Held cards stop below the header and the next card slides over them. A
+ * card taller than the screen is held only once its foot is in view, so it
+ * is read in full first: --h, its height, comes from StackHeights. Without
+ * it (no scripts yet) the offset is so far above the screen that the card
+ * simply scrolls.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-motion-off])) .hold {
+    position: sticky;
+    top: min(var(--t), calc(100svh - var(--hold-foot) - var(--h, 999vh)));
+  }
+}
+
+/*
+ * The card behind settles back as the next one slides over it, following
+ * the next card's progress into view: it shrinks to 0.96 and, once the new
+ * card is half in, fades toward plain paper, so the pile's edges read as
+ * paper rather than half-hidden lines of text. Only where scroll-driven
+ * animations exist. The scale's origin is the point of the card at the top
+ * of the hold, so the peeking edge stays put.
+ */
+.shade {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0;
+  background: color-mix(in oklab, var(--w-sheet), var(--w-ink) 7%);
+}
+
+@supports (animation-timeline: view()) {
+  .card {
+    view-timeline-name: var(--tl);
+    view-timeline-axis: block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html:not([data-motion-off])) :global(.wedding:not([data-motion="subtle"])) .hold[data-next] {
+      transform-origin: 50% max(0px, calc(var(--h, 0px) - 100svh + var(--hold-foot) + var(--t)));
+      animation: behind linear both;
+      animation-timeline: var(--next);
+      animation-range: entry 0% entry 100%;
+    }
+
+    :global(html:not([data-motion-off])) :global(.wedding:not([data-motion="subtle"])) .hold[data-next] > .shade {
+      animation: shade linear both;
+      animation-timeline: var(--next);
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+@keyframes behind {
+  to {
+    scale: 0.96;
+  }
+}
+
+/* The card behind is washed toward plain paper only in the second half, once the new card has the eye. */
+@keyframes shade {
+  0%,
+  45% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.84;
+  }
+}
+
+/* Shared sections set on a card: their band colour, rules and outer padding give way to the card's. */
+.inset > section {
+  border-width: 0;
+  background: transparent;
+  padding: clamp(2.75rem, 8vw, 4.5rem) clamp(1.35rem, 6vw, 3.5rem);
+}
+
+.inset > section h2 {
+  font-size: clamp(2rem, 6vw, 2.9rem);
+}
+
+/* The gift accounts read as slips of paper laid on the card. */
+.gifts section > div > ul > li {
+  background: var(--w-paper);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero: the envelope on the linen                                     */
+/* ------------------------------------------------------------------ */
+
+.hero {
+  padding: calc(4rem + clamp(1.5rem, 5svh, 3.5rem)) 1rem clamp(2.5rem, 7svh, 4.5rem);
+}
+
+/*
+ * Every piece is placed in units of the scene's width (cqw), so the whole
+ * arrangement scales as one. Phones stack the pieces; wide screens spread
+ * them across the table. Each piece reads --x, --y, --w (in cqw) and --r.
+ */
+.scene {
+  container-type: inline-size;
+  position: relative;
+  width: min(100%, 27rem);
+  margin-inline: auto;
+  aspect-ratio: 100 / var(--scene-h);
+  --scene-h: 136;
+}
+
+.scene[data-open] {
+  --scene-h: 146;
+}
+
+@media (min-width: 768px) {
+  .scene {
+    --scene-h: 57;
+    width: min(100%, 68rem, calc((100svh - 8.5rem) * 100 / var(--scene-h)));
+  }
+
+  .scene[data-open] {
+    --scene-h: 58;
+  }
+}
+
+.piece {
+  position: absolute;
+  left: calc(var(--x) * 1cqw);
+  top: calc(var(--y) * 1cqw);
+  width: calc(var(--w) * 1cqw);
+  rotate: calc(var(--r, 0) * 1deg);
+}
+
+/* Phones, sealed: the photo print at the top left over the envelope, the card laid in front of both. */
+.envBox {
+  --x: 31;
+  --y: 7;
+  --w: 66;
+  --r: 5;
+  aspect-ratio: 1.45;
+}
+
+.heroCard {
+  --x: 7;
+  --y: 47;
+  --w: 86;
+  --r: -2;
+}
+
+.print {
+  --x: 3;
+  --y: 3;
+  --w: 42;
+  --r: -6;
+}
+
+/* Phones, opened: the card rises out of the envelope, the print and the broken seal lie below it. */
+.scene[data-open] .envBox {
+  --x: 5;
+  --y: 56;
+  --w: 90;
+  --r: 0;
+}
+
+.scene[data-open] .heroCard {
+  --x: 17;
+  --y: 7;
+  --w: 66;
+  --r: 0;
+}
+
+.scene[data-open] .print {
+  --x: 2;
+  --y: 98;
+  --w: 38;
+  --r: -7;
+}
+
+/* Sealed and without a cover photo, the envelope moves in to fill the print's place. */
+.scene:not([data-open], [data-photo]) .envBox {
+  --x: 17;
+}
+
+.sealLeft {
+  --x: 60;
+  --y: 114;
+  --w: 16;
+  --r: -18;
+}
+
+.sealRight {
+  --x: 75;
+  --y: 120;
+  --w: 16;
+  --r: 26;
+}
+
+@media (min-width: 768px) {
+  .envBox {
+    --x: 19;
+    --y: 6;
+    --w: 42;
+    --r: 4;
+  }
+
+  .heroCard {
+    --x: 51;
+    --y: 10;
+    --w: 39;
+    --r: -2.5;
+  }
+
+  .print {
+    --x: 5;
+    --y: 15;
+    --w: 21;
+    --r: -6;
+  }
+
+  .scene[data-open] .envBox {
+    --x: 30;
+    --y: 25;
+    --w: 40;
+    --r: 0;
+  }
+
+  .scene[data-open] .heroCard {
+    --x: 35;
+    --y: 4;
+    --w: 30;
+    --r: 0;
+  }
+
+  .scene[data-open] .print {
+    --x: 6;
+    --y: 12;
+    --w: 20;
+    --r: -6;
+  }
+
+  .scene:not([data-open], [data-photo]) .envBox {
+    --x: 12;
+  }
+
+  .scene:not([data-open], [data-photo]) .heroCard {
+    --x: 46;
+  }
+
+  .sealLeft {
+    --x: 75;
+    --y: 34;
+    --w: 7;
+    --r: -16;
+  }
+
+  .sealRight {
+    --x: 82;
+    --y: 38;
+    --w: 7;
+    --r: 22;
+  }
+}
+
+/* The envelope is two layers that share one box: the back (and an open flap) under the card, the pocket over it. */
+.envBack {
+  z-index: 1;
+  filter: drop-shadow(0 14px 18px rgb(40 30 20 / 0.18)) drop-shadow(0 2px 2px rgb(40 30 20 / 0.08));
+}
+
+.envFront {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.scene:not([data-open]) .heroCard {
+  z-index: 4;
+}
+
+.scene[data-open] .heroCard {
+  z-index: 2;
+}
+
+.print {
+  z-index: 3;
+}
+
+.scene[data-open] .print {
+  z-index: 4;
+}
+
+.sealLeft,
+.sealRight {
+  z-index: 5;
+  filter: drop-shadow(0 3px 3px rgb(60 10 10 / 0.25));
+}
+
+.panel {
+  position: absolute;
+  inset: 0;
+}
+
+.back {
+  border-radius: 0.35rem;
+  background: color-mix(in oklab, var(--w-sheet), var(--w-ink) 5%);
+}
+
+/* Opened, the inside of the back is in its own shade. */
+.scene[data-open] .back {
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--w-sheet), var(--w-ink) 13%), color-mix(in oklab, var(--w-sheet), var(--w-ink) 7%) 60%);
+}
+
+/* The open flap stands above the envelope, its liner a fine gold lattice. Never green, yellow and red stripes. */
+.flapOpen {
+  position: absolute;
+  inset: auto 0 100% 0;
+  height: 68%;
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  background: color-mix(in oklab, var(--w-sheet), var(--w-ink) 4%);
+}
+
+.flapOpen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(7% 100%, 50% 8%, 93% 100%);
+  background:
+    repeating-linear-gradient(45deg, color-mix(in oklab, var(--w-metal) 60%, transparent) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(-45deg, color-mix(in oklab, var(--w-metal) 60%, transparent) 0 1px, transparent 1px 9px),
+    color-mix(in oklab, var(--w-sheet), var(--w-metal) 14%);
+}
+
+/* The pocket: two side folds and the bottom fold, with a soft shadow along their edges. */
+.pocket {
+  filter: drop-shadow(0 -1px 1.5px rgb(40 30 20 / 0.14));
+}
+
+.foldLeft {
+  clip-path: polygon(0 0, 52% 56%, 0 100%);
+  background: linear-gradient(100deg, color-mix(in oklab, var(--w-sheet), var(--w-ink) 1%), color-mix(in oklab, var(--w-sheet), var(--w-ink) 4.5%));
+  border-radius: 0.35rem;
+}
+
+.foldRight {
+  clip-path: polygon(100% 0, 48% 56%, 100% 100%);
+  background: linear-gradient(260deg, color-mix(in oklab, var(--w-sheet), var(--w-ink) 3.5%), color-mix(in oklab, var(--w-sheet), var(--w-ink) 7%));
+  border-radius: 0.35rem;
+}
+
+.foldBottom {
+  clip-path: polygon(0 100%, 50% 45%, 100% 100%);
+  background: linear-gradient(to top, var(--w-sheet), color-mix(in oklab, var(--w-sheet), var(--w-ink) 3%));
+  border-radius: 0.35rem;
+}
+
+/* Sealed: the flap folds down over the pocket and the wax seal holds its point. */
+.flapClosed {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 60%;
+  filter: drop-shadow(0 2px 2px rgb(40 30 20 / 0.16));
+}
+
+.flapClosed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(to bottom, var(--w-sheet), color-mix(in oklab, var(--w-sheet), var(--w-ink) 4%));
+  border-radius: 0.35rem 0.35rem 0 0;
+}
+
+.seal {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 21%;
+  translate: -50% -50%;
+  filter: drop-shadow(0 3px 4px rgb(60 10 10 / 0.3));
+}
+
+/* The printed card the names are set on. Its type is sized in its own width (cqw), so it fits at any size. */
+.heroCard {
+  container-type: inline-size;
+  box-shadow: var(--card-shadow);
+}
+
+.cardFace {
+  aspect-ratio: 100 / 96;
+  padding-bottom: 9cqw;
+}
+
+.scene[data-open] .cardFace {
+  aspect-ratio: 100 / 134;
+}
+
+/*
+ * A white-bordered photo print, the deeper margin at its foot. Its parent
+ * must be the print's own width, since padding percentages follow it.
+ */
+.photo {
+  background: #fff;
+  padding: 5% 5% 17%;
+  box-shadow: 0 1px 1px rgb(40 30 20 / 0.08), 0 10px 18px -8px rgb(40 30 20 / 0.3);
+}
+
+/*
+ * The cover's entrance, keyed to the opening like the shared hero: an opened
+ * envelope lets its card rise the last stretch out of the pocket; a sealed
+ * one has its card slide into place beside it. The print and the broken
+ * seal settle. Transforms only, so nothing waits to paint.
+ */
+@media screen and (prefers-reduced-motion: no-preference) {
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) .scene[data-open] .heroCard {
+    animation: card-rise 1.5s var(--ease-out-soft) 0.15s both;
+  }
+
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) .scene:not([data-open]) .heroCard {
+    animation: card-slide 1.3s var(--ease-out-soft) 0.2s both;
+  }
+
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) .print {
+    animation: print-settle 1.6s var(--ease-out-soft) 0.35s both;
+  }
+
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) :is(.sealLeft, .sealRight) {
+    animation: seal-drop 0.9s var(--ease-pop) 0.9s both;
+  }
+}
+
+@keyframes card-rise {
+  from {
+    transform: translate3d(0, 16%, 0);
+  }
+}
+
+@keyframes card-slide {
+  from {
+    transform: translate3d(5%, 10%, 0) rotate(4deg);
+  }
+}
+
+@keyframes print-settle {
+  from {
+    transform: translate3d(-6%, 5%, 0) rotate(-5deg);
+  }
+}
+
+@keyframes seal-drop {
+  from {
+    transform: scale(1.25) rotate(-12deg);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Gallery: prints fanned out on the table                             */
+/* ------------------------------------------------------------------ */
+
+.fans {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(0.5rem, 3vw, 2rem) clamp(1.5rem, 4vw, 3.5rem);
+  margin-inline: auto;
+  max-width: min(25rem, calc(100% - 1rem));
+}
+
+@media (min-width: 768px) {
+  .fans {
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    max-width: calc(var(--cols) * 24rem);
+  }
+}
+
+.fan {
+  container-type: inline-size;
+  position: relative;
+  aspect-ratio: 100 / var(--fan-h);
+}
+
+
+.printSpot {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1cqw);
+  width: calc(var(--w) * 1%);
+  rotate: calc(var(--r) * 1deg);
+  z-index: var(--z);
+}
+
+/* A print is a real button. Hover or focus lifts it out of the fan and on top. */
+.printButton {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: transform 0.45s var(--ease-out-soft), box-shadow 0.45s var(--ease-out-soft);
+}
+
+.printSpot:is(:hover, :focus-within) {
+  z-index: 10;
+}
+
+@media (hover: hover) {
+  .printButton:hover {
+    transform: translate3d(0, -4%, 0) rotate(calc(var(--r) * -0.5deg)) scale(1.03);
+  }
+}
+
+.printButton:focus-visible {
+  transform: translate3d(0, -4%, 0) rotate(calc(var(--r) * -0.5deg)) scale(1.03);
+}
+
+:global(html[data-motion-off]) .printButton {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .printButton {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* The thank-you note                                                  */
+/* ------------------------------------------------------------------ */
+
+.note {
+  rotate: -1.5deg;
+}

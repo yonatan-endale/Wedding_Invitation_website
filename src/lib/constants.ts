@@ -7,9 +7,10 @@ export type GiftKind = (typeof GIFT_KINDS)[number];
 /**
  * Decorative band along the hero, invitation card, opening screen and footer.
  * "tibeb" is the original small woven band and the default; "tibeb2" is the
- * wide band drawn from a real netela, with interlocking diamonds and chevrons.
+ * wide band drawn from a real netela, with interlocking diamonds and chevrons;
+ * "harag" is the interlace of Ethiopian manuscripts.
  */
-export const BORDER_STYLES = ["tibeb", "tibeb2", "floral", "line"] as const;
+export const BORDER_STYLES = ["tibeb", "tibeb2", "floral", "line", "harag"] as const;
 export type BorderStyle = (typeof BORDER_STYLES)[number];
 
 /** Caption under each partner's portrait in the Editorial layout, and the footer line. */
@@ -26,6 +27,9 @@ export const HERO_POSITIONS = [
 export const DEFAULT_TIMEZONE = "Africa/Addis_Ababa";
 
 export const LOCALE_COOKIE = "NEXT_LOCALE";
+
+/** Clerk session and dev-browser cookies; guests visiting a couple site have none of these. */
+export const CLERK_SESSION_COOKIE = /^(__session|__client_uat|__clerk_db_jwt)/;
 
 /** Set by middleware when a request arrived on a couple's subdomain. */
 export const TENANT_HEADER = "x-wedding-tenant";

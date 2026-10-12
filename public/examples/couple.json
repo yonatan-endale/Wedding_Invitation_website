@@ -27,9 +27,19 @@
     "theme": "tibeb",
     "layout": "classic",
     "border": "tibeb",
+    "opening": "netela",
+    "calendarStyle": "both",
+    "motion": "moderate",
+    "ornament": "none",
     "petals": true,
     "rsvpEnabled": true,
-    "rsvpDeadline": "2026-10-10T23:59"
+    "rsvpDeadline": "2026-10-10T23:59",
+    "guestCardsEnabled": false,
+    "couplePageEnabled": false,
+    "galleryDrift": false,
+    "calendarButtons": false,
+    "scrollProgress": false,
+    "collapsibleEvents": false
   },
   "venues": [
     {
@@ -47,12 +57,14 @@
   "events": [
     {
       "title": { "en": "Vow ceremony", "am": "የቃልኪዳን ሥርዓት" },
+      "kind": "ceremony_civil",
       "startsAt": "2026-10-24T15:00",
       "endsAt": "2026-10-24T17:00",
       "venue": 0
     },
     {
       "title": { "en": "Reception and dinner", "am": "አቀባበል እና እራት" },
+      "kind": "reception",
       "description": { "en": "Dinner, dancing and cake.", "am": "እራት፣ ጭፈራ እና ኬክ።" },
       "startsAt": "2026-10-24T18:30",
       "endsAt": "2026-10-24T23:00",

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import type { Locale } from "@/lib/localized";
@@ -22,10 +23,12 @@ export async function RsvpSection({ site, locale }: Props) {
           {t("heading")}
         </SectionHeading>
         {closed ? (
-          <p className="mt-6 text-center text-ink-soft">{t("closed")}</p>
+          <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="mt-6 text-center text-ink-soft">
+            {t("closed")}
+          </p>
         ) : (
           <>
-            <p className="mt-5 text-center text-ink-soft">
+            <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="mt-5 text-center text-ink-soft">
               {t("intro")}
               {deadline ? (
                 <span className="block">{t("replyBy", { date: formatWeddingDate(deadline, couple.timezone, locale) })}</span>

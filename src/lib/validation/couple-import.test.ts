@@ -32,10 +32,21 @@ describe("parseCoupleImport", () => {
       theme: "tibeb",
       layout: "classic",
       border: "tibeb",
+      opening: "netela",
+      calendarStyle: "both",
+      motion: "moderate",
+      ornament: "none",
+      calendarPhotoUrl: null,
       heroPosition: "50% 40%",
       petals: true,
       rsvpEnabled: true,
       rsvpDeadline: null,
+      guestCardsEnabled: false,
+      couplePageEnabled: false,
+      galleryDrift: false,
+      calendarButtons: false,
+      scrollProgress: false,
+      collapsibleEvents: false,
       city: null,
       heroPhotoUrl: null,
     });
@@ -140,6 +151,31 @@ describe("parseCoupleImport", () => {
   it("rejects unknown keys so typos do not vanish silently", () => {
     expect(issuesOf({ ...minimal, couple: { ...minimal.couple, heroPhotoURL: "/x.jpg" } })).toEqual([
       expect.stringMatching(/^couple: .*heroPhotoURL/),
+    ]);
+  });
+
+  it("reads the appearance settings and event kinds, and rejects unknown ones", () => {
+    const result = parseCoupleImport({
+      ...minimal,
+      couple: { ...minimal.couple, opening: "netela", calendarStyle: "ethiopian", motion: "rich", ornament: "orthodox" },
+      events: [
+        { title: { en: "Mels" }, startsAt: "2026-07-20T14:00", kind: "mels" },
+        { title: { en: "Lunch" }, startsAt: "2026-07-18T13:00" },
+      ],
+    });
+    if (!result.success) throw new Error(result.issues.join("\n"));
+    expect(result.data.couple).toMatchObject({ opening: "netela", calendarStyle: "ethiopian", motion: "rich", ornament: "orthodox" });
+    expect(result.data.events.map((event) => event.kind)).toEqual(["mels", "other"]);
+
+    const issues = issuesOf({
+      ...minimal,
+      couple: { ...minimal.couple, opening: "fireworks", motion: "wild" },
+      events: [{ title: { en: "Party" }, startsAt: "2026-07-18T13:00", kind: "party" }],
+    });
+    expect(issues).toEqual([
+      "couple.opening: Unknown opening.",
+      expect.stringMatching(/^couple\.motion: /),
+      expect.stringMatching(/^events\[0\]\.kind: /),
     ]);
   });
 

@@ -1,0 +1,262 @@
+/*
+ * Kaba Velvet, layout-only styles. Velvet and gold thread are gradients only;
+ * everything that moves animates transform, opacity, clip-path or a stroke
+ * offset, and only for guests who welcome motion.
+ */
+
+/*
+ * The velvet's light and shade, from the theme's paper: the sheen is the
+ * paper lifted and a touch more saturated (velvet glows in its own colour,
+ * never grey), the shade the paper darkened in the same hue.
+ */
+.root {
+  --kaba-hi: color-mix(in oklab, var(--w-paper), white 9%);
+  --kaba-lo: color-mix(in oklab, var(--w-paper), black 38%);
+  --kaba-fold: color-mix(in oklab, var(--w-paper), white 5%);
+  --kaba-thread-hi: color-mix(in oklab, var(--w-metal), white 42%);
+  --kaba-thread-lo: color-mix(in oklab, var(--w-metal), black 38%);
+  --kaba-tick: color-mix(in oklab, var(--w-metal), black 62%);
+  /* The pile runs under the whole page; sections add their own light. */
+  background-image:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.014) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.04) 0 1px, transparent 1px 2px);
+}
+
+@supports (color: oklch(from red l c h)) {
+  .root {
+    --kaba-hi: oklch(from var(--w-paper) calc(l + 0.075) calc(c * 1.35) h);
+    --kaba-lo: oklch(from var(--w-paper) calc(l * 0.6) calc(c * 1.05) h);
+    --kaba-fold: oklch(from var(--w-paper) calc(l + 0.04) calc(c * 1.2) h / 0.9);
+  }
+}
+
+/*
+ * Velvet: the pile (a fine vertical nap and a faint cross-grain), a broad
+ * sheen where the cloth turns toward the light, a soft fold across it and
+ * shade in the hollows. Sections move the light with --sheen-x/--sheen-y
+ * and --shade-x/--shade-y so the panels do not repeat each other.
+ */
+.velvet {
+  background-color: var(--w-paper);
+  background-image:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.016) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.045) 0 1px, transparent 1px 2px),
+    radial-gradient(var(--sheen-size, 120% 70%) at var(--sheen-x, 18%) var(--sheen-y, 0%), var(--kaba-hi), transparent 64%),
+    linear-gradient(var(--fold, 112deg), transparent 28%, var(--kaba-fold) 47%, transparent 66%),
+    radial-gradient(95% 75% at var(--shade-x, 88%) var(--shade-y, 92%), var(--kaba-lo), transparent 72%),
+    linear-gradient(180deg, transparent 55%, color-mix(in oklab, var(--kaba-lo) 55%, transparent));
+}
+
+/* A panel of lifted velvet (the invitation), lit from its head. */
+.panel {
+  background-color: var(--w-sheet);
+  background-image:
+    radial-gradient(110% 55% at 50% 0%, var(--kaba-hi), transparent 70%),
+    radial-gradient(90% 60% at 50% 105%, color-mix(in oklab, var(--kaba-lo) 80%, transparent), transparent 72%);
+  box-shadow: 0 34px 64px -34px rgb(0 0 0 / 0.85);
+}
+
+/* A heading set as a small label keeps the body font, not the display face. */
+.label {
+  font-family: var(--font-body);
+}
+
+/* A gold running stitch along the top and bottom edges, where one velvet panel is sewn to the next. */
+.seams {
+  border-block: 1px dashed color-mix(in oklab, var(--w-metal) 50%, transparent);
+}
+
+/* The hero's cape hangs a little in front of the page. */
+.cape {
+  --sheen-size: 110% 60%;
+  --sheen-x: 30%;
+  --sheen-y: -6%;
+  --fold: 104deg;
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.75);
+}
+
+/* ------------------------------------------------------------------ */
+/* Embroidered frame (StitchFrame)                                      */
+/* ------------------------------------------------------------------ */
+
+.framed {
+  --kaba-corner: clamp(4.75rem, 17vw, 7rem);
+  --kaba-corner-inset: 11px;
+}
+
+/*
+ * Couched cord on the edge (a solid thread crossed by small dark tacking
+ * stitches) and a running stitch 8px inside it. Four sides each, all as
+ * background layers so the stitches fall exactly where they should.
+ */
+.frame {
+  --cord: 3px;
+  --stitch: 1.5px;
+  --gap: 8px;
+  --run: var(--w-metal) 0 6px, transparent 6px 10px;
+  --ticks: var(--kaba-tick) 0 1px, transparent 1px 5px;
+  background:
+    repeating-linear-gradient(90deg, var(--run)) var(--gap) var(--gap) / calc(100% - 2 * var(--gap)) var(--stitch) no-repeat,
+    repeating-linear-gradient(90deg, var(--run)) var(--gap) calc(100% - var(--gap)) / calc(100% - 2 * var(--gap)) var(--stitch) no-repeat,
+    repeating-linear-gradient(180deg, var(--run)) var(--gap) var(--gap) / var(--stitch) calc(100% - 2 * var(--gap)) no-repeat,
+    repeating-linear-gradient(180deg, var(--run)) calc(100% - var(--gap)) var(--gap) / var(--stitch) calc(100% - 2 * var(--gap)) no-repeat,
+    repeating-linear-gradient(90deg, var(--ticks)) top / 100% var(--cord) no-repeat,
+    repeating-linear-gradient(90deg, var(--ticks)) bottom / 100% var(--cord) no-repeat,
+    repeating-linear-gradient(180deg, var(--ticks)) left / var(--cord) 100% no-repeat,
+    repeating-linear-gradient(180deg, var(--ticks)) right / var(--cord) 100% no-repeat,
+    linear-gradient(var(--w-metal), var(--w-metal)) top / 100% var(--cord) no-repeat,
+    linear-gradient(var(--w-metal), var(--w-metal)) bottom / 100% var(--cord) no-repeat,
+    linear-gradient(var(--w-metal), var(--w-metal)) left / var(--cord) 100% no-repeat,
+    linear-gradient(var(--w-metal), var(--w-metal)) right / var(--cord) 100% no-repeat;
+}
+
+/* ------------------------------------------------------------------ */
+/* The fringe along the hem of the hero                                 */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Tassels of fine gold thread: threads masked out of a metal gradient that
+ * darkens toward the ends, each tassel a half-ellipse so its middle threads
+ * hang longest, with a bead at the top and a wrap just below it.
+ */
+.fringe {
+  --tassel: 22px;
+  position: relative;
+  height: var(--fringe-h);
+  transform-origin: 50% 0;
+}
+
+.threads {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--kaba-thread-hi), var(--w-metal) 28%, var(--kaba-thread-lo) 92%);
+  -webkit-mask:
+    repeating-linear-gradient(90deg, #000 0 1.2px, transparent 1.2px 3.3px),
+    radial-gradient(50% 100% at 50% 0, #000 97%, transparent) 0 0 / var(--tassel) 100% repeat-x;
+  -webkit-mask-composite: source-in;
+  mask:
+    repeating-linear-gradient(90deg, #000 0 1.2px, transparent 1.2px 3.3px),
+    radial-gradient(50% 100% at 50% 0, #000 97%, transparent) 0 0 / var(--tassel) 100% repeat-x;
+  mask-composite: intersect;
+}
+
+.knots {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(4.6px 2.4px at 50% 7px, var(--kaba-thread-hi) 85%, transparent) 0 0 / var(--tassel) 100% repeat-x,
+    radial-gradient(3.2px 3.2px at 50% 1.5px, var(--w-metal) 85%, transparent) 0 0 / var(--tassel) 100% repeat-x;
+}
+
+/* The fringe sways once as the cape settles; never at the subtle level, nor for reduced or paused motion. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  :global(html:is([data-intro="opening"], [data-intro="done"]):not([data-motion-off]):not([data-hero-played])) :global(.wedding:not([data-motion="subtle"])) .fringe {
+    animation: sway 3.4s cubic-bezier(0.37, 0, 0.3, 1) 0.5s 1 both;
+  }
+}
+
+@keyframes sway {
+  18% {
+    transform: skewX(6deg);
+  }
+  40% {
+    transform: skewX(-4deg);
+  }
+  62% {
+    transform: skewX(2deg);
+  }
+  82% {
+    transform: skewX(-0.8deg);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* The stitched rail of the day                                         */
+/* ------------------------------------------------------------------ */
+
+/* A running stitch of gold thread from one event's marker to the next. */
+.rail {
+  width: 2px;
+  background: repeating-linear-gradient(180deg, var(--w-metal) 0 7px, transparent 7px 12px);
+}
+
+/* Each length of the rail sews itself downward as its event comes into view. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  :global(html[data-reveal-ready]:not([data-motion-off])) :global(.wedding:not([data-motion="subtle"])) .rail {
+    transition: clip-path calc(var(--reveal-time) * 2.2) var(--ease-draw) 0.25s;
+  }
+
+  :global(html[data-reveal-ready]:not([data-motion-off])) :global(.wedding:not([data-motion="subtle"])) .step:not([data-shown]) .rail {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+/*
+ * An embroidered patch: lifted velvet, a fine gold edge and a running stitch
+ * just inside it. The Mels gets one in the timeline, and so do the gift cards.
+ */
+.patch {
+  background-color: var(--w-sheet);
+  background-image:
+    radial-gradient(120% 90% at 15% 0%, var(--kaba-hi), transparent 70%),
+    radial-gradient(80% 80% at 100% 100%, color-mix(in oklab, var(--kaba-lo) 70%, transparent), transparent 75%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--w-metal) 55%, transparent),
+    0 22px 44px -26px rgb(0 0 0 / 0.85);
+  outline: 1.5px dashed color-mix(in oklab, var(--w-metal) 70%, transparent);
+  outline-offset: -7px;
+}
+
+/* ------------------------------------------------------------------ */
+/* The shared sections, dressed for velvet                              */
+/* ------------------------------------------------------------------ */
+
+/* Panels that had the sheet colour become velvet of their own, and the seams between panels are stitched. */
+.root :global(:is(#venues, #rsvp)) {
+  --sheen-x: 82%;
+  --sheen-y: 0%;
+  --shade-x: 10%;
+  --fold: 70deg;
+  background-color: var(--w-paper);
+  background-image:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.016) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.045) 0 1px, transparent 1px 2px),
+    radial-gradient(110% 65% at var(--sheen-x) var(--sheen-y), var(--kaba-hi), transparent 64%),
+    linear-gradient(var(--fold), transparent 30%, var(--kaba-fold) 48%, transparent 66%),
+    radial-gradient(95% 75% at var(--shade-x) 92%, var(--kaba-lo), transparent 72%);
+}
+
+.root :global(:is(#venues, #story, #gifts, #rsvp)) {
+  border-color: color-mix(in oklab, var(--w-metal) 50%, transparent);
+  border-style: dashed;
+}
+
+/* Under each shared title, a short running stitch either side of a lozenge. */
+.root :global(:is(#venues, #gallery, #story, #gifts, #rsvp)) h2::after {
+  content: "";
+  display: block;
+  width: 136px;
+  height: 12px;
+  margin-top: 1.2rem;
+  background: var(--w-metal);
+  -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='136' height='12'%3E%3Cpath d='M68 0 74 6 68 12 62 6Z'/%3E%3Cpath d='M1 6H56M80 6H135' stroke='black' stroke-width='1.5' stroke-dasharray='6 4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='136' height='12'%3E%3Cpath d='M68 0 74 6 68 12 62 6Z'/%3E%3Cpath d='M1 6H56M80 6H135' stroke='black' stroke-width='1.5' stroke-dasharray='6 4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+}
+
+.root :global(#rsvp) h2::after {
+  margin-inline: auto;
+}
+
+/* Gift accounts as embroidered patches. */
+.root :global(#gifts ul.grid > li) {
+  border-color: transparent;
+  background-color: var(--w-sheet);
+  background-image:
+    radial-gradient(120% 90% at 15% 0%, var(--kaba-hi), transparent 70%),
+    radial-gradient(80% 80% at 100% 100%, color-mix(in oklab, var(--kaba-lo) 70%, transparent), transparent 75%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--w-metal) 55%, transparent),
+    0 22px 44px -26px rgb(0 0 0 / 0.85);
+  outline: 1.5px dashed color-mix(in oklab, var(--w-metal) 65%, transparent);
+  outline-offset: -7px;
+}

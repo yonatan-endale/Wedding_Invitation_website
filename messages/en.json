@@ -1,7 +1,13 @@
 {
   "intro": {
     "invited": "You are invited to the wedding of",
-    "open": "Open invitation"
+    "open": "Open invitation",
+    "dear": "Dear {name},",
+    "pressToOpen": "Press to open",
+    "sealLabel": "Open the invitation from {one} and {two}",
+    "openEnvelope": "Tap the envelope to open",
+    "letter": "invite you to celebrate their wedding",
+    "tapFlower": "Tap the flower to open"
   },
   "nav": {
     "label": "Sections",
@@ -38,8 +44,25 @@
     "hours": "hours",
     "minutes": "minutes",
     "seconds": "seconds",
-    "calendarCaption": "{month} {year} in the Ethiopian calendar, with the wedding day marked",
+    "summary": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} left",
+    "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the wedding"
+  },
+  "saveTheDate": {
+    "title": "Save the date",
+    "couple": "{one} and {two}",
+    "switchLabel": "Calendar",
+    "ethiopian": "Ethiopian",
+    "gregorian": "Gregorian",
+    "captionEthiopian": "{month} {year} in the Ethiopian calendar, with the wedding day marked",
+    "captionGregorian": "{month} {year}, with the wedding day marked",
     "weddingDay": "Wedding day"
+  },
+  "calendar": {
+    "add": "Add the wedding to your calendar",
+    "google": "Google Calendar",
+    "ics": "Apple / Outlook",
+    "eventTitle": "Wedding of {one} and {two}",
+    "details": "You are invited. The full invitation, the day's schedule and the RSVP are on the website."
   },
   "invitation": {
     "eyebrow": "Wedding invitation",
@@ -56,7 +79,9 @@
     "directions": "Directions",
     "viewLocation": "View location",
     "end": "End of the day",
-    "endAt": "End of the day, {time}"
+    "endAt": "End of the day, {time}",
+    "showDetails": "Show details",
+    "hideDetails": "Hide details"
   },
   "venues": {
     "heading": "Where to find us",
@@ -71,11 +96,13 @@
     "next": "Next photo",
     "open": "View photo {index} full screen",
     "close": "Close",
-    "counter": "{current} of {total}"
+    "counter": "{current} of {total}",
+    "pause": "Pause the photos",
+    "play": "Play the photos"
   },
   "gifts": {
     "heading": "Gifts",
-    "defaultNote": "Your presence is the greatest gift. If you would like to bless us further, you can use the details below.",
+    "defaultNote": "Your presence is the greatest gift. If you would like to give a gift, you can use the details below.",
     "accountName": "Account name",
     "copy": "Copy number",
     "copied": "Copied",
@@ -121,6 +148,68 @@
       "closed": "RSVPs for this wedding are closed."
     }
   },
+  "card": {
+    "dear": "Dear {name},",
+    "admits": "Admits {count}",
+    "showAtEntrance": "Show this code at the entrance",
+    "ready": "Your personal invitation card is ready.",
+    "download": "Download card",
+    "viewAndShare": "View and share",
+    "imageAlt": "Invitation card for {name}",
+    "pageTitle": "Invitation for {name}",
+    "pageIntro": "Save this card to your phone and show its QR code at the entrance.",
+    "share": "Share",
+    "shareText": "My invitation to the wedding of {couple}",
+    "whatsapp": "WhatsApp",
+    "telegram": "Telegram",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "copyFailed": "Couldn't copy the link.",
+    "openSite": "Open the wedding website",
+    "pass": {
+      "title": "Entry pass",
+      "valid": "Valid invitation",
+      "invalid": "Invitation not valid",
+      "invalidBody": "This invitation was cancelled or the code is wrong. Please check with the couple's family."
+    }
+  },
+  "couplePortal": {
+    "title": "Your RSVPs and wishes",
+    "unlockTitle": "Your private page",
+    "unlockIntro": "Enter the passcode you were sent separately.",
+    "passcode": "Passcode",
+    "unlock": "Open",
+    "unlocking": "Opening…",
+    "noLink": "Open the private link you were sent. If you lost it, ask for a new one.",
+    "signOut": "Sign out",
+    "errors": {
+      "invalid": "That passcode or link isn't right.",
+      "locked": "Too many wrong tries. The page is locked for a while; try again later.",
+      "rateLimited": "Too many attempts. Wait a minute and try again.",
+      "generic": "Something went wrong. Check your connection and try again."
+    },
+    "stats": {
+      "responses": "Responses",
+      "coming": "Guests coming",
+      "declined": "Can't come"
+    },
+    "wishesHeading": "Wishes",
+    "noWishes": "No wishes yet. Messages from the RSVP form appear here.",
+    "hide": "Hide",
+    "unhide": "Show again",
+    "hiddenHeading": "Hidden wishes ({count})",
+    "guestsHeading": "Guests",
+    "noGuests": "No responses yet.",
+    "coming": "Coming",
+    "notComing": "Can't come",
+    "guestCount": "Guests",
+    "downloadCard": "Download card",
+    "sendWhatsApp": "Send on WhatsApp",
+    "copyCardLink": "Copy card link",
+    "copied": "Copied",
+    "copyFailed": "Couldn't copy the link.",
+    "cardShareText": "Your invitation card for the wedding of {couple}: {url}"
+  },
   "memories": {
     "heading": "Share your photos",
     "body": "Took photos at the wedding? Send them to us on Telegram.",
@@ -134,5 +223,76 @@
   "notFound": {
     "title": "This invitation isn't available",
     "body": "Check the link you were sent, or ask the couple for a new one."
+  },
+  "motion": {
+    "pause": "Pause motion",
+    "play": "Play motion"
+  },
+  "layouts": {
+    "reel": {
+      "presents": "Two families present",
+      "starring": "Starring",
+      "scenes": "The scenes",
+      "locations": "Locations",
+      "stills": "Stills",
+      "ending": "And so it begins",
+      "date": "Date",
+      "time": "Time",
+      "venue": "Venue"
+    },
+    "noir": {
+      "accountNumber": "Account number",
+      "morePhotos": "See {count, plural, one {# more photo} other {# more photos}}"
+    },
+    "arches": {
+      "allPhotos": "View all {count} photos"
+    },
+    "stories": {
+      "open": "Open the invitation",
+      "previous": "Previous page",
+      "next": "Next page",
+      "thanks": "Thank you",
+      "restart": "Back to the start",
+      "allPhotos": "View all {count} photos"
+    },
+    "kaba": {
+      "mels": "A family tradition"
+    },
+    "flatlay": {
+      "thanks": "Thank you",
+      "thanksNote": "We are so grateful to share this day with you.",
+      "allPhotos": "View all {count} photos"
+    },
+    "brana": {
+      "date": "Date",
+      "time": "Time",
+      "place": "Place",
+      "event": "Event",
+      "number": "Number",
+      "allPhotos": "View all {count} photos",
+      "chapter": "Chapter",
+      "colophon": "Here ends this book; may the love written in it never end.",
+      "writtenIn": "Written in the year <year></year> of the Ethiopian calendar"
+    },
+    "slate": {
+      "confirm": "Confirm attendance",
+      "seeDay": "See the day",
+      "scroll": "Scroll",
+      "kicker": {
+        "invitation": "You are invited",
+        "schedule": "Hour by hour",
+        "venues": "Find your way",
+        "gallery": "A few favourites",
+        "story": "How it began",
+        "rsvp": "We hope you can come",
+        "gifts": "With gratitude",
+        "thanks": "Thank you"
+      },
+      "footerNav": "On this page",
+      "backToTop": "Back to top",
+      "signature": "With love, {one} and {two}",
+      "when": "When",
+      "where": "Where"
+    }
   }
 }

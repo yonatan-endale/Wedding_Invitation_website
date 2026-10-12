@@ -1,7 +1,13 @@
 {
   "intro": {
     "invited": "በሠርጋችን ላይ እንዲገኙ ተጋብዘዋል",
-    "open": "ግብዣውን ይክፈቱ"
+    "open": "ግብዣውን ይክፈቱ",
+    "dear": "ውድ {name}፣",
+    "pressToOpen": "ለመክፈት ይጫኑ",
+    "sealLabel": "ከ{one} እና {two} የመጣውን ግብዣ ይክፈቱ",
+    "openEnvelope": "ለመክፈት ፖስታውን ይንኩ",
+    "letter": "በሠርጋቸው ላይ እንዲገኙ ይጋብዙዎታል",
+    "tapFlower": "ለመክፈት አበባውን ይንኩ"
   },
   "nav": {
     "label": "ክፍሎች",
@@ -38,8 +44,25 @@
     "hours": "ሰዓታት",
     "minutes": "ደቂቃዎች",
     "seconds": "ሰከንዶች",
-    "calendarCaption": "{month} {year} ዓ.ም.፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
+    "summary": "{days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች ቀርተዋል",
+    "summarySince": "ከሠርጉ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች"
+  },
+  "saveTheDate": {
+    "title": "ቀኑን ይያዙ",
+    "couple": "{one} እና {two}",
+    "switchLabel": "የቀን አቆጣጠር",
+    "ethiopian": "ኢትዮጵያ",
+    "gregorian": "ጎርጎሮሳዊያን",
+    "captionEthiopian": "{month} {year} ዓ.ም.፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
+    "captionGregorian": "{month} {year}፣ የሠርጉ ቀን ምልክት ተደርጎበታል",
     "weddingDay": "የሠርጉ ቀን"
+  },
+  "calendar": {
+    "add": "ሠርጉን በቀን መቁጠሪያዎ ያስቀምጡ",
+    "google": "Google ቀን መቁጠሪያ",
+    "ics": "Apple / Outlook",
+    "eventTitle": "የ{one} እና የ{two} ሠርግ",
+    "details": "ተጋብዘዋል። ሙሉ ግብዣው፣ የዕለቱ መርሐ ግብር እና የምላሽ ቅጹ በድረ-ገጹ ላይ ይገኛሉ።"
   },
   "invitation": {
     "eyebrow": "የሠርግ ግብዣ",
@@ -56,7 +79,9 @@
     "directions": "አቅጣጫ",
     "viewLocation": "ቦታውን ይመልከቱ",
     "end": "የዕለቱ መጨረሻ",
-    "endAt": "የዕለቱ መጨረሻ፣ {time}"
+    "endAt": "የዕለቱ መጨረሻ፣ {time}",
+    "showDetails": "ዝርዝሩን አሳይ",
+    "hideDetails": "ዝርዝሩን ደብቅ"
   },
   "venues": {
     "heading": "የሥነ ሥርዓቱ ቦታዎች",
@@ -71,7 +96,9 @@
     "next": "ቀጣይ ፎቶ",
     "open": "ፎቶ {index}ን በሙሉ ገጽ ይመልከቱ",
     "close": "ዝጋ",
-    "counter": "{current} / {total}"
+    "counter": "{current} / {total}",
+    "pause": "ፎቶዎቹን አቁም",
+    "play": "ፎቶዎቹን አጫውት"
   },
   "gifts": {
     "heading": "ስጦታ",
@@ -121,6 +148,68 @@
       "closed": "የዚህ ሠርግ የምላሽ መስጫ ተዘግቷል።"
     }
   },
+  "card": {
+    "dear": "ውድ {name}፣",
+    "admits": "የእንግዶች ብዛት፦ {count}",
+    "showAtEntrance": "ይህን ኮድ መግቢያ ላይ ያሳዩ",
+    "ready": "የግል የግብዣ ካርድዎ ዝግጁ ነው።",
+    "download": "ካርዱን ያውርዱ",
+    "viewAndShare": "ይመልከቱ እና ያጋሩ",
+    "imageAlt": "ለ{name} የተዘጋጀ የግብዣ ካርድ",
+    "pageTitle": "የ{name} ግብዣ",
+    "pageIntro": "ይህን ካርድ በስልክዎ ያስቀምጡ፤ መግቢያ ላይ QR ኮዱን ያሳዩ።",
+    "share": "አጋራ",
+    "shareText": "የ{couple} የሠርግ ግብዣዬ",
+    "whatsapp": "ዋትስአፕ",
+    "telegram": "ቴሌግራም",
+    "copyLink": "ማስፈንጠሪያውን ቅዳ",
+    "copied": "ማስፈንጠሪያው ተቀድቷል",
+    "copyFailed": "ማስፈንጠሪያውን መቅዳት አልተቻለም።",
+    "openSite": "የሠርጉን ድረ-ገጽ ይክፈቱ",
+    "pass": {
+      "title": "የመግቢያ ማረጋገጫ",
+      "valid": "ትክክለኛ ግብዣ",
+      "invalid": "ግብዣው ትክክል አይደለም",
+      "invalidBody": "ይህ ግብዣ ተሰርዟል ወይም ኮዱ ትክክል አይደለም። እባክዎ የሙሽሮቹን ቤተሰብ ያነጋግሩ።"
+    }
+  },
+  "couplePortal": {
+    "title": "ምላሾች እና መልካም ምኞቶች",
+    "unlockTitle": "የግል ገጽዎ",
+    "unlockIntro": "ለብቻው የተላከልዎትን የይለፍ ኮድ ያስገቡ።",
+    "passcode": "የይለፍ ኮድ",
+    "unlock": "ክፈት",
+    "unlocking": "በመክፈት ላይ…",
+    "noLink": "የተላከልዎትን የግል ማስፈንጠሪያ ይክፈቱ። ከጠፋብዎ አዲስ ይጠይቁ።",
+    "signOut": "ውጣ",
+    "errors": {
+      "invalid": "የይለፍ ኮዱ ወይም ማስፈንጠሪያው ትክክል አይደለም።",
+      "locked": "ብዙ የተሳሳቱ ሙከራዎች ተደርገዋል። ገጹ ለተወሰነ ጊዜ ተቆልፏል፤ ቆይተው ይሞክሩ።",
+      "rateLimited": "ብዙ ሙከራዎች ተደርገዋል። ከአንድ ደቂቃ በኋላ እንደገና ይሞክሩ።",
+      "generic": "ችግር ተፈጥሯል። ግንኙነትዎን አረጋግጠው እንደገና ይሞክሩ።"
+    },
+    "stats": {
+      "responses": "ምላሾች",
+      "coming": "የሚመጡ እንግዶች",
+      "declined": "የማይመጡ"
+    },
+    "wishesHeading": "መልካም ምኞቶች",
+    "noWishes": "እስካሁን ምንም መልዕክት የለም። ከምላሽ ቅጹ የሚመጡ መልዕክቶች እዚህ ይታያሉ።",
+    "hide": "ደብቅ",
+    "unhide": "መልሰህ አሳይ",
+    "hiddenHeading": "የተደበቁ መልዕክቶች ({count})",
+    "guestsHeading": "እንግዶች",
+    "noGuests": "እስካሁን ምላሽ የለም።",
+    "coming": "ይመጣሉ",
+    "notComing": "አይመጡም",
+    "guestCount": "እንግዶች",
+    "downloadCard": "ካርዱን አውርድ",
+    "sendWhatsApp": "በዋትስአፕ ላክ",
+    "copyCardLink": "የካርዱን ማስፈንጠሪያ ቅዳ",
+    "copied": "ተቀድቷል",
+    "copyFailed": "ማስፈንጠሪያውን መቅዳት አልተቻለም።",
+    "cardShareText": "ለ{couple} ሠርግ የተዘጋጀ የግብዣ ካርድዎ፦ {url}"
+  },
   "memories": {
     "heading": "ፎቶዎችዎን ያጋሩን",
     "body": "በሠርጉ ላይ ፎቶ አንስተዋል? በቴሌግራም ይላኩልን።",
@@ -134,5 +223,76 @@
   "notFound": {
     "title": "ይህ ግብዣ አይገኝም",
     "body": "የተላከልዎትን ማስፈንጠሪያ ያረጋግጡ ወይም ሙሽሮቹን አዲስ ማስፈንጠሪያ ይጠይቁ።"
+  },
+  "motion": {
+    "pause": "እንቅስቃሴን አቁም",
+    "play": "እንቅስቃሴን አስጀምር"
+  },
+  "layouts": {
+    "reel": {
+      "presents": "ሁለት ቤተሰቦች ያቀርባሉ",
+      "starring": "ዋና ተዋንያን",
+      "scenes": "ትዕይንቶች",
+      "locations": "ቦታዎች",
+      "stills": "ምስሎች",
+      "ending": "እናም ይጀምራል",
+      "date": "ቀን",
+      "time": "ሰዓት",
+      "venue": "ቦታ"
+    },
+    "noir": {
+      "accountNumber": "የሂሳብ ቁጥር",
+      "morePhotos": "ተጨማሪ {count} ፎቶዎችን ይመልከቱ"
+    },
+    "arches": {
+      "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ"
+    },
+    "stories": {
+      "open": "ግብዣውን ይክፈቱ",
+      "previous": "ቀዳሚ ገጽ",
+      "next": "ቀጣይ ገጽ",
+      "thanks": "እናመሰግናለን",
+      "restart": "ወደ መጀመሪያው ይመለሱ",
+      "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ"
+    },
+    "kaba": {
+      "mels": "የቤተሰብ ወግ"
+    },
+    "flatlay": {
+      "thanks": "እናመሰግናለን",
+      "thanksNote": "ይህን ቀን ከእናንተ ጋር በማሳለፋችን እጅግ ደስተኞች ነን።",
+      "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ"
+    },
+    "brana": {
+      "date": "ቀን",
+      "time": "ሰዓት",
+      "place": "ቦታ",
+      "event": "ዝግጅት",
+      "number": "ተራ ቁጥር",
+      "allPhotos": "ሁሉንም {count} ፎቶዎች ይመልከቱ",
+      "chapter": "ምዕራፍ",
+      "colophon": "ይህ መጽሐፍ እዚህ ላይ ተፈጸመ፤ በውስጡ የተጻፈው ፍቅር ግን ፍጻሜ አይኑረው።",
+      "writtenIn": "በ<year></year> ዓ.ም. ተጻፈ።"
+    },
+    "slate": {
+      "confirm": "መገኘትዎን ያረጋግጡ",
+      "seeDay": "መርሐ ግብሩን ይመልከቱ",
+      "scroll": "ወደ ታች",
+      "kicker": {
+        "invitation": "ተጋብዘዋል",
+        "schedule": "ሰዓት በሰዓት",
+        "venues": "እንዴት እንደሚደርሱ",
+        "gallery": "የምንወዳቸው ፎቶዎች",
+        "story": "እንዴት ተጀመረ",
+        "rsvp": "እንደሚመጡ ተስፋ እናደርጋለን",
+        "gifts": "በምስጋና",
+        "thanks": "እናመሰግናለን"
+      },
+      "footerNav": "በዚህ ገጽ ላይ",
+      "backToTop": "ወደ ላይ ይመለሱ",
+      "signature": "በፍቅር፣ {one} እና {two}",
+      "when": "መቼ",
+      "where": "የት"
+    }
   }
 }

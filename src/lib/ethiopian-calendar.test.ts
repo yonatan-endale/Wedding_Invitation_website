@@ -5,6 +5,8 @@ import {
   ethiopianToGregorian,
   formatEthiopianDate,
   formatEthiopianTime,
+  gregorianMonth,
+  gregorianMonthLength,
   gregorianToEthiopian,
 } from "./ethiopian-calendar";
 
@@ -107,5 +109,20 @@ describe("ethiopianMonth", () => {
 
   it("stops Pagume after its last day", () => {
     expect(ethiopianMonth(2016, 13)).toHaveLength(5);
+  });
+});
+
+describe("gregorianMonth", () => {
+  it("knows month lengths, including leap Februaries", () => {
+    expect(gregorianMonthLength(2026, 8)).toBe(31);
+    expect(gregorianMonthLength(2026, 2)).toBe(28);
+    expect(gregorianMonthLength(2028, 2)).toBe(29);
+  });
+
+  it("gives each day its weekday from Sunday and its Ethiopian date", () => {
+    const days = gregorianMonth(2026, 8);
+    expect(days).toHaveLength(31);
+    expect(days[0]).toEqual({ day: 1, weekday: 6, ethiopian: { year: 2018, month: 11, day: 25 } });
+    expect(days[28]).toEqual({ day: 29, weekday: 6, ethiopian: { year: 2018, month: 12, day: 23 } });
   });
 });

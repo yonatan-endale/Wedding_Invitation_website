@@ -31,7 +31,7 @@ export default async function NewCouplePage({ searchParams }: Props) {
           {ENABLED_EVENT_TYPES.map((type) => (
             <Link
               key={type}
-              href={`/admin/couples/new?type=${type}`}
+              href={`/admin/sites/new?type=${type}`}
               aria-current={type === eventType ? "page" : undefined}
               className={cn(
                 "rounded-full border px-4 py-1.5 text-sm",

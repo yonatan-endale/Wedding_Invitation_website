@@ -6,8 +6,8 @@ import { fontVariables } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Wedding invitations", template: "%s" },
-  description: "Personal wedding invitation sites with RSVP, venues, music and gifts.",
+  title: { default: "Invitations for every celebration", template: "%s" },
+  description: "Personal invitation sites for weddings, graduations and other celebrations, with RSVP, venues, music and gifts.",
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -56,6 +56,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
         names={names}
         dateLine={`${formatWeddingDate(iso, couple.timezone, "en")} at ${formatStandardTime(iso, couple.timezone)}`}
         status={couple.status}
+        eventType={couple.eventType}
         shareUrl={links.share}
         previewUrl={links.preview}
       />
@@ -130,6 +131,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
                   coupleNames={names}
                   status={accessSummary}
                   enabled={couple.couplePageEnabled}
+                  eventType={couple.eventType}
                 />
                 <RsvpList
                   coupleId={couple.id}
@@ -137,6 +139,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
                   timezone={couple.timezone}
                   siteBase={links.share}
                   coupleNames={names}
+                  eventType={couple.eventType}
                   cardsEnabled={couple.guestCardsEnabled}
                 />
               </div>

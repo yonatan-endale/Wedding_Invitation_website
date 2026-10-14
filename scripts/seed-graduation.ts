@@ -26,7 +26,7 @@ async function main() {
   const pool = new Pool({ connectionString: pinSslMode(connectionString) });
   try {
     const { id } = await importCouple(drizzle(pool, { schema }), parsed.data, { replace: true });
-    console.log(`Graduation ready: /s/${parsed.data.couple.slug} (admin /admin/couples/${id})`);
+    console.log(`Graduation ready: /s/${parsed.data.couple.slug} (admin /admin/sites/${id})`);
   } finally {
     await pool.end();
   }

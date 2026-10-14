@@ -5,7 +5,7 @@ import type { CoupleImport } from "@/lib/validation/couple-import";
 
 export class SlugTakenError extends Error {
   constructor(readonly slug: string) {
-    super(`A couple already uses the link /s/${slug}.`);
+    super(`A site already uses the link /s/${slug}.`);
     this.name = "SlugTakenError";
   }
 }

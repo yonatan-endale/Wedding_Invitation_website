@@ -613,7 +613,7 @@ export function CoupleDetailsForm({ couple, eventType, timeZones, uploadsEnabled
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Faith ornament</legend>
           <p className="-mt-1 text-sm text-muted-foreground">
-            A small gold symbol above the names on the invitation. Leave it on None unless the couple asks for one.
+            A small gold symbol above the names on the invitation. Leave it on None unless {EVENT_TYPE_META[eventType].hosts} asks for one.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             {ORNAMENTS.map((ornament) => (

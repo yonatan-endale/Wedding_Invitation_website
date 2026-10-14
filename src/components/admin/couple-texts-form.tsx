@@ -7,6 +7,7 @@ import type { AdminCouple } from "@/db/queries/admin";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { Field, FormSection, LocalizedField, SubmitButton } from "./fields";
 import { useAdminForm } from "./use-action-feedback";
+import { EVENT_TYPE_META } from "@/lib/event-types";
 
 export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
   const { pending, onSubmit, errors } = useAdminForm(updateCoupleTexts.bind(null, couple.id));
@@ -67,9 +68,10 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
         </label>
         <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
           <span>
-            <span className="block text-sm font-medium">Couple&apos;s private page</span>
+            <span className="block text-sm font-medium">Private page</span>
             <span className="block text-sm text-muted-foreground">
-              Lets the couple read RSVPs and wishes with a link and passcode, made in the RSVPs tab. Off by default.
+              Lets {EVENT_TYPE_META[couple.eventType].hosts} read RSVPs and wishes with a link and passcode, made in the RSVPs tab. Off by
+              default.
             </span>
           </span>
           <Switch name="couplePageEnabled" defaultChecked={couple.couplePageEnabled} value="on" />

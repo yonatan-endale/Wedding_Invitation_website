@@ -22,6 +22,11 @@ const EXAMPLE = `{
   "gifts": [{ "kind": "bank", "provider": "CBE", "accountName": "Hanna Tesfaye", "accountNumber": "1000123456789" }]
 }`;
 
+const EXAMPLES = [
+  { href: "/examples/couple.json", label: "Download a full wedding example" },
+  { href: "/examples/graduation.json", label: "Download a graduation example" },
+];
+
 export function CoupleImportForm() {
   const { pending, onSubmit, errors } = useAdminForm(importCoupleFromJson);
   const problems = errors.file ? errors.file.split("\n") : [];
@@ -30,9 +35,9 @@ export function CoupleImportForm() {
     <form onSubmit={onSubmit} className="grid gap-8" noValidate>
       <FormSection
         title="File"
-        description="One JSON file with the couple, venues, schedule, photos and gift accounts. Every field the admin tabs have is supported."
+        description="One JSON file with the site, the people, venues, schedule, photos and gift accounts. Every field the admin tabs have is supported."
       >
-        <Field label="Couple file" htmlFor="file" hint="A .json file up to 1 MB.">
+        <Field label="Site file" htmlFor="file" hint="A .json file up to 1 MB.">
           <Input
             id="file"
             name="file"
@@ -60,31 +65,36 @@ export function CoupleImportForm() {
         <label className="flex items-start gap-3 rounded-lg border p-4">
           <Switch name="replace" value="on" className="mt-0.5" />
           <span className="grid gap-1">
-            <span className="text-sm font-medium">Replace the existing couple with this link</span>
+            <span className="text-sm font-medium">Replace the existing site with this link</span>
             <span className="text-sm text-muted-foreground">
-              If a couple already uses the same link, delete it first. That removes its photos, schedule, gifts and every RSVP.
+              If a site already uses the same link, delete it first. That removes its photos, schedule, gifts and every RSVP.
             </span>
           </span>
         </label>
         <FieldError message={errors.replace} />
       </FormSection>
 
-      <FormSection title="Format" description="Times without an offset are read in the couple's time zone. Events point at venues by their position in the list, starting at 0.">
+      <FormSection title="Format" description="Times without an offset are read in the site's time zone. Events point at venues by their position in the list, starting at 0. Leave out eventType for a wedding; other types list their people under honorees.">
         <details className="rounded-lg border">
           <summary className="cursor-pointer px-4 py-3 text-sm font-medium">What the file looks like</summary>
           <pre className="overflow-x-auto border-t px-4 py-3 font-mono text-xs leading-relaxed">{EXAMPLE}</pre>
         </details>
-        <a
-          href="/examples/couple.json"
-          download
-          className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-        >
-          <Download className="size-4" aria-hidden /> Download a full example
-        </a>
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
+          {EXAMPLES.map((example) => (
+            <a
+              key={example.href}
+              href={example.href}
+              download
+              className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              <Download className="size-4" aria-hidden /> {example.label}
+            </a>
+          ))}
+        </div>
       </FormSection>
 
       <div>
-        <SubmitButton pending={pending}>Import couple</SubmitButton>
+        <SubmitButton pending={pending}>Import site</SubmitButton>
       </div>
     </form>
   );

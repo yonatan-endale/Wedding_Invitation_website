@@ -104,13 +104,13 @@ export async function createCouple(_previous: ActionState, formData: FormData): 
     });
   } catch (error) {
     if (isUniqueViolation(error)) {
-      return failure(CHECK_FIELDS, { slug: "Another couple already uses this link. Try adding the year." });
+      return failure(CHECK_FIELDS, { slug: "Another site already uses this link. Try adding the year." });
     }
     throw error;
   }
 
   revalidatePath("/admin");
-  redirect(`/admin/couples/${id}?tab=texts`);
+  redirect(`/admin/sites/${id}?tab=texts`);
 }
 
 const MAX_IMPORT_BYTES = 1_000_000;
@@ -145,14 +145,14 @@ export async function importCoupleFromJson(_previous: ActionState, formData: For
   } catch (error) {
     if (error instanceof SlugTakenError) {
       return failure(CHECK_FIELDS, {
-        file: `A couple already uses /s/${error.slug}. Turn on "Replace the existing couple" to overwrite it, RSVPs included.`,
+        file: `A site already uses /s/${error.slug}. Turn on "Replace the existing site" to overwrite it, RSVPs included.`,
       });
     }
     throw error;
   }
 
   await refreshCouple(id);
-  redirect(`/admin/couples/${id}`);
+  redirect(`/admin/sites/${id}`);
 }
 
 export async function updateCoupleDetails(coupleId: string, _previous: ActionState, formData: FormData): Promise<ActionState> {
@@ -168,7 +168,7 @@ export async function updateCoupleDetails(coupleId: string, _previous: ActionSta
     await getDb().update(couples).set(parsed.data).where(eq(couples.id, coupleId));
   } catch (error) {
     if (isUniqueViolation(error)) {
-      return failure(CHECK_FIELDS, { slug: "Another couple already uses this link. Try adding the year." });
+      return failure(CHECK_FIELDS, { slug: "Another site already uses this link. Try adding the year." });
     }
     throw error;
   }
@@ -510,7 +510,7 @@ export async function createCoupleAccess(coupleId: string): Promise<CoupleAccess
     .from(couples)
     .where(eq(couples.id, coupleId));
   if (!couple) return { ok: false, message: NOT_FOUND };
-  if (!couple.enabled) return { ok: false, message: "Turn on the couple's private page in the Invitation text tab first." };
+  if (!couple.enabled) return { ok: false, message: "Turn on the private page in the Invitation text tab first." };
   const { slug } = couple;
   const { token, passcode } = await createAccess(coupleId);
   const { share } = await siteLinks(slug);
@@ -531,5 +531,5 @@ export async function unlockCoupleAccess(coupleId: string): Promise<ActionState>
   if (!isUuid(coupleId)) return failure(NOT_FOUND);
   await unlockAccess(coupleId);
   revalidatePath("/admin", "layout");
-  return success("Unlocked. The couple can try their passcode again.");
+  return success("Unlocked. They can try their passcode again.");
 }

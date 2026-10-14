@@ -11,6 +11,10 @@ export const DEFAULT_EVENT_TYPE: EventType = "wedding";
 
 export type EventTypeMeta = {
   label: string;
+  /** The event in a sentence, for admin share texts: "You're invited to the graduation of …". */
+  noun: string;
+  /** Who runs the site and its private page, in admin wording: "the couple" or "the family". */
+  hosts: string;
   /**
    * "couple" sites name two partners on the couple row; "honorees" sites list
    * one or more people in the honorees table instead.
@@ -34,6 +38,8 @@ export type EventTypeMeta = {
 export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
   wedding: {
     label: "Wedding",
+    noun: "wedding",
+    hosts: "the couple",
     people: "couple",
     honorees: { min: 0, max: 0 },
     headlineLabel: null,
@@ -42,6 +48,8 @@ export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
   },
   graduation: {
     label: "Graduation",
+    noun: "graduation",
+    hosts: "the family",
     people: "honorees",
     honorees: { min: 1, max: 6 },
     headlineLabel: "Degree",
@@ -50,6 +58,8 @@ export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
   },
   birthday: {
     label: "Birthday",
+    noun: "birthday",
+    hosts: "the family",
     people: "honorees",
     honorees: { min: 1, max: 3 },
     headlineLabel: "Age or milestone",
@@ -58,6 +68,8 @@ export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
   },
   baptism: {
     label: "Baptism (Kristina)",
+    noun: "baptism",
+    hosts: "the family",
     people: "honorees",
     honorees: { min: 1, max: 3 },
     headlineLabel: "Christening name",
@@ -66,6 +78,8 @@ export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
   },
   engagement: {
     label: "Engagement (Telosh, Kelebet)",
+    noun: "engagement",
+    hosts: "the couple",
     people: "couple",
     honorees: { min: 0, max: 0 },
     headlineLabel: null,

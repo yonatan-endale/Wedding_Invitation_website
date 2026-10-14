@@ -20,7 +20,7 @@ import { CALENDAR_DATE, isSafeUrl, isValidTimeZone } from "./admin";
 
 /*
  * Validates a whole couple in one JSON document, the file uploaded at
- * /admin/couples/import. The rules mirror the per-form parsers in ./admin.ts;
+ * /admin/sites/import. The rules mirror the per-form parsers in ./admin.ts;
  * keep them in step. A file without `eventType` is a wedding, as every file
  * was before other event types existed.
  */

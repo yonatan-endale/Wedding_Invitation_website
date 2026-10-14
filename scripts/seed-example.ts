@@ -1,7 +1,7 @@
 /**
- * Creates (or recreates) a demo graduation from public/examples/graduation.json,
- * through the same checks as the admin's JSON import.
- * Run with: pnpm db:seed:graduation [slug] [--publish]
+ * Creates (or recreates) a demo site from one of the files in public/examples
+ * (graduation, birthday), through the same checks as the admin's JSON import.
+ * Run with: pnpm db:seed:example <graduation|birthday> [slug] [--publish]
  */
 import { readFileSync } from "node:fs";
 import { drizzle } from "drizzle-orm/node-postgres";
@@ -13,11 +13,12 @@ import { parseCoupleImport } from "../src/lib/validation/couple-import";
 
 async function main() {
   const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) throw new Error("DATABASE_URL is not set. Run with: pnpm db:seed:graduation");
-  const [slug] = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
+  if (!connectionString) throw new Error("DATABASE_URL is not set. Run with: pnpm db:seed:example <example>");
+  const [example, slug] = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
+  if (!example || !/^[a-z]+$/.test(example)) throw new Error("Name an example in public/examples, such as graduation or birthday.");
   const publish = process.argv.includes("--publish");
 
-  const raw = JSON.parse(readFileSync(new URL("../public/examples/graduation.json", import.meta.url), "utf8"));
+  const raw = JSON.parse(readFileSync(new URL(`../public/examples/${example}.json`, import.meta.url), "utf8"));
   if (slug) raw.couple.slug = slug;
   if (publish) raw.couple.status = "published";
   const parsed = parseCoupleImport(raw);
@@ -26,7 +27,7 @@ async function main() {
   const pool = new Pool({ connectionString: pinSslMode(connectionString) });
   try {
     const { id } = await importCouple(drizzle(pool, { schema }), parsed.data, { replace: true });
-    console.log(`Graduation ready: /s/${parsed.data.couple.slug} (admin /admin/sites/${id})`);
+    console.log(`Ready: /s/${parsed.data.couple.slug} (admin /admin/sites/${id})`);
   } finally {
     await pool.end();
   }

@@ -301,6 +301,14 @@
     "tassel": {
       "graduates": "{count, plural, one {Graduate of {year}} other {Graduates of {year}}}",
       "gallery": "Along the way"
+    },
+    "confetti": {
+      "party": "Let's celebrate",
+      "gallery": "Through the years"
+    },
+    "milestone": {
+      "years": "years",
+      "gallery": "Through the years"
     }
   },
   "honorees": {
@@ -399,6 +407,46 @@
       },
       "couplePortal": {
         "cardShareText": "Your invitation card for the graduation of {couple}: {url}"
+      }
+    },
+    "birthday": {
+      "intro": {
+        "invited": "You are invited to the birthday of",
+        "letter": "invite you to celebrate their birthday"
+      },
+      "nav": {
+        "couple": "Birthday"
+      },
+      "countdown": {
+        "heading": "The birthday",
+        "label": "Time until the birthday",
+        "since": "Since the birthday",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the birthday"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} in the Ethiopian calendar, with the birthday marked",
+        "captionGregorian": "{month} {year}, with the birthday marked",
+        "weddingDay": "The birthday"
+      },
+      "calendar": {
+        "add": "Add the birthday to your calendar",
+        "eventTitle": "Birthday of {one}"
+      },
+      "invitation": {
+        "eyebrow": "Birthday invitation",
+        "defaultText": "request the pleasure of your company as they celebrate their birthday."
+      },
+      "rsvp": {
+        "message": "Birthday wishes (optional)",
+        "errors": {
+          "closed": "RSVPs for this birthday are closed."
+        }
+      },
+      "card": {
+        "shareText": "My invitation to the birthday of {couple}"
+      },
+      "couplePortal": {
+        "cardShareText": "Your invitation card for the birthday of {couple}: {url}"
       }
     }
   }

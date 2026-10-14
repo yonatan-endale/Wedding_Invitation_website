@@ -15,7 +15,7 @@
     "db:push": "dotenv -e .env.local -- drizzle-kit push",
     "db:studio": "dotenv -e .env.local -- drizzle-kit studio",
     "db:seed": "dotenv -e .env.local -- tsx scripts/seed.ts",
-    "db:seed:graduation": "dotenv -e .env.local -- tsx scripts/seed-graduation.ts"
+    "db:seed:example": "dotenv -e .env.local -- tsx scripts/seed-example.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.4",

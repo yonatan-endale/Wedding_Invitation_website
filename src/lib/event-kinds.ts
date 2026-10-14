@@ -24,7 +24,7 @@ const WEDDING_KINDS = [
   "other",
 ] as const;
 
-export const EVENT_KINDS = [...WEDDING_KINDS, "commencement", "celebration"] as const;
+export const EVENT_KINDS = [...WEDDING_KINDS, "commencement", "celebration", "cake"] as const;
 
 export type EventKind = (typeof EVENT_KINDS)[number];
 export const DEFAULT_EVENT_KIND: EventKind = "other";
@@ -50,6 +50,7 @@ export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
   buna: { label: "Coffee ceremony", title: { en: "Coffee ceremony", am: "የቡና ሥነ ሥርዓት" } },
   commencement: { label: "Graduation ceremony", title: { en: "Graduation ceremony", am: "የምረቃ ሥነ ሥርዓት" } },
   celebration: { label: "Celebration (lunch, dinner or party)", title: { en: "Celebration", am: "የደስታ ግብዣ" } },
+  cake: { label: "Cake and candles", title: { en: "Cake and candles", am: "ኬክ መቁረስ" } },
   other: { label: "Other", title: null },
 };
 
@@ -60,7 +61,7 @@ export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
 export const EVENT_KINDS_BY_TYPE: Record<EventType, readonly EventKind[]> = {
   wedding: WEDDING_KINDS,
   graduation: ["commencement", "photos", "celebration", "buna", "other"],
-  birthday: ["photos", "buna", "other"],
+  birthday: ["celebration", "cake", "photos", "buna", "other"],
   baptism: ["photos", "buna", "other"],
   engagement: ["telosh", "blessing", "kelekel", "photos", "buna", "other"],
 };
@@ -113,7 +114,8 @@ export type EventIconName =
   | "families"
   | "jebena"
   | "diamond"
-  | "mortarboard";
+  | "mortarboard"
+  | "cake";
 
 const EVENT_ICONS: Record<EventKind, EventIconName> = {
   telosh: "gift",
@@ -129,6 +131,7 @@ const EVENT_ICONS: Record<EventKind, EventIconName> = {
   buna: "jebena",
   commencement: "mortarboard",
   celebration: "mesob",
+  cake: "cake",
   other: "diamond",
 };
 

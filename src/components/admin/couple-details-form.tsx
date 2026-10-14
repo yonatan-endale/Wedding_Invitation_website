@@ -174,6 +174,34 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <path d="M28 52v-6a6 6 0 0 1 12 0v6zM56 52v-6a6 6 0 0 1 12 0v6z" fill={stroke} opacity="0.35" />
     </>
   ),
+  confetti: (
+    <>
+      {[
+        [8, 8],
+        [20, 46],
+        [84, 10],
+        [74, 50],
+        [12, 30],
+        [88, 34],
+        [40, 6],
+        [60, 54],
+      ].map(([x, y], index) => (
+        <circle key={index} cx={x} cy={y} r="2.2" fill={stroke} opacity={0.35 + (index % 3) * 0.2} />
+      ))}
+      <rect x="26" y="20" width="44" height="8" fill={stroke} opacity="0.8" />
+      <rect x="34" y="33" width="28" height="5" rx="2.5" fill={stroke} opacity="0.5" />
+    </>
+  ),
+  milestone: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill={stroke} opacity="0.75" />
+      <path d="M40 8h16M40 40h16" stroke="white" opacity="0.7" />
+      <text x="48" y="34" textAnchor="middle" fontSize="22" fill="white" opacity="0.9" fontFamily="serif">
+        60
+      </text>
+      <rect x="32" y="46" width="32" height="3" fill="white" opacity="0.85" />
+    </>
+  ),
   arches: (
     <>
       <path d="M34 34V16a14 14 0 0 1 28 0v18z" fill={stroke} opacity="0.35" />

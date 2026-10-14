@@ -64,7 +64,7 @@ export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
     honorees: { min: 1, max: 3 },
     headlineLabel: "Age or milestone",
     subheadlineLabel: null,
-    enabled: false,
+    enabled: true,
   },
   baptism: {
     label: "Baptism (Kristina)",

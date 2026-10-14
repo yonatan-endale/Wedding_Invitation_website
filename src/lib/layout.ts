@@ -217,6 +217,36 @@ export const LAYOUTS = {
     defaultOpening: "adey",
     recommendedThemes: ["academy", "laurel", "emerald", "burgundy"],
   },
+  confetti: {
+    name: "confetti",
+    eventTypes: ["birthday"],
+    label: "Confetti",
+    description:
+      "Bright and warm: the name set huge in a page of confetti in your three colours, which drifts into place as the page opens, with their line on a ribbon.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: true,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "adey",
+    recommendedThemes: ["adey", "meskel", "blush", "emerald"],
+  },
+  milestone: {
+    name: "milestone",
+    eventTypes: ["birthday"],
+    label: "Milestone",
+    description:
+      "Elegant, for the big numbers: a dark cover with the age in large gold foil between fine rules and the name under it. Without an age in their line it shows the name alone.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: true,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "envelope",
+    recommendedThemes: ["burgundy", "emerald", "ivory", "academy"],
+  },
 } as const satisfies Record<string, LayoutMeta>;
 
 export type LayoutName = keyof typeof LAYOUTS;

@@ -301,6 +301,14 @@
     "tassel": {
       "graduates": "{count, plural, one {የ{year} ዓ.ም. ተመራቂ} other {የ{year} ዓ.ም. ተመራቂዎች}}",
       "gallery": "የጉዞው ትዝታዎች"
+    },
+    "confetti": {
+      "party": "እናክብር",
+      "gallery": "በዓመታት ውስጥ"
+    },
+    "milestone": {
+      "years": "ዓመት",
+      "gallery": "በዓመታት ውስጥ"
     }
   },
   "honorees": {
@@ -399,6 +407,46 @@
       },
       "couplePortal": {
         "cardShareText": "ለ{couple} ምረቃ የተዘጋጀ የግብዣ ካርድዎ፦ {url}"
+      }
+    },
+    "birthday": {
+      "intro": {
+        "invited": "በልደት በዓላችን ላይ እንዲገኙ ተጋብዘዋል",
+        "letter": "በልደት በዓላቸው ላይ እንዲገኙ ይጋብዙዎታል"
+      },
+      "nav": {
+        "couple": "የልደቱ ባለቤት"
+      },
+      "countdown": {
+        "heading": "የልደት ቀን",
+        "label": "ለልደቱ ቀን የቀረው ጊዜ",
+        "since": "ከልደቱ ቀን ጀምሮ",
+        "summarySince": "ከልደቱ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} ዓ.ም.፣ የልደቱ ቀን ምልክት ተደርጎበታል",
+        "captionGregorian": "{month} {year}፣ የልደቱ ቀን ምልክት ተደርጎበታል",
+        "weddingDay": "የልደት ቀን"
+      },
+      "calendar": {
+        "add": "የልደት በዓሉን በቀን መቁጠሪያዎ ያስቀምጡ",
+        "eventTitle": "የ{one} የልደት በዓል"
+      },
+      "invitation": {
+        "eyebrow": "የልደት በዓል ግብዣ",
+        "defaultText": "በልደት በዓላቸው ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል።"
+      },
+      "rsvp": {
+        "message": "የልደት መልካም ምኞት (አማራጭ)",
+        "errors": {
+          "closed": "የዚህ የልደት በዓል የምላሽ መስጫ ተዘግቷል።"
+        }
+      },
+      "card": {
+        "shareText": "የ{couple} የልደት በዓል ግብዣዬ"
+      },
+      "couplePortal": {
+        "cardShareText": "ለ{couple} የልደት በዓል የተዘጋጀ የግብዣ ካርድዎ፦ {url}"
       }
     }
   }

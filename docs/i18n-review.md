@@ -496,3 +496,34 @@ Graduation sites lay `events.graduation` over the shared wording, and every hono
 | `src/lib/event-kinds.ts` | commencement title | Graduation ceremony | የምረቃ ሥነ ሥርዓት | |
 | `src/lib/event-kinds.ts` | celebration title | Celebration | የደስታ ግብዣ | |
 | `public/examples/graduation.json` | demo text | (the demo site) | (see the file) | |
+
+## Phase D: birthdays
+
+Birthday sites lay `events.birthday` over the shared wording (and `events.honorees` under it). The layouts avoid lines that would need a gendered verb, such as "turns 60"; the admin writes that line for each person in their own words.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | layouts.confetti.party | Let's celebrate | እናክብር | |
+| `messages/am.json` | layouts.confetti.gallery | Through the years | በዓመታት ውስጥ | |
+| `messages/am.json` | layouts.milestone.years | years | ዓመት | |
+| `messages/am.json` | layouts.milestone.gallery | Through the years | በዓመታት ውስጥ | |
+| `messages/am.json` | events.birthday.intro.invited | You are invited to the birthday of | በልደት በዓላችን ላይ እንዲገኙ ተጋብዘዋል | |
+| `messages/am.json` | events.birthday.intro.letter | invite you to celebrate their birthday | በልደት በዓላቸው ላይ እንዲገኙ ይጋብዙዎታል | |
+| `messages/am.json` | events.birthday.nav.couple | Birthday | የልደቱ ባለቤት | |
+| `messages/am.json` | events.birthday.countdown.heading | The birthday | የልደት ቀን | |
+| `messages/am.json` | events.birthday.countdown.label | Time until the birthday | ለልደቱ ቀን የቀረው ጊዜ | |
+| `messages/am.json` | events.birthday.countdown.since | Since the birthday | ከልደቱ ቀን ጀምሮ | |
+| `messages/am.json` | events.birthday.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the birthday | ከልደቱ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.birthday.saveTheDate.captionEthiopian | {month} {year} in the Ethiopian calendar, with the birthday marked | {month} {year} ዓ.ም.፣ የልደቱ ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.birthday.saveTheDate.captionGregorian | {month} {year}, with the birthday marked | {month} {year}፣ የልደቱ ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.birthday.saveTheDate.weddingDay | The birthday | የልደት ቀን | |
+| `messages/am.json` | events.birthday.calendar.add | Add the birthday to your calendar | የልደት በዓሉን በቀን መቁጠሪያዎ ያስቀምጡ | |
+| `messages/am.json` | events.birthday.calendar.eventTitle | Birthday of {one} | የ{one} የልደት በዓል | |
+| `messages/am.json` | events.birthday.invitation.eyebrow | Birthday invitation | የልደት በዓል ግብዣ | |
+| `messages/am.json` | events.birthday.invitation.defaultText | request the pleasure of your company as they celebrate their birthday. | በልደት በዓላቸው ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል። | |
+| `messages/am.json` | events.birthday.rsvp.message | Birthday wishes (optional) | የልደት መልካም ምኞት (አማራጭ) | |
+| `messages/am.json` | events.birthday.rsvp.errors.closed | RSVPs for this birthday are closed. | የዚህ የልደት በዓል የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.birthday.card.shareText | My invitation to the birthday of {couple} | የ{couple} የልደት በዓል ግብዣዬ | |
+| `messages/am.json` | events.birthday.couplePortal.cardShareText | Your invitation card for the birthday of {couple}: {url} | ለ{couple} የልደት በዓል የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
+| `src/lib/event-kinds.ts` | cake title | Cake and candles | ኬክ መቁረስ | |
+| `public/examples/birthday.json` | demo text | (the demo site) | (see the file) | |

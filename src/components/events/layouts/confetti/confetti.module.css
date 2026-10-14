@@ -1,0 +1,27 @@
+/* The confetti drifts down into place once as the page opens, each piece on its own delay. */
+.piece {
+  animation: settle 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -48px, 0) rotate(-40deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piece {
+    animation: none;
+  }
+}
+
+:global(html[data-motion-off]) .piece,
+:global(.wedding[data-motion="subtle"]) .piece {
+  animation: none;
+}

@@ -9,6 +9,7 @@ import { useIntro } from "../intro/intro-context";
 import { WaxSeal } from "../ornaments/wax-seal";
 import { OpeningShell } from "./shell";
 import type { OpeningProps } from "./types";
+import { joinNames } from "@/lib/names";
 
 const DOOR_SECONDS = 1.4;
 const DOOR_DELAY = 0.2;
@@ -112,7 +113,7 @@ export function SealOpening({ names, initials, separator, dateLine, guestName }:
         {/* Near the bottom; on short screens it follows the seal instead of covering it. */}
         <div className="absolute inset-x-0 bottom-10 flex flex-col items-center gap-1 sm:bottom-14 [@media(max-height:640px)]:top-[calc(50%+6.5rem)] [@media(max-height:640px)]:bottom-auto">
           <h2 id="intro-names" className={cn(chip, "font-display text-[clamp(1.75rem,6vw,2.5rem)] leading-tight")}>
-            {names.one} &amp; {names.two}
+            {joinNames([names.one, names.two])}
           </h2>
           <p className={cn(chip, "text-ink-soft [@media(max-height:480px)]:hidden")}>{dateLine}</p>
         </div>

@@ -1,21 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { parseCoupleImport } from "./couple-import";
 
-// Graduations open with their first layout; until then this opens the type here
-// and draws Classic for it, so the honoree rules can be checked on their own.
-vi.mock("@/lib/event-types", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@/lib/event-types")>();
-  const meta = { ...actual.EVENT_TYPE_META, graduation: { ...actual.EVENT_TYPE_META.graduation, enabled: true } };
-  return { ...actual, EVENT_TYPE_META: meta };
-});
-vi.mock("@/lib/layout", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@/lib/layout")>();
-  const classic = { ...actual.LAYOUTS.classic, eventTypes: ["wedding", "graduation"] };
-  return { ...actual, LAYOUTS: { ...actual.LAYOUTS, classic } };
-});
-
 const graduation = {
-  couple: { slug: "ruth-mahlet", eventType: "graduation", weddingAt: "2026-10-11T13:00", layout: "classic" },
+  couple: { slug: "ruth-mahlet", eventType: "graduation", weddingAt: "2026-10-11T13:00", layout: "commencement" },
   honorees: [
     { name: { en: "Ruth", am: "ሩት" }, father: { en: "Solomon" }, headline: { en: "Doctor of Medicine" } },
     { name: { en: "Mahlet" }, headline: { en: "BSc Computer Science" }, subheadline: { en: "Addis Ababa University" } },

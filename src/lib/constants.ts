@@ -34,4 +34,7 @@ export const CLERK_SESSION_COOKIE = /^(__session|__client_uat|__clerk_db_jwt)/;
 /** Set by middleware when a request arrived on a couple's subdomain. */
 export const TENANT_HEADER = "x-wedding-tenant";
 
+/** Set by middleware on every /s/<slug> request, so the messages can follow the site's event type. */
+export const SITE_HEADER = "x-site-slug";
+
 export const siteCacheTag = (slug: string) => `site:${slug}`;

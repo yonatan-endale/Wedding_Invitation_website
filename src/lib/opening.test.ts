@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_OPENING, OPENING_LIST, OPENING_NAMES, getOpening, isOpeningName } from "./opening";
+import { DEFAULT_OPENING, OPENING_LIST, OPENING_NAMES, getOpening, isOpeningName, openingsFor } from "./opening";
 
 describe("getOpening", () => {
   it("returns the named opening", () => {
@@ -27,5 +27,19 @@ describe("isOpeningName", () => {
       expect(opening.label).toBeTruthy();
       expect(opening.description).toBeTruthy();
     }
+  });
+});
+
+describe("openingsFor", () => {
+  it("offers couples every opening", () => {
+    expect(openingsFor("wedding")).toEqual(OPENING_NAMES);
+    expect(openingsFor("engagement")).toEqual(OPENING_NAMES);
+  });
+
+  it("keeps the two-name openings away from honoree sites", () => {
+    expect(openingsFor("graduation")).toEqual(["envelope", "adey"]);
+    expect(getOpening("netela", "graduation")).toBe("envelope");
+    expect(getOpening("adey", "graduation")).toBe("adey");
+    expect(getOpening(null, "birthday")).toBe("envelope");
   });
 });

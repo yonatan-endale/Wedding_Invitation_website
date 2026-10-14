@@ -1,0 +1,149 @@
+{
+  "couple": {
+    "slug": "ruth-mahlet",
+    "status": "draft",
+    "eventType": "graduation",
+    "weddingAt": "2026-11-08T13:00",
+    "timezone": "Africa/Addis_Ababa",
+    "city": {
+      "en": "Addis Ababa",
+      "am": "አዲስ አበባ"
+    },
+    "tagline": {
+      "en": "Two degrees, one family, one long lunch.",
+      "am": "ሁለት ዲግሪ፣ አንድ ቤተሰብ፣ አንድ ማዕድ።"
+    },
+    "invitation": {
+      "en": "Ruth and Mahlet finished their studies this year, and we would love you to celebrate with us over lunch at home.",
+      "am": "ሩትና ማህሌት ዘንድሮ ትምህርታቸውን አጠናቀዋል። በቤታችን በምሳ ደስታችንን አብረውን እንዲያከብሩ እንጋብዝዎታለን።"
+    },
+    "hosts": {
+      "en": "Solomon and Tsion, their parents",
+      "am": "ወላጆቻቸው ሰሎሞን እና ጽዮን"
+    },
+    "dressCode": {
+      "en": "Come as you are",
+      "am": "እንደተመቸዎ ይምጡ"
+    },
+    "heroPhotoUrl": "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=1600",
+    "layout": "commencement",
+    "theme": "academy",
+    "opening": "envelope",
+    "border": "line",
+    "rsvpEnabled": true,
+    "calendarButtons": true
+  },
+  "honorees": [
+    {
+      "name": {
+        "en": "Ruth",
+        "am": "ሩት"
+      },
+      "father": {
+        "en": "Solomon",
+        "am": "ሰሎሞን"
+      },
+      "headline": {
+        "en": "Doctor of Medicine",
+        "am": "የሕክምና ዶክትሬት"
+      },
+      "subheadline": {
+        "en": "Addis Ababa University",
+        "am": "አዲስ አበባ ዩኒቨርሲቲ"
+      },
+      "story": {
+        "en": "Seven years of early mornings, night shifts and the patience of everyone around her.",
+        "am": "ሰባት ዓመታት የማለዳ ጥናት፣ የሌሊት ተረኝነት እና የቤተሰቧ ትዕግሥት።"
+      }
+    },
+    {
+      "name": {
+        "en": "Mahlet",
+        "am": "ማህሌት"
+      },
+      "father": {
+        "en": "Solomon",
+        "am": "ሰሎሞን"
+      },
+      "headline": {
+        "en": "BSc in Computer Science",
+        "am": "በኮምፒውተር ሳይንስ የመጀመሪያ ዲግሪ"
+      },
+      "subheadline": {
+        "en": "Bahir Dar University",
+        "am": "ባሕር ዳር ዩኒቨርሲቲ"
+      }
+    }
+  ],
+  "venues": [
+    {
+      "name": {
+        "en": "Our home",
+        "am": "ቤታችን"
+      },
+      "address": {
+        "en": "Bole, near Edna Mall",
+        "am": "ቦሌ፣ ኤድና ሞል አካባቢ"
+      },
+      "mapsUrl": "https://maps.google.com/?q=Edna+Mall+Addis+Ababa"
+    }
+  ],
+  "events": [
+    {
+      "title": {
+        "en": "Graduation ceremony",
+        "am": "የምረቃ ሥነ ሥርዓት"
+      },
+      "startsAt": "2026-11-08T09:00",
+      "kind": "commencement"
+    },
+    {
+      "title": {
+        "en": "Family lunch",
+        "am": "የቤተሰብ ምሳ"
+      },
+      "startsAt": "2026-11-08T13:00",
+      "venue": 0,
+      "kind": "celebration"
+    },
+    {
+      "title": {
+        "en": "Coffee ceremony",
+        "am": "የቡና ሥነ ሥርዓት"
+      },
+      "startsAt": "2026-11-08T16:00",
+      "venue": 0,
+      "kind": "buna"
+    }
+  ],
+  "photos": [
+    {
+      "url": "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1200",
+      "groupLabel": {
+        "en": "Graduation day",
+        "am": "የምረቃው ቀን"
+      }
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1627556704302-624286467c65?w=1200",
+      "groupLabel": {
+        "en": "Graduation day",
+        "am": "የምረቃው ቀን"
+      }
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=1200",
+      "groupLabel": {
+        "en": "Graduation day",
+        "am": "የምረቃው ቀን"
+      }
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200",
+      "groupLabel": {
+        "en": "The two of us",
+        "am": "ሁለታችን"
+      }
+    }
+  ]
+}

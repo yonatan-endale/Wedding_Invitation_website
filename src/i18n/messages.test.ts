@@ -40,3 +40,23 @@ describe("messages", () => {
     }
   });
 });
+
+describe("event type wording", () => {
+  const en = flatten(load("en"));
+  const overrides = Object.keys(en).filter((key) => key.startsWith("events."));
+
+  it("only replaces messages that exist, so a typo can't hide behind the wedding wording", () => {
+    expect(overrides.length).toBeGreaterThan(0);
+    for (const key of overrides) {
+      const shared = key.split(".").slice(2).join(".");
+      expect(en[shared], key).toBeDefined();
+    }
+  });
+
+  it("asks for no argument the shared message's callers don't pass", () => {
+    for (const key of overrides) {
+      const shared = key.split(".").slice(2).join(".");
+      for (const name of argumentsOf(en[key])) expect(argumentsOf(en[shared] ?? ""), key).toContain(name);
+    }
+  });
+});

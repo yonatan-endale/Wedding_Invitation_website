@@ -46,7 +46,7 @@ export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
     honorees: { min: 1, max: 6 },
     headlineLabel: "Degree",
     subheadlineLabel: "School",
-    enabled: false,
+    enabled: true,
   },
   birthday: {
     label: "Birthday",

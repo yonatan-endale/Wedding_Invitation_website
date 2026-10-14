@@ -5,6 +5,15 @@ import { cn } from "@/lib/utils";
 
 /** Line drawings on a 24-unit square, stroked 1.5 in currentColor by the symbol around them. */
 const DRAWINGS: Record<EventIconName, ReactNode> = {
+  // A mortarboard with its tassel, for a graduation ceremony.
+  mortarboard: (
+    <>
+      <path d="M2.5 9 12 5l9.5 4L12 13Z" />
+      <path d="M6.5 10.9v4.6c0 1.4 2.5 2.75 5.5 2.75s5.5-1.35 5.5-2.75v-4.6" />
+      <path d="M19.5 9.9v5.35" />
+      <path d="M18.75 15.25h1.5l.5 2.75h-2.5Z" />
+    </>
+  ),
   // A wrapped gift with a bow, for the telosh.
   gift: (
     <>

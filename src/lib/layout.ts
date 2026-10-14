@@ -187,6 +187,36 @@ export const LAYOUTS = {
     defaultOpening: "envelope",
     recommendedThemes: ["slate", "ivory", "basalt", "emerald"],
   },
+  commencement: {
+    name: "commencement",
+    eventTypes: ["graduation"],
+    label: "Commencement",
+    description:
+      "Clean and modern on a light page: the class year in huge outline behind the graduates' names, each graduate on a mounted diploma card, and the photos in the groups you name.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: true,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "envelope",
+    recommendedThemes: ["academy", "laurel", "ivory", "slate"],
+  },
+  tassel: {
+    name: "tassel",
+    eventTypes: ["graduation"],
+    label: "Tassel",
+    description:
+      "A deep cover in your first colour with a laurel wreath of initials hung on a gold cord, its tassel swinging as the page opens. Each graduate in an arch, the invitation on a bordered card.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: true,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "adey",
+    recommendedThemes: ["academy", "laurel", "emerald", "burgundy"],
+  },
 } as const satisfies Record<string, LayoutMeta>;
 
 export type LayoutName = keyof typeof LAYOUTS;

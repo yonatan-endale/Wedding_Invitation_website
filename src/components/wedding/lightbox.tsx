@@ -7,7 +7,8 @@ import { useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { WeddingImage } from "./primitives";
 
-export type GalleryPhoto = { id: string; url: string; caption: string };
+/** `group` is the heading a grouped gallery shows the photo under, when it has one. */
+export type GalleryPhoto = { id: string; url: string; caption: string; group?: string };
 
 export const roundButton =
   "flex size-12 items-center justify-center rounded-full border transition-colors disabled:pointer-events-none disabled:opacity-30";

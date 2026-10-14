@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { listCouples } from "@/db/queries/admin";
-import { fullName } from "@/lib/names";
+import { EVENT_TYPE_META } from "@/lib/event-types";
+import { siteTitleNames } from "@/lib/site-names";
 import { getTheme } from "@/lib/theme";
 import { formatWeddingDate } from "@/lib/wedding-format";
 
@@ -77,12 +78,14 @@ export default async function AdminHomePage() {
                     <Badge variant={couple.status === "published" ? "default" : "secondary"} className="absolute top-3 left-3">
                       {couple.status === "published" ? "Published" : "Draft"}
                     </Badge>
+                    {couple.eventType !== "wedding" ? (
+                      <Badge variant="secondary" className="absolute top-3 right-3">
+                        {EVENT_TYPE_META[couple.eventType].label}
+                      </Badge>
+                    ) : null}
                   </div>
                   <div className="p-4">
-                    <p className="font-medium">
-                      {fullName(couple.partnerOne, couple.partnerOneFather, "en")} &amp;{" "}
-                      {fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}
-                    </p>
+                    <p className="font-medium">{siteTitleNames({ couple, honorees: couple.honorees }, "en") || couple.slug}</p>
                     <p className="text-sm text-muted-foreground">
                       {formatWeddingDate(couple.weddingAt.toISOString(), couple.timezone, "en")}
                       {past ? " (past)" : ""}

@@ -293,6 +293,113 @@
       "signature": "በፍቅር፣ {one} እና {two}",
       "when": "መቼ",
       "where": "የት"
+    },
+    "commencement": {
+      "classOf": "የ{year} ዓ.ም. ምሩቃን",
+      "gallery": "የጉዞው ትዝታዎች"
+    },
+    "tassel": {
+      "graduates": "{count, plural, one {የ{year} ዓ.ም. ተመራቂ} other {የ{year} ዓ.ም. ተመራቂዎች}}",
+      "gallery": "የጉዞው ትዝታዎች"
+    }
+  },
+  "honorees": {
+    "heading": "{count, plural, one {የምናከብረው} other {የምናከብራቸው}}"
+  },
+  "events": {
+    "honorees": {
+      "intro": {
+        "sealLabel": "ከ{one} የመጣውን ግብዣ ይክፈቱ",
+        "letter": "ደስታቸውን አብረዋቸው እንዲያከብሩ ይጋብዙዎታል"
+      },
+      "nav": {
+        "couple": "የምናከብራቸው",
+        "story": "ታሪካቸው"
+      },
+      "couple": {
+        "heading": "የምናከብራቸው"
+      },
+      "story": {
+        "heading": "ታሪካቸው"
+      },
+      "footer": {
+        "families": "በፍቅር፣ ቤተሰቡ"
+      },
+      "countdown": {
+        "since": "ከበዓሉ ቀን ጀምሮ",
+        "summarySince": "ከበዓሉ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች"
+      },
+      "saveTheDate": {
+        "couple": "{one}"
+      },
+      "invitation": {
+        "hostsFallback": "ከቤተሰባቸው ጋር በመሆን"
+      },
+      "rsvp": {
+        "closed": "የምላሽ መስጫ ጊዜው አልፏል። እባክዎ ቤተሰቡን በቀጥታ ያነጋግሩ።",
+        "message": "መልዕክት ካለዎት (አማራጭ)",
+        "errors": {
+          "closed": "የዚህ በዓል የምላሽ መስጫ ተዘግቷል።"
+        }
+      },
+      "card": {
+        "openSite": "የግብዣውን ድረ-ገጽ ይክፈቱ",
+        "pass": {
+          "invalidBody": "ይህ ግብዣ ተሰርዟል ወይም ኮዱ ትክክል አይደለም። እባክዎ ቤተሰቡን ያነጋግሩ።"
+        }
+      },
+      "memories": {
+        "body": "በበዓሉ ላይ ፎቶ አንስተዋል? በቴሌግራም ይላኩልን።"
+      },
+      "notFound": {
+        "body": "የተላከልዎትን ማስፈንጠሪያ ያረጋግጡ ወይም ቤተሰቡን አዲስ ማስፈንጠሪያ ይጠይቁ።"
+      }
+    },
+    "graduation": {
+      "intro": {
+        "invited": "በምረቃ በዓላችን ላይ እንዲገኙ ተጋብዘዋል",
+        "letter": "በምረቃ በዓላቸው ላይ እንዲገኙ ይጋብዙዎታል"
+      },
+      "nav": {
+        "couple": "ተመራቂዎች"
+      },
+      "couple": {
+        "heading": "ተመራቂዎች"
+      },
+      "honorees": {
+        "heading": "{count, plural, one {ተመራቂ} other {ተመራቂዎች}}"
+      },
+      "countdown": {
+        "heading": "የምረቃው ቀን",
+        "label": "ለምረቃው ቀን የቀረው ጊዜ",
+        "since": "ከምረቃው ቀን ጀምሮ",
+        "summarySince": "ከምረቃው ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} ዓ.ም.፣ የምረቃው ቀን ምልክት ተደርጎበታል",
+        "captionGregorian": "{month} {year}፣ የምረቃው ቀን ምልክት ተደርጎበታል",
+        "weddingDay": "የምረቃው ቀን"
+      },
+      "calendar": {
+        "add": "ምረቃውን በቀን መቁጠሪያዎ ያስቀምጡ",
+        "eventTitle": "የ{one} ምረቃ"
+      },
+      "invitation": {
+        "eyebrow": "የምረቃ ግብዣ",
+        "defaultText": "በምረቃ በዓላቸው ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል።"
+      },
+      "rsvp": {
+        "message": "ለተመራቂዎቹ መልዕክት (አማራጭ)",
+        "errors": {
+          "closed": "የዚህ ምረቃ የምላሽ መስጫ ተዘግቷል።"
+        }
+      },
+      "card": {
+        "shareText": "የ{couple} የምረቃ ግብዣዬ"
+      },
+      "couplePortal": {
+        "cardShareText": "ለ{couple} ምረቃ የተዘጋጀ የግብዣ ካርድዎ፦ {url}"
+      }
     }
   }
 }

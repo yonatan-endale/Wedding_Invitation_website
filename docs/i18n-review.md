@@ -443,3 +443,56 @@ Calendar words, weekdays, time-of-day words, Ge'ez numerals and separators that 
 | `messages/am.json` | layouts.slate.signature | With love, {one} and {two} | በፍቅር፣ {one} እና {two} | |
 | `messages/am.json` | layouts.slate.when | When | መቼ | |
 | `messages/am.json` | layouts.slate.where | Where | የት | |
+
+## Phase B: graduations
+
+Graduation sites lay `events.graduation` over the shared wording, and every honoree site (graduation, birthday, baptism) lays `events.honorees` under it. The Amharic for "graduate" uses ተመራቂ; please check whether ምሩቃን reads better in the class-year line.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | layouts.commencement.classOf | Class of {year} | የ{year} ዓ.ም. ምሩቃን | |
+| `messages/am.json` | layouts.commencement.gallery | Along the way | የጉዞው ትዝታዎች | |
+| `messages/am.json` | layouts.tassel.graduates | {count, plural, one {Graduate of {year}} other {Graduates of {year}}} | {count, plural, one {የ{year} ዓ.ም. ተመራቂ} other {የ{year} ዓ.ም. ተመራቂዎች}} | |
+| `messages/am.json` | layouts.tassel.gallery | Along the way | የጉዞው ትዝታዎች | |
+| `messages/am.json` | honorees.heading | {count, plural, one {Who we celebrate} other {Who we celebrate}} | {count, plural, one {የምናከብረው} other {የምናከብራቸው}} | |
+| `messages/am.json` | events.honorees.intro.sealLabel | Open the invitation from {one} | ከ{one} የመጣውን ግብዣ ይክፈቱ | |
+| `messages/am.json` | events.honorees.intro.letter | invite you to celebrate with them | ደስታቸውን አብረዋቸው እንዲያከብሩ ይጋብዙዎታል | |
+| `messages/am.json` | events.honorees.nav.couple | Who we celebrate | የምናከብራቸው | |
+| `messages/am.json` | events.honorees.nav.story | Their story | ታሪካቸው | |
+| `messages/am.json` | events.honorees.couple.heading | Who we celebrate | የምናከብራቸው | |
+| `messages/am.json` | events.honorees.story.heading | Their story | ታሪካቸው | |
+| `messages/am.json` | events.honorees.footer.families | With love, the family | በፍቅር፣ ቤተሰቡ | |
+| `messages/am.json` | events.honorees.countdown.since | Since the celebration | ከበዓሉ ቀን ጀምሮ | |
+| `messages/am.json` | events.honorees.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the celebration | ከበዓሉ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.honorees.saveTheDate.couple | {one} | {one} | |
+| `messages/am.json` | events.honorees.invitation.hostsFallback | Together with their family | ከቤተሰባቸው ጋር በመሆን | |
+| `messages/am.json` | events.honorees.rsvp.closed | RSVPs are closed. Please contact the family directly. | የምላሽ መስጫ ጊዜው አልፏል። እባክዎ ቤተሰቡን በቀጥታ ያነጋግሩ። | |
+| `messages/am.json` | events.honorees.rsvp.message | A message for them (optional) | መልዕክት ካለዎት (አማራጭ) | |
+| `messages/am.json` | events.honorees.rsvp.errors.closed | RSVPs for this celebration are closed. | የዚህ በዓል የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.honorees.card.openSite | Open the invitation website | የግብዣውን ድረ-ገጽ ይክፈቱ | |
+| `messages/am.json` | events.honorees.card.pass.invalidBody | This invitation was cancelled or the code is wrong. Please check with the family. | ይህ ግብዣ ተሰርዟል ወይም ኮዱ ትክክል አይደለም። እባክዎ ቤተሰቡን ያነጋግሩ። | |
+| `messages/am.json` | events.honorees.memories.body | Took photos at the celebration? Send them to us on Telegram. | በበዓሉ ላይ ፎቶ አንስተዋል? በቴሌግራም ይላኩልን። | |
+| `messages/am.json` | events.honorees.notFound.body | Check the link you were sent, or ask the family for a new one. | የተላከልዎትን ማስፈንጠሪያ ያረጋግጡ ወይም ቤተሰቡን አዲስ ማስፈንጠሪያ ይጠይቁ። | |
+| `messages/am.json` | events.graduation.intro.invited | You are invited to the graduation of | በምረቃ በዓላችን ላይ እንዲገኙ ተጋብዘዋል | |
+| `messages/am.json` | events.graduation.intro.letter | invite you to celebrate their graduation | በምረቃ በዓላቸው ላይ እንዲገኙ ይጋብዙዎታል | |
+| `messages/am.json` | events.graduation.nav.couple | Graduates | ተመራቂዎች | |
+| `messages/am.json` | events.graduation.couple.heading | Graduates | ተመራቂዎች | |
+| `messages/am.json` | events.graduation.honorees.heading | {count, plural, one {The graduate} other {The graduates}} | {count, plural, one {ተመራቂ} other {ተመራቂዎች}} | |
+| `messages/am.json` | events.graduation.countdown.heading | Graduation day | የምረቃው ቀን | |
+| `messages/am.json` | events.graduation.countdown.label | Time until the graduation | ለምረቃው ቀን የቀረው ጊዜ | |
+| `messages/am.json` | events.graduation.countdown.since | Since graduation day | ከምረቃው ቀን ጀምሮ | |
+| `messages/am.json` | events.graduation.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since graduation day | ከምረቃው ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.graduation.saveTheDate.captionEthiopian | {month} {year} in the Ethiopian calendar, with graduation day marked | {month} {year} ዓ.ም.፣ የምረቃው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.graduation.saveTheDate.captionGregorian | {month} {year}, with graduation day marked | {month} {year}፣ የምረቃው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.graduation.saveTheDate.weddingDay | Graduation day | የምረቃው ቀን | |
+| `messages/am.json` | events.graduation.calendar.add | Add the graduation to your calendar | ምረቃውን በቀን መቁጠሪያዎ ያስቀምጡ | |
+| `messages/am.json` | events.graduation.calendar.eventTitle | Graduation of {one} | የ{one} ምረቃ | |
+| `messages/am.json` | events.graduation.invitation.eyebrow | Graduation invitation | የምረቃ ግብዣ | |
+| `messages/am.json` | events.graduation.invitation.defaultText | request the pleasure of your company as they celebrate their graduation. | በምረቃ በዓላቸው ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል። | |
+| `messages/am.json` | events.graduation.rsvp.message | A message for the graduates (optional) | ለተመራቂዎቹ መልዕክት (አማራጭ) | |
+| `messages/am.json` | events.graduation.rsvp.errors.closed | RSVPs for this graduation are closed. | የዚህ ምረቃ የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.graduation.card.shareText | My invitation to the graduation of {couple} | የ{couple} የምረቃ ግብዣዬ | |
+| `messages/am.json` | events.graduation.couplePortal.cardShareText | Your invitation card for the graduation of {couple}: {url} | ለ{couple} ምረቃ የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
+| `src/lib/event-kinds.ts` | commencement title | Graduation ceremony | የምረቃ ሥነ ሥርዓት | |
+| `src/lib/event-kinds.ts` | celebration title | Celebration | የደስታ ግብዣ | |
+| `public/examples/graduation.json` | demo text | (the demo site) | (see the file) | |

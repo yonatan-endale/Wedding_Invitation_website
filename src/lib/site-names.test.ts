@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { SiteData, SiteHonoree } from "@/db/queries/site";
-import { celebratedNames, siteTitleNames } from "./site-names";
+import { celebratedNames, layoutNames, siteTitleNames } from "./site-names";
 
 const honoree = (name: SiteHonoree["name"], father: SiteHonoree["father"] = null): SiteHonoree => ({
   id: name.en,
@@ -43,5 +43,38 @@ describe("siteTitleNames", () => {
 
   it("names a single birthday honoree alone", () => {
     expect(siteTitleNames(site({ eventType: "birthday" }, [honoree({ en: "Abel" })]), "en")).toBe("Abel");
+  });
+});
+
+describe("layoutNames", () => {
+  it("gives a couple the same forms the page always built", () => {
+    expect(layoutNames(site({}), "en")).toEqual({
+      one: "Hanna Tesfaye",
+      two: "Dawit",
+      firstOne: "Hanna",
+      firstTwo: "Dawit",
+      initials: ["H", "D"],
+      monogram: "H & D",
+    });
+  });
+
+  it("puts every honoree in the first name and leaves the second empty", () => {
+    const grads = site({ eventType: "graduation" }, [
+      honoree({ en: "Ruth" }, { en: "Solomon" }),
+      honoree({ en: "Mahlet" }, { en: "Solomon" }),
+      honoree({ en: "Selam" }),
+    ]);
+    expect(layoutNames(grads, "en")).toEqual({
+      one: "Ruth Solomon, Mahlet Solomon & Selam",
+      two: "",
+      firstOne: "Ruth, Mahlet & Selam",
+      firstTwo: "",
+      initials: ["R", "M"],
+      monogram: "R · M · S",
+    });
+  });
+
+  it("seals a single honoree with one initial", () => {
+    expect(layoutNames(site({ eventType: "graduation" }, [honoree({ en: "Abel" })]), "en").initials).toEqual(["A", ""]);
   });
 });

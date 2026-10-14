@@ -20,9 +20,8 @@ import { parseGuestName } from "@/lib/guest";
 import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
 import { LAYOUTS, getLayout } from "@/lib/layout";
 import { isLocale, pickText, type Locale } from "@/lib/localized";
-import { fullName, initials, monogramText } from "@/lib/names";
 import { getOpening } from "@/lib/opening";
-import { siteTitleNames } from "@/lib/site-names";
+import { layoutNames, siteTitleNames } from "@/lib/site-names";
 import { hasPreviewOverrides, parsePreviewOverrides, type PreviewOverrides } from "@/lib/preview-overrides";
 import { getTheme, layoutPalette, themeCss } from "@/lib/theme";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
@@ -93,19 +92,19 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
 
   // Three forms of each name: first name on the opening screen, nickname in the
   // hero, and first plus father's name in the formal places.
-  const firstOne = pickText(couple.partnerOne, locale);
-  const firstTwo = pickText(couple.partnerTwo, locale);
-  const one = fullName(couple.partnerOne, couple.partnerOneFather, locale);
-  const two = fullName(couple.partnerTwo, couple.partnerTwoFather, locale);
-  const coupleInitials = initials(firstOne, firstTwo);
-  const names = { one, two, firstOne, firstTwo, initials: coupleInitials, monogram: monogramText(coupleInitials) };
+  const names = layoutNames(site, locale);
 
   // The layout decides the section order and look; the shell around it is shared.
   const layout = getLayout(couple.layout, couple.eventType);
   const Layout = LAYOUT_COMPONENTS[layout];
   const meta = LAYOUTS[layout];
   const links = sectionLinks(site, locale, (key) => t(key), meta);
-  const photos = site.photos.map((photo) => ({ id: photo.id, url: photo.url, caption: pickText(photo.caption, locale) }));
+  const photos = site.photos.map((photo) => ({
+    id: photo.id,
+    url: photo.url,
+    caption: pickText(photo.caption, locale),
+    group: pickText(photo.groupLabel, locale),
+  }));
   const motion = getMotionLevel(couple.motion);
   // Dark layouts show a light theme in its dark variant.
   const palette = layoutPalette(getTheme(couple.theme), meta.scheme);
@@ -124,9 +123,9 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
               </p>
             ) : null}
             <OpeningHost
-              name={getOpening(couple.opening)}
-              names={{ one: firstOne, two: firstTwo }}
-              initials={coupleInitials}
+              name={getOpening(couple.opening, couple.eventType)}
+              names={{ one: names.firstOne, two: names.firstTwo }}
+              initials={names.initials}
               separator={locale === "am" ? "፡" : "&"}
               dateLine={formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
               altDateLine={

@@ -1,4 +1,6 @@
 import type { ComponentType } from "react";
+import { CommencementLayout } from "@/components/events/layouts/commencement";
+import { TasselLayout } from "@/components/events/layouts/tassel";
 import type { LayoutName } from "@/lib/layout";
 import { ArchesLayout } from "./arches";
 import { BranaLayout } from "./brana";
@@ -26,4 +28,7 @@ export const LAYOUT_COMPONENTS: Record<LayoutName, ComponentType<LayoutProps>> =
   kaba: KabaLayout,
   brana: BranaLayout,
   slate: SlateLayout,
+  // Graduation layouts live with the other event types' parts in src/components/events.
+  commencement: CommencementLayout,
+  tassel: TasselLayout,
 };

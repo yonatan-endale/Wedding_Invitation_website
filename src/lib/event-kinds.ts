@@ -3,12 +3,13 @@ import type { EventType } from "./event-types";
 import type { LocalizedText } from "./localized";
 
 /**
- * What kind of step an event is, following a Habesha wedding: the days before,
- * the ceremony in each tradition, the day itself and the days after. Picking a
- * kind in admin pre-fills a bilingual title; the title stays editable. The
- * Amharic titles are listed in docs/i18n-review.md for a native speaker.
+ * What kind of step an event is. The wedding kinds follow a Habesha wedding:
+ * the days before, the ceremony in each tradition, the day itself and the days
+ * after; the other event types add their own after them. Picking a kind in
+ * admin pre-fills a bilingual title; the title stays editable. The Amharic
+ * titles are listed in docs/i18n-review.md for a native speaker.
  */
-export const EVENT_KINDS = [
+const WEDDING_KINDS = [
   "telosh",
   "ceremony_orthodox",
   "ceremony_protestant",
@@ -22,6 +23,8 @@ export const EVENT_KINDS = [
   "buna",
   "other",
 ] as const;
+
+export const EVENT_KINDS = [...WEDDING_KINDS, "commencement", "celebration"] as const;
 
 export type EventKind = (typeof EVENT_KINDS)[number];
 export const DEFAULT_EVENT_KIND: EventKind = "other";
@@ -45,6 +48,8 @@ export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
   mels: { label: "Mels (the return)", title: { en: "Mels", am: "መልስ" } },
   kelekel: { label: "Kelekel (the families meet)", title: { en: "Kelekel", am: "ቅልቅል" } },
   buna: { label: "Coffee ceremony", title: { en: "Coffee ceremony", am: "የቡና ሥነ ሥርዓት" } },
+  commencement: { label: "Graduation ceremony", title: { en: "Graduation ceremony", am: "የምረቃ ሥነ ሥርዓት" } },
+  celebration: { label: "Celebration (lunch, dinner or party)", title: { en: "Celebration", am: "የደስታ ግብዣ" } },
   other: { label: "Other", title: null },
 };
 
@@ -53,8 +58,8 @@ export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
  * Every type keeps "other". A type's own kinds arrive with its layouts.
  */
 export const EVENT_KINDS_BY_TYPE: Record<EventType, readonly EventKind[]> = {
-  wedding: EVENT_KINDS,
-  graduation: ["photos", "buna", "other"],
+  wedding: WEDDING_KINDS,
+  graduation: ["commencement", "photos", "celebration", "buna", "other"],
   birthday: ["photos", "buna", "other"],
   baptism: ["photos", "buna", "other"],
   engagement: ["telosh", "blessing", "kelekel", "photos", "buna", "other"],
@@ -107,7 +112,8 @@ export type EventIconName =
   | "home"
   | "families"
   | "jebena"
-  | "diamond";
+  | "diamond"
+  | "mortarboard";
 
 const EVENT_ICONS: Record<EventKind, EventIconName> = {
   telosh: "gift",
@@ -121,6 +127,8 @@ const EVENT_ICONS: Record<EventKind, EventIconName> = {
   mels: "home",
   kelekel: "families",
   buna: "jebena",
+  commencement: "mortarboard",
+  celebration: "mesob",
   other: "diamond",
 };
 

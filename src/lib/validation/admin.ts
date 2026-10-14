@@ -16,10 +16,11 @@ import {
   type PartnerRole,
 } from "@/lib/constants";
 import { zonedTimeToUtc } from "@/lib/datetime";
-import { isEventKind, type EventKind } from "@/lib/event-kinds";
-import { isLayoutName, type LayoutName } from "@/lib/layout";
+import { isEventKind, kindsFor, type EventKind } from "@/lib/event-kinds";
+import { EVENT_TYPE_META, isEventType, usesHonorees, type EventType } from "@/lib/event-types";
+import { getLayout, isLayoutName, layoutsFor, type LayoutName } from "@/lib/layout";
 import type { LocalizedText } from "@/lib/localized";
-import { isOpeningName, type OpeningName } from "@/lib/opening";
+import { isOpeningName, openingsFor, type OpeningName } from "@/lib/opening";
 import { isValidSlug } from "@/lib/slug";
 import { isThemeName, type ThemeName } from "@/lib/theme";
 
@@ -150,7 +151,8 @@ function result<T>(data: T, errors: FieldErrors): Parsed<T> {
   return Object.keys(errors).length ? { success: false, fieldErrors: errors } : { success: true, data };
 }
 
-export type CoupleDetails = {
+/** The two partners of a couple site; honoree sites have none on the form and leave them as they are. */
+type PartnerDetails = {
   partnerOne: LocalizedText;
   partnerTwo: LocalizedText;
   partnerOneNick: LocalizedText | null;
@@ -161,6 +163,90 @@ export type CoupleDetails = {
   partnerTwoRole: PartnerRole;
   partnerOnePortraitUrl: string | null;
   partnerTwoPortraitUrl: string | null;
+};
+
+function parsePartners(form: FormFields, errors: FieldErrors): PartnerDetails {
+  const partnerOneRole = (text(form, "partnerOneRole") || "bride") as PartnerRole;
+  const partnerTwoRole = (text(form, "partnerTwoRole") || "groom") as PartnerRole;
+  if (!PARTNER_ROLES.includes(partnerOneRole)) errors.partnerOneRole = "Choose bride or groom.";
+  if (!PARTNER_ROLES.includes(partnerTwoRole)) errors.partnerTwoRole = "Choose bride or groom.";
+  return {
+    partnerOne: requiredLocalized(form, "partnerOne", errors, "Enter this partner's name in English."),
+    partnerTwo: requiredLocalized(form, "partnerTwo", errors, "Enter this partner's name in English."),
+    partnerOneNick: readLocalized(form, "partnerOneNick"),
+    partnerTwoNick: readLocalized(form, "partnerTwoNick"),
+    partnerOneFather: readLocalized(form, "partnerOneFather"),
+    partnerTwoFather: readLocalized(form, "partnerTwoFather"),
+    partnerOneRole,
+    partnerTwoRole,
+    partnerOnePortraitUrl: optionalUrl(form, "partnerOnePortraitUrl", errors),
+    partnerTwoPortraitUrl: optionalUrl(form, "partnerTwoPortraitUrl", errors),
+  };
+}
+
+/** The event type picked on the create form. Only open types can be created. */
+export function parseEventType(form: FormFields): Parsed<EventType> {
+  const value = text(form, "eventType") || "wedding";
+  if (isEventType(value) && EVENT_TYPE_META[value].enabled) return { success: true, data: value };
+  return { success: false, fieldErrors: { eventType: "Choose what the site celebrates." } };
+}
+
+export type HonoreeInput = {
+  name: LocalizedText;
+  nick: LocalizedText | null;
+  father: LocalizedText | null;
+  headline: LocalizedText | null;
+  subheadline: LocalizedText | null;
+  story: LocalizedText | null;
+  portraitUrl: string | null;
+  portraitPosition: string;
+};
+
+/** One honoree: a graduate, the birthday person, the child being baptised. */
+export function parseHonoree(form: FormFields): Parsed<HonoreeInput> {
+  const errors: FieldErrors = {};
+  const portraitPosition = text(form, "portraitPosition") || HERO_POSITIONS[1].value;
+  if (!HERO_POSITIONS.some((p) => p.value === portraitPosition)) errors.portraitPosition = "Choose a photo position.";
+  const story = readLocalized(form, "story");
+  if (story && (story.en.length > 1200 || (story.am?.length ?? 0) > 1200)) errors["story.en"] = "Keep the story under 1,200 characters.";
+  return result(
+    {
+      name: requiredLocalized(form, "name", errors, "Enter the name in English."),
+      nick: readLocalized(form, "nick"),
+      father: readLocalized(form, "father"),
+      headline: readLocalized(form, "headline"),
+      subheadline: readLocalized(form, "subheadline"),
+      story,
+      portraitUrl: optionalUrl(form, "portraitUrl", errors),
+      portraitPosition,
+    },
+    errors,
+  );
+}
+
+/** The first honoree's name on the create form, so a new honoree site is never without one. */
+export function parseFirstHonoree(form: FormFields): Parsed<Pick<HonoreeInput, "name" | "father">> {
+  const errors: FieldErrors = {};
+  return result(
+    {
+      name: requiredLocalized(form, "honoreeName", errors, "Enter the name in English."),
+      father: readLocalized(form, "honoreeFather"),
+    },
+    errors,
+  );
+}
+
+/** A photo's caption and the gallery group it sits under. */
+export function parsePhotoLabels(form: FormFields): Parsed<{ caption: LocalizedText | null; groupLabel: LocalizedText | null }> {
+  const errors: FieldErrors = {};
+  const caption = readLocalized(form, "caption");
+  const groupLabel = readLocalized(form, "groupLabel");
+  if (groupLabel && !groupLabel.en) errors["groupLabel.en"] = "Add the group name in English too.";
+  if (caption && !caption.en) errors["caption.en"] = "Add the caption in English too.";
+  return result({ caption, groupLabel }, errors);
+}
+
+export type CoupleDetails = Partial<PartnerDetails> & {
   slug: string;
   weddingAt: Date;
   timezone: string;
@@ -181,10 +267,15 @@ export type CoupleDetails = {
   musicTitle: string | null;
 };
 
-export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
+/**
+ * The details form. The event type is fixed when the site is created, so it
+ * comes from the row (or the create form) rather than this form's fields: a
+ * couple type reads both partners, an honoree type leaves them alone, and the
+ * layout and opening must be ones drawn for the type.
+ */
+export function parseCoupleDetails(form: FormFields, eventType: EventType = "wedding"): Parsed<CoupleDetails> {
   const errors: FieldErrors = {};
-  const partnerOne = requiredLocalized(form, "partnerOne", errors, "Enter this partner's name in English.");
-  const partnerTwo = requiredLocalized(form, "partnerTwo", errors, "Enter this partner's name in English.");
+  const partners = usesHonorees(eventType) ? {} : parsePartners(form, errors);
 
   const slug = text(form, "slug");
   if (!isValidSlug(slug)) {
@@ -199,13 +290,11 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
   const theme = text(form, "theme");
   if (!isThemeName(theme)) errors.theme = "Choose one of the themes.";
 
-  const layout = text(form, "layout") || "classic";
-  if (!isLayoutName(layout)) errors.layout = "Choose one of the layouts.";
-
-  const partnerOneRole = (text(form, "partnerOneRole") || "bride") as PartnerRole;
-  const partnerTwoRole = (text(form, "partnerTwoRole") || "groom") as PartnerRole;
-  if (!PARTNER_ROLES.includes(partnerOneRole)) errors.partnerOneRole = "Choose bride or groom.";
-  if (!PARTNER_ROLES.includes(partnerTwoRole)) errors.partnerTwoRole = "Choose bride or groom.";
+  const layout = text(form, "layout") || getLayout(null, eventType);
+  if (!isLayoutName(layout) || !layoutsFor(eventType).some((meta) => meta.name === layout)) {
+    errors.layout = "Choose one of the layouts.";
+  }
+  const isOpening = (value: unknown): value is OpeningName => isOpeningName(value) && openingsFor(eventType).includes(value);
 
   const border = (text(form, "border") || "tibeb") as BorderStyle;
   if (!BORDER_STYLES.includes(border)) errors.border = "Choose one of the border styles.";
@@ -215,16 +304,7 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
 
   return result(
     {
-      partnerOne,
-      partnerTwo,
-      partnerOneNick: readLocalized(form, "partnerOneNick"),
-      partnerTwoNick: readLocalized(form, "partnerTwoNick"),
-      partnerOneFather: readLocalized(form, "partnerOneFather"),
-      partnerTwoFather: readLocalized(form, "partnerTwoFather"),
-      partnerOneRole,
-      partnerTwoRole,
-      partnerOnePortraitUrl: optionalUrl(form, "partnerOnePortraitUrl", errors),
-      partnerTwoPortraitUrl: optionalUrl(form, "partnerTwoPortraitUrl", errors),
+      ...partners,
       slug,
       weddingAt: weddingAt as Date,
       timezone,
@@ -232,7 +312,7 @@ export function parseCoupleDetails(form: FormFields): Parsed<CoupleDetails> {
       theme: theme as ThemeName,
       layout: layout as LayoutName,
       border,
-      opening: optionalChoice(form, "opening", isOpeningName, errors, "Choose one of the opening screens."),
+      opening: optionalChoice(form, "opening", isOpening, errors, "Choose one of the opening screens."),
       calendarStyle: optionalChoice(form, "calendarStyle", isCalendarStyle, errors, "Choose which calendar to show."),
       motion: optionalChoice(form, "motion", isMotionLevel, errors, "Choose how much the page moves."),
       ornament: optionalChoice(form, "ornament", isOrnament, errors, "Choose one of the ornaments."),
@@ -334,7 +414,7 @@ export type EventInput = {
   kind?: EventKind;
 };
 
-export function parseEvent(form: FormFields, timeZone: string): Parsed<EventInput> {
+export function parseEvent(form: FormFields, timeZone: string, eventType: EventType = "wedding"): Parsed<EventInput> {
   const errors: FieldErrors = {};
   const title = requiredLocalized(form, "title", errors, "Enter the event title in English.");
   const startsAt = dateTime(form, "startsAt", timeZone, errors, { required: true });
@@ -344,7 +424,8 @@ export function parseEvent(form: FormFields, timeZone: string): Parsed<EventInpu
   }
   const venueId = text(form, "venueId") || null;
   if (venueId && !UUID_PATTERN.test(venueId)) errors.venueId = "Choose a venue from the list.";
-  const kind = optionalChoice(form, "kind", isEventKind, errors, "Choose what kind of event this is.");
+  const isKind = (value: unknown): value is EventKind => isEventKind(value) && kindsFor(eventType).includes(value);
+  const kind = optionalChoice(form, "kind", isKind, errors, "Choose what kind of event this is.");
   return result(
     { title, description: readLocalized(form, "description"), startsAt: startsAt as Date, endsAt, venueId, kind },
     errors,

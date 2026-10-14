@@ -1,12 +1,26 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
-import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
+import { CLERK_SESSION_COOKIE, SITE_HEADER, TENANT_HEADER } from "@/lib/constants";
+import { siteSlugFromPath } from "@/lib/event-messages";
 import { routeRequest } from "@/lib/tenant";
 
 const isAdminRoute = (request: NextRequest) => /^\/(api\/)?admin(\/|$)/.test(request.nextUrl.pathname);
 
+/**
+ * Passes the request on, naming the site it is for when it is one, so the
+ * messages (src/i18n/request.ts) can follow the site's event type.
+ */
+function next(request: NextRequest): NextResponse {
+  const slug = siteSlugFromPath(request.nextUrl.pathname);
+  if (!slug) return NextResponse.next();
+  const headers = new Headers(request.headers);
+  headers.set(SITE_HEADER, slug);
+  return NextResponse.next({ request: { headers } });
+}
+
 const withClerk = clerkMiddleware(async (auth, request) => {
   if (isAdminRoute(request)) await auth.protect();
+  return next(request);
 });
 
 
@@ -25,13 +39,14 @@ export default function middleware(request: NextRequest, event: NextFetchEvent) 
   if (route.kind === "tenant") {
     const headers = new Headers(request.headers);
     headers.set(TENANT_HEADER, route.slug);
+    headers.set(SITE_HEADER, route.slug);
     return NextResponse.rewrite(new URL(`${route.path}${search}`, request.url), { request: { headers } });
   }
 
-  if (route.kind === "guest") return NextResponse.next();
+  if (route.kind === "guest") return next(request);
 
   // Admin pages and routes still check the signed-in user themselves, so skipping here fails closed.
-  if (!clerkConfigured) return NextResponse.next();
+  if (!clerkConfigured) return next(request);
 
   return withClerk(request, event);
 }

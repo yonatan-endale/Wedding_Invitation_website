@@ -108,8 +108,12 @@ describe("hasEventIcon", () => {
 });
 
 describe("kindsFor", () => {
-  it("offers weddings every kind, in the original order", () => {
-    expect(kindsFor("wedding")).toEqual(EVENT_KINDS);
+  it("offers weddings the wedding kinds, in the original order", () => {
+    expect(kindsFor("wedding")).toEqual(EVENT_KINDS.slice(0, EVENT_KINDS.indexOf("other") + 1));
+  });
+
+  it("offers every kind to at least one event type", () => {
+    for (const kind of EVENT_KINDS) expect(EVENT_TYPES.some((type) => kindsFor(type).includes(kind)), kind).toBe(true);
   });
 
   it("gives every type known kinds, once each, ending with other", () => {

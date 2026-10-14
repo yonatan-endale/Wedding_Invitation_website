@@ -293,6 +293,113 @@
       "signature": "With love, {one} and {two}",
       "when": "When",
       "where": "Where"
+    },
+    "commencement": {
+      "classOf": "Class of {year}",
+      "gallery": "Along the way"
+    },
+    "tassel": {
+      "graduates": "{count, plural, one {Graduate of {year}} other {Graduates of {year}}}",
+      "gallery": "Along the way"
+    }
+  },
+  "honorees": {
+    "heading": "{count, plural, one {Who we celebrate} other {Who we celebrate}}"
+  },
+  "events": {
+    "honorees": {
+      "intro": {
+        "sealLabel": "Open the invitation from {one}",
+        "letter": "invite you to celebrate with them"
+      },
+      "nav": {
+        "couple": "Who we celebrate",
+        "story": "Their story"
+      },
+      "couple": {
+        "heading": "Who we celebrate"
+      },
+      "story": {
+        "heading": "Their story"
+      },
+      "footer": {
+        "families": "With love, the family"
+      },
+      "countdown": {
+        "since": "Since the celebration",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the celebration"
+      },
+      "saveTheDate": {
+        "couple": "{one}"
+      },
+      "invitation": {
+        "hostsFallback": "Together with their family"
+      },
+      "rsvp": {
+        "closed": "RSVPs are closed. Please contact the family directly.",
+        "message": "A message for them (optional)",
+        "errors": {
+          "closed": "RSVPs for this celebration are closed."
+        }
+      },
+      "card": {
+        "openSite": "Open the invitation website",
+        "pass": {
+          "invalidBody": "This invitation was cancelled or the code is wrong. Please check with the family."
+        }
+      },
+      "memories": {
+        "body": "Took photos at the celebration? Send them to us on Telegram."
+      },
+      "notFound": {
+        "body": "Check the link you were sent, or ask the family for a new one."
+      }
+    },
+    "graduation": {
+      "intro": {
+        "invited": "You are invited to the graduation of",
+        "letter": "invite you to celebrate their graduation"
+      },
+      "nav": {
+        "couple": "Graduates"
+      },
+      "couple": {
+        "heading": "Graduates"
+      },
+      "honorees": {
+        "heading": "{count, plural, one {The graduate} other {The graduates}}"
+      },
+      "countdown": {
+        "heading": "Graduation day",
+        "label": "Time until the graduation",
+        "since": "Since graduation day",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since graduation day"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} in the Ethiopian calendar, with graduation day marked",
+        "captionGregorian": "{month} {year}, with graduation day marked",
+        "weddingDay": "Graduation day"
+      },
+      "calendar": {
+        "add": "Add the graduation to your calendar",
+        "eventTitle": "Graduation of {one}"
+      },
+      "invitation": {
+        "eyebrow": "Graduation invitation",
+        "defaultText": "request the pleasure of your company as they celebrate their graduation."
+      },
+      "rsvp": {
+        "message": "A message for the graduates (optional)",
+        "errors": {
+          "closed": "RSVPs for this graduation are closed."
+        }
+      },
+      "card": {
+        "shareText": "My invitation to the graduation of {couple}"
+      },
+      "couplePortal": {
+        "cardShareText": "Your invitation card for the graduation of {couple}: {url}"
+      }
     }
   }
 }

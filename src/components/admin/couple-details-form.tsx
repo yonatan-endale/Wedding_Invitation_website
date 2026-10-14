@@ -202,6 +202,15 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <rect x="32" y="46" width="32" height="3" fill="white" opacity="0.85" />
     </>
   ),
+  shema: (
+    <>
+      <rect x="28" y="4" width="40" height="52" fill="none" stroke={stroke} opacity="0.6" />
+      <path d="M31 4v52M65 4v52" stroke={stroke} strokeDasharray="2 2" opacity="0.7" />
+      <rect x="36" y="14" width="24" height="4" fill={stroke} opacity="0.85" />
+      <rect x="40" y="21" width="16" height="2" fill={stroke} opacity="0.5" />
+      <path d="M42 50v-12a6 6 0 0 1 12 0v12z" fill={stroke} opacity="0.35" />
+    </>
+  ),
   arches: (
     <>
       <path d="M34 34V16a14 14 0 0 1 28 0v18z" fill={stroke} opacity="0.35" />

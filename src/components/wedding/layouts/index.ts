@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import { CommencementLayout } from "@/components/events/layouts/commencement";
 import { ConfettiLayout } from "@/components/events/layouts/confetti";
 import { MilestoneLayout } from "@/components/events/layouts/milestone";
+import { ShemaLayout } from "@/components/events/layouts/shema";
 import { TasselLayout } from "@/components/events/layouts/tassel";
 import type { LayoutName } from "@/lib/layout";
 import { ArchesLayout } from "./arches";
@@ -35,4 +36,5 @@ export const LAYOUT_COMPONENTS: Record<LayoutName, ComponentType<LayoutProps>> =
   tassel: TasselLayout,
   confetti: ConfettiLayout,
   milestone: MilestoneLayout,
+  shema: ShemaLayout,
 };

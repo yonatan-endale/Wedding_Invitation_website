@@ -24,7 +24,7 @@ const WEDDING_KINDS = [
   "other",
 ] as const;
 
-export const EVENT_KINDS = [...WEDDING_KINDS, "commencement", "celebration", "cake"] as const;
+export const EVENT_KINDS = [...WEDDING_KINDS, "commencement", "celebration", "cake", "christening"] as const;
 
 export type EventKind = (typeof EVENT_KINDS)[number];
 export const DEFAULT_EVENT_KIND: EventKind = "other";
@@ -51,6 +51,7 @@ export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
   commencement: { label: "Graduation ceremony", title: { en: "Graduation ceremony", am: "የምረቃ ሥነ ሥርዓት" } },
   celebration: { label: "Celebration (lunch, dinner or party)", title: { en: "Celebration", am: "የደስታ ግብዣ" } },
   cake: { label: "Cake and candles", title: { en: "Cake and candles", am: "ኬክ መቁረስ" } },
+  christening: { label: "Christening (church service)", title: { en: "Christening", am: "ክርስትና" } },
   other: { label: "Other", title: null },
 };
 
@@ -62,7 +63,7 @@ export const EVENT_KINDS_BY_TYPE: Record<EventType, readonly EventKind[]> = {
   wedding: WEDDING_KINDS,
   graduation: ["commencement", "photos", "celebration", "buna", "other"],
   birthday: ["celebration", "cake", "photos", "buna", "other"],
-  baptism: ["photos", "buna", "other"],
+  baptism: ["christening", "celebration", "cake", "photos", "buna", "other"],
   engagement: ["telosh", "blessing", "kelekel", "photos", "buna", "other"],
 };
 
@@ -132,14 +133,19 @@ const EVENT_ICONS: Record<EventKind, EventIconName> = {
   commencement: "mortarboard",
   celebration: "mesob",
   cake: "cake",
+  christening: "church",
   other: "diamond",
 };
 
-/** Faith imagery, shown only to a couple who chose the matching ornament. */
-const FAITH_ICONS: Partial<Record<EventKind, { ornament: Ornament; icon: EventIconName }>> = {
-  ceremony_orthodox: { ornament: "orthodox", icon: "orthodox-cross" },
-  ceremony_protestant: { ornament: "protestant", icon: "cross" },
-  nikah: { ornament: "harari", icon: "crescent" },
+/**
+ * Faith imagery, shown only on a site whose admin chose the matching ornament.
+ * A christening can be Orthodox or Protestant, so it takes either cross.
+ */
+const FAITH_ICONS: Partial<Record<EventKind, Partial<Record<Ornament, EventIconName>>>> = {
+  ceremony_orthodox: { orthodox: "orthodox-cross" },
+  ceremony_protestant: { protestant: "cross" },
+  nikah: { harari: "crescent" },
+  christening: { orthodox: "orthodox-cross", protestant: "cross" },
 };
 
 /**
@@ -158,6 +164,5 @@ export function hasEventIcon(kind: EventKind): boolean {
  * ornament, and otherwise the ceremony shows a church without a cross, or rings.
  */
 export function eventIconFor(kind: EventKind, ornament: Ornament): EventIconName {
-  const faith = FAITH_ICONS[kind];
-  return faith && faith.ornament === ornament ? faith.icon : EVENT_ICONS[kind];
+  return FAITH_ICONS[kind]?.[ornament] ?? EVENT_ICONS[kind];
 }

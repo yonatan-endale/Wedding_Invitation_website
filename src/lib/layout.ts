@@ -247,6 +247,21 @@ export const LAYOUTS = {
     defaultOpening: "envelope",
     recommendedThemes: ["burgundy", "emerald", "ivory", "academy"],
   },
+  shema: {
+    name: "shema",
+    eventTypes: ["baptism"],
+    label: "Shema",
+    description:
+      "A christening in white: the cover is a length of woven shema with your border down both edges, the child's name and christening name on it, and the photo in an arch.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: true,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "envelope",
+    recommendedThemes: ["ivory", "netela", "dusty", "lalibela"],
+  },
 } as const satisfies Record<string, LayoutMeta>;
 
 export type LayoutName = keyof typeof LAYOUTS;

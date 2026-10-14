@@ -1,7 +1,7 @@
 /**
  * Creates (or recreates) a demo site from one of the files in public/examples
- * (graduation, birthday), through the same checks as the admin's JSON import.
- * Run with: pnpm db:seed:example <graduation|birthday> [slug] [--publish]
+ * (graduation, birthday, baptism), through the same checks as the admin's JSON import.
+ * Run with: pnpm db:seed:example <graduation|birthday|baptism> [slug] [--publish]
  */
 import { readFileSync } from "node:fs";
 import { drizzle } from "drizzle-orm/node-postgres";

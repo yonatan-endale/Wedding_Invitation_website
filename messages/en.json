@@ -309,6 +309,11 @@
     "milestone": {
       "years": "years",
       "gallery": "Through the years"
+    },
+    "shema": {
+      "christeningName": "Christening name",
+      "godparents": "Godparents",
+      "gallery": "Little moments"
     }
   },
   "honorees": {
@@ -447,6 +452,43 @@
       },
       "couplePortal": {
         "cardShareText": "Your invitation card for the birthday of {couple}: {url}"
+      }
+    },
+    "baptism": {
+      "intro": {
+        "invited": "You are invited to the christening of",
+        "letter": "invite you to celebrate their christening"
+      },
+      "countdown": {
+        "heading": "Christening day",
+        "label": "Time until the christening",
+        "since": "Since the christening",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the christening"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} in the Ethiopian calendar, with the christening marked",
+        "captionGregorian": "{month} {year}, with the christening marked",
+        "weddingDay": "Christening day"
+      },
+      "calendar": {
+        "add": "Add the christening to your calendar",
+        "eventTitle": "Christening of {one}"
+      },
+      "invitation": {
+        "eyebrow": "Christening invitation",
+        "defaultText": "request the pleasure of your company as they celebrate the christening."
+      },
+      "rsvp": {
+        "message": "A blessing or message (optional)",
+        "errors": {
+          "closed": "RSVPs for this christening are closed."
+        }
+      },
+      "card": {
+        "shareText": "My invitation to the christening of {couple}"
+      },
+      "couplePortal": {
+        "cardShareText": "Your invitation card for the christening of {couple}: {url}"
       }
     }
   }

@@ -527,3 +527,32 @@ Birthday sites lay `events.birthday` over the shared wording (and `events.honore
 | `messages/am.json` | events.birthday.couplePortal.cardShareText | Your invitation card for the birthday of {couple}: {url} | ለ{couple} የልደት በዓል የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
 | `src/lib/event-kinds.ts` | cake title | Cake and candles | ኬክ መቁረስ | |
 | `public/examples/birthday.json` | demo text | (the demo site) | (see the file) | |
+
+## Phase E: christenings (kristina)
+
+Christening sites lay `events.baptism` over the shared wording. Please check "የክርስትና አባት እና እናት" for godparents, and whether the invitation lines should speak for the parents ("our") or of the child.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | layouts.shema.christeningName | Christening name | የክርስትና ስም | |
+| `messages/am.json` | layouts.shema.godparents | Godparents | የክርስትና አባት እና እናት | |
+| `messages/am.json` | layouts.shema.gallery | Little moments | ትናንሽ ትዝታዎች | |
+| `messages/am.json` | events.baptism.intro.invited | You are invited to the christening of | በክርስትና በዓላችን ላይ እንዲገኙ ተጋብዘዋል | |
+| `messages/am.json` | events.baptism.intro.letter | invite you to celebrate their christening | በክርስትና በዓሉ ላይ እንዲገኙ ይጋብዙዎታል | |
+| `messages/am.json` | events.baptism.countdown.heading | Christening day | የክርስትናው ቀን | |
+| `messages/am.json` | events.baptism.countdown.label | Time until the christening | ለክርስትናው ቀን የቀረው ጊዜ | |
+| `messages/am.json` | events.baptism.countdown.since | Since the christening | ከክርስትናው ቀን ጀምሮ | |
+| `messages/am.json` | events.baptism.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the christening | ከክርስትናው ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.baptism.saveTheDate.captionEthiopian | {month} {year} in the Ethiopian calendar, with the christening marked | {month} {year} ዓ.ም.፣ የክርስትናው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.baptism.saveTheDate.captionGregorian | {month} {year}, with the christening marked | {month} {year}፣ የክርስትናው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.baptism.saveTheDate.weddingDay | Christening day | የክርስትናው ቀን | |
+| `messages/am.json` | events.baptism.calendar.add | Add the christening to your calendar | ክርስትናውን በቀን መቁጠሪያዎ ያስቀምጡ | |
+| `messages/am.json` | events.baptism.calendar.eventTitle | Christening of {one} | የ{one} ክርስትና | |
+| `messages/am.json` | events.baptism.invitation.eyebrow | Christening invitation | የክርስትና ግብዣ | |
+| `messages/am.json` | events.baptism.invitation.defaultText | request the pleasure of your company as they celebrate the christening. | በክርስትና በዓሉ ተገኝተው የደስታችን ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል። | |
+| `messages/am.json` | events.baptism.rsvp.message | A blessing or message (optional) | ምርቃት ወይም መልዕክት (አማራጭ) | |
+| `messages/am.json` | events.baptism.rsvp.errors.closed | RSVPs for this christening are closed. | የዚህ ክርስትና የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.baptism.card.shareText | My invitation to the christening of {couple} | የ{couple} የክርስትና ግብዣዬ | |
+| `messages/am.json` | events.baptism.couplePortal.cardShareText | Your invitation card for the christening of {couple}: {url} | ለ{couple} ክርስትና የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
+| `src/lib/event-kinds.ts` | christening title | Christening | ክርስትና | |
+| `public/examples/baptism.json` | demo text | (the demo site) | (see the file) | |

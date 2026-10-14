@@ -309,6 +309,11 @@
     "milestone": {
       "years": "ዓመት",
       "gallery": "በዓመታት ውስጥ"
+    },
+    "shema": {
+      "christeningName": "የክርስትና ስም",
+      "godparents": "የክርስትና አባት እና እናት",
+      "gallery": "ትናንሽ ትዝታዎች"
     }
   },
   "honorees": {
@@ -447,6 +452,43 @@
       },
       "couplePortal": {
         "cardShareText": "ለ{couple} የልደት በዓል የተዘጋጀ የግብዣ ካርድዎ፦ {url}"
+      }
+    },
+    "baptism": {
+      "intro": {
+        "invited": "በክርስትና በዓላችን ላይ እንዲገኙ ተጋብዘዋል",
+        "letter": "በክርስትና በዓሉ ላይ እንዲገኙ ይጋብዙዎታል"
+      },
+      "countdown": {
+        "heading": "የክርስትናው ቀን",
+        "label": "ለክርስትናው ቀን የቀረው ጊዜ",
+        "since": "ከክርስትናው ቀን ጀምሮ",
+        "summarySince": "ከክርስትናው ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} ዓ.ም.፣ የክርስትናው ቀን ምልክት ተደርጎበታል",
+        "captionGregorian": "{month} {year}፣ የክርስትናው ቀን ምልክት ተደርጎበታል",
+        "weddingDay": "የክርስትናው ቀን"
+      },
+      "calendar": {
+        "add": "ክርስትናውን በቀን መቁጠሪያዎ ያስቀምጡ",
+        "eventTitle": "የ{one} ክርስትና"
+      },
+      "invitation": {
+        "eyebrow": "የክርስትና ግብዣ",
+        "defaultText": "በክርስትና በዓሉ ተገኝተው የደስታችን ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል።"
+      },
+      "rsvp": {
+        "message": "ምርቃት ወይም መልዕክት (አማራጭ)",
+        "errors": {
+          "closed": "የዚህ ክርስትና የምላሽ መስጫ ተዘግቷል።"
+        }
+      },
+      "card": {
+        "shareText": "የ{couple} የክርስትና ግብዣዬ"
+      },
+      "couplePortal": {
+        "cardShareText": "ለ{couple} ክርስትና የተዘጋጀ የግብዣ ካርድዎ፦ {url}"
       }
     }
   }

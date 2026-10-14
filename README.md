@@ -1,6 +1,6 @@
 # Invitation sites
 
-One Next.js 15 app that hosts a separate invitation website for every celebration, plus an admin dashboard where you create and edit them. Weddings came first; graduations and birthdays are open too, and baptisms and engagements are planned. No code changes are needed to add a site.
+One Next.js 15 app that hosts a separate invitation website for every celebration, plus an admin dashboard where you create and edit them. Weddings came first; graduations, birthdays and christenings are open too, and engagements are planned. No code changes are needed to add a site.
 
 ## Graduations
 
@@ -11,7 +11,9 @@ A graduation site lists one to six graduates, each with a portrait, degree, scho
 
 Birthdays list one to three people, with their age or milestone, in two layouts: Confetti (the name in a page of confetti) and Milestone (a dark cover with the age in gold foil, for the big numbers).
 
-Photos can be grouped under headings such as "The two of us". The shared sections (save-the-date, countdown, RSVP, calendar, guest card) speak of a graduation in both languages: each event type lays its own wording from `events.<type>` in `messages/*.json` over the wedding wording. Try it with `pnpm db:seed:example graduation` (or `birthday`).
+Christenings (kristina) list the child with their christening name and godparents in the Shema layout, a cover of woven white cloth with the site's border down both edges. A cross appears only when the admin picks a faith ornament, here and on the timeline.
+
+Photos can be grouped under headings such as "The two of us". The shared sections (save-the-date, countdown, RSVP, calendar, guest card) speak of a graduation in both languages: each event type lays its own wording from `events.<type>` in `messages/*.json` over the wedding wording. Try it with `pnpm db:seed:example graduation` (or `birthday`, `baptism`).
 
 ## Weddings
 

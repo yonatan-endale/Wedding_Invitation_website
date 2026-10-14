@@ -15,6 +15,8 @@ type Props = {
    * alternating sides.
    */
   look: "diploma" | "arch";
+  /** Small labels before the two short lines, where they need saying ("Godparents"). */
+  labels?: { headline?: string; subheadline?: string };
   className?: string;
 };
 
@@ -26,7 +28,7 @@ export const honoreeAnchor = (index: number) => `honoree-${index + 1}`;
  * admin filled in (a degree and a school, say) and a few lines of their story.
  * A missing portrait shows the first letter of the name instead.
  */
-export async function HonoreeSection({ honorees, locale, look, className }: Props) {
+export async function HonoreeSection({ honorees, locale, look, labels, className }: Props) {
   if (honorees.length === 0) return null;
   const t = await getTranslations("honorees");
 
@@ -44,7 +46,7 @@ export async function HonoreeSection({ honorees, locale, look, className }: Prop
           )}
         >
           {honorees.map((honoree, index) => (
-            <Honoree key={honoree.id} honoree={honoree} index={index} locale={locale} look={look} />
+            <Honoree key={honoree.id} honoree={honoree} index={index} locale={locale} look={look} labels={labels} />
           ))}
         </ul>
       </div>
@@ -52,7 +54,19 @@ export async function HonoreeSection({ honorees, locale, look, className }: Prop
   );
 }
 
-function Honoree({ honoree, index, locale, look }: { honoree: SiteHonoree; index: number; locale: Locale; look: Props["look"] }) {
+function Honoree({
+  honoree,
+  index,
+  locale,
+  look,
+  labels,
+}: {
+  honoree: SiteHonoree;
+  index: number;
+  locale: Locale;
+  look: Props["look"];
+  labels: Props["labels"];
+}) {
   const name = fullName(honoree.name, honoree.father, locale);
   const headline = pickText(honoree.headline, locale);
   const subheadline = pickText(honoree.subheadline, locale);
@@ -99,9 +113,15 @@ function Honoree({ honoree, index, locale, look }: { honoree: SiteHonoree; index
       <div className={cn("text-center", look === "diploma" ? "mt-8" : "sm:text-start")}>
         <h3 className="font-display text-[clamp(1.875rem,4vw,2.5rem)] leading-tight">{name}</h3>
         {headline ? <p className="mt-3 font-display text-lg text-[color-mix(in_oklab,var(--w-metal),var(--w-ink)_45%)] italic [&:lang(am)]:not-italic">
+            {labels?.headline ? <span className="block font-sans text-sm text-ink-soft not-italic">{labels.headline}</span> : null}
             {headline}
           </p> : null}
-        {subheadline ? <p className="mt-1 text-ink-soft">{subheadline}</p> : null}
+        {subheadline ? (
+          <p className="mt-1 text-ink-soft">
+            {labels?.subheadline ? <span className="block text-sm">{labels.subheadline}</span> : null}
+            {subheadline}
+          </p>
+        ) : null}
         {story ? <p className="mx-auto mt-5 max-w-[42ch] text-base leading-relaxed whitespace-pre-line sm:mx-0">{story}</p> : null}
       </div>
     </li>

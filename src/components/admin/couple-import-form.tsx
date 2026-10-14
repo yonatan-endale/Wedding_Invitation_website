@@ -26,6 +26,7 @@ const EXAMPLES = [
   { href: "/examples/couple.json", label: "Download a full wedding example" },
   { href: "/examples/graduation.json", label: "Download a graduation example" },
   { href: "/examples/birthday.json", label: "Download a birthday example" },
+  { href: "/examples/baptism.json", label: "Download a christening example" },
 ];
 
 export function CoupleImportForm() {

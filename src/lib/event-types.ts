@@ -68,13 +68,13 @@ export const EVENT_TYPE_META: Record<EventType, EventTypeMeta> = {
   },
   baptism: {
     label: "Baptism (Kristina)",
-    noun: "baptism",
+    noun: "christening",
     hosts: "the family",
     people: "honorees",
     honorees: { min: 1, max: 3 },
     headlineLabel: "Christening name",
     subheadlineLabel: "Godparents",
-    enabled: false,
+    enabled: true,
   },
   engagement: {
     label: "Engagement (Telosh, Kelebet)",

@@ -87,9 +87,17 @@ describe("eventIconFor", () => {
     }
   });
 
+  it("gives a christening the cross of the chosen faith, and a plain church otherwise", () => {
+    expect(eventIconFor("christening", "orthodox")).toBe("orthodox-cross");
+    expect(eventIconFor("christening", "protestant")).toBe("cross");
+    for (const ornament of ORNAMENTS.filter((o) => o !== "orthodox" && o !== "protestant")) {
+      expect(eventIconFor("christening", ornament)).toBe("church");
+    }
+  });
+
   it("keeps faith imagery away from every other kind, whatever the ornament", () => {
     const faith = new Set(["orthodox-cross", "cross", "crescent"]);
-    const gated = new Set(["ceremony_orthodox", "ceremony_protestant", "nikah"]);
+    const gated = new Set(["ceremony_orthodox", "ceremony_protestant", "nikah", "christening"]);
     for (const kind of EVENT_KINDS.filter((k) => !gated.has(k))) {
       const icons = new Set(ORNAMENTS.map((ornament) => eventIconFor(kind, ornament)));
       expect(icons.size).toBe(1);

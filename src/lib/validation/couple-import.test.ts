@@ -182,7 +182,7 @@ describe("parseCoupleImport", () => {
   });
 
   it("refuses an event type that has no layouts yet", () => {
-    expect(issuesOf({ ...minimal, couple: { ...minimal.couple, eventType: "baptism" } })).toEqual([
+    expect(issuesOf({ ...minimal, couple: { ...minimal.couple, eventType: "engagement" } })).toEqual([
       "couple.eventType: This event type is not open yet.",
     ]);
   });

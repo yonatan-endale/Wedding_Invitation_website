@@ -40,7 +40,7 @@ Show each kind as its own look, not the same template with different words:
 - **Engagements**: coming soon.
 
 ### Proof
-The best proof is a **live, scrollable demo** of each kind. Ready-made demo data is in `public/examples/` (wedding, graduation, birthday, christening) and can be loaded with `pnpm db:seed:example <name> <slug> --publish`. The page could embed phone-framed demos or link to published example sites.
+The proof already exists: the **`/designs` page** (`src/app/(public)/designs/`, components in `src/components/showcase/`) shows all 15 layouts beside a plain explanation, each on a fictional demo site that opens live in a phone frame, with colour and opening-screen controls. The landing page should lead people to it ("See our designs") and can reuse its look: the phone frame, the small pictures in `public/showcase/posters/` and the drawn artwork in `public/showcase/art/`. See `docs/showcase-plan.md` and the README section "The designs page". Demo data is in `public/examples/showcase-*.json`.
 
 ## Suggested page structure
 
@@ -72,7 +72,7 @@ The best proof is a **live, scrollable demo** of each kind. Ready-made demo data
 
 ## Technical context for the build
 
-- The page lives in this Next.js app at `src/app/(platform)/page.tsx` (App Router, Tailwind v4). The current file is a simple placeholder.
+- The page lives in this Next.js app at `src/app/(public)/page.tsx` (App Router, Tailwind v4). The current file is a simple placeholder with a "See our designs" button and an "Ask for your invitation" section (`id="ask"`). It sits outside the Clerk sign-in group on purpose, so visitors don't download sign-in code: keep it that way.
 - Design tokens come from `src/lib/theme.ts` (the `--w-*` CSS variables, 16 themes), the fonts from `src/app/fonts.ts`, and shared pieces from `src/components/wedding/primitives.tsx` (borders, headings).
 - Language: `next-intl`, messages in `messages/en.json` and `messages/am.json`.
 - No payment, no sign-up: do not design a pricing table, a "Start free trial" button or a login for families.
@@ -80,7 +80,7 @@ The best proof is a **live, scrollable demo** of each kind. Ready-made demo data
 
 ## Status and caveats to know before designing
 
-- The graduation, birthday and christening layouts and the events-wide branding are built but **not yet merged** into the main branch; they are on five stacked branches waiting for the owner's review. Weddings are live in the main branch.
+- The graduation, birthday and christening layouts, the events-wide branding and the `/designs` page are built but **not yet merged** into the main branch; they are on six stacked branches (the newest is `feat/showcase`) waiting for the owner's review. Work from `feat/showcase` to see everything. Weddings are live in the main branch.
 - The product has **no public name, domain or logo yet**. A wordmark or name is needed, or a placeholder agreed with the owner.
 - Whether the contact route is Telegram, phone or a form is undecided.
 - A separate product for **businesses** (conferences, galas, guest lists, QR check-in at the door) is in development. It is not part of this landing page; if the owner wants it mentioned, add a small "For companies" link that goes nowhere yet, or a short "coming soon" strip.
@@ -89,6 +89,6 @@ The best proof is a **live, scrollable demo** of each kind. Ready-made demo data
 
 1. The name and domain of the product, and whether there is a logo.
 2. The contact route for "Ask for your invitation".
-3. Which examples to publish as public demos, and whether to use real (consented) photos or illustrated ones.
+3. Whether the drawn, faceless artwork used on the demo sites is the right look for the landing page too, or whether the designer will provide their own illustrations. No real photos of people can be used.
 4. Should the page mention that it is free, and for whom?
 5. English first, Amharic first, or equal weight?

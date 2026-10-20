@@ -7,6 +7,7 @@ import type { AdminCouple } from "@/db/queries/admin";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { Field, FormSection, LocalizedField, SubmitButton } from "./fields";
 import { useAdminForm } from "./use-action-feedback";
+import { EVENT_TYPE_META } from "@/lib/event-types";
 
 export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
   const { pending, onSubmit, errors } = useAdminForm(updateCoupleTexts.bind(null, couple.id));
@@ -67,9 +68,10 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
         </label>
         <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
           <span>
-            <span className="block text-sm font-medium">Couple&apos;s private page</span>
+            <span className="block text-sm font-medium">Private page</span>
             <span className="block text-sm text-muted-foreground">
-              Lets the couple read RSVPs and wishes with a link and passcode, made in the RSVPs tab. Off by default.
+              Lets {EVENT_TYPE_META[couple.eventType].hosts} read RSVPs and wishes with a link and passcode, made in the RSVPs tab. Off by
+              default.
             </span>
           </span>
           <Switch name="couplePageEnabled" defaultChecked={couple.couplePageEnabled} value="on" />
@@ -134,6 +136,15 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
             <span className="block text-sm text-muted-foreground">Event descriptions fold behind “Show details” in the timeline, so the day reads at a glance. Off by default.</span>
           </span>
           <Switch name="collapsibleEvents" defaultChecked={couple.collapsibleEvents} value="on" />
+        </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Showcase mode</span>
+            <span className="block text-sm text-muted-foreground">
+              For demo sites on the public designs page only: anyone can try another layout, theme or opening on this site with a link. Never turn it on for a real family. Off by default.
+            </span>
+          </span>
+          <Switch name="showcaseEnabled" defaultChecked={couple.showcaseEnabled} value="on" />
         </label>
       </FormSection>
 

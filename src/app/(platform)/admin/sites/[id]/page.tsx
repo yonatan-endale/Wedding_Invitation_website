@@ -6,14 +6,16 @@ import { CoupleHeader } from "@/components/admin/couple-header";
 import { CoupleTabs } from "@/components/admin/couple-tabs";
 import { CoupleTextsForm } from "@/components/admin/couple-texts-form";
 import { GiftsManager } from "@/components/admin/gifts-manager";
+import { HonoreesManager } from "@/components/admin/honorees-manager";
 import { PhotosManager } from "@/components/admin/photos-manager";
 import { RsvpList } from "@/components/admin/rsvp-list";
 import { ScheduleManager } from "@/components/admin/schedule-manager";
 import { StoryManager } from "@/components/admin/story-manager";
 import { getCoupleForAdmin, listRsvps } from "@/db/queries/admin";
 import { getAccessStatus } from "@/lib/couple-access";
-import { fullName } from "@/lib/names";
+import { usesHonorees } from "@/lib/event-types";
 import { siteLinks } from "@/lib/site-links";
+import { siteTitleNames } from "@/lib/site-names";
 import { formatGregorianDate, formatStandardTime, formatWeddingDate } from "@/lib/wedding-format";
 
 type Props = {
@@ -23,11 +25,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const couple = await getCoupleForAdmin((await params).id);
-  return {
-    title: couple
-      ? `${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`
-      : "Couple",
-  };
+  return { title: couple ? siteTitleNames({ couple, honorees: couple.honorees }, "en") || couple.slug : "Site" };
 }
 
 export default async function CouplePage({ params, searchParams }: Props) {
@@ -39,7 +37,8 @@ export default async function CouplePage({ params, searchParams }: Props) {
   const links = await siteLinks(couple.slug);
   const uploadsEnabled = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
   const iso = couple.weddingAt.toISOString();
-  const names = `${fullName(couple.partnerOne, couple.partnerOneFather, "en")} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}`;
+  const names = siteTitleNames({ couple, honorees: couple.honorees }, "en") || couple.slug;
+  const honorees = usesHonorees(couple.eventType);
   const when = (date: Date) =>
     `${formatGregorianDate(date.toISOString(), couple.timezone)}, ${formatStandardTime(date.toISOString(), couple.timezone)}`;
   const accessSummary: AccessSummary = access
@@ -57,6 +56,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
         names={names}
         dateLine={`${formatWeddingDate(iso, couple.timezone, "en")} at ${formatStandardTime(iso, couple.timezone)}`}
         status={couple.status}
+        eventType={couple.eventType}
         shareUrl={links.share}
         previewUrl={links.preview}
       />
@@ -71,6 +71,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
               <div className="rounded-xl border bg-background p-4 sm:p-6">
                 <CoupleDetailsForm
                   couple={couple}
+                  eventType={couple.eventType}
                   timeZones={Intl.supportedValuesOf("timeZone")}
                   uploadsEnabled={uploadsEnabled}
                   siteBase={links.pattern}
@@ -87,12 +88,20 @@ export default async function CouplePage({ params, searchParams }: Props) {
               </div>
             ),
           },
-          {
-            value: "story",
-            label: "Our story",
-            count: couple.storyMilestones.length,
-            content: <StoryManager couple={couple} uploadsEnabled={uploadsEnabled} />,
-          },
+          // Honoree sites tell their story on each person's card and in the story text; the dated chapters are a couple's.
+          honorees
+            ? {
+                value: "people",
+                label: "People",
+                count: couple.honorees.length,
+                content: <HonoreesManager couple={couple} uploadsEnabled={uploadsEnabled} />,
+              }
+            : {
+                value: "story",
+                label: "Our story",
+                count: couple.storyMilestones.length,
+                content: <StoryManager couple={couple} uploadsEnabled={uploadsEnabled} />,
+              },
           {
             value: "photos",
             label: "Photos",
@@ -122,6 +131,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
                   coupleNames={names}
                   status={accessSummary}
                   enabled={couple.couplePageEnabled}
+                  eventType={couple.eventType}
                 />
                 <RsvpList
                   coupleId={couple.id}
@@ -129,6 +139,7 @@ export default async function CouplePage({ params, searchParams }: Props) {
                   timezone={couple.timezone}
                   siteBase={links.share}
                   coupleNames={names}
+                  eventType={couple.eventType}
                   cardsEnabled={couple.guestCardsEnabled}
                 />
               </div>

@@ -46,7 +46,12 @@ export function WaxSeal({ initials, separator, tone = "ivory", half, className }
       <circle cx="60" cy="60" r="44" fill="none" stroke={`url(#${id}-gold)`} strokeWidth="1.4" opacity="0.8" />
       <circle cx="60" cy="60" r="40" fill="none" stroke={`url(#${id}-gold)`} strokeWidth="0.6" strokeDasharray="1 2.4" opacity="0.7" />
       <g fill={`url(#${id}-gold)`} fontFamily="var(--font-display)" textAnchor="middle" dominantBaseline="central">
-        {separator === "&" ? (
+        {!two ? (
+          // One person celebrated: a single capital in the middle.
+          <text x="60" y="62" fontSize="50">
+            {one}
+          </text>
+        ) : separator === "&" ? (
           <>
             {/* Two capitals overlapping, the way a monogram interlocks them. */}
             <text x="50" y="62" fontSize="46">

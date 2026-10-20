@@ -1,8 +1,33 @@
-# Wedding invitation sites
+# Invitation sites
 
-One Next.js 15 app that hosts a separate invitation website for every couple, plus an admin dashboard where you create and edit them. No code changes are needed to add a couple.
+One Next.js 15 app that hosts a separate invitation website for every celebration, plus an admin dashboard where you create and edit them. Weddings came first; graduations, birthdays and christenings are open too, and engagements are planned. No code changes are needed to add a site.
 
-Each couple site has:
+## Graduations
+
+A graduation site lists one to six graduates, each with a portrait, degree, school and a few lines, in its own layouts:
+
+- Commencement: the class year in large outline numerals under the names, and each graduate on a diploma-style card
+- Tassel: a deep cover with a laurel wreath of initials hung on a gold cord, and each graduate in an arch
+
+Birthdays list one to three people, with their age or milestone, in two layouts: Confetti (the name in a page of confetti) and Milestone (a dark cover with the age in gold foil, for the big numbers).
+
+Christenings (kristina) list the child with their christening name and godparents in the Shema layout, a cover of woven white cloth with the site's border down both edges. A cross appears only when the admin picks a faith ornament, here and on the timeline.
+
+Photos can be grouped under headings such as "The two of us". The shared sections (save-the-date, countdown, RSVP, calendar, guest card) speak of a graduation in both languages: each event type lays its own wording from `events.<type>` in `messages/*.json` over the wedding wording. Try it with `pnpm db:seed:example graduation` (or `birthday`, `baptism`).
+
+## The designs page
+
+`/designs` shows every layout beside a plain explanation, on fictional demo sites that use only drawn artwork, so no real person appears. Each design starts as a small picture and opens the live site in a phone frame when a visitor taps "Try it live"; they can then try other colours and opening screens.
+
+- **Demo sites:** `public/examples/showcase-{wedding,graduation,birthday,christening}.json`, loaded with `pnpm db:seed:example showcase-wedding demo-wedding --publish` (and the same for the others, slugs `demo-graduation`, `demo-birthday`, `demo-christening`). Each has the per-site **Showcase mode** switch on, which lets anyone use `?layout=`, `?theme=` and `?opening=` on that site only. It is off for every real site, and the faith ornament can never be changed this way.
+- **Artwork:** `python3 scripts/make-showcase-art.py` draws `public/showcase/art/*.svg`. No faces, no flag-coloured stripes, and no cross unless a family chooses one.
+- **Pictures:** `BASE_URL=... PUPPETEER_DIR=... npx tsx scripts/make-showcase-posters.ts` takes `public/showcase/posters/*.webp` from the running demos. Run it again after a layout changes.
+- **The explanations:** `showcase.layouts.<layout>` in `messages/*.json`, in English and Amharic. A test fails if a layout has none.
+- **"Ask for this design"** leads to the home page's contact section; set `NEXT_PUBLIC_CONTACT_URL` for its "Get in touch" button.
+
+## Weddings
+
+Each wedding site has:
 
 - Nine layouts to choose from, each with its own design: Classic, Editorial, Reel (cinematic), Noir & Gold (black tie), Gilded Arches, Stories (one full-screen card at a time), Flat-lay Suite (stationery on linen), Kaba Velvet and Brana Manuscript (an illuminated Ge'ez manuscript)
 - A choice of opening screen, which starts the couple's music when a guest opens it: a netela, wax-seal gates, a 3D envelope with a letter, or an adey abeba flower that blooms. A `?to=Name` link greets the guest by name
@@ -28,7 +53,7 @@ Each couple site has:
 
 | Piece | Where |
 | --- | --- |
-| Guest site | `src/app/s/[slug]/page.tsx`, sections in `src/components/wedding/` |
+| Guest site | `src/app/s/[slug]/page.tsx`, wedding sections in `src/components/wedding/`, other event types in `src/components/events/` |
 | Subdomain routing | `src/middleware.ts` rewrites `<slug>.<root domain>` to `/s/<slug>` |
 | Admin dashboard | `src/app/(platform)/admin/`, forms in `src/components/admin/` |
 | Server actions | `src/actions/admin.ts` (admin), `src/actions/rsvp.ts` (guests), `src/actions/couple-portal.ts` (the couple's private page) |
@@ -68,7 +93,7 @@ Then open:
 
 - `http://localhost:3000/s/hanna-dawit` for the demo couple site
 
-To add a real couple, put their data in a JSON file (see `public/examples/couple.json`; real ones live in `data/couples/`) and upload it at `/admin/couples/import`.
+To add a real site, put its data in a JSON file (see `public/examples/couple.json` for a wedding and `public/examples/graduation.json` for a graduation; real ones live in `data/couples/`) and upload it at `/admin/sites/import`. Old `/admin/couples/...` links redirect there.
 - `http://hanna-dawit.localhost:3000` for the same site on a subdomain (works in Chrome and Firefox)
 - `http://localhost:3000/admin` for the dashboard
 

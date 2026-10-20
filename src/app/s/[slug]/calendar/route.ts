@@ -8,7 +8,7 @@ import { weddingCalendarEvent } from "@/lib/wedding-calendar";
 type Params = { params: Promise<{ slug: string }> };
 
 /**
- * The wedding as an .ics file for Apple Calendar, Outlook and phones. Only for
+ * The celebration as an .ics file for Apple Calendar, Outlook and phones. Only for
  * a published couple with "Add to calendar" turned on. No file extension in the
  * path: the middleware skips paths that have one, which breaks subdomains.
  */
@@ -23,7 +23,7 @@ export async function GET(_request: Request, { params }: Params) {
   return new Response(buildIcs(event), {
     headers: {
       "Content-Type": "text/calendar; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="wedding.ics"',
+      "Content-Disposition": `attachment; filename="${site.couple.eventType}.ics"`,
       "Cache-Control": "private, max-age=300",
       "X-Robots-Tag": "noindex",
     },

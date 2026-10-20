@@ -2,6 +2,8 @@ const OPTIMIZABLE_HOSTS = [/^images\.unsplash\.com$/, /\.public\.blob\.vercel-st
 
 /** next/image only optimizes hosts listed in next.config.ts; anything else must be served unoptimized. */
 export function canOptimizeImage(src: string): boolean {
+  // Vector art is already as small as it gets, and the optimizer refuses SVG.
+  if (/\.svg(\?|#|$)/i.test(src)) return false;
   if (src.startsWith("/") && !src.startsWith("//")) return true;
   try {
     const url = new URL(src);

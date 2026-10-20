@@ -20,8 +20,8 @@ import { parseGuestName } from "@/lib/guest";
 import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
 import { LAYOUTS, getLayout } from "@/lib/layout";
 import { isLocale, pickText, type Locale } from "@/lib/localized";
-import { fullName, initials, monogramText } from "@/lib/names";
 import { getOpening } from "@/lib/opening";
+import { layoutNames, siteTitleNames } from "@/lib/site-names";
 import { hasPreviewOverrides, parsePreviewOverrides, type PreviewOverrides } from "@/lib/preview-overrides";
 import { getTheme, layoutPalette, themeCss } from "@/lib/theme";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { site } = await loadVisibleSite(slug);
   const locale = await currentLocale();
   const { couple } = site;
-  const title = `${fullName(couple.partnerOne, couple.partnerOneFather, locale)} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, locale)}`;
+  const title = siteTitleNames(site, locale);
   const description = [formatWeddingDate(couple.weddingAt, couple.timezone, locale), pickText(couple.city, locale)]
     .filter(Boolean)
     .join(", ");
@@ -64,15 +64,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Admin-only looks from the query string (?layout=, ?opening=, ?motion=,
+ * Looks from the query string (?layout=, ?opening=, ?motion=,
  * ?calendar=, ?theme=), for trying a design without saving it. Guests and
  * couple subdomains never get them; Clerk is asked only when one is present
  * and the visitor has a session. On `next dev` they work without signing in,
- * so designs can be checked locally.
+ * so designs can be checked locally. A site with "showcase mode" on (a demo for
+ * the public designs page) lets anyone use them.
  */
-async function adminOverrides(searchParams: SearchParams, preview: boolean): Promise<PreviewOverrides> {
+async function adminOverrides(searchParams: SearchParams, preview: boolean, showcase: boolean): Promise<PreviewOverrides> {
   const overrides = parsePreviewOverrides(searchParams);
   if (!hasPreviewOverrides(overrides)) return {};
+  // A demo site on the public designs page lets anyone try a look. Faith imagery stays the admin's choice.
+  if (showcase) {
+    const looks = { ...overrides };
+    delete looks.ornament;
+    return looks;
+  }
   if ((await headers()).get(TENANT_HEADER)) return {};
   if (preview || process.env.NODE_ENV === "development") return overrides;
   const signedIn = (await cookies()).getAll().some((cookie) => CLERK_SESSION_COOKIE.test(cookie.name));
@@ -84,7 +91,7 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
   const loaded = await loadVisibleSite(slug);
   const { preview } = loaded;
   const query = await searchParams;
-  const overrides = await adminOverrides(query, preview);
+  const overrides = await adminOverrides(query, preview, loaded.site.couple.showcaseEnabled);
   const site: SiteData = { ...loaded.site, couple: { ...loaded.site.couple, ...overrides } };
   const locale = await currentLocale();
   const t = await getTranslations("nav");
@@ -92,19 +99,19 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
 
   // Three forms of each name: first name on the opening screen, nickname in the
   // hero, and first plus father's name in the formal places.
-  const firstOne = pickText(couple.partnerOne, locale);
-  const firstTwo = pickText(couple.partnerTwo, locale);
-  const one = fullName(couple.partnerOne, couple.partnerOneFather, locale);
-  const two = fullName(couple.partnerTwo, couple.partnerTwoFather, locale);
-  const coupleInitials = initials(firstOne, firstTwo);
-  const names = { one, two, firstOne, firstTwo, initials: coupleInitials, monogram: monogramText(coupleInitials) };
+  const names = layoutNames(site, locale);
 
   // The layout decides the section order and look; the shell around it is shared.
-  const layout = getLayout(couple.layout);
+  const layout = getLayout(couple.layout, couple.eventType);
   const Layout = LAYOUT_COMPONENTS[layout];
   const meta = LAYOUTS[layout];
   const links = sectionLinks(site, locale, (key) => t(key), meta);
-  const photos = site.photos.map((photo) => ({ id: photo.id, url: photo.url, caption: pickText(photo.caption, locale) }));
+  const photos = site.photos.map((photo) => ({
+    id: photo.id,
+    url: photo.url,
+    caption: pickText(photo.caption, locale),
+    group: pickText(photo.groupLabel, locale),
+  }));
   const motion = getMotionLevel(couple.motion);
   // Dark layouts show a light theme in its dark variant.
   const palette = layoutPalette(getTheme(couple.theme), meta.scheme);
@@ -123,9 +130,9 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
               </p>
             ) : null}
             <OpeningHost
-              name={getOpening(couple.opening)}
-              names={{ one: firstOne, two: firstTwo }}
-              initials={coupleInitials}
+              name={getOpening(couple.opening, couple.eventType)}
+              names={{ one: names.firstOne, two: names.firstTwo }}
+              initials={names.initials}
               separator={locale === "am" ? "፡" : "&"}
               dateLine={formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
               altDateLine={

@@ -9,6 +9,7 @@ import { useIntro } from "../intro/intro-context";
 import { AdeyFlower } from "../ornaments/adey-flower";
 import { OpeningShell } from "./shell";
 import type { OpeningProps } from "./types";
+import { joinNames } from "@/lib/names";
 
 const DONE_AT = 1900;
 /** Little daisies that scatter from the bloom at the rich motion level; fixed angles keep server and client alike. */
@@ -57,7 +58,7 @@ export function AdeyOpening({ names, dateLine, guestName, level }: OpeningProps)
         <div className={cn("transition-opacity duration-300", opening && "opacity-0")}>
           {guestName ? <p className="mb-2 text-lg text-ink-soft">{t("dear", { name: guestName })}</p> : null}
           <h2 id="intro-names" className="font-display text-[clamp(2rem,8vw,3.25rem)] leading-tight">
-            {names.one} &amp; {names.two}
+            {joinNames([names.one, names.two])}
           </h2>
         </div>
 

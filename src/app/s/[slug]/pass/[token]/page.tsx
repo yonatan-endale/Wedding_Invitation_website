@@ -8,7 +8,7 @@ import { getGuestCard } from "@/db/queries/cards";
 import { getSiteData } from "@/db/queries/site";
 import { siteBaseFromRequest } from "@/lib/card/site-base";
 import { isLocale, pickText } from "@/lib/localized";
-import { fullName } from "@/lib/names";
+import { siteTitleNames } from "@/lib/site-names";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
 
@@ -39,7 +39,7 @@ export default async function EntryPassPage({ params }: Props) {
   ]);
   const locale = isLocale(current) ? current : "en";
   const { couple, venues } = site;
-  const coupleNames = `${fullName(couple.partnerOne, couple.partnerOneFather, locale)} & ${fullName(couple.partnerTwo, couple.partnerTwoFather, locale)}`;
+  const coupleNames = siteTitleNames(site, locale);
   const venue = venues[0];
 
   return (

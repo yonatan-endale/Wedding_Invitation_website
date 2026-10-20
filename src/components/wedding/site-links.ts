@@ -16,7 +16,9 @@ export function sectionLinks(site: SiteData, locale: Locale, t: (key: NavKey) =>
     invitation: true,
     couple:
       layout.showsCouple &&
-      (layout.coupleAlways || Boolean(couple.partnerOnePortraitUrl || couple.partnerTwoPortraitUrl)),
+      (layout.coupleAlways ||
+        site.honorees.length > 0 ||
+        Boolean(couple.partnerOnePortraitUrl || couple.partnerTwoPortraitUrl)),
     story: Boolean(pickText(couple.story, locale)) || (layout.showsMilestones && site.milestones.length > 0),
     schedule: site.events.length > 0,
     venues: site.venues.length > 0,

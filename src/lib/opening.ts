@@ -1,3 +1,5 @@
+import { usesHonorees, type EventType } from "./event-types";
+
 /**
  * Opening screens: the full-screen cover a guest taps to open the invitation
  * (which also starts the music). Chosen per couple, independent of the layout.
@@ -41,7 +43,23 @@ export function isOpeningName(value: unknown): value is OpeningName {
   return typeof value === "string" && Object.hasOwn(OPENINGS, value);
 }
 
-/** Unknown or missing names fall back to the netela so old rows and stale cache entries keep rendering. */
-export function getOpening(name: string | null | undefined): OpeningName {
-  return isOpeningName(name) ? name : DEFAULT_OPENING;
+/**
+ * The netela and the wax-seal gates are drawn around two names, so sites that
+ * celebrate one or more honorees choose from the envelope and the bloom.
+ */
+const HONOREE_OPENINGS: readonly OpeningName[] = ["envelope", "adey"];
+
+export function openingsFor(type: EventType): readonly OpeningName[] {
+  return usesHonorees(type) ? HONOREE_OPENINGS : OPENING_NAMES;
+}
+
+/**
+ * Unknown or missing names fall back to the netela so old rows and stale cache
+ * entries keep rendering. An opening the event type can't use falls back to
+ * the type's first one.
+ */
+export function getOpening(name: string | null | undefined, type: EventType = "wedding"): OpeningName {
+  const allowed = openingsFor(type);
+  if (isOpeningName(name) && allowed.includes(name)) return name;
+  return allowed.includes(DEFAULT_OPENING) ? DEFAULT_OPENING : allowed[0];
 }

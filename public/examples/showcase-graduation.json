@@ -1,0 +1,164 @@
+{
+  "couple": {
+    "status": "published",
+    "timezone": "Africa/Addis_Ababa",
+    "showcaseEnabled": true,
+    "calendarButtons": true,
+    "rsvpEnabled": true,
+    "petals": false,
+    "motion": "moderate",
+    "calendarStyle": "both",
+    "slug": "demo-graduation",
+    "eventType": "graduation",
+    "weddingAt": "2027-07-11T13:00",
+    "city": {
+      "en": "Addis Ababa",
+      "am": "አዲስ አበባ"
+    },
+    "tagline": {
+      "en": "An example invitation. The names, places and numbers are invented.",
+      "am": "ምሳሌ ግብዣ ነው። ስሞቹ፣ ቦታዎቹ እና ቁጥሮቹ የተፈጠሩ ናቸው።"
+    },
+    "invitation": {
+      "en": "Betty and Liya finished their studies this year, and we would love you to celebrate with us over lunch at home.",
+      "am": "ቤቲ እና ሊያ ዘንድሮ ትምህርታቸውን አጠናቀዋል። በቤታችን በምሳ ደስታችንን አብረውን እንዲያከብሩ እንጋብዝዎታለን።"
+    },
+    "hosts": {
+      "en": "Their parents",
+      "am": "ወላጆቻቸው"
+    },
+    "dressCode": {
+      "en": "Come as you are",
+      "am": "እንደተመቸዎ ይምጡ"
+    },
+    "heroPhotoUrl": "/showcase/art/graduation-caps.svg",
+    "heroPosition": "50% 40%",
+    "theme": "academy",
+    "layout": "commencement",
+    "border": "line",
+    "opening": "envelope",
+    "ornament": "none"
+  },
+  "honorees": [
+    {
+      "name": {
+        "en": "Betty",
+        "am": "ቤቲ"
+      },
+      "father": {
+        "en": "Tadesse",
+        "am": "ታደሰ"
+      },
+      "headline": {
+        "en": "Doctor of Medicine",
+        "am": "የሕክምና ዶክትሬት"
+      },
+      "subheadline": {
+        "en": "Example University",
+        "am": "ምሳሌ ዩኒቨርሲቲ"
+      },
+      "story": {
+        "en": "Seven years of early mornings, night shifts and the patience of everyone around her.",
+        "am": "ሰባት ዓመታት የማለዳ ጥናት፣ የሌሊት ተረኝነት እና የቤተሰቧ ትዕግሥት።"
+      },
+      "portraitUrl": "/showcase/art/portrait-3.svg"
+    },
+    {
+      "name": {
+        "en": "Liya",
+        "am": "ሊያ"
+      },
+      "father": {
+        "en": "Tadesse",
+        "am": "ታደሰ"
+      },
+      "headline": {
+        "en": "BSc in Computer Science",
+        "am": "በኮምፒውተር ሳይንስ የመጀመሪያ ዲግሪ"
+      },
+      "subheadline": {
+        "en": "Example Institute of Technology",
+        "am": "ምሳሌ የቴክኖሎጂ ኢንስቲትዩት"
+      },
+      "portraitUrl": "/showcase/art/portrait-5.svg"
+    }
+  ],
+  "venues": [
+    {
+      "name": {
+        "en": "Family home (example)",
+        "am": "የቤተሰብ ቤት (ምሳሌ)"
+      },
+      "address": {
+        "en": "Example Road, Addis Ababa",
+        "am": "ምሳሌ መንገድ፣ አዲስ አበባ"
+      }
+    }
+  ],
+  "events": [
+    {
+      "title": {
+        "en": "Graduation ceremony",
+        "am": "የምረቃ ሥነ ሥርዓት"
+      },
+      "kind": "commencement",
+      "startsAt": "2027-07-11T09:00",
+      "endsAt": "2027-07-11T12:00"
+    },
+    {
+      "title": {
+        "en": "Family lunch",
+        "am": "የቤተሰብ ምሳ"
+      },
+      "kind": "celebration",
+      "startsAt": "2027-07-11T13:00",
+      "venue": 0
+    },
+    {
+      "title": {
+        "en": "Coffee ceremony",
+        "am": "የቡና ሥነ ሥርዓት"
+      },
+      "kind": "buna",
+      "startsAt": "2027-07-11T16:00",
+      "venue": 0
+    }
+  ],
+  "photos": [
+    {
+      "url": "/showcase/art/graduation-caps.svg",
+      "groupLabel": {
+        "en": "Graduation day",
+        "am": "የምረቃው ቀን"
+      }
+    },
+    {
+      "url": "/showcase/art/graduation-gate.svg",
+      "groupLabel": {
+        "en": "Graduation day",
+        "am": "የምረቃው ቀን"
+      }
+    },
+    {
+      "url": "/showcase/art/laurel-cap.svg",
+      "groupLabel": {
+        "en": "The long road",
+        "am": "ረጅሙ መንገድ"
+      }
+    },
+    {
+      "url": "/showcase/art/keepsake.svg",
+      "groupLabel": {
+        "en": "The long road",
+        "am": "ረጅሙ መንገድ"
+      }
+    },
+    {
+      "url": "/showcase/art/candles.svg",
+      "groupLabel": {
+        "en": "The long road",
+        "am": "ረጅሙ መንገድ"
+      }
+    }
+  ]
+}

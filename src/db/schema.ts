@@ -14,6 +14,7 @@ import {
 import { CALENDAR_STYLES, MOTION_LEVELS, ORNAMENTS } from "@/lib/appearance";
 import { BORDER_STYLES, COUPLE_STATUSES, GIFT_KINDS, PARTNER_ROLES } from "@/lib/constants";
 import { EVENT_KINDS } from "@/lib/event-kinds";
+import { EVENT_TYPES } from "@/lib/event-types";
 import type { LocalizedText } from "@/lib/localized";
 
 const timestamps = {
@@ -30,8 +31,11 @@ export const couples = pgTable("couples", {
   id: uuid("id").primaryKey().defaultRandom(),
   slug: text("slug").notNull().unique(),
   status: text("status", { enum: COUPLE_STATUSES }).notNull().default("draft"),
-  partnerOne: localized("partner_one").notNull(),
-  partnerTwo: localized("partner_two").notNull(),
+  /** What the site celebrates; see src/lib/event-types.ts. Every row before types existed is a wedding. */
+  eventType: text("event_type", { enum: EVENT_TYPES }).notNull().default("wedding"),
+  /** Couple types (wedding, engagement) fill both partners; honoree types leave them empty. */
+  partnerOne: localized("partner_one").notNull().default({ en: "" }),
+  partnerTwo: localized("partner_two").notNull().default({ en: "" }),
   partnerOneNick: localized("partner_one_nick"),
   partnerTwoNick: localized("partner_two_nick"),
   partnerOneFather: localized("partner_one_father"),
@@ -80,6 +84,12 @@ export const couples = pgTable("couples", {
   scrollProgress: boolean("scroll_progress").notNull().default(false),
   /** Event descriptions fold behind "Show details" in every timeline. */
   collapsibleEvents: boolean("collapsible_events").notNull().default(false),
+  /**
+   * Demo sites for the public designs page: anyone may try another layout,
+   * theme or opening with ?layout=, ?theme= and ?opening=. Never on for a real
+   * family's site.
+   */
+  showcaseEnabled: boolean("showcase_enabled").notNull().default(false),
   ...timestamps,
 });
 
@@ -92,10 +102,40 @@ export const photos = pgTable(
       .references(() => couples.id, { onDelete: "cascade" }),
     url: text("url").notNull(),
     caption: localized("caption"),
+    /** Optional heading the gallery groups photos under, like "The two of us". */
+    groupLabel: localized("group_label"),
     sortOrder: integer("sort_order").notNull().default(0),
     ...timestamps,
   },
   (t) => [index("photos_couple_idx").on(t.coupleId, t.sortOrder)],
+);
+
+/**
+ * The people a non-wedding site celebrates: the graduates, the birthday
+ * person, the child being baptised. Weddings keep their two partners on the
+ * couple row instead. `headline` and `subheadline` are the short lines under
+ * the name; what they hold depends on the event type (a degree and a school,
+ * an age, a christening name and the godparents).
+ */
+export const honorees = pgTable(
+  "honorees",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    coupleId: uuid("couple_id")
+      .notNull()
+      .references(() => couples.id, { onDelete: "cascade" }),
+    name: localized("name").notNull(),
+    nick: localized("nick"),
+    father: localized("father"),
+    headline: localized("headline"),
+    subheadline: localized("subheadline"),
+    story: localized("story"),
+    portraitUrl: text("portrait_url"),
+    portraitPosition: text("portrait_position").notNull().default("50% 40%"),
+    sortOrder: integer("sort_order").notNull().default(0),
+    ...timestamps,
+  },
+  (t) => [index("honorees_couple_idx").on(t.coupleId, t.sortOrder)],
 );
 
 export const venues = pgTable(
@@ -253,6 +293,7 @@ export const coupleSessions = pgTable(
 
 export const couplesRelations = relations(couples, ({ many }) => ({
   photos: many(photos),
+  honorees: many(honorees),
   venues: many(venues),
   events: many(events),
   giftAccounts: many(giftAccounts),
@@ -267,6 +308,10 @@ export const storyMilestonesRelations = relations(storyMilestones, ({ one }) => 
 
 export const photosRelations = relations(photos, ({ one }) => ({
   couple: one(couples, { fields: [photos.coupleId], references: [couples.id] }),
+}));
+
+export const honoreesRelations = relations(honorees, ({ one }) => ({
+  couple: one(couples, { fields: [honorees.coupleId], references: [couples.id] }),
 }));
 
 export const venuesRelations = relations(venues, ({ one }) => ({
@@ -300,6 +345,7 @@ export const coupleSessionsRelations = relations(coupleSessions, ({ one }) => ({
 
 export type Couple = typeof couples.$inferSelect;
 export type Photo = typeof photos.$inferSelect;
+export type Honoree = typeof honorees.$inferSelect;
 export type Venue = typeof venues.$inferSelect;
 export type WeddingEvent = typeof events.$inferSelect;
 export type GiftAccount = typeof giftAccounts.$inferSelect;

@@ -5,45 +5,75 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { listCouples } from "@/db/queries/admin";
-import { fullName } from "@/lib/names";
+import { EVENT_TYPES, EVENT_TYPE_META, isEventType } from "@/lib/event-types";
+import { cn } from "@/lib/utils";
+import { siteTitleNames } from "@/lib/site-names";
 import { getTheme } from "@/lib/theme";
 import { formatWeddingDate } from "@/lib/wedding-format";
 
-export const metadata: Metadata = { title: "Couples" };
+export const metadata: Metadata = { title: "Sites" };
 
-export default async function AdminHomePage() {
-  const couples = await listCouples();
+type Props = { searchParams: Promise<{ type?: string }> };
+
+export default async function AdminHomePage({ searchParams }: Props) {
+  const all = await listCouples();
+  const requested = (await searchParams).type;
+  const filter = isEventType(requested) ? requested : null;
+  const couples = filter ? all.filter((couple) => couple.eventType === filter) : all;
+  // Only the types that have sites get a filter, and only once there is more than one.
+  const types = EVENT_TYPES.filter((type) => all.some((couple) => couple.eventType === type));
   const now = Date.now();
 
   return (
     <div className="grid gap-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Couples</h1>
-          <p className="mt-1 text-muted-foreground">Each couple gets their own invitation site. Create one, fill it in, then publish.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">Sites</h1>
+          <p className="mt-1 text-muted-foreground">Each celebration gets its own invitation site. Create one, fill it in, then publish.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button asChild variant="outline">
-            <Link href="/admin/couples/import">
+            <Link href="/admin/sites/import">
               <Upload aria-hidden /> Import JSON
             </Link>
           </Button>
           <Button asChild>
-            <Link href="/admin/couples/new">
-              <Plus aria-hidden /> New couple
+            <Link href="/admin/sites/new">
+              <Plus aria-hidden /> New site
             </Link>
           </Button>
         </div>
       </div>
 
+      {types.length > 1 ? (
+        <nav aria-label="Filter by event" className="-mt-2 flex flex-wrap gap-2">
+          {[null, ...types].map((type) => (
+            <Link
+              key={type ?? "all"}
+              href={type ? `/admin?type=${type}` : "/admin"}
+              aria-current={type === filter ? "page" : undefined}
+              className={cn(
+                "rounded-full border px-4 py-1.5 text-sm",
+                type === filter ? "border-primary bg-primary text-primary-foreground" : "bg-background hover:bg-muted",
+              )}
+            >
+              {type ? EVENT_TYPE_META[type].label : "All"}
+              <span className="ml-1.5 tabular-nums opacity-70">
+                {type ? all.filter((couple) => couple.eventType === type).length : all.length}
+              </span>
+            </Link>
+          ))}
+        </nav>
+      ) : null}
+
       {couples.length === 0 ? (
         <div className="rounded-xl border border-dashed bg-background p-12 text-center">
           <CalendarHeart className="mx-auto size-10 text-muted-foreground" aria-hidden />
-          <h2 className="mt-4 font-medium">No couples yet</h2>
+          <h2 className="mt-4 font-medium">No sites yet</h2>
           <p className="mt-1 text-muted-foreground">Create the first invitation site. It stays a draft until you publish it.</p>
           <Button asChild className="mt-6">
-            <Link href="/admin/couples/new">
-              <Plus aria-hidden /> New couple
+            <Link href="/admin/sites/new">
+              <Plus aria-hidden /> New site
             </Link>
           </Button>
         </div>
@@ -55,7 +85,7 @@ export default async function AdminHomePage() {
             return (
               <li key={couple.id}>
                 <Link
-                  href={`/admin/couples/${couple.id}`}
+                  href={`/admin/sites/${couple.id}`}
                   className="group block overflow-hidden rounded-xl border bg-background transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                 >
                   <div className="relative aspect-[16/9]" style={{ backgroundColor: theme.colors.thread1 }}>
@@ -77,12 +107,14 @@ export default async function AdminHomePage() {
                     <Badge variant={couple.status === "published" ? "default" : "secondary"} className="absolute top-3 left-3">
                       {couple.status === "published" ? "Published" : "Draft"}
                     </Badge>
+                    {couple.eventType !== "wedding" ? (
+                      <Badge variant="secondary" className="absolute top-3 right-3">
+                        {EVENT_TYPE_META[couple.eventType].label}
+                      </Badge>
+                    ) : null}
                   </div>
                   <div className="p-4">
-                    <p className="font-medium">
-                      {fullName(couple.partnerOne, couple.partnerOneFather, "en")} &amp;{" "}
-                      {fullName(couple.partnerTwo, couple.partnerTwoFather, "en")}
-                    </p>
+                    <p className="font-medium">{siteTitleNames({ couple, honorees: couple.honorees }, "en") || couple.slug}</p>
                     <p className="text-sm text-muted-foreground">
                       {formatWeddingDate(couple.weddingAt.toISOString(), couple.timezone, "en")}
                       {past ? " (past)" : ""}

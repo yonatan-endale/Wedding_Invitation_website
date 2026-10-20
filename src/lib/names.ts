@@ -28,6 +28,22 @@ export function monogramText([one, two]: [string, string]): string {
   return [one, two].filter(Boolean).join(" & ");
 }
 
+/**
+ * Any number of names as one line: "Hanna", "Hanna & Dawit", "Ruth, Mahlet & Selam".
+ * Two names read exactly as the couple's names always have, so weddings keep
+ * their titles, cards and share text.
+ */
+export function joinNames(names: readonly string[]): string {
+  const list = names.map((name) => name.trim()).filter(Boolean);
+  if (list.length <= 2) return list.join(" & ");
+  return `${list.slice(0, -1).join(", ")} & ${list.at(-1)}`;
+}
+
+/** First initials of any number of names, in order, skipping blank names. */
+export function initialsOf(names: readonly string[]): string[] {
+  return names.map(firstGrapheme).filter(Boolean);
+}
+
 const ETHIOPIC = /[\u1200-\u139F\u2D80-\u2DDF\uAB00-\uAB2F]/;
 
 /** A word's rough width in em: Ge'ez syllables run wider than Latin letters, capitals wider than lower case. */

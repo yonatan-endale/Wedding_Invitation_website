@@ -1,13 +1,13 @@
 import { ImageResponse } from "next/og";
 import { getSiteData } from "@/db/queries/site";
-import { fullName } from "@/lib/names";
+import { siteTitleNames } from "@/lib/site-names";
 import { loadGoogleFont } from "@/lib/og-fonts";
 import { getTheme } from "@/lib/theme";
 import { formatWeddingDate } from "@/lib/wedding-format";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Wedding invitation";
+export const alt = "Invitation";
 
 /** Share preview for WhatsApp, Telegram and Facebook: photo on the left, names and date on the right. */
 export default async function OpenGraphImage({ params }: { params: Promise<{ slug: string }> }) {
@@ -17,8 +17,8 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
   const colors = getTheme(published?.couple.theme).colors;
 
   const names = published
-    ? `${fullName(published.couple.partnerOne, published.couple.partnerOneFather, "en")} & ${fullName(published.couple.partnerTwo, published.couple.partnerTwoFather, "en")}`
-    : "Wedding invitation";
+    ? siteTitleNames(published, "en")
+    : "You are invited";
   const date = published ? formatWeddingDate(published.couple.weddingAt, published.couple.timezone, "en") : "";
   const photo = published?.couple.heroPhotoUrl?.startsWith("https://") ? published.couple.heroPhotoUrl : null;
   const font = await loadGoogleFont("Marcellus", `${names}${date}You are invited`);

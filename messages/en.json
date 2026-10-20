@@ -491,5 +491,161 @@
         "cardShareText": "Your invitation card for the christening of {couple}: {url}"
       }
     }
+  },
+  "showcase": {
+    "title": "Our designs",
+    "intro": "Every look we make, shown on invented examples. Tap one to open it, then try other colours and opening screens. The names, places and numbers are made up and the pictures are illustrations.",
+    "filterLabel": "Show",
+    "all": "All",
+    "kinds": {
+      "wedding": "Weddings",
+      "graduation": "Graduations",
+      "birthday": "Birthdays",
+      "baptism": "Christenings"
+    },
+    "comingSoon": "Engagements are coming soon.",
+    "tryIt": "Try it live",
+    "loading": "Opening the design…",
+    "backToPicture": "Back to the picture",
+    "phoneTitle": "A live example of the {name} design",
+    "posterAlt": "A picture of the {name} design",
+    "mood": "Mood",
+    "goodFor": "Good for",
+    "highlights": "Standout moments",
+    "colours": "Colours",
+    "opening": "Opening screen",
+    "coloursNote": "Try another colour",
+    "openingNote": "Try another opening",
+    "ask": "Ask for this design",
+    "example": "Example sites use invented names and illustrated pictures.",
+    "back": "Back to the home page",
+    "openings": {
+      "netela": "Netela",
+      "seal": "Wax-seal gates",
+      "envelope": "Envelope",
+      "adey": "Adey bloom"
+    },
+    "layouts": {
+      "classic": {
+        "feel": "A full-screen cover photo and a framed invitation card, then the day, the venues and a swipeable gallery.",
+        "mood": "Warm and familiar",
+        "goodFor": "Families who want the traditional look, done well.",
+        "b1": "A framed invitation card with the border you choose",
+        "b2": "A timeline of the day with an icon for each step",
+        "b3": "A swipeable photo carousel"
+      },
+      "editorial": {
+        "feel": "A magazine spread: the date in huge numerals, oval portraits and a dated love story.",
+        "mood": "Light and designed",
+        "goodFor": "Couples with a story to tell and good portraits.",
+        "b1": "A split cover with the date in large numerals",
+        "b2": "Oval portraits of the couple",
+        "b3": "Dated story chapters and a mosaic gallery"
+      },
+      "reel": {
+        "feel": "A film: opening credits, the couple as the stars and the day told as scenes.",
+        "mood": "Dark and cinematic",
+        "goodFor": "Couples who love photography and video.",
+        "b1": "A letterboxed cover with opening credits",
+        "b2": "The day told as scenes",
+        "b3": "A film-strip gallery and end credits"
+      },
+      "noir": {
+        "feel": "Black tie: a gold crest monogram, gold-foil names and a framed gallery wall.",
+        "mood": "Dark and formal",
+        "goodFor": "Evening weddings and formal receptions.",
+        "b1": "A gold crest made from your initials",
+        "b2": "Names in gold foil",
+        "b3": "Black-metal gift cards"
+      },
+      "arches": {
+        "feel": "Ivory and gold, with the cover photo in an arched window.",
+        "mood": "Light and elegant",
+        "goodFor": "Church weddings and garden venues.",
+        "b1": "The cover photo in an arched window",
+        "b2": "Twin arches for the couple",
+        "b3": "An arcade of events and an arch-cropped photo strip"
+      },
+      "stories": {
+        "feel": "Tap through it like stories on a phone, one full-screen card at a time.",
+        "mood": "Light and playful",
+        "goodFor": "Younger couples and guests who live on their phones.",
+        "b1": "One card at a time, with progress bars",
+        "b2": "Tap or use the arrow keys to move on",
+        "b3": "Cover, invitation, the day, photos and RSVP"
+      },
+      "flatlay": {
+        "feel": "A stationery suite on linen: a sealed envelope, then cards that stack as you scroll.",
+        "mood": "Light and tactile",
+        "goodFor": "Couples who care about paper and detail.",
+        "b1": "A sealed envelope that opens onto the cards",
+        "b2": "Invitation, schedule, details and RSVP cards stacking up",
+        "b3": "Photo prints fanned across the page"
+      },
+      "kaba": {
+        "feel": "A groom's velvet kaba: deep velvet with gold-thread embroidery that stitches itself in.",
+        "mood": "Always dark and regal",
+        "goodFor": "Traditional Habesha weddings.",
+        "b1": "Embroidery that stitches itself in as you scroll",
+        "b2": "A stitched timeline that marks the Mels",
+        "b3": "A stitched monogram"
+      },
+      "brana": {
+        "feel": "An illuminated Ge'ez manuscript on parchment, with the names in red.",
+        "mood": "Light and scholarly",
+        "goodFor": "Couples who love Ethiopian manuscripts and Amharic.",
+        "b1": "Harag headpieces and names in red",
+        "b2": "Ge'ez numerals",
+        "b3": "The day as a canon table, and a colophon at the end"
+      },
+      "slate": {
+        "feel": "Clean and modern: a full photo cover, script accents over serif headings and cards for the day.",
+        "mood": "Light and modern",
+        "goodFor": "Modern weddings, and destination and diaspora couples.",
+        "b1": "A boxed countdown",
+        "b2": "The day as cards down a rail",
+        "b3": "A framed photo strip"
+      },
+      "commencement": {
+        "feel": "Light and modern, with the class year in huge outline numerals behind the names.",
+        "mood": "Clean and bright",
+        "goodFor": "One graduate, or several finishing together.",
+        "b1": "A diploma-style card for each graduate",
+        "b2": "Photos in groups you name, like “The two of us”",
+        "b3": "The class year across the cover"
+      },
+      "tassel": {
+        "feel": "A deep cover in your first colour, with a laurel wreath of initials hung on a gold cord.",
+        "mood": "Deep and ceremonial",
+        "goodFor": "Families who want a formal, gown-and-gold look.",
+        "b1": "A tassel that swings once as the page opens",
+        "b2": "Each graduate in an arch",
+        "b3": "The invitation on a bordered card"
+      },
+      "confetti": {
+        "feel": "The name set huge in a page of confetti in your three colours.",
+        "mood": "Bright and warm",
+        "goodFor": "Children's and young people's birthdays, and happy parties.",
+        "b1": "Confetti that settles once as the page opens",
+        "b2": "Their own line on a ribbon, like “Turns 7”",
+        "b3": "Cake and party details"
+      },
+      "milestone": {
+        "feel": "Elegant, for the big numbers: the age in large gold foil on a dark cover.",
+        "mood": "Dark and elegant",
+        "goodFor": "A 50th, 60th or 70th birthday.",
+        "b1": "The age in gold foil",
+        "b2": "The age is read from their own line",
+        "b3": "Shows the name alone when there is no age"
+      },
+      "shema": {
+        "feel": "A christening in white: a length of woven shema cloth with your border down both edges.",
+        "mood": "Pale and gentle",
+        "goodFor": "Christenings (kristina).",
+        "b1": "Christening name and godparents on the child's card",
+        "b2": "The photo in an arch",
+        "b3": "A cross only if the family chooses one"
+      }
+    }
   }
 }

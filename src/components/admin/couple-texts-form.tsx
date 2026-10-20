@@ -137,6 +137,15 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
           </span>
           <Switch name="collapsibleEvents" defaultChecked={couple.collapsibleEvents} value="on" />
         </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Showcase mode</span>
+            <span className="block text-sm text-muted-foreground">
+              For demo sites on the public designs page only: anyone can try another layout, theme or opening on this site with a link. Never turn it on for a real family. Off by default.
+            </span>
+          </span>
+          <Switch name="showcaseEnabled" defaultChecked={couple.showcaseEnabled} value="on" />
+        </label>
       </FormSection>
 
       <div className="flex justify-end">

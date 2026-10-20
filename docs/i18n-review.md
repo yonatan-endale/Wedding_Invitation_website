@@ -556,3 +556,129 @@ Christening sites lay `events.baptism` over the shared wording. Please check "�
 | `messages/am.json` | events.baptism.couplePortal.cardShareText | Your invitation card for the christening of {couple}: {url} | ለ{couple} ክርስትና የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
 | `src/lib/event-kinds.ts` | christening title | Christening | ክርስትና | |
 | `public/examples/baptism.json` | demo text | (the demo site) | (see the file) | |
+
+## Designs page (showcase)
+
+The public /designs page explains every layout beside a live demo. All Amharic here is a draft by the assistant and needs a native speaker. Open questions: the layout names (Classic, Editorial, Reel and so on) stay in English on the Amharic page; the colour names are English too; "engagements" is written with the words for telosh and kelekel; ነጠላ for netela; and whether each layout's one-line description reads naturally.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | showcase.title | Our designs | የእኛ ንድፎች | |
+| `messages/am.json` | showcase.intro | Every look we make, shown on invented examples. Tap one to open it, then try other colours and opening screens. The names, places and numbers are made up and the pictures are illustrations. | የምንሠራቸው ሁሉም ገጽታዎች በምሳሌ ተፈጥረው ይታያሉ። አንዱን ይንኩ፣ ከዚያ ሌሎች ቀለሞችን እና የመክፈቻ ገጾችን ይሞክሩ። ስሞቹ፣ ቦታዎቹ እና ቁጥሮቹ የተፈጠሩ ሲሆኑ ሥዕሎቹ ምሳሌ ናቸው። | |
+| `messages/am.json` | showcase.filterLabel | Show | አሳይ | |
+| `messages/am.json` | showcase.all | All | ሁሉም | |
+| `messages/am.json` | showcase.kinds.wedding | Weddings | ሠርግ | |
+| `messages/am.json` | showcase.kinds.graduation | Graduations | ምረቃ | |
+| `messages/am.json` | showcase.kinds.birthday | Birthdays | ልደት | |
+| `messages/am.json` | showcase.kinds.baptism | Christenings | ክርስትና | |
+| `messages/am.json` | showcase.comingSoon | Engagements are coming soon. | ጥሎሽ እና ቅልቅል በቅርቡ ይመጣሉ። | |
+| `messages/am.json` | showcase.tryIt | Try it live | በቀጥታ ይሞክሩ | |
+| `messages/am.json` | showcase.loading | Opening the design… | ንድፉን በመክፈት ላይ… | |
+| `messages/am.json` | showcase.backToPicture | Back to the picture | ወደ ሥዕሉ ተመለስ | |
+| `messages/am.json` | showcase.phoneTitle | A live example of the {name} design | የ{name} ንድፍ የቀጥታ ምሳሌ | |
+| `messages/am.json` | showcase.posterAlt | A picture of the {name} design | የ{name} ንድፍ ሥዕል | |
+| `messages/am.json` | showcase.mood | Mood | ስሜት | |
+| `messages/am.json` | showcase.goodFor | Good for | ለማን ይሆናል | |
+| `messages/am.json` | showcase.highlights | Standout moments | ልዩ ገጽታዎች | |
+| `messages/am.json` | showcase.colours | Colours | ቀለሞች | |
+| `messages/am.json` | showcase.opening | Opening screen | የመክፈቻ ገጽ | |
+| `messages/am.json` | showcase.coloursNote | Try another colour | ሌላ ቀለም ይሞክሩ | |
+| `messages/am.json` | showcase.openingNote | Try another opening | ሌላ መክፈቻ ይሞክሩ | |
+| `messages/am.json` | showcase.ask | Ask for this design | ይህን ንድፍ ይጠይቁ | |
+| `messages/am.json` | showcase.example | Example sites use invented names and illustrated pictures. | የምሳሌ ገጾች የተፈጠሩ ስሞችን እና የተሳሉ ሥዕሎችን ይጠቀማሉ። | |
+| `messages/am.json` | showcase.back | Back to the home page | ወደ መነሻ ገጽ | |
+| `messages/am.json` | showcase.openings.netela | Netela | ነጠላ | |
+| `messages/am.json` | showcase.openings.seal | Wax-seal gates | የማኅተም በሮች | |
+| `messages/am.json` | showcase.openings.envelope | Envelope | ኤንቨሎፕ | |
+| `messages/am.json` | showcase.openings.adey | Adey bloom | የአደይ አበባ | |
+| `messages/am.json` | showcase.layouts.classic.feel | A full-screen cover photo and a framed invitation card, then the day, the venues and a swipeable gallery. | ሙሉ ገጽ የሽፋን ፎቶ እና በፍሬም የተሰራ የግብዣ ካርድ፤ ከዚያ የቀኑ መርሐ ግብር፣ ቦታዎች እና የፎቶ መቀያየሪያ። | |
+| `messages/am.json` | showcase.layouts.classic.mood | Warm and familiar | ሞቅ ያለ እና የተለመደ | |
+| `messages/am.json` | showcase.layouts.classic.goodFor | Families who want the traditional look, done well. | ባህላዊውን ገጽታ በጥሩ ሁኔታ የሚፈልጉ ቤተሰቦች። | |
+| `messages/am.json` | showcase.layouts.classic.b1 | A framed invitation card with the border you choose | በመረጡት ጠርዝ የተሠራ የግብዣ ካርድ | |
+| `messages/am.json` | showcase.layouts.classic.b2 | A timeline of the day with an icon for each step | ለእያንዳንዱ ክፍል አዶ ያለው የቀኑ መርሐ ግብር | |
+| `messages/am.json` | showcase.layouts.classic.b3 | A swipeable photo carousel | በጣት የሚገለበጥ የፎቶ ማሳያ | |
+| `messages/am.json` | showcase.layouts.editorial.feel | A magazine spread: the date in huge numerals, oval portraits and a dated love story. | እንደ መጽሔት ገጽ፤ ቀኑ በትልልቅ ቁጥሮች፣ ሞላላ ፎቶዎች እና በቀን የተደራጀ የፍቅር ታሪክ። | |
+| `messages/am.json` | showcase.layouts.editorial.mood | Light and designed | ብሩህ እና በንድፍ የተሠራ | |
+| `messages/am.json` | showcase.layouts.editorial.goodFor | Couples with a story to tell and good portraits. | የሚያወሩት ታሪክ እና ጥሩ ፎቶ ያላቸው ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.editorial.b1 | A split cover with the date in large numerals | ቀኑ በትልልቅ ቁጥሮች የሚታይበት ሽፋን | |
+| `messages/am.json` | showcase.layouts.editorial.b2 | Oval portraits of the couple | የጥንዶቹ ሞላላ ፎቶዎች | |
+| `messages/am.json` | showcase.layouts.editorial.b3 | Dated story chapters and a mosaic gallery | በቀን የተደራጁ የታሪክ ምዕራፎች | |
+| `messages/am.json` | showcase.layouts.reel.feel | A film: opening credits, the couple as the stars and the day told as scenes. | እንደ ፊልም፤ የመክፈቻ ስሞች፣ ጥንዶቹ ዋና ተዋንያን እና ቀኑ በትዕይንት። | |
+| `messages/am.json` | showcase.layouts.reel.mood | Dark and cinematic | ጨለማ እና ፊልማዊ | |
+| `messages/am.json` | showcase.layouts.reel.goodFor | Couples who love photography and video. | ፎቶግራፍ እና ቪዲዮ የሚወዱ ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.reel.b1 | A letterboxed cover with opening credits | የመክፈቻ ስሞች ያሉት ሽፋን | |
+| `messages/am.json` | showcase.layouts.reel.b2 | The day told as scenes | ቀኑ በትዕይንቶች የተነገረ | |
+| `messages/am.json` | showcase.layouts.reel.b3 | A film-strip gallery and end credits | የፊልም ሪል ማሳያ እና የመዝጊያ ስሞች | |
+| `messages/am.json` | showcase.layouts.noir.feel | Black tie: a gold crest monogram, gold-foil names and a framed gallery wall. | ጥቁር ልብስ ምሽት፤ የወርቅ ምልክት፣ በወርቅ የተጻፉ ስሞች እና የፎቶ ግድግዳ። | |
+| `messages/am.json` | showcase.layouts.noir.mood | Dark and formal | ጨለማ እና መደበኛ | |
+| `messages/am.json` | showcase.layouts.noir.goodFor | Evening weddings and formal receptions. | የምሽት ሠርግ እና መደበኛ ግብዣ። | |
+| `messages/am.json` | showcase.layouts.noir.b1 | A gold crest made from your initials | ከመጀመሪያ ፊደላትዎ የተሠራ የወርቅ ምልክት | |
+| `messages/am.json` | showcase.layouts.noir.b2 | Names in gold foil | በወርቅ የተጻፉ ስሞች | |
+| `messages/am.json` | showcase.layouts.noir.b3 | Black-metal gift cards | ጥቁር የስጦታ ካርዶች | |
+| `messages/am.json` | showcase.layouts.arches.feel | Ivory and gold, with the cover photo in an arched window. | የዝሆን ጥርስ እና ወርቃማ ቀለም፣ የሽፋኑ ፎቶ በቅስት መስኮት ውስጥ። | |
+| `messages/am.json` | showcase.layouts.arches.mood | Light and elegant | ብሩህ እና ውብ | |
+| `messages/am.json` | showcase.layouts.arches.goodFor | Church weddings and garden venues. | የቤተክርስቲያን ሠርግ እና የአትክልት ስፍራ ግብዣ። | |
+| `messages/am.json` | showcase.layouts.arches.b1 | The cover photo in an arched window | የሽፋን ፎቶ በቅስት መስኮት | |
+| `messages/am.json` | showcase.layouts.arches.b2 | Twin arches for the couple | ለጥንዶቹ ሁለት ቅስቶች | |
+| `messages/am.json` | showcase.layouts.arches.b3 | An arcade of events and an arch-cropped photo strip | የቅስት ቅርጽ ያላቸው የፎቶ ረድፍ | |
+| `messages/am.json` | showcase.layouts.stories.feel | Tap through it like stories on a phone, one full-screen card at a time. | እንደ ስልክ ታሪኮች በጣት እየነኩ ይሂዱ፤ በአንድ ጊዜ አንድ ሙሉ ገጽ። | |
+| `messages/am.json` | showcase.layouts.stories.mood | Light and playful | ብሩህ እና ተጫዋች | |
+| `messages/am.json` | showcase.layouts.stories.goodFor | Younger couples and guests who live on their phones. | ወጣት ጥንዶች እና ስልክ ላይ የሚኖሩ እንግዶች። | |
+| `messages/am.json` | showcase.layouts.stories.b1 | One card at a time, with progress bars | በአንድ ጊዜ አንድ ካርድ፣ ከሂደት መስመር ጋር | |
+| `messages/am.json` | showcase.layouts.stories.b2 | Tap or use the arrow keys to move on | ለመቀጠል ይንኩ ወይም የቀስት ቁልፎችን ይጠቀሙ | |
+| `messages/am.json` | showcase.layouts.stories.b3 | Cover, invitation, the day, photos and RSVP | ሽፋን፣ ግብዣ፣ ቀኑ፣ ፎቶዎች እና ምላሽ | |
+| `messages/am.json` | showcase.layouts.flatlay.feel | A stationery suite on linen: a sealed envelope, then cards that stack as you scroll. | በሸራ ላይ የተዘረጋ የወረቀት ስብስብ፤ የታሸገ ኤንቨሎፕ፣ ከዚያ ሲያንሸራትቱ የሚደራረቡ ካርዶች። | |
+| `messages/am.json` | showcase.layouts.flatlay.mood | Light and tactile | ብሩህ እና በእጅ የሚዳሰስ | |
+| `messages/am.json` | showcase.layouts.flatlay.goodFor | Couples who care about paper and detail. | ለወረቀት እና ለዝርዝር የሚጨነቁ ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.flatlay.b1 | A sealed envelope that opens onto the cards | ካርዶቹ ላይ የሚከፈት የታሸገ ኤንቨሎፕ | |
+| `messages/am.json` | showcase.layouts.flatlay.b2 | Invitation, schedule, details and RSVP cards stacking up | የግብዣ፣ የመርሐ ግብር እና የምላሽ ካርዶች ሲደራረቡ | |
+| `messages/am.json` | showcase.layouts.flatlay.b3 | Photo prints fanned across the page | በገጹ ላይ የተዘረጉ የፎቶ ህትመቶች | |
+| `messages/am.json` | showcase.layouts.kaba.feel | A groom's velvet kaba: deep velvet with gold-thread embroidery that stitches itself in. | የሙሽራው የቬልቬት ካባ፤ ጥልቅ ቬልቬት እና ራሱ የሚጠለፍ የወርቅ ጥልፍ። | |
+| `messages/am.json` | showcase.layouts.kaba.mood | Always dark and regal | ሁልጊዜ ጨለማ እና ንጉሣዊ | |
+| `messages/am.json` | showcase.layouts.kaba.goodFor | Traditional Habesha weddings. | ባህላዊ የሀበሻ ሠርግ። | |
+| `messages/am.json` | showcase.layouts.kaba.b1 | Embroidery that stitches itself in as you scroll | ሲያንሸራትቱ ራሱ የሚጠለፍ ጥልፍ | |
+| `messages/am.json` | showcase.layouts.kaba.b2 | A stitched timeline that marks the Mels | መልስን የሚያመለክት የተጠለፈ መርሐ ግብር | |
+| `messages/am.json` | showcase.layouts.kaba.b3 | A stitched monogram | የተጠለፈ የመጀመሪያ ፊደላት ምልክት | |
+| `messages/am.json` | showcase.layouts.brana.feel | An illuminated Ge'ez manuscript on parchment, with the names in red. | በብራና ላይ የተጻፈ ያጌጠ የግዕዝ መጽሐፍ፤ ስሞቹ በቀይ። | |
+| `messages/am.json` | showcase.layouts.brana.mood | Light and scholarly | ብሩህ እና ምሁራዊ | |
+| `messages/am.json` | showcase.layouts.brana.goodFor | Couples who love Ethiopian manuscripts and Amharic. | የኢትዮጵያ ብራናዎችን እና አማርኛን የሚወዱ ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.brana.b1 | Harag headpieces and names in red | የሐራግ ጌጥ እና በቀይ የተጻፉ ስሞች | |
+| `messages/am.json` | showcase.layouts.brana.b2 | Ge'ez numerals | የግዕዝ ቁጥሮች | |
+| `messages/am.json` | showcase.layouts.brana.b3 | The day as a canon table, and a colophon at the end | ቀኑ እንደ ሰንጠረዥ፣ መጨረሻ ላይ ማጠቃለያ | |
+| `messages/am.json` | showcase.layouts.slate.feel | Clean and modern: a full photo cover, script accents over serif headings and cards for the day. | ንጹህ እና ዘመናዊ፤ ሙሉ የፎቶ ሽፋን፣ በጽሑፍ ላይ የእጅ ጽሑፍ ጌጥ እና ለቀኑ ካርዶች። | |
+| `messages/am.json` | showcase.layouts.slate.mood | Light and modern | ብሩህ እና ዘመናዊ | |
+| `messages/am.json` | showcase.layouts.slate.goodFor | Modern weddings, and destination and diaspora couples. | ዘመናዊ ሠርግ፣ ከሀገር ውጭ የሚደረግ እና የውጭ ሀገር ኑሮ ያላቸው ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.slate.b1 | A boxed countdown | በሳጥን ውስጥ የተቀመጠ ቆጠራ | |
+| `messages/am.json` | showcase.layouts.slate.b2 | The day as cards down a rail | ቀኑ በመስመር ላይ እንደ ካርዶች | |
+| `messages/am.json` | showcase.layouts.slate.b3 | A framed photo strip | በፍሬም የተሰራ የፎቶ ረድፍ | |
+| `messages/am.json` | showcase.layouts.commencement.feel | Light and modern, with the class year in huge outline numerals behind the names. | ብሩህ እና ዘመናዊ፤ የምረቃው ዓመት ከስሞቹ ጀርባ በትልልቅ ቁጥሮች። | |
+| `messages/am.json` | showcase.layouts.commencement.mood | Clean and bright | ንጹህ እና ብሩህ | |
+| `messages/am.json` | showcase.layouts.commencement.goodFor | One graduate, or several finishing together. | አንድ ተመራቂ ወይም አብረው የሚመረቁ ብዙዎች። | |
+| `messages/am.json` | showcase.layouts.commencement.b1 | A diploma-style card for each graduate | ለእያንዳንዱ ተመራቂ የዲፕሎማ ዓይነት ካርድ | |
+| `messages/am.json` | showcase.layouts.commencement.b2 | Photos in groups you name, like “The two of us” | በሚሰጧቸው ስም የተደራጁ ፎቶዎች፣ እንደ «ሁለታችን» | |
+| `messages/am.json` | showcase.layouts.commencement.b3 | The class year across the cover | ሽፋኑ ላይ የምረቃው ዓመት | |
+| `messages/am.json` | showcase.layouts.tassel.feel | A deep cover in your first colour, with a laurel wreath of initials hung on a gold cord. | በመጀመሪያ ቀለምዎ ጥልቅ ሽፋን፣ በወርቅ ገመድ ላይ የተሰቀለ የመጀመሪያ ፊደላት የላውረል ጉንጉን። | |
+| `messages/am.json` | showcase.layouts.tassel.mood | Deep and ceremonial | ጥልቅ እና ሥነ ሥርዓታዊ | |
+| `messages/am.json` | showcase.layouts.tassel.goodFor | Families who want a formal, gown-and-gold look. | መደበኛ፣ የወርቅ እና የካባ ገጽታ የሚፈልጉ ቤተሰቦች። | |
+| `messages/am.json` | showcase.layouts.tassel.b1 | A tassel that swings once as the page opens | ገጹ ሲከፈት አንድ ጊዜ የሚወዛወዝ ዘርፍ | |
+| `messages/am.json` | showcase.layouts.tassel.b2 | Each graduate in an arch | እያንዳንዱ ተመራቂ በቅስት ውስጥ | |
+| `messages/am.json` | showcase.layouts.tassel.b3 | The invitation on a bordered card | በጠርዝ የተከበበ የግብዣ ካርድ | |
+| `messages/am.json` | showcase.layouts.confetti.feel | The name set huge in a page of confetti in your three colours. | ስሙ በሶስቱ ቀለሞችዎ በቀለም ወረቀት ገጽ ውስጥ በትልቁ። | |
+| `messages/am.json` | showcase.layouts.confetti.mood | Bright and warm | ብሩህ እና ሞቅ ያለ | |
+| `messages/am.json` | showcase.layouts.confetti.goodFor | Children's and young people's birthdays, and happy parties. | የልጆች እና የወጣቶች ልደት፣ እና የደስታ ግብዣዎች። | |
+| `messages/am.json` | showcase.layouts.confetti.b1 | Confetti that settles once as the page opens | ገጹ ሲከፈት አንድ ጊዜ የሚያርፍ ቀለም ወረቀት | |
+| `messages/am.json` | showcase.layouts.confetti.b2 | Their own line on a ribbon, like “Turns 7” | የራሳቸው መስመር በሪባን ላይ | |
+| `messages/am.json` | showcase.layouts.confetti.b3 | Cake and party details | የኬክ እና የግብዣ ዝርዝር | |
+| `messages/am.json` | showcase.layouts.milestone.feel | Elegant, for the big numbers: the age in large gold foil on a dark cover. | ለትልልቅ ቁጥሮች የሚሆን ውብ ገጽታ፤ ዕድሜው በትልቅ የወርቅ ቀለም በጨለማ ሽፋን ላይ። | |
+| `messages/am.json` | showcase.layouts.milestone.mood | Dark and elegant | ጨለማ እና ውብ | |
+| `messages/am.json` | showcase.layouts.milestone.goodFor | A 50th, 60th or 70th birthday. | 50ኛ፣ 60ኛ ወይም 70ኛ ልደት። | |
+| `messages/am.json` | showcase.layouts.milestone.b1 | The age in gold foil | ዕድሜው በወርቅ ቀለም | |
+| `messages/am.json` | showcase.layouts.milestone.b2 | The age is read from their own line | ዕድሜው ከራሳቸው መስመር ይነበባል | |
+| `messages/am.json` | showcase.layouts.milestone.b3 | Shows the name alone when there is no age | ዕድሜ ከሌለ ስሙን ብቻ ያሳያል | |
+| `messages/am.json` | showcase.layouts.shema.feel | A christening in white: a length of woven shema cloth with your border down both edges. | በነጭ የተሠራ ክርስትና፤ በጠርዝዎ የተከበበ የሸማ ጨርቅ። | |
+| `messages/am.json` | showcase.layouts.shema.mood | Pale and gentle | ለስላሳ እና ረጋ ያለ | |
+| `messages/am.json` | showcase.layouts.shema.goodFor | Christenings (kristina). | ክርስትና። | |
+| `messages/am.json` | showcase.layouts.shema.b1 | Christening name and godparents on the child's card | የክርስትና ስም እና የክርስትና ወላጆች በልጁ ካርድ ላይ | |
+| `messages/am.json` | showcase.layouts.shema.b2 | The photo in an arch | ፎቶው በቅስት ውስጥ | |
+| `messages/am.json` | showcase.layouts.shema.b3 | A cross only if the family chooses one | መስቀል ቤተሰቡ ከመረጠ ብቻ | |
+| `public/examples/showcase-*.json` | the four fictional demo sites (names, venues, texts in both languages) | (see the files) | (see the files) | |

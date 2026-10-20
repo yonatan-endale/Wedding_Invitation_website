@@ -173,6 +173,7 @@ function buildSchema(timeZone: string) {
       calendarButtons: z.boolean().default(false),
       scrollProgress: z.boolean().default(false),
       collapsibleEvents: z.boolean().default(false),
+      showcaseEnabled: z.boolean().default(false),
     })
     .strict();
 

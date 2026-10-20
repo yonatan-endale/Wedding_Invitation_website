@@ -1,0 +1,113 @@
+{
+  "couple": {
+    "status": "published",
+    "timezone": "Africa/Addis_Ababa",
+    "showcaseEnabled": true,
+    "calendarButtons": true,
+    "rsvpEnabled": true,
+    "petals": false,
+    "motion": "moderate",
+    "calendarStyle": "both",
+    "slug": "demo-christening",
+    "eventType": "baptism",
+    "weddingAt": "2027-03-20T08:00",
+    "city": {
+      "en": "Addis Ababa",
+      "am": "አዲስ አበባ"
+    },
+    "tagline": {
+      "en": "An example invitation. The names, places and numbers are invented.",
+      "am": "ምሳሌ ግብዣ ነው። ስሞቹ፣ ቦታዎቹ እና ቁጥሮቹ የተፈጠሩ ናቸው።"
+    },
+    "invitation": {
+      "en": "We are christening our daughter, and we would love you to be with us at church and at home afterwards.",
+      "am": "ልጃችንን ክርስትና ልናስነሳ ነው። በቤተ ክርስቲያን እና ከዚያም በቤታችን አብረውን እንዲሆኑ እንወዳለን።"
+    },
+    "hosts": {
+      "en": "Her parents",
+      "am": "ወላጆቿ"
+    },
+    "heroPhotoUrl": "/showcase/art/christening-door.svg",
+    "theme": "ivory",
+    "layout": "shema",
+    "border": "tibeb2",
+    "opening": "envelope",
+    "ornament": "none"
+  },
+  "honorees": [
+    {
+      "name": {
+        "en": "Selam",
+        "am": "ሰላም"
+      },
+      "father": {
+        "en": "Haile",
+        "am": "ኃይሌ"
+      },
+      "headline": {
+        "en": "Wolete Mariam",
+        "am": "ወለተ ማርያም"
+      },
+      "subheadline": {
+        "en": "Hana and Yared (example)",
+        "am": "ሐና እና ያሬድ (ምሳሌ)"
+      }
+    }
+  ],
+  "venues": [
+    {
+      "name": {
+        "en": "Neighbourhood church (example)",
+        "am": "የሰፈር ቤተ ክርስቲያን (ምሳሌ)"
+      },
+      "address": {
+        "en": "Example Road, Addis Ababa",
+        "am": "ምሳሌ መንገድ፣ አዲስ አበባ"
+      }
+    },
+    {
+      "name": {
+        "en": "Family home (example)",
+        "am": "የቤተሰብ ቤት (ምሳሌ)"
+      },
+      "address": {
+        "en": "Example Street, Addis Ababa",
+        "am": "ምሳሌ ጎዳና፣ አዲስ አበባ"
+      }
+    }
+  ],
+  "events": [
+    {
+      "title": {
+        "en": "Christening",
+        "am": "ክርስትና"
+      },
+      "kind": "christening",
+      "startsAt": "2027-03-20T08:00",
+      "venue": 0
+    },
+    {
+      "title": {
+        "en": "Lunch at home",
+        "am": "ምሳ በቤታችን"
+      },
+      "kind": "celebration",
+      "startsAt": "2027-03-20T12:30",
+      "venue": 1
+    }
+  ],
+  "photos": [
+    {
+      "url": "/showcase/art/christening-cloth.svg"
+    },
+    {
+      "url": "/showcase/art/church-arch.svg"
+    },
+    {
+      "url": "/showcase/art/adey-flowers.svg"
+    },
+    {
+      "url": "/showcase/art/candles.svg"
+    }
+  ]
+}

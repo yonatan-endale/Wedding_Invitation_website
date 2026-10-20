@@ -262,6 +262,7 @@ describe("parseCoupleTexts", () => {
         guestCardsEnabled: "on",
         galleryDrift: "on",
         collapsibleEvents: "on",
+        showcaseEnabled: "on",
       },
       "Africa/Addis_Ababa",
     );
@@ -285,6 +286,7 @@ describe("parseCoupleTexts", () => {
       calendarButtons: false,
       scrollProgress: false,
       collapsibleEvents: true,
+      showcaseEnabled: true,
     });
   });
 
@@ -300,6 +302,7 @@ describe("parseCoupleTexts", () => {
     expect(result.data.calendarButtons).toBe(false);
     expect(result.data.scrollProgress).toBe(false);
     expect(result.data.collapsibleEvents).toBe(false);
+    expect(result.data.showcaseEnabled).toBe(false);
   });
 });
 

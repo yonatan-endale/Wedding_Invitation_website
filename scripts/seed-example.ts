@@ -15,7 +15,7 @@ async function main() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) throw new Error("DATABASE_URL is not set. Run with: pnpm db:seed:example <example>");
   const [example, slug] = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
-  if (!example || !/^[a-z]+$/.test(example)) throw new Error("Name an example in public/examples, such as graduation or birthday.");
+  if (!example || !/^[a-z]+(-[a-z]+)*$/.test(example)) throw new Error("Name an example in public/examples, such as graduation or birthday.");
   const publish = process.argv.includes("--publish");
 
   const raw = JSON.parse(readFileSync(new URL(`../public/examples/${example}.json`, import.meta.url), "utf8"));

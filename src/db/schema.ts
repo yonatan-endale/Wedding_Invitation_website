@@ -84,6 +84,12 @@ export const couples = pgTable("couples", {
   scrollProgress: boolean("scroll_progress").notNull().default(false),
   /** Event descriptions fold behind "Show details" in every timeline. */
   collapsibleEvents: boolean("collapsible_events").notNull().default(false),
+  /**
+   * Demo sites for the public designs page: anyone may try another layout,
+   * theme or opening with ?layout=, ?theme= and ?opening=. Never on for a real
+   * family's site.
+   */
+  showcaseEnabled: boolean("showcase_enabled").notNull().default(false),
   ...timestamps,
 });
 

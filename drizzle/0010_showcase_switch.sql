@@ -1,0 +1,1 @@
+ALTER TABLE "couples" ADD COLUMN "showcase_enabled" boolean DEFAULT false NOT NULL;

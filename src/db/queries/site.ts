@@ -64,6 +64,7 @@ export type SiteCouple = {
   calendarButtons: boolean;
   scrollProgress: boolean;
   collapsibleEvents: boolean;
+  showcaseEnabled: boolean;
 };
 
 export type SitePhoto = { id: string; url: string; caption: LocalizedText | null; groupLabel: LocalizedText | null };
@@ -220,6 +221,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       calendarButtons: row.calendarButtons,
       scrollProgress: row.scrollProgress,
       collapsibleEvents: row.collapsibleEvents,
+      showcaseEnabled: row.showcaseEnabled,
       rsvpDeadline: row.rsvpDeadline?.toISOString() ?? null,
     },
     honorees: honoreeRows.map((h) => ({
@@ -283,7 +285,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
  * cached before a deploy are never read with the new shape.
  */
 export function getSiteData(slug: string): Promise<SiteData | null> {
-  return unstable_cache(() => loadSite(slug), ["site-data", "v5", slug], {
+  return unstable_cache(() => loadSite(slug), ["site-data", "v6", slug], {
     tags: [siteCacheTag(slug)],
     revalidate: 3600,
   })();

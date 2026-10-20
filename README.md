@@ -15,6 +15,16 @@ Christenings (kristina) list the child with their christening name and godparent
 
 Photos can be grouped under headings such as "The two of us". The shared sections (save-the-date, countdown, RSVP, calendar, guest card) speak of a graduation in both languages: each event type lays its own wording from `events.<type>` in `messages/*.json` over the wedding wording. Try it with `pnpm db:seed:example graduation` (or `birthday`, `baptism`).
 
+## The designs page
+
+`/designs` shows every layout beside a plain explanation, on fictional demo sites that use only drawn artwork, so no real person appears. Each design starts as a small picture and opens the live site in a phone frame when a visitor taps "Try it live"; they can then try other colours and opening screens.
+
+- **Demo sites:** `public/examples/showcase-{wedding,graduation,birthday,christening}.json`, loaded with `pnpm db:seed:example showcase-wedding demo-wedding --publish` (and the same for the others, slugs `demo-graduation`, `demo-birthday`, `demo-christening`). Each has the per-site **Showcase mode** switch on, which lets anyone use `?layout=`, `?theme=` and `?opening=` on that site only. It is off for every real site, and the faith ornament can never be changed this way.
+- **Artwork:** `python3 scripts/make-showcase-art.py` draws `public/showcase/art/*.svg`. No faces, no flag-coloured stripes, and no cross unless a family chooses one.
+- **Pictures:** `BASE_URL=... PUPPETEER_DIR=... npx tsx scripts/make-showcase-posters.ts` takes `public/showcase/posters/*.webp` from the running demos. Run it again after a layout changes.
+- **The explanations:** `showcase.layouts.<layout>` in `messages/*.json`, in English and Amharic. A test fails if a layout has none.
+- **"Ask for this design"** leads to the home page's contact section; set `NEXT_PUBLIC_CONTACT_URL` for its "Get in touch" button.
+
 ## Weddings
 
 Each wedding site has:

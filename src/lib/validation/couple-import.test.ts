@@ -48,6 +48,7 @@ describe("parseCoupleImport", () => {
       calendarButtons: false,
       scrollProgress: false,
       collapsibleEvents: false,
+      showcaseEnabled: false,
       city: null,
       heroPhotoUrl: null,
     });

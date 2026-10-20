@@ -64,15 +64,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Admin-only looks from the query string (?layout=, ?opening=, ?motion=,
+ * Looks from the query string (?layout=, ?opening=, ?motion=,
  * ?calendar=, ?theme=), for trying a design without saving it. Guests and
  * couple subdomains never get them; Clerk is asked only when one is present
  * and the visitor has a session. On `next dev` they work without signing in,
- * so designs can be checked locally.
+ * so designs can be checked locally. A site with "showcase mode" on (a demo for
+ * the public designs page) lets anyone use them.
  */
-async function adminOverrides(searchParams: SearchParams, preview: boolean): Promise<PreviewOverrides> {
+async function adminOverrides(searchParams: SearchParams, preview: boolean, showcase: boolean): Promise<PreviewOverrides> {
   const overrides = parsePreviewOverrides(searchParams);
   if (!hasPreviewOverrides(overrides)) return {};
+  // A demo site on the public designs page lets anyone try a look. Faith imagery stays the admin's choice.
+  if (showcase) {
+    const looks = { ...overrides };
+    delete looks.ornament;
+    return looks;
+  }
   if ((await headers()).get(TENANT_HEADER)) return {};
   if (preview || process.env.NODE_ENV === "development") return overrides;
   const signedIn = (await cookies()).getAll().some((cookie) => CLERK_SESSION_COOKIE.test(cookie.name));
@@ -84,7 +91,7 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
   const loaded = await loadVisibleSite(slug);
   const { preview } = loaded;
   const query = await searchParams;
-  const overrides = await adminOverrides(query, preview);
+  const overrides = await adminOverrides(query, preview, loaded.site.couple.showcaseEnabled);
   const site: SiteData = { ...loaded.site, couple: { ...loaded.site.couple, ...overrides } };
   const locale = await currentLocale();
   const t = await getTranslations("nav");

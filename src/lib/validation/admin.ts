@@ -345,6 +345,7 @@ export type CoupleTexts = {
   calendarButtons: boolean;
   scrollProgress: boolean;
   collapsibleEvents: boolean;
+  showcaseEnabled: boolean;
 };
 
 export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<CoupleTexts> {
@@ -368,6 +369,7 @@ export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<Cou
       calendarButtons: form.calendarButtons === "on",
       scrollProgress: form.scrollProgress === "on",
       collapsibleEvents: form.collapsibleEvents === "on",
+      showcaseEnabled: form.showcaseEnabled === "on",
     },
     errors,
   );

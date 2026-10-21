@@ -11,7 +11,7 @@ import { RsvpSection } from "@/components/wedding/rsvp";
 import { SaveTheDate } from "@/components/wedding/save-the-date";
 import { ScheduleSection, VenuesSection } from "@/components/wedding/schedule";
 import { getOrnament } from "@/lib/appearance";
-import { pickText } from "@/lib/localized";
+import { pickText, usesEthiopianCalendar } from "@/lib/localized";
 import { joinNames } from "@/lib/names";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { EventFooter } from "../../event-footer";
@@ -35,7 +35,7 @@ export async function ShemaLayout({ site, locale, names, photos }: LayoutProps) 
   const firstNames = honorees.map((honoree) => pickText(honoree.nick, locale) || pickText(honoree.name, locale));
   const christeningNames = honorees.map((honoree) => pickText(honoree.headline, locale)).filter(Boolean);
   const otherCalendar =
-    locale === "am" ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
+    usesEthiopianCalendar(locale) ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
 
   return (
     <>

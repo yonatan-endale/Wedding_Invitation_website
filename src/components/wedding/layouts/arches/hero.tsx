@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { splitWords } from "@/lib/hero-words";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { ArchFrame } from "../../kit/arch-frame";
@@ -77,7 +77,7 @@ export function ArchesHero({ site, locale, names }: Props) {
               <span aria-hidden className="flex size-full items-center justify-center" style={GLOW}>
                 <span className="font-cormorant text-[calc(var(--arch-w)*0.3)] leading-none font-light text-ink">
                   {names.initials[0]}
-                  <span className="mx-[0.06em] text-[0.5em] text-ink-soft italic">{locale === "am" ? "፡" : "&"}</span>
+                  <span className="mx-[0.06em] text-[0.5em] text-ink-soft italic">{LANGUAGES[locale].initialsSeparator}</span>
                   {names.initials[1]}
                 </span>
               </span>
@@ -90,9 +90,9 @@ export function ArchesHero({ site, locale, names }: Props) {
         <h1
           className={cn(
             "mt-10 w-full text-center font-cormorant leading-[0.95] font-light text-ink",
-            "text-[clamp(3.25rem,15vw,5rem)] [&:lang(am)]:text-[clamp(2.75rem,13vw,4rem)] [&:lang(am)]:leading-[1.15]",
+            "text-[clamp(3.25rem,15vw,5rem)] ethiopic:text-[clamp(2.75rem,13vw,4rem)] ethiopic:leading-[1.15]",
             "lg:col-span-full lg:row-start-1 lg:mt-0 lg:grid lg:grid-cols-subgrid lg:items-center",
-            "lg:text-[clamp(3.75rem,6vw,6.25rem)] lg:[&:lang(am)]:text-[clamp(2.75rem,4.4vw,4.5rem)]",
+            "lg:text-[clamp(3.75rem,6vw,6.25rem)] lg:ethiopic:text-[clamp(2.75rem,4.4vw,4.5rem)]",
           )}
         >
           <span className="sr-only">{`${one} & ${two}`}</span>
@@ -124,13 +124,13 @@ export function ArchesHero({ site, locale, names }: Props) {
             </p>
           ) : null}
           <p
-            className="hero-fade font-cormorant text-[clamp(1.4rem,4.4vw,1.85rem)] leading-tight font-medium lining-nums [&:lang(am)]:text-[clamp(1.2rem,4vw,1.6rem)]"
+            className="hero-fade font-cormorant text-[clamp(1.4rem,4.4vw,1.85rem)] leading-tight font-medium lining-nums ethiopic:text-[clamp(1.2rem,4vw,1.6rem)]"
             style={{ "--i": after } as CSSProperties}
           >
             {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
           </p>
           {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-          {locale === "am" ? (
+          {usesEthiopianCalendar(locale) ? (
             <p className="hero-fade mt-1 text-base text-ink-soft" style={{ "--i": after + 1 } as CSSProperties}>
               {formatGregorianDate(couple.weddingAt, couple.timezone)}
             </p>

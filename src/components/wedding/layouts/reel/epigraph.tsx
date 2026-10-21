@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, isEthiopic } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { creditCaps } from "./shared";
 
@@ -17,7 +17,7 @@ export function ReelEpigraph({ site, locale }: Props) {
       <figure data-reveal-group className="mx-auto max-w-2xl text-center">
         <blockquote
           data-reveal="fade"
-          className={cn("text-[clamp(1.3rem,3vw,1.8rem)] leading-[1.5] text-ink-soft", locale === "am" ? "font-display" : "italic")}
+          className={cn("text-[clamp(1.3rem,3vw,1.8rem)] leading-[1.5] text-ink-soft", isEthiopic(locale) ? "font-display" : "italic")}
         >
           <p>{text}</p>
         </blockquote>

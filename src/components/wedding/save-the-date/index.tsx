@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties, ReactNode } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getCalendarStyle } from "@/lib/appearance";
-import type { Locale } from "@/lib/localized";
+import { isEthiopic, LANGUAGES, type Locale } from "@/lib/localized";
 import { buildMonthGrid, calendarViews, markerFor, type CalendarSystem, type MarkerShape } from "@/lib/month-grid";
 import { pickSaveTheDatePhoto, type BackdropPhoto } from "@/lib/save-the-date";
 import { graphemes } from "@/lib/text";
@@ -84,10 +84,10 @@ const SKINS: Record<SaveTheDateSkin, { tone: Tone; compact: boolean; title: stri
     tone: "light",
     compact: false,
     title:
-      "mx-auto w-fit rounded-[0.4em] bg-white px-[0.5em] py-[0.28em] font-display text-[#141210] text-[clamp(1.45rem,8.4cqi,2.35rem)] tracking-[0.12em] shadow-[0_10px_30px_-12px_rgb(0_0_0/0.55)] [&:lang(am)]:text-[clamp(1.35rem,7.6cqi,2.1rem)]",
+      "mx-auto w-fit rounded-[0.4em] bg-white px-[0.5em] py-[0.28em] font-display text-[#141210] text-[clamp(1.45rem,8.4cqi,2.35rem)] tracking-[0.12em] shadow-[0_10px_30px_-12px_rgb(0_0_0/0.55)] ethiopic:text-[clamp(1.35rem,7.6cqi,2.1rem)]",
     names:
       "mt-3 text-[clamp(0.95rem,4.4cqi,1.15rem)] text-[color-mix(in_oklab,var(--w-metal)_60%,white)] [text-shadow:0_1px_6px_rgb(0_0_0/0.7)]",
-    date: "mt-5 font-display text-[clamp(1.3rem,7.2cqi,1.95rem)] [&:lang(am)]:text-[clamp(1.2rem,6.4cqi,1.7rem)]",
+    date: "mt-5 font-display text-[clamp(1.3rem,7.2cqi,1.95rem)] ethiopic:text-[clamp(1.2rem,6.4cqi,1.7rem)]",
   },
   // A printed card: ink on the sheet, the title letterpressed into it (a static shadow, never animated).
   card: {
@@ -113,9 +113,9 @@ const SKINS: Record<SaveTheDateSkin, { tone: Tone; compact: boolean; title: stri
     tone: "light",
     compact: true,
     title:
-      "font-script normal-case tracking-normal text-white text-[clamp(2.75rem,11vw,4rem)] leading-[1.15] lg:text-[clamp(2.75rem,4.6vw,4rem)] [&:lang(am)]:font-display [&:lang(am)]:text-[clamp(1.9rem,6.4vw,2.6rem)]",
-    names: "text-[clamp(0.78rem,2.2vw,0.92rem)] text-white/85 uppercase [&:lang(am)]:normal-case [&:lang(am)]:text-base",
-    date: "font-display text-[clamp(1.35rem,4.6vw,2.1rem)] leading-tight tracking-[0.06em] [&:lang(am)]:text-[clamp(1.25rem,4.2vw,1.8rem)]",
+      "font-script normal-case tracking-normal text-white text-[clamp(2.75rem,11vw,4rem)] leading-[1.15] lg:text-[clamp(2.75rem,4.6vw,4rem)] ethiopic:font-display ethiopic:text-[clamp(1.9rem,6.4vw,2.6rem)]",
+    names: "text-[clamp(0.78rem,2.2vw,0.92rem)] text-white/85 uppercase ethiopic:normal-case ethiopic:text-base",
+    date: "font-display text-[clamp(1.35rem,4.6vw,2.1rem)] leading-tight tracking-[0.06em] ethiopic:text-[clamp(1.25rem,4.2vw,1.8rem)]",
   },
 };
 
@@ -150,7 +150,7 @@ export async function SaveTheDate({
         photoPreference,
       )
     : null;
-  const separator = locale === "am" ? "፡" : "&";
+  const separator = LANGUAGES[locale].initialsSeparator;
 
   const views: Partial<Record<CalendarSystem, ReactNode>> = {};
   for (const system of available) {
@@ -162,7 +162,7 @@ export async function SaveTheDate({
       <StdTitle id="save-the-date-title" text={t("title")} locale={locale} compact={look.compact} className={look.title} />
       <p
         className={cn(
-          "std-names mt-5 font-sans text-[clamp(0.95rem,2.5vw,1.4rem)] tracking-[0.3em] [&:lang(am)]:tracking-normal",
+          "std-names mt-5 font-sans text-[clamp(0.95rem,2.5vw,1.4rem)] tracking-[0.3em] ethiopic:tracking-normal",
           look.names,
         )}
       >
@@ -301,7 +301,7 @@ export async function SaveTheDate({
             ) : (
               <span aria-hidden className="flex size-full items-center justify-center font-display text-[clamp(1.4rem,5vw,1.9rem)] leading-none text-metal">
                 {names.initials[0]}
-                <span className="mx-1 font-cormorant text-[0.7em] italic [&:lang(am)]:not-italic">{separator}</span>
+                <span className="mx-1 font-cormorant text-[0.7em] italic ethiopic:not-italic">{separator}</span>
                 {names.initials[1]}
               </span>
             )}
@@ -494,10 +494,10 @@ function StdTitle({
     <h2
       id={id}
       className={cn(
-        "std-title leading-[1.05] uppercase [&:lang(am)]:tracking-normal",
+        "std-title leading-[1.05] uppercase ethiopic:tracking-normal",
         compact
-          ? "text-[clamp(2rem,7vw,3.1rem)] tracking-[0.12em] lg:text-[clamp(2rem,3.4vw,3.1rem)] [&:lang(am)]:text-[clamp(2rem,6vw,2.8rem)]"
-          : "text-[clamp(2.1rem,7.4vw,4.6rem)] tracking-[0.16em] [&:lang(am)]:text-[clamp(2.1rem,7vw,4rem)]",
+          ? "text-[clamp(2rem,7vw,3.1rem)] tracking-[0.12em] lg:text-[clamp(2rem,3.4vw,3.1rem)] ethiopic:text-[clamp(2rem,6vw,2.8rem)]"
+          : "text-[clamp(2.1rem,7.4vw,4.6rem)] tracking-[0.16em] ethiopic:text-[clamp(2.1rem,7vw,4rem)]",
         className,
       )}
     >
@@ -546,7 +546,7 @@ function MonthView({
   const { weddingAt, timezone } = site.couple;
   const { tone, date: dateClass } = SKINS[skin];
   const grid = buildMonthGrid(weddingAt, timezone, system);
-  const month = system === "ethiopian" && locale === "en" ? grid.monthLatin! : grid.monthName;
+  const month = system === "ethiopian" && !isEthiopic(locale) ? grid.monthLatin! : grid.monthName;
   const caption =
     system === "ethiopian"
       ? t("captionEthiopian", { month, year: grid.year })
@@ -559,7 +559,7 @@ function MonthView({
         <span lang="am" className="tracking-normal">
           {grid.monthName} {grid.year}
         </span>
-        {locale === "en" ? ` · ${grid.monthLatin}` : null}
+        {!isEthiopic(locale) ? ` · ${grid.monthLatin}` : null}
       </>
     ) : (
       `${grid.monthName} ${grid.year}`
@@ -569,7 +569,7 @@ function MonthView({
     <>
       <p
         className={cn(
-          "std-month mb-4 font-sans text-xs tracking-[0.25em] uppercase [&:lang(am)]:tracking-normal",
+          "std-month mb-4 font-sans text-xs tracking-[0.25em] uppercase ethiopic:tracking-normal",
           tone === "light" ? "text-white/85" : "text-ink-soft",
         )}
       >
@@ -607,7 +607,7 @@ function MonthView({
       <p
         className={cn(
           "std-date mt-10 text-[clamp(1.6rem,5.2vw,3rem)] leading-tight tracking-[0.08em] uppercase",
-          "[&:lang(am)]:text-[clamp(1.35rem,4.6vw,2.4rem)] [&:lang(am)]:tracking-normal",
+          "ethiopic:text-[clamp(1.35rem,4.6vw,2.4rem)] ethiopic:tracking-normal",
           dateClass,
         )}
         // Noir's foil sheen waits until the date has typed itself out.

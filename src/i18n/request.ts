@@ -3,11 +3,14 @@ import { cookies, headers } from "next/headers";
 import { getSiteData } from "@/db/queries/site";
 import { LOCALE_COOKIE, SITE_HEADER } from "@/lib/constants";
 import { messagesForEvent } from "@/lib/event-messages";
-import { isLocale, type Locale } from "@/lib/localized";
+import { DEFAULT_SITE_LOCALES, isLocale, type Locale } from "@/lib/localized";
+
+/** Only these have message files so far. */
+const READY = (value: unknown): value is Locale => isLocale(value) && DEFAULT_SITE_LOCALES.includes(value);
 
 async function detectLocale(): Promise<Locale> {
   const fromCookie = (await cookies()).get(LOCALE_COOKIE)?.value;
-  if (isLocale(fromCookie)) return fromCookie;
+  if (READY(fromCookie)) return fromCookie;
   const accept = (await headers()).get("accept-language") ?? "";
   return /^am\b/i.test(accept.trim()) ? "am" : "en";
 }
@@ -25,7 +28,7 @@ async function siteEventType() {
 
 /** An explicit locale, as in getTranslations({ locale }) for a guest's card, wins over the visitor's own. */
 export default getRequestConfig(async ({ locale: requested }) => {
-  const locale = isLocale(requested) ? requested : await detectLocale();
+  const locale = READY(requested) ? requested : await detectLocale();
   const messages = (await import(`../../messages/${locale}.json`)).default;
   return {
     locale,

@@ -1,5 +1,5 @@
 import { toGeez } from "@/lib/geez";
-import type { Locale } from "@/lib/localized";
+import { type Locale, isEthiopic } from "@/lib/localized";
 
 const ROMAN: [number, string][] = [
   [1000, "M"],
@@ -43,5 +43,5 @@ export function geezNumeral(value: number): string {
  */
 export function niche(value: number, locale: Locale): string {
   if (value < 1 || !Number.isFinite(value)) return String(value);
-  return locale === "am" ? geezNumeral(value) : romanNumeral(value);
+  return isEthiopic(locale) ? geezNumeral(value) : romanNumeral(value);
 }

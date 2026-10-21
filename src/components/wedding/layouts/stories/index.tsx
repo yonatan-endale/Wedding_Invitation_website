@@ -20,6 +20,7 @@ import { StoriesSchedule } from "./schedule";
 import { StoriesStory } from "./story";
 import styles from "./stories.module.css";
 import { StoriesThanks } from "./thanks";
+import { LANGUAGES } from "@/lib/localized";
 
 /**
  * Stories: the site told like stories on a phone, one full-screen card at a
@@ -53,7 +54,7 @@ export function StoriesLayout({ site, locale, names, photos }: LayoutProps) {
             <VenuesSection site={site} locale={locale} />
           </StoryCard>
         ) : null}
-        <StoriesGallery photos={photos} names={names} separator={locale === "am" ? "፡" : "&"} />
+        <StoriesGallery photos={photos} names={names} separator={LANGUAGES[locale].initialsSeparator} />
         <StoriesStory site={site} locale={locale} />
         {couple.rsvpEnabled ? (
           <StoryCard as="div" shared hash="rsvp" tone="light" className="bg-sheet text-ink">

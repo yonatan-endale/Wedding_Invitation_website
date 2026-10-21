@@ -2,7 +2,7 @@ import { RotateCcw } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import type { Locale } from "@/lib/localized";
+import { type Locale, LANGUAGES } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import { WeddingImage } from "../../primitives";
@@ -37,7 +37,7 @@ export async function StoriesThanks({ site, locale, names }: Props) {
                 style={{ objectPosition: couple.heroPosition }}
               />
             ) : (
-              <Initials initials={names.initials} separator={locale === "am" ? "፡" : "&"} className="text-3xl" />
+              <Initials initials={names.initials} separator={LANGUAGES[locale].initialsSeparator} className="text-3xl" />
             )}
           </StoryRing>
         </span>
@@ -45,7 +45,7 @@ export async function StoriesThanks({ site, locale, names }: Props) {
           id="stories-thanks"
           data-reveal="up"
           style={order(1)}
-          className="mt-8 font-display text-[clamp(2.75rem,15cqi,4rem)] leading-none [&:lang(am)]:text-[clamp(2.3rem,12cqi,3.3rem)] [&:lang(am)]:leading-[1.2]"
+          className="mt-8 font-display text-[clamp(2.75rem,15cqi,4rem)] leading-none ethiopic:text-[clamp(2.3rem,12cqi,3.3rem)] ethiopic:leading-[1.2]"
         >
           {t("thanks")}
         </h2>
@@ -56,7 +56,7 @@ export async function StoriesThanks({ site, locale, names }: Props) {
         <p
           data-reveal="up"
           style={order(4)}
-          className="font-display text-[clamp(1.4rem,7cqi,1.85rem)] leading-snug [&:lang(am)]:text-[clamp(1.25rem,6cqi,1.6rem)]"
+          className="font-display text-[clamp(1.4rem,7cqi,1.85rem)] leading-snug ethiopic:text-[clamp(1.25rem,6cqi,1.6rem)]"
         >
           {names.one}
           <span className="mx-2 inline-block text-[0.7em] text-white/75">&amp;</span>

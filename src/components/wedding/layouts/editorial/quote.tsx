@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, isEthiopic } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { eyebrow } from "./shared";
 
@@ -20,7 +20,7 @@ export function EditorialQuote({ site, locale, overlap }: Props) {
         data-reveal="scale"
         className="mx-auto max-w-2xl border border-rule bg-sheet px-8 py-10 text-center sm:px-14 sm:py-14"
       >
-        <blockquote className={cn("text-[clamp(1.35rem,3vw,1.9rem)] leading-[1.4]", locale === "am" ? "font-display" : "italic")}>
+        <blockquote className={cn("text-[clamp(1.35rem,3vw,1.9rem)] leading-[1.4]", isEthiopic(locale) ? "font-display" : "italic")}>
           <p>{text}</p>
         </blockquote>
         {reference ? (

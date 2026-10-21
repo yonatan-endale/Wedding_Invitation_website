@@ -112,7 +112,7 @@ function Honoree({
       </div>
       <div className={cn("text-center", look === "diploma" ? "mt-8" : "sm:text-start")}>
         <h3 className="font-display text-[clamp(1.875rem,4vw,2.5rem)] leading-tight">{name}</h3>
-        {headline ? <p className="mt-3 font-display text-lg text-[color-mix(in_oklab,var(--w-metal),var(--w-ink)_45%)] italic [&:lang(am)]:not-italic">
+        {headline ? <p className="mt-3 font-display text-lg text-[color-mix(in_oklab,var(--w-metal),var(--w-ink)_45%)] italic ethiopic:not-italic">
             {labels?.headline ? <span className="block font-sans text-sm text-ink-soft not-italic">{labels.headline}</span> : null}
             {headline}
           </p> : null}

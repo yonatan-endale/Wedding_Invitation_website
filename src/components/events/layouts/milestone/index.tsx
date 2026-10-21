@@ -9,7 +9,7 @@ import { Band, eyebrowClass } from "@/components/wedding/primitives";
 import { RsvpSection } from "@/components/wedding/rsvp";
 import { SaveTheDate } from "@/components/wedding/save-the-date";
 import { ScheduleSection, VenuesSection } from "@/components/wedding/schedule";
-import { pickText } from "@/lib/localized";
+import { pickText, usesEthiopianCalendar } from "@/lib/localized";
 import { getTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { joinNames } from "@/lib/names";
@@ -34,7 +34,7 @@ export async function MilestoneLayout({ site, locale, names, photos }: LayoutPro
   // The age comes from the first honoree's headline; a shared party for twins shares it.
   const age = milestoneNumber(pickText(honorees[0]?.headline, locale));
   const otherCalendar =
-    locale === "am" ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
+    usesEthiopianCalendar(locale) ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
   const tagline = pickText(couple.tagline, locale);
   // A dark theme's page is already deep, so the cover keeps its paper; a light theme's cover turns to its ink.
   const dark = getTheme(couple.theme).scheme === "dark";

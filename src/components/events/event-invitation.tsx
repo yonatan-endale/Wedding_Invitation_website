@@ -4,7 +4,7 @@ import { FaithOrnament } from "@/components/wedding/ornaments/faith-ornament";
 import { Band, sectionPadding } from "@/components/wedding/primitives";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { celebratedNames } from "@/lib/site-names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
@@ -31,7 +31,7 @@ export async function EventInvitation({ site, locale, look }: Props) {
   const venue = venues[0];
   const ornament = getOrnament(couple.ornament);
   const otherCalendar =
-    locale === "am" ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
+    usesEthiopianCalendar(locale) ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
   const card = look === "card";
   const reveal = (i: number) => ({ "data-reveal": "up", style: { "--i": i } as CSSProperties });
 

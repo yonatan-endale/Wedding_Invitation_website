@@ -127,3 +127,26 @@ describe("formatSaveTheDate", () => {
     expect(formatSaveTheDate(wedding, TZ, "am", "ethiopian")).toBe("ነሐሴ 23 ቀን 2018 ዓ.ም.");
   });
 });
+
+describe("the added languages", () => {
+  it("writes Arabic dates in the Gregorian calendar", () => {
+    expect(formatWeddingDate(ISO, TZ, "ar")).toBe("السبت، 18 يوليو 2026");
+  });
+
+  it("writes Tigrigna and Afaan Oromo dates in the Ethiopian calendar", () => {
+    expect(formatWeddingDate(ISO, TZ, "ti")).toBe("ቀዳም፣ 11 ሓምለ 2018 ዓ.ም.");
+    expect(formatWeddingDate(ISO, TZ, "om")).toBe("Sanbata, 11 Adooleessa 2018");
+  });
+
+  it("reads the Ethiopian clock in each language", () => {
+    expect(formatWeddingTime(ISO, TZ, "ti")).toBe("ድሕሪ ቐትሪ 8:00 ሰዓት");
+    expect(formatWeddingTime(ISO, TZ, "om")).toBe("guyyaa 8:00");
+    expect(formatWeddingTime(ISO, TZ, "ar")).toBe("8:00 بعد الظهر");
+    expect(formatWeddingTimeRange(ISO, "2026-07-18T13:00:00.000Z", TZ, "om")).toBe("guyyaa 8:00 hanga 10:00");
+  });
+
+  it("gives the save-the-date in the guest's language", () => {
+    expect(formatSaveTheDate(ISO, TZ, "ar", "gregorian")).toBe("18 يوليو 2026");
+    expect(formatSaveTheDate(ISO, TZ, "ti", "ethiopian")).toBe("11 ሓምለ 2018 ዓ.ም.");
+  });
+});

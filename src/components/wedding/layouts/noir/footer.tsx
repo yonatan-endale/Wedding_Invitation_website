@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import type { Locale } from "@/lib/localized";
+import { type Locale, LANGUAGES } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import { Crest } from "../../kit/crest";
@@ -27,17 +27,17 @@ export async function NoirFooter({ site, locale, names }: Props) {
       <div aria-hidden className="absolute inset-0 -z-10" style={FOOTER_LIGHT} />
       <div data-reveal-group>
         <div className="relative mx-auto w-[clamp(5.5rem,20vw,7rem)]">
-          <Crest initials={names.initials} separator={locale === "am" ? "፡" : "&"} id="noir-footer-crest" className="w-full" />
+          <Crest initials={names.initials} separator={LANGUAGES[locale].initialsSeparator} id="noir-footer-crest" className="w-full" />
           <Sparkles />
         </div>
         <p
           data-reveal="up"
           style={order(3)}
-          className="mt-9 font-cormorant text-[clamp(1.9rem,5vw,3rem)] leading-[1.15] font-light [&:lang(am)]:text-[clamp(1.5rem,4.2vw,2.25rem)]"
+          className="mt-9 font-cormorant text-[clamp(1.9rem,5vw,3rem)] leading-[1.15] font-light ethiopic:text-[clamp(1.5rem,4.2vw,2.25rem)]"
         >
           <FoilText className="inline-block">{names.one}</FoilText>
-          <span className="mx-3 inline-block text-[0.7em] text-metal italic [&:lang(am)]:not-italic">
-            {locale === "am" ? "እና" : "&"}
+          <span className="mx-3 inline-block text-[0.7em] text-metal italic ethiopic:not-italic">
+            {LANGUAGES[locale].and}
           </span>
           <FoilText className="inline-block" sheenDelay={0.7}>
             {names.two}

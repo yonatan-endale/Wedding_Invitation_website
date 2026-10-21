@@ -140,7 +140,7 @@ export function EnvelopeOpening({ names, initials, separator, dateLine, ornament
         </m.button>
 
         <m.p
-          className="font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase [&:lang(am)]:tracking-normal"
+          className="font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase ethiopic:tracking-normal"
           initial={false}
           animate={{ opacity: step >= 1 ? 0 : 1 }}
           transition={{ duration: 0.3 }}

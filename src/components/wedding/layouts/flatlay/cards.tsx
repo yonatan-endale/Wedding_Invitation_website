@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { mapsLink } from "@/lib/maps";
 import { fullName } from "@/lib/names";
 import { cn } from "@/lib/utils";
@@ -48,7 +48,7 @@ export async function InvitationCardFace({ site, locale }: Props) {
           style={{ "--i": 2 } as CSSProperties}
           className={cn(
             "font-cormorant text-[clamp(2.4rem,8.5vw,3.6rem)] leading-[1.05] font-medium italic",
-            "[&:lang(am)]:text-[clamp(1.9rem,7vw,2.9rem)] [&:lang(am)]:leading-[1.3] [&:lang(am)]:not-italic",
+            "ethiopic:text-[clamp(1.9rem,7vw,2.9rem)] ethiopic:leading-[1.3] ethiopic:not-italic",
             ornament === "none" ? "mt-7" : "mt-5",
           )}
         >
@@ -63,7 +63,7 @@ export async function InvitationCardFace({ site, locale }: Props) {
         <p data-reveal="up" style={{ "--i": 5 } as CSSProperties} className="font-display text-[clamp(1.4rem,4.4vw,1.9rem)] leading-tight">
           {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
         </p>
-        {locale === "am" ? (
+        {usesEthiopianCalendar(locale) ? (
           <p data-reveal="up" style={{ "--i": 5 } as CSSProperties} className="mt-1 text-base text-ink-soft">
             {formatGregorianDate(couple.weddingAt, couple.timezone)}
           </p>
@@ -131,7 +131,7 @@ export async function DetailsCardFace({ site, locale }: Props) {
           return (
             <li key={venue.id} data-reveal="up" style={{ "--i": Math.min(index, 5) } as CSSProperties} className={cn(lone && "md:col-span-2")}>
               <p className={cn(eyebrowClass, "mb-2")}>{String(index + 1).padStart(2, "0")}</p>
-              <h3 className="font-cormorant text-[clamp(1.6rem,4.6vw,2rem)] leading-tight font-medium italic [&:lang(am)]:not-italic">{name}</h3>
+              <h3 className="font-cormorant text-[clamp(1.6rem,4.6vw,2rem)] leading-tight font-medium italic ethiopic:not-italic">{name}</h3>
               {address ? <p className="mt-1 text-ink-soft">{address}</p> : null}
               {href ? (
                 <a

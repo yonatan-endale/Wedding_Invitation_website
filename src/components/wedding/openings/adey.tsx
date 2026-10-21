@@ -95,7 +95,7 @@ export function AdeyOpening({ names, dateLine, guestName, level }: OpeningProps)
         </button>
 
         <div className={cn("transition-opacity duration-300", opening && "opacity-0")}>
-          <p className="font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase [&:lang(am)]:tracking-normal">
+          <p className="font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase ethiopic:tracking-normal">
             {t("tapFlower")}
           </p>
           <p className="mt-6 text-ink-soft">{dateLine}</p>

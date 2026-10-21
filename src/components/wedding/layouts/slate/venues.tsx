@@ -51,7 +51,7 @@ export async function SlateVenues({ site, locale }: Props) {
                     <MapPin className="size-5" />
                   </span>
                   <div className="min-w-0">
-                    <h3 className="text-[clamp(1.4rem,3.4vw,1.75rem)] leading-tight text-ink [&:lang(am)]:text-[clamp(1.3rem,3.2vw,1.55rem)] [&:lang(am)]:leading-snug">
+                    <h3 className="text-[clamp(1.4rem,3.4vw,1.75rem)] leading-tight text-ink ethiopic:text-[clamp(1.3rem,3.2vw,1.55rem)] ethiopic:leading-snug">
                       {name}
                     </h3>
                     {address ? <p className="mt-1 text-base text-ink-soft">{address}</p> : null}

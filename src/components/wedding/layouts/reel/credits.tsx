@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { fullName } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
@@ -72,7 +72,7 @@ export async function ReelInvitation({ site, locale }: Props) {
           <dl className="space-y-7 sm:space-y-5">
             <CreditRow index={5} label={tr("date")}>
               {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
-              {locale === "am" ? (
+              {usesEthiopianCalendar(locale) ? (
                 <span className="block text-ink-soft">{formatGregorianDate(couple.weddingAt, couple.timezone)}</span>
               ) : null}
             </CreditRow>

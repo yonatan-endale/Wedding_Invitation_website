@@ -60,7 +60,7 @@ export async function NoirGallery({ photos, names }: { photos: GalleryPhoto[]; n
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
                     {photo.caption ? (
-                      <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pt-10 pb-3 text-left font-cormorant text-base leading-snug text-white italic [&:lang(am)]:not-italic">
+                      <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pt-10 pb-3 text-left font-cormorant text-base leading-snug text-white italic ethiopic:not-italic">
                         {photo.caption}
                       </span>
                     ) : null}

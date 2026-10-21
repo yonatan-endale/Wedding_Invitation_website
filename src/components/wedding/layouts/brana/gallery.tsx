@@ -66,7 +66,7 @@ export async function BranaMiniatures({ photos, names }: Props) {
               {photo.caption ? (
                 <p
                   lang={scriptLang(photo.caption)}
-                  className={cn(styles.rubric, "mt-3 text-center font-cormorant text-[1.05rem] leading-snug font-medium italic [&:lang(am)]:not-italic")}
+                  className={cn(styles.rubric, "mt-3 text-center font-cormorant text-[1.05rem] leading-snug font-medium italic ethiopic:not-italic")}
                 >
                   {photo.caption}
                 </p>

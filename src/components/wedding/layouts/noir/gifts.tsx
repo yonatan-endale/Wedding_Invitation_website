@@ -2,7 +2,7 @@ import { ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData, SiteGiftAccount } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { GiftAccountActions } from "../../gift-account-actions";
 import { FoilText } from "../../kit/foil-text";
@@ -85,7 +85,7 @@ function GiftCard({ account, label, kind, initials }: { account: SiteGiftAccount
         <div className="mt-4 flex items-end justify-between gap-4">
           <div className="min-w-0">
             <dt className={cn(noirEyebrow, "text-[0.62rem] text-ink-soft")}>{label.name}</dt>
-            <dd className="mt-0.5 text-[0.95rem] break-words tracking-[0.08em] uppercase [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case">
+            <dd className="mt-0.5 text-[0.95rem] break-words tracking-[0.08em] uppercase ethiopic:tracking-normal ethiopic:normal-case">
               {account.accountName}
             </dd>
           </div>
@@ -113,7 +113,7 @@ export async function NoirGifts({ site, locale, names }: Props) {
   const t = await getTranslations("gifts");
   const tn = await getTranslations("layouts.noir");
   const note = pickText(couple.giftNote, locale) || t("defaultNote");
-  const initials = names.initials.filter(Boolean).join(locale === "am" ? "፡" : "&");
+  const initials = names.initials.filter(Boolean).join(LANGUAGES[locale].initialsSeparator);
   const label = { name: t("accountName"), number: tn("accountNumber") };
 
   return (

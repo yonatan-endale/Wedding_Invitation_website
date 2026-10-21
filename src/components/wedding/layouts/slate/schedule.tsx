@@ -4,7 +4,7 @@ import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
 import { hasEventIcon } from "@/lib/event-kinds";
 import { toGeez } from "@/lib/geez";
-import type { Locale } from "@/lib/localized";
+import { type Locale, isEthiopic } from "@/lib/localized";
 import { timelineItems, type TimelineItem } from "@/lib/timeline";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
@@ -78,7 +78,7 @@ export async function SlateSchedule({ site, locale }: Props) {
                   {hasEventIcon(item.kind) ? (
                     <EventIcon kind={item.kind} className="size-5 sm:size-[1.4rem]" />
                   ) : (
-                    <span className="font-display text-lg leading-none lining-nums">{locale === "am" ? toGeez(index + 1) : index + 1}</span>
+                    <span className="font-display text-lg leading-none lining-nums">{isEthiopic(locale) ? toGeez(index + 1) : index + 1}</span>
                   )}
                 </span>
                 {/* The rail: a faint track, and the accent filling it as the event comes into view. */}
@@ -91,7 +91,7 @@ export async function SlateSchedule({ site, locale }: Props) {
               <div className="pb-10 sm:pb-12">
                 <article data-reveal="up" style={order(1)} className="pt-3 sm:pt-3.5">
                   <When item={item} day={day === weddingDay ? null : day} />
-                  <h3 className="mt-2 text-[clamp(1.35rem,3.4vw,1.7rem)] leading-snug text-ink [&:lang(am)]:text-[clamp(1.25rem,3.2vw,1.5rem)]">
+                  <h3 className="mt-2 text-[clamp(1.35rem,3.4vw,1.7rem)] leading-snug text-ink ethiopic:text-[clamp(1.25rem,3.2vw,1.5rem)]">
                     {item.title}
                   </h3>
                   {item.venue ? (
@@ -126,7 +126,7 @@ export async function SlateSchedule({ site, locale }: Props) {
           <div aria-hidden className="flex justify-center">
             <span data-reveal="pop" className="size-3 rotate-45 bg-(--slate-accent)" />
           </div>
-          <p data-reveal="up" style={order(1)} className="text-base text-ink-soft italic [&:lang(am)]:not-italic">
+          <p data-reveal="up" style={order(1)} className="text-base text-ink-soft italic ethiopic:not-italic">
             {end ? t("endAt", { time: end.time }) : t("end")}
           </p>
         </li>

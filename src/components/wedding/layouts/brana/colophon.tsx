@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
-import type { Locale } from "@/lib/localized";
+import { type Locale, LANGUAGES } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import styles from "./brana.module.css";
@@ -47,13 +47,13 @@ export async function BranaColophon({ site, locale }: Props) {
       <div className="mx-auto max-w-2xl">
         <Headpiece className="mx-auto w-[min(16rem,62%)]" />
         <div data-reveal-group className={cn(styles.colophon, "mt-14 px-6 py-12 text-center sm:px-14 sm:py-14")}>
-          <p data-reveal="up" className="mx-auto max-w-[30ch] font-cormorant text-[clamp(1.3rem,3.4vw,1.6rem)] leading-snug font-medium italic [&:lang(am)]:max-w-[32ch] [&:lang(am)]:text-[clamp(1.1rem,2.8vw,1.3rem)] [&:lang(am)]:leading-relaxed [&:lang(am)]:not-italic">
+          <p data-reveal="up" className="mx-auto max-w-[30ch] font-cormorant text-[clamp(1.3rem,3.4vw,1.6rem)] leading-snug font-medium italic ethiopic:max-w-[32ch] ethiopic:text-[clamp(1.1rem,2.8vw,1.3rem)] ethiopic:leading-relaxed ethiopic:not-italic">
             {tb("colophon")}
           </p>
           <SectionMark className="mt-7 text-[1.35rem]" />
           <p data-reveal="up" style={order(1)} className={cn(styles.rubric, styles.display, "mt-6 font-medium")}>
             <FullName name={one} />
-            <span className="my-2 block font-cormorant text-[1.25rem] text-ink italic [&:lang(am)]:not-italic">{locale === "am" ? "እና" : "&"}</span>
+            <span className="my-2 block font-cormorant text-[1.25rem] text-ink italic ethiopic:not-italic">{LANGUAGES[locale].and}</span>
             <FullName name={two} />
           </p>
           <p data-reveal="up" style={order(2)} className="mt-8 text-base lining-nums">

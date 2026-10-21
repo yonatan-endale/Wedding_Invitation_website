@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
 import { FoilText } from "../../kit/foil-text";
@@ -19,7 +19,7 @@ const order = (index: number) => ({ "--i": index }) as CSSProperties;
 
 /** The full names, sized down for Ge'ez, which sets wider than Marcellus. */
 const nameClass =
-  "block font-display text-[clamp(2.5rem,min(9.5vw,8.4svh),5.25rem)] leading-[1.04] [&:lang(am)]:text-[clamp(2.1rem,min(8vw,7svh),4.25rem)] [&:lang(am)]:leading-[1.25]";
+  "block font-display text-[clamp(2.5rem,min(9.5vw,8.4svh),5.25rem)] leading-[1.04] ethiopic:text-[clamp(2.1rem,min(8vw,7svh),4.25rem)] ethiopic:leading-[1.25]";
 
 /**
  * The cover, cut like the back of a kaba: a velvet panel inside an
@@ -36,7 +36,7 @@ export function KabaHero({ site, locale, names }: Props) {
   const tagline = pickText(couple.tagline, locale);
   const city = pickText(couple.city, locale);
   const date = formatWeddingDate(couple.weddingAt, couple.timezone, locale);
-  const separator = locale === "am" ? "፡" : "&";
+  const separator = LANGUAGES[locale].initialsSeparator;
 
   return (
     <section id="top" className="relative isolate overflow-x-clip [--fringe-h:clamp(2.5rem,6.5vw,3.5rem)]">
@@ -64,7 +64,7 @@ export function KabaHero({ site, locale, names }: Props) {
                 <span aria-hidden className="flex size-full items-center justify-center font-display text-[clamp(1.75rem,7vw,2.5rem)] leading-none">
                   <FoilText sheen={false}>
                     {names.initials[0]}
-                    <span className="mx-1 font-cormorant text-[0.7em] italic [&:lang(am)]:not-italic">{separator}</span>
+                    <span className="mx-1 font-cormorant text-[0.7em] italic ethiopic:not-italic">{separator}</span>
                     {names.initials[1]}
                   </FoilText>
                 </span>
@@ -76,8 +76,8 @@ export function KabaHero({ site, locale, names }: Props) {
             <h1 className={ornament === "none" ? "mt-8" : "mt-5"}>
               {/* The spaces keep the accessible name "One & Two" across the stacked lines. */}
               <FoilText className={nameClass}>{names.one}</FoilText>{" "}
-              <span className="my-1.5 block font-cormorant text-[clamp(1.75rem,4.6vw,2.6rem)] leading-none text-metal italic [&:lang(am)]:my-2 [&:lang(am)]:text-[clamp(1.2rem,3.4vw,1.6rem)] [&:lang(am)]:not-italic">
-                {locale === "am" ? "እና" : "&"}
+              <span className="my-1.5 block font-cormorant text-[clamp(1.75rem,4.6vw,2.6rem)] leading-none text-metal italic ethiopic:my-2 ethiopic:text-[clamp(1.2rem,3.4vw,1.6rem)] ethiopic:not-italic">
+                {LANGUAGES[locale].and}
               </span>{" "}
               <FoilText className={nameClass} sheenDelay={0.7}>
                 {names.two}
@@ -86,7 +86,7 @@ export function KabaHero({ site, locale, names }: Props) {
 
             {tagline ? (
               <p
-                className="hero-fade mx-auto mt-6 max-w-[36ch] font-cormorant text-[clamp(1.2rem,2.8vw,1.5rem)] text-ink-soft italic [&:lang(am)]:not-italic"
+                className="hero-fade mx-auto mt-6 max-w-[36ch] font-cormorant text-[clamp(1.2rem,2.8vw,1.5rem)] text-ink-soft italic ethiopic:not-italic"
                 style={order(0)}
               >
                 {tagline}
@@ -143,14 +143,14 @@ export async function KabaInvitation({ site, locale }: Omit<Props, "names">) {
           <p
             data-reveal="up"
             style={order(1)}
-            className="mt-8 font-cormorant text-[clamp(1.25rem,3vw,1.5rem)] text-ink-soft italic [&:lang(am)]:not-italic"
+            className="mt-8 font-cormorant text-[clamp(1.25rem,3vw,1.5rem)] text-ink-soft italic ethiopic:not-italic"
           >
             {hosts}
           </p>
           <p
             data-reveal="up"
             style={order(2)}
-            className="mx-auto mt-3 max-w-[30ch] font-cormorant text-[clamp(1.5rem,3.8vw,2.05rem)] leading-snug [&:lang(am)]:max-w-[34ch] [&:lang(am)]:text-[clamp(1.2rem,3vw,1.5rem)] [&:lang(am)]:leading-relaxed"
+            className="mx-auto mt-3 max-w-[30ch] font-cormorant text-[clamp(1.5rem,3.8vw,2.05rem)] leading-snug ethiopic:max-w-[34ch] ethiopic:text-[clamp(1.2rem,3vw,1.5rem)] ethiopic:leading-relaxed"
           >
             {invitation}
           </p>
@@ -160,12 +160,12 @@ export async function KabaInvitation({ site, locale }: Omit<Props, "names">) {
           <p
             data-reveal="up"
             style={order(4)}
-            className="font-display text-[clamp(1.6rem,4.6vw,2.4rem)] leading-tight lining-nums [&:lang(am)]:text-[clamp(1.35rem,4vw,1.9rem)]"
+            className="font-display text-[clamp(1.6rem,4.6vw,2.4rem)] leading-tight lining-nums ethiopic:text-[clamp(1.35rem,4vw,1.9rem)]"
           >
             {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
           </p>
           {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-          {locale === "am" ? (
+          {usesEthiopianCalendar(locale) ? (
             <p data-reveal="up" style={order(5)} className="mt-2 text-base text-ink-soft">
               {formatGregorianDate(couple.weddingAt, couple.timezone)}
             </p>
@@ -181,7 +181,7 @@ export async function KabaInvitation({ site, locale }: Omit<Props, "names">) {
           {firstVenue ? (
             <div data-reveal="up" style={order(7)} className="mt-10">
               <Lozenge className="mx-auto mb-6 size-[7px]" />
-              <p className="font-display text-[clamp(1.35rem,3.6vw,1.8rem)] leading-tight [&:lang(am)]:text-[clamp(1.2rem,3.2vw,1.5rem)]">
+              <p className="font-display text-[clamp(1.35rem,3.6vw,1.8rem)] leading-tight ethiopic:text-[clamp(1.2rem,3.2vw,1.5rem)]">
                 {venueName}
               </p>
               {venueAddress ? <p className="mt-1.5 text-base text-ink-soft">{venueAddress}</p> : null}

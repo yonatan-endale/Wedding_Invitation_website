@@ -6,7 +6,7 @@ import { getOrnament } from "@/lib/appearance";
 import { EventDescription } from "../../event-description";
 import { hasEventIcon } from "@/lib/event-kinds";
 import { toGeez } from "@/lib/geez";
-import type { Locale } from "@/lib/localized";
+import { type Locale, isEthiopic } from "@/lib/localized";
 import { timelineItems, type TimelineItem } from "@/lib/timeline";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
@@ -24,7 +24,7 @@ const WASH: CSSProperties = {
 };
 
 /** The event's number for its badge when its kind has no icon: 1, 2, 3, or ፩, ፪, ፫ in Amharic. */
-const numeral = (n: number, locale: Locale) => (locale === "am" ? toGeez(n) : String(n));
+const numeral = (n: number, locale: Locale) => (isEthiopic(locale) ? toGeez(n) : String(n));
 
 /**
  * The day as stories. A short day (up to three events) gets a card per event,
@@ -214,7 +214,7 @@ function SoloEvent({ item, number, collapsible }: { item: TimelineItem; number: 
       <h3
         data-reveal="up"
         style={order(4)}
-        className="mt-5 font-display text-[clamp(1.9rem,10cqi,2.6rem)] leading-[1.1] [&:lang(am)]:text-[clamp(1.6rem,8.4cqi,2.2rem)] [&:lang(am)]:leading-[1.3]"
+        className="mt-5 font-display text-[clamp(1.9rem,10cqi,2.6rem)] leading-[1.1] ethiopic:text-[clamp(1.6rem,8.4cqi,2.2rem)] ethiopic:leading-[1.3]"
       >
         {item.title}
       </h3>

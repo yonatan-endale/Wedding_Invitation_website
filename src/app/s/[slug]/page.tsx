@@ -19,7 +19,7 @@ import { getAdminUser } from "@/lib/auth";
 import { parseGuestName } from "@/lib/guest";
 import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
 import { LAYOUTS, getLayout } from "@/lib/layout";
-import { isLocale, pickText, type Locale } from "@/lib/localized";
+import { isLocale, pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { getOpening } from "@/lib/opening";
 import { layoutNames, siteTitleNames } from "@/lib/site-names";
 import { hasPreviewOverrides, parsePreviewOverrides, type PreviewOverrides } from "@/lib/preview-overrides";
@@ -133,10 +133,10 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
               name={getOpening(couple.opening, couple.eventType)}
               names={{ one: names.firstOne, two: names.firstTwo }}
               initials={names.initials}
-              separator={locale === "am" ? "፡" : "&"}
+              separator={LANGUAGES[locale].initialsSeparator}
               dateLine={formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
               altDateLine={
-                locale === "am"
+                usesEthiopianCalendar(locale)
                   ? formatGregorianDate(couple.weddingAt, couple.timezone)
                   : formatEthiopianDateLine(couple.weddingAt, couple.timezone)
               }

@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { ImageResponse } from "next/og";
 import type { GuestCard } from "@/db/queries/cards";
 import { canOptimizeImage } from "@/lib/images";
-import { pickText } from "@/lib/localized";
+import { pickText, usesEthiopianCalendar } from "@/lib/localized";
 import { celebratedNames, layoutNames } from "@/lib/site-names";
 import { loadFullGoogleFont } from "@/lib/og-fonts";
 import { getTheme, type Theme } from "@/lib/theme";
@@ -141,7 +141,7 @@ export async function renderGuestCard({ site, guest }: GuestCard, { passLink, re
   const hosts = pickText(couple.hosts, locale) || tInvitation("hostsFallback");
   const invitation = clip(pickText(couple.invitation, locale) || tInvitation("defaultText"), 200);
   const date = formatWeddingDate(couple.weddingAt, couple.timezone, locale);
-  const gregorian = locale === "am" ? formatGregorianDate(couple.weddingAt, couple.timezone) : "";
+  const gregorian = usesEthiopianCalendar(locale) ? formatGregorianDate(couple.weddingAt, couple.timezone) : "";
   const time = formatWeddingTime(couple.weddingAt, couple.timezone, locale);
   const venue = venues[0];
   const venueName = venue ? pickText(venue.name, locale) : "";

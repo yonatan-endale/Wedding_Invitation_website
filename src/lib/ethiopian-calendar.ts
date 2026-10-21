@@ -36,6 +36,40 @@ export const ETHIOPIAN_MONTHS_LATIN = [
   "Pagume",
 ] as const;
 
+/** Tigrigna names of the Ethiopian months. */
+export const ETHIOPIAN_MONTHS_TI = [
+  "መስከረም",
+  "ጥቅምቲ",
+  "ሕዳር",
+  "ታሕሳስ",
+  "ጥሪ",
+  "ለካቲት",
+  "መጋቢት",
+  "ሚያዝያ",
+  "ግንቦት",
+  "ሰነ",
+  "ሓምለ",
+  "ነሓሰ",
+  "ጳጉሜን",
+] as const;
+
+/** Afaan Oromo names of the Ethiopian months, in Qubee. */
+export const ETHIOPIAN_MONTHS_OM = [
+  "Fulbaana",
+  "Onkoloolessa",
+  "Sadaasa",
+  "Muddee",
+  "Amajjii",
+  "Guraandhala",
+  "Bitootessa",
+  "Ebla",
+  "Caamsaa",
+  "Waxabajjii",
+  "Adooleessa",
+  "Hagayya",
+  "Qaammee",
+] as const;
+
 function gregorianToJdn(year: number, month: number, day: number): number {
   const a = Math.floor((14 - month) / 12);
   const y = year + 4800 - a;

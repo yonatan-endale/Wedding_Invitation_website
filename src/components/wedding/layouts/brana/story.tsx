@@ -65,14 +65,14 @@ export async function BranaChapters({ site, locale }: Props) {
               return (
                 <li key={milestone.id} data-reveal-group className={cn("py-10", index > 0 && "border-t border-(--brana-rule)")}>
                   <div className="text-center">
-                    <p data-reveal="fade" className={cn(styles.chapterLabel, "text-sm [&:lang(am)]:text-base")}>
+                    <p data-reveal="fade" className={cn(styles.chapterLabel, "text-sm ethiopic:text-base")}>
                       {tb("chapter")} <GeezNumeral value={index + 1} className="ml-1 text-[1.5em] tracking-normal" />
                     </p>
                     <h3
                       data-reveal="up"
                       style={order(1)}
                       lang={scriptLang(title)}
-                      className="mt-3 font-cormorant text-[clamp(1.75rem,4vw,2.4rem)] leading-tight font-medium [&:lang(am)]:text-[clamp(1.45rem,3.4vw,1.9rem)] [&:lang(am)]:leading-snug"
+                      className="mt-3 font-cormorant text-[clamp(1.75rem,4vw,2.4rem)] leading-tight font-medium ethiopic:text-[clamp(1.45rem,3.4vw,1.9rem)] ethiopic:leading-snug"
                     >
                       {title}
                     </h3>

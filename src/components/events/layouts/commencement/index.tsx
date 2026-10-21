@@ -9,7 +9,7 @@ import { WeddingImage, eyebrowClass } from "@/components/wedding/primitives";
 import { RsvpSection } from "@/components/wedding/rsvp";
 import { SaveTheDate } from "@/components/wedding/save-the-date";
 import { ScheduleSection, VenuesSection } from "@/components/wedding/schedule";
-import { pickText } from "@/lib/localized";
+import { pickText, usesEthiopianCalendar } from "@/lib/localized";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, weddingDateParts } from "@/lib/wedding-format";
 import { EventFooter } from "../../event-footer";
 import { EventInvitation } from "../../event-invitation";
@@ -28,7 +28,7 @@ export async function CommencementLayout({ site, locale, names, photos }: Layout
   const t = await getTranslations("layouts.commencement");
   const year = weddingDateParts(couple.eventAt, couple.timezone, locale).year;
   const otherCalendar =
-    locale === "am"
+    usesEthiopianCalendar(locale)
       ? formatGregorianDate(couple.eventAt, couple.timezone)
       : formatEthiopianDateLine(couple.eventAt, couple.timezone);
   const tagline = pickText(couple.tagline, locale);
@@ -54,7 +54,7 @@ export async function CommencementLayout({ site, locale, names, photos }: Layout
                     {pickText(honoree.nick, locale) || pickText(honoree.name, locale)}
                   </span>
                   {pickText(honoree.headline, locale) ? (
-                    <span className="mt-2 block font-display text-[clamp(1.125rem,2.6vw,1.5rem)] text-ink-soft italic [&:lang(am)]:not-italic">
+                    <span className="mt-2 block font-display text-[clamp(1.125rem,2.6vw,1.5rem)] text-ink-soft italic ethiopic:not-italic">
                       {pickText(honoree.headline, locale)}
                     </span>
                   ) : null}

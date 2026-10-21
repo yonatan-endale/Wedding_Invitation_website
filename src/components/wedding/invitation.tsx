@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, isEthiopic, usesEthiopianCalendar } from "@/lib/localized";
 import { fullName } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
@@ -81,7 +81,7 @@ export async function InvitationCard({ site, locale }: Props) {
           >
             {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
           </p>
-          {locale === "am" ? (
+          {usesEthiopianCalendar(locale) ? (
             <p data-reveal="up" style={{ "--i": 6 } as CSSProperties} className="mt-1 text-base text-ink-soft">
               {formatGregorianDate(couple.weddingAt, couple.timezone)}
             </p>
@@ -157,7 +157,7 @@ export function ScriptureSection({ site, locale }: Props) {
           data-reveal="fade"
           className={cn(
             "text-[clamp(1.6rem,4.2vw,2.6rem)] leading-[1.35]",
-            locale === "am" ? "font-display" : "italic",
+            isEthiopic(locale) ? "font-display" : "italic",
           )}
         >
           <p>{text}</p>

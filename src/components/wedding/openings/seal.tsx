@@ -103,7 +103,7 @@ export function SealOpening({ names, initials, separator, dateLine, guestName }:
           <p
             className={cn(
               chip,
-              "pointer-events-none absolute top-full left-1/2 mt-6 w-max -translate-x-1/2 font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase [&:lang(am)]:tracking-normal",
+              "pointer-events-none absolute top-full left-1/2 mt-6 w-max -translate-x-1/2 font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase ethiopic:tracking-normal",
             )}
           >
             {t("pressToOpen")}

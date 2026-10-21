@@ -274,7 +274,7 @@ export function KabaHeading({
         data-reveal="up"
         style={order(1)}
         className={cn(
-          "font-display text-[clamp(2.4rem,6.4vw,4rem)] leading-[1.08] [&:lang(am)]:text-[clamp(2rem,5.6vw,3.2rem)] [&:lang(am)]:leading-[1.25]",
+          "font-display text-[clamp(2.4rem,6.4vw,4rem)] leading-[1.08] ethiopic:text-[clamp(2rem,5.6vw,3.2rem)] ethiopic:leading-[1.25]",
           kicker && "mt-4",
         )}
       >

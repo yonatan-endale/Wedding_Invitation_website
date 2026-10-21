@@ -9,7 +9,7 @@ import { eyebrowClass } from "@/components/wedding/primitives";
 import { RsvpSection } from "@/components/wedding/rsvp";
 import { SaveTheDate } from "@/components/wedding/save-the-date";
 import { ScheduleSection, VenuesSection } from "@/components/wedding/schedule";
-import { pickText } from "@/lib/localized";
+import { pickText, usesEthiopianCalendar } from "@/lib/localized";
 import { joinNames } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
@@ -56,7 +56,7 @@ export async function ConfettiLayout({ site, locale, names, photos }: LayoutProp
   const firstNames = honorees.map((honoree) => pickText(honoree.nick, locale) || pickText(honoree.name, locale));
   const headlines = honorees.map((honoree) => pickText(honoree.headline, locale)).filter(Boolean);
   const otherCalendar =
-    locale === "am" ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
+    usesEthiopianCalendar(locale) ? formatGregorianDate(couple.eventAt, couple.timezone) : formatEthiopianDateLine(couple.eventAt, couple.timezone);
   const tagline = pickText(couple.tagline, locale);
 
   return (

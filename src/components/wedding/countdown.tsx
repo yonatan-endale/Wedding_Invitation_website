@@ -27,7 +27,7 @@ const VARIANTS: Record<CountdownVariant, { unit: string; digits: string; separat
     unit: "min-w-[2.2em]",
     digits: "font-mono text-[clamp(2rem,8vw,4rem)] leading-none tracking-tight",
     separator: "font-mono text-thread-2 opacity-100",
-    label: "uppercase tracking-[0.25em] text-xs sm:text-xs [&:lang(am)]:normal-case [&:lang(am)]:tracking-normal",
+    label: "uppercase tracking-[0.25em] text-xs sm:text-xs ethiopic:normal-case ethiopic:tracking-normal",
   },
   outline: {
     unit: "min-w-[2.4em]",
@@ -52,7 +52,7 @@ const VARIANTS: Record<CountdownVariant, { unit: string; digits: string; separat
     unit: "min-w-[3.6em] rounded-xl border border-rule bg-sheet px-1.5 pt-4 pb-3 shadow-[0_8px_24px_-16px_rgb(0_0_0/0.35)] sm:min-w-[4.6em]",
     digits: "font-sans text-[clamp(1.6rem,6.5vw,2.75rem)] leading-none font-semibold tabular-nums",
     separator: "font-sans text-thread-1 opacity-100",
-    label: "uppercase tracking-[0.18em] text-xs sm:text-xs [&:lang(am)]:normal-case [&:lang(am)]:tracking-normal",
+    label: "uppercase tracking-[0.18em] text-xs sm:text-xs ethiopic:normal-case ethiopic:tracking-normal",
   },
 };
 

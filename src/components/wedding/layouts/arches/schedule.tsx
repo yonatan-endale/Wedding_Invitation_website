@@ -90,7 +90,7 @@ export async function ArchesSchedule({ site, locale }: Props) {
                     <time dateTime={item.startsAt}>{item.time}</time>
                   )}
                 </p>
-                <h3 className="mt-1.5 font-cormorant text-[clamp(1.5rem,3.2vw,1.95rem)] leading-[1.15] font-medium [&:lang(am)]:text-[clamp(1.3rem,2.8vw,1.6rem)] [&:lang(am)]:leading-snug">
+                <h3 className="mt-1.5 font-cormorant text-[clamp(1.5rem,3.2vw,1.95rem)] leading-[1.15] font-medium ethiopic:text-[clamp(1.3rem,2.8vw,1.6rem)] ethiopic:leading-snug">
                   {item.title}
                 </h3>
                 {item.venue ? (

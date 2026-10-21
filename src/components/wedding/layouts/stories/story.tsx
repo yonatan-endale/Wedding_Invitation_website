@@ -100,7 +100,7 @@ export async function StoriesStory({ site, locale }: Props) {
               <h3
                 data-reveal="up"
                 style={order(2)}
-                className="mt-5 font-display text-[clamp(2rem,10.5cqi,2.8rem)] leading-[1.08] [&:lang(am)]:text-[clamp(1.7rem,8.6cqi,2.35rem)] [&:lang(am)]:leading-[1.3]"
+                className="mt-5 font-display text-[clamp(2rem,10.5cqi,2.8rem)] leading-[1.08] ethiopic:text-[clamp(1.7rem,8.6cqi,2.35rem)] ethiopic:leading-[1.3]"
               >
                 {title}
               </h3>

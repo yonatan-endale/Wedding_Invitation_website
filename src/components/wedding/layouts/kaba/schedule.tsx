@@ -5,7 +5,7 @@ import { getOrnament } from "@/lib/appearance";
 import { EventDescription } from "../../event-description";
 import { hasEventIcon } from "@/lib/event-kinds";
 import { toGeez } from "@/lib/geez";
-import type { Locale } from "@/lib/localized";
+import { type Locale, isEthiopic } from "@/lib/localized";
 import { timelineItems, type TimelineItem } from "@/lib/timeline";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
@@ -132,8 +132,8 @@ export async function KabaSchedule({ site, locale }: Props) {
                     {hasEventIcon(item.kind) ? (
                       <EventIcon kind={item.kind} className="relative size-5" />
                     ) : (
-                      <span className="relative font-cormorant text-[1.35rem] leading-none font-medium lining-nums [&:lang(am)]:text-[1.3rem]">
-                        {locale === "am" ? toGeez(index + 1) : index + 1}
+                      <span className="relative font-cormorant text-[1.35rem] leading-none font-medium lining-nums ethiopic:text-[1.3rem]">
+                        {isEthiopic(locale) ? toGeez(index + 1) : index + 1}
                       </span>
                     )}
                   </span>
@@ -149,7 +149,7 @@ export async function KabaSchedule({ site, locale }: Props) {
                 {mels ? (
                   <div className={cn(styles.patch, "mt-2 px-6 py-6 md:mt-0 md:px-8 md:py-7")}>
                     <p className={kabaEyebrow}>{tk("mels")}</p>
-                    <h3 className="mt-2 text-[clamp(1.75rem,4vw,2.4rem)] leading-tight [&:lang(am)]:text-[clamp(1.5rem,3.4vw,1.9rem)] [&:lang(am)]:leading-snug">
+                    <h3 className="mt-2 text-[clamp(1.75rem,4vw,2.4rem)] leading-tight ethiopic:text-[clamp(1.5rem,3.4vw,1.9rem)] ethiopic:leading-snug">
                       <FoilText>{item.title}</FoilText>
                     </h3>
                     {venue}
@@ -157,7 +157,7 @@ export async function KabaSchedule({ site, locale }: Props) {
                   </div>
                 ) : (
                   <>
-                    <h3 className="mt-1 text-[clamp(1.4rem,3.2vw,1.8rem)] leading-tight [&:lang(am)]:text-[clamp(1.35rem,3vw,1.65rem)] [&:lang(am)]:leading-snug md:mt-2.5">
+                    <h3 className="mt-1 text-[clamp(1.4rem,3.2vw,1.8rem)] leading-tight ethiopic:text-[clamp(1.35rem,3vw,1.65rem)] ethiopic:leading-snug md:mt-2.5">
                       {item.title}
                     </h3>
                     {venue}

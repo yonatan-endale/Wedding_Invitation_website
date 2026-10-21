@@ -8,7 +8,7 @@ import {
   gregorianMonth,
   gregorianToEthiopian,
 } from "./ethiopian-calendar";
-import type { Locale } from "./localized";
+import { type Locale, usesEthiopianCalendar } from "./localized";
 import { MONTHS_EN } from "./wedding-format";
 
 export type CalendarSystem = "ethiopian" | "gregorian";
@@ -71,7 +71,7 @@ export function buildMonthGrid(weddingAt: string, timeZone: string, system: Cale
 export function calendarViews(style: CalendarStyle, locale: Locale): { initial: CalendarSystem; available: CalendarSystem[] } {
   if (style === "ethiopian") return { initial: "ethiopian", available: ["ethiopian"] };
   if (style === "gregorian") return { initial: "gregorian", available: ["gregorian"] };
-  const initial = locale === "am" ? "ethiopian" : "gregorian";
+  const initial = usesEthiopianCalendar(locale) ? "ethiopian" : "gregorian";
   return { initial, available: ["ethiopian", "gregorian"] };
 }
 

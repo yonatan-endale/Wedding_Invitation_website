@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
 import { Crest } from "../../kit/crest";
@@ -37,7 +37,7 @@ const PANEL_LIGHT: CSSProperties = {
 
 /** The full names, sized down for Ge'ez, which sets wider than Cormorant. */
 const nameClass =
-  "block font-cormorant text-[clamp(2.75rem,8vw,5.75rem)] leading-[1.02] font-light [&:lang(am)]:text-[clamp(2.25rem,6.6vw,4.5rem)] [&:lang(am)]:leading-[1.2]";
+  "block font-cormorant text-[clamp(2.75rem,8vw,5.75rem)] leading-[1.02] font-light ethiopic:text-[clamp(2.25rem,6.6vw,4.5rem)] ethiopic:leading-[1.2]";
 
 /**
  * The cover: a large crest with the couple's initials on dark paper, the
@@ -94,7 +94,7 @@ export async function NoirHero({ site, locale, names }: Props) {
 
       <div className="relative w-full max-w-4xl">
         <div className="relative mx-auto w-[clamp(8.5rem,30vw,11.5rem)]">
-          <Crest initials={names.initials} separator={locale === "am" ? "፡" : "&"} id="noir-hero-crest" className="w-full" />
+          <Crest initials={names.initials} separator={LANGUAGES[locale].initialsSeparator} id="noir-hero-crest" className="w-full" />
           <Sparkles />
         </div>
 
@@ -106,9 +106,9 @@ export async function NoirHero({ site, locale, names }: Props) {
           {/* The spaces keep the accessible name "One & Two" across the stacked lines. */}
           <FoilText className={nameClass}>{names.one}</FoilText>{" "}
           <span
-            className="my-1 block font-cormorant text-[clamp(1.75rem,4.5vw,2.75rem)] leading-none font-light text-metal italic [&:lang(am)]:my-2 [&:lang(am)]:text-[clamp(1.25rem,3.5vw,1.75rem)] [&:lang(am)]:not-italic"
+            className="my-1 block font-cormorant text-[clamp(1.75rem,4.5vw,2.75rem)] leading-none font-light text-metal italic ethiopic:my-2 ethiopic:text-[clamp(1.25rem,3.5vw,1.75rem)] ethiopic:not-italic"
           >
-            {locale === "am" ? "እና" : "&"}
+            {LANGUAGES[locale].and}
           </span>{" "}
           <FoilText className={nameClass} sheenDelay={0.7}>
             {names.two}
@@ -117,7 +117,7 @@ export async function NoirHero({ site, locale, names }: Props) {
 
         {tagline ? (
           <p
-            className="hero-fade mx-auto mt-6 max-w-[40ch] font-cormorant text-[clamp(1.2rem,2.6vw,1.5rem)] text-ink-soft italic [&:lang(am)]:not-italic"
+            className="hero-fade mx-auto mt-6 max-w-[40ch] font-cormorant text-[clamp(1.2rem,2.6vw,1.5rem)] text-ink-soft italic ethiopic:not-italic"
             style={order(1)}
           >
             {tagline}
@@ -163,7 +163,7 @@ export async function NoirInvitation({ site, locale }: Omit<Props, "names">) {
           <p
             data-reveal="up"
             style={order(1)}
-            className="mx-auto mt-8 max-w-[30ch] font-cormorant text-[clamp(1.5rem,3.8vw,2.1rem)] leading-snug italic [&:lang(am)]:max-w-[34ch] [&:lang(am)]:text-[clamp(1.2rem,3vw,1.5rem)] [&:lang(am)]:leading-relaxed [&:lang(am)]:not-italic"
+            className="mx-auto mt-8 max-w-[30ch] font-cormorant text-[clamp(1.5rem,3.8vw,2.1rem)] leading-snug italic ethiopic:max-w-[34ch] ethiopic:text-[clamp(1.2rem,3vw,1.5rem)] ethiopic:leading-relaxed ethiopic:not-italic"
           >
             {invitation}
           </p>
@@ -173,12 +173,12 @@ export async function NoirInvitation({ site, locale }: Omit<Props, "names">) {
           <p
             data-reveal="up"
             style={order(4)}
-            className="font-cormorant text-[clamp(1.75rem,5vw,2.75rem)] leading-tight lining-nums [&:lang(am)]:text-[clamp(1.35rem,4.2vw,2rem)]"
+            className="font-cormorant text-[clamp(1.75rem,5vw,2.75rem)] leading-tight lining-nums ethiopic:text-[clamp(1.35rem,4.2vw,2rem)]"
           >
             {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
           </p>
           {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-          {locale === "am" ? (
+          {usesEthiopianCalendar(locale) ? (
             <p data-reveal="up" style={order(5)} className="mt-2 text-base text-ink-soft">
               {formatGregorianDate(couple.weddingAt, couple.timezone)}
             </p>
@@ -197,7 +197,7 @@ export async function NoirInvitation({ site, locale }: Omit<Props, "names">) {
               <p
                 data-reveal="up"
                 style={order(8)}
-                className="font-cormorant text-[clamp(1.5rem,4vw,2.1rem)] leading-tight [&:lang(am)]:text-[clamp(1.25rem,3.4vw,1.6rem)]"
+                className="font-cormorant text-[clamp(1.5rem,4vw,2.1rem)] leading-tight ethiopic:text-[clamp(1.25rem,3.4vw,1.6rem)]"
               >
                 {venueName}
               </p>

@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, isEthiopic, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
 import { FaithOrnament } from "../../ornaments/faith-ornament";
@@ -46,7 +46,7 @@ export async function SlateInvitation({ site, locale, names }: Props) {
   const city = pickText(couple.city, locale);
   // The other calendar under the date, so Ethiopian and international guests both recognise the day.
   const otherDate =
-    locale === "am" ? formatGregorianDate(couple.weddingAt, couple.timezone) : formatEthiopianDateLine(couple.weddingAt, couple.timezone);
+    usesEthiopianCalendar(locale) ? formatGregorianDate(couple.weddingAt, couple.timezone) : formatEthiopianDateLine(couple.weddingAt, couple.timezone);
 
   return (
     <section id="invitation" aria-labelledby="invitation-heading" className="px-3 pt-16 pb-6 sm:px-8 sm:pt-24 sm:pb-10">
@@ -63,24 +63,24 @@ export async function SlateInvitation({ site, locale, names }: Props) {
             id="invitation-heading"
             data-reveal="up"
             style={order(2)}
-            className="mx-auto mt-1 text-[clamp(1.85rem,5.4vw,2.85rem)] leading-[1.15] text-ink [&:lang(am)]:mt-2 [&:lang(am)]:text-[clamp(1.55rem,4.6vw,2.2rem)] [&:lang(am)]:leading-[1.35]"
+            className="mx-auto mt-1 text-[clamp(1.85rem,5.4vw,2.85rem)] leading-[1.15] text-ink ethiopic:mt-2 ethiopic:text-[clamp(1.55rem,4.6vw,2.2rem)] ethiopic:leading-[1.35]"
           >
             {/* One name a line on phones ("One" / "& Two"), one line from tablets up. */}
             <span className="block md:inline">{names.one}</span>{" "}
             <span className="block md:inline">
-              <span className={cn("mr-[0.3em] text-(--slate-accent) md:ml-[0.05em]", locale === "am" ? "text-[0.8em]" : "font-script text-[1.05em]")}>&amp;</span>
+              <span className={cn("mr-[0.3em] text-(--slate-accent) md:ml-[0.05em]", isEthiopic(locale) ? "text-[0.8em]" : "font-script text-[1.05em]")}>&amp;</span>
               {names.two}
             </span>
           </h2>
           <Divider className="mt-6" style={order(3)} />
 
-          <p data-reveal="up" style={order(4)} className="mt-7 text-ink-soft italic [&:lang(am)]:not-italic">
+          <p data-reveal="up" style={order(4)} className="mt-7 text-ink-soft italic ethiopic:not-italic">
             {hosts}
           </p>
           <p
             data-reveal="up"
             style={order(5)}
-            className="mx-auto mt-3 max-w-[44ch] text-[clamp(1.15rem,2.6vw,1.3rem)] leading-relaxed [&:lang(am)]:text-[clamp(1.05rem,2.4vw,1.2rem)]"
+            className="mx-auto mt-3 max-w-[44ch] text-[clamp(1.15rem,2.6vw,1.3rem)] leading-relaxed ethiopic:text-[clamp(1.05rem,2.4vw,1.2rem)]"
           >
             {invitation}
           </p>
@@ -95,10 +95,10 @@ export async function SlateInvitation({ site, locale, names }: Props) {
         >
           <div data-reveal="up">
             <Fact icon={<CalendarDays className="size-[1.15rem]" />} label={ts("when")}>
-              <p className="font-display text-[1.3rem] leading-snug lining-nums [&:lang(am)]:text-[1.2rem]">
+              <p className="font-display text-[1.3rem] leading-snug lining-nums ethiopic:text-[1.2rem]">
                 {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
               </p>
-              <p lang={locale === "am" ? "en" : "am"} className="mt-0.5 text-base text-ink-soft">
+              <p lang={usesEthiopianCalendar(locale) ? "en" : "am"} className="mt-0.5 text-base text-ink-soft">
                 {otherDate}
               </p>
               <p className="mt-0.5 text-base text-ink-soft lining-nums">{formatWeddingTime(couple.weddingAt, couple.timezone, locale)}</p>
@@ -109,7 +109,7 @@ export async function SlateInvitation({ site, locale, names }: Props) {
               <span aria-hidden className="hidden bg-rule sm:block" />
               <div data-reveal="up" style={order(1)}>
                 <Fact icon={<MapPin className="size-[1.15rem]" />} label={ts("where")}>
-                  <p className="font-display text-[1.3rem] leading-snug [&:lang(am)]:text-[1.2rem]">{venueName}</p>
+                  <p className="font-display text-[1.3rem] leading-snug ethiopic:text-[1.2rem]">{venueName}</p>
                   {venueAddress ? <p className="mt-0.5 text-base text-ink-soft">{venueAddress}</p> : null}
                   {!venueAddress && city ? <p className="mt-0.5 text-base text-ink-soft">{city}</p> : null}
                 </Fact>

@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
 import { LAYOUTS } from "@/lib/layout";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, isEthiopic } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import { FaithOrnament } from "../../ornaments/faith-ornament";
@@ -40,10 +40,10 @@ export async function SlateFooter({ site, locale, names }: Props) {
         <p
           data-reveal="up"
           style={order(1)}
-          className="mt-1 font-display text-[clamp(2rem,6vw,3.1rem)] leading-[1.15] [&:lang(am)]:mt-2 [&:lang(am)]:text-[clamp(1.6rem,5vw,2.4rem)] [&:lang(am)]:leading-[1.35]"
+          className="mt-1 font-display text-[clamp(2rem,6vw,3.1rem)] leading-[1.15] ethiopic:mt-2 ethiopic:text-[clamp(1.6rem,5vw,2.4rem)] ethiopic:leading-[1.35]"
         >
           {names.firstOne}
-          <span className={cn("mx-[0.28em] text-(--slate-glow)", locale === "am" ? "text-[0.75em]" : "font-script text-[1.05em]")}>&amp;</span>
+          <span className={cn("mx-[0.28em] text-(--slate-glow)", isEthiopic(locale) ? "text-[0.75em]" : "font-script text-[1.05em]")}>&amp;</span>
           {names.firstTwo}
         </p>
         <div data-reveal="up" style={order(2)}>
@@ -55,7 +55,7 @@ export async function SlateFooter({ site, locale, names }: Props) {
             <blockquote
               className={cn(
                 "text-[clamp(1.1rem,2.8vw,1.3rem)] leading-relaxed text-ink-soft",
-                locale === "am" ? "font-display" : "italic",
+                isEthiopic(locale) ? "font-display" : "italic",
               )}
             >
               <p>{scripture}</p>

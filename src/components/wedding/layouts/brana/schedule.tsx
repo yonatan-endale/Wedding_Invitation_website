@@ -144,7 +144,7 @@ export async function BranaCanon({ site, locale }: Props) {
                 </td>
                 <td>
                   <Title item={item}>
-                    <span className="block font-cormorant text-[1.45rem] leading-snug font-medium [&:lang(am)]:text-[1.25rem]">{item.title}</span>
+                    <span className="block font-cormorant text-[1.45rem] leading-snug font-medium ethiopic:text-[1.25rem]">{item.title}</span>
                     {item.description && !collapsible ? (
                       <span className="mt-1 block text-base text-ink-soft">{item.description}</span>
                     ) : null}
@@ -181,7 +181,7 @@ export async function BranaCanon({ site, locale }: Props) {
               <p className="text-base text-ink-soft tabular-nums">
                 <When item={item} day={otherDay(item)} />
               </p>
-              <h3 className="mt-1 font-cormorant text-[1.45rem] leading-snug font-medium [&:lang(am)]:text-[1.25rem]">
+              <h3 className="mt-1 font-cormorant text-[1.45rem] leading-snug font-medium ethiopic:text-[1.25rem]">
                 <Title item={item}>{item.title}</Title>
               </h3>
               {item.venue ? (
@@ -197,7 +197,7 @@ export async function BranaCanon({ site, locale }: Props) {
 
       <div data-reveal-group className="mx-auto mt-10 max-w-md text-center md:mt-8">
         <SectionMark />
-        <p data-reveal="up" style={order(1)} className={cn(styles.rubric, "mt-2 font-cormorant text-[1.3rem] font-medium [&:lang(am)]:text-[1.15rem]")}>
+        <p data-reveal="up" style={order(1)} className={cn(styles.rubric, "mt-2 font-cormorant text-[1.3rem] font-medium ethiopic:text-[1.15rem]")}>
           {end ? t("endAt", { time: end.time }) : t("end")}
         </p>
       </div>

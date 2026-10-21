@@ -117,7 +117,7 @@ function Poster({ index, first, father, full, role, photo, date }: PosterProps) 
       <figcaption className="absolute inset-x-0 bottom-0 px-6 pb-9 text-center">
         <h3 className="font-display text-[clamp(2.75rem,10vw,4rem)] leading-[0.95] [overflow-wrap:anywhere]">{first}</h3>
         {father ? (
-          <p className="mt-3 text-sm tracking-[0.42em] text-white/85 uppercase [&:lang(am)]:text-base [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case">
+          <p className="mt-3 text-sm tracking-[0.42em] text-white/85 uppercase ethiopic:text-base ethiopic:tracking-normal ethiopic:normal-case">
             {father}
           </p>
         ) : null}

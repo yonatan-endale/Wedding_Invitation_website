@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Ge'ez-script pages: Amharic and Tigrigna share the same typography. */
+@custom-variant ethiopic (&:is(:lang(am), :lang(ti)));
 
 @theme inline {
   --color-background: var(--background);
@@ -211,7 +213,7 @@
   }
 
   /* Amharic reads better slightly larger with more open leading. */
-  .wedding:lang(am) {
+  .wedding:is(:lang(am), :lang(ti)) {
     font-size: 1.1875rem;
     line-height: 1.85;
   }

@@ -82,7 +82,7 @@
   margin-top: 1.1rem;
 }
 
-.shared :global(:is(#gallery-heading, #story-heading, #rsvp-heading, #gifts-heading)):lang(am) {
+.shared :global(:is(#gallery-heading, #story-heading, #rsvp-heading, #gifts-heading)):is(:lang(am), :lang(ti)) {
   font-size: clamp(1.7rem, 5vw, 2.4rem);
   line-height: 1.3;
 }

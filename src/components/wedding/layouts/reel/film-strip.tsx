@@ -55,7 +55,7 @@ export async function ReelGallery({ photos, names }: { photos: GalleryPhoto[]; n
                     {/* Frame number, as printed along the film's edge. */}
                     <span
                       aria-hidden
-                      className="absolute bottom-2 left-2.5 font-mono text-[0.7rem] tracking-[0.15em] text-[color-mix(in_oklab,var(--w-metal)_70%,white)] tabular-nums [text-shadow:0_1px_4px_rgba(0,0,0,0.8)]"
+                      className="absolute bottom-2 start-2.5 font-mono text-[0.7rem] tracking-[0.15em] text-[color-mix(in_oklab,var(--w-metal)_70%,white)] tabular-nums [text-shadow:0_1px_4px_rgba(0,0,0,0.8)]"
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>

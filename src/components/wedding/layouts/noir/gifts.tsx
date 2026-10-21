@@ -64,7 +64,7 @@ function GiftCard({ account, label, kind, initials }: { account: SiteGiftAccount
     <div
       className={cn(
         styles.card,
-        "relative isolate flex aspect-[1.586] flex-col overflow-hidden rounded-[14px] p-[clamp(1.15rem,4.6vw,1.6rem)] text-left text-ink",
+        "relative isolate flex aspect-[1.586] flex-col overflow-hidden rounded-[14px] p-[clamp(1.15rem,4.6vw,1.6rem)] text-start text-ink",
       )}
       style={METAL}
     >

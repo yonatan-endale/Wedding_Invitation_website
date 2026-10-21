@@ -151,7 +151,7 @@ export async function BranaCanon({ site, locale }: Props) {
                   </Title>
                   {/* Folded details can't sit inside the title's spans, so they follow it. */}
                   {collapsible ? (
-                    <EventDescription text={item.description} collapsible className="mt-1 pl-[1.6em] text-base text-ink-soft" />
+                    <EventDescription text={item.description} collapsible className="mt-1 ps-[1.6em] text-base text-ink-soft" />
                   ) : null}
                 </td>
                 {withPlace ? (

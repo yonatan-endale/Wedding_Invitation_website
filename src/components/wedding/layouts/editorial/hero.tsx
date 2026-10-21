@@ -40,7 +40,7 @@ export async function EditorialHero({ site, locale }: Props) {
           <FaithOrnament ornament={getOrnament(couple.ornament)} className="mb-5 size-9 sm:size-10" />
           <p className={eyebrow}>{t("eyebrow")}</p>
           <h1 className="mt-6 font-display text-[clamp(3rem,9vw,6.5rem)] leading-[0.95] tracking-[-0.01em]">
-            <HeroNames one={one} two={two} ampersand="mr-[0.22em] align-[0.1em] text-[0.6em]" />
+            <HeroNames one={one} two={two} ampersand="me-[0.22em] align-[0.1em] text-[0.6em]" />
           </h1>
           {tagline ? (
             <p className="hero-fade mt-6 text-xl" style={{ "--i": 0 } as CSSProperties}>

@@ -51,7 +51,7 @@ export async function BranaMiniatures({ photos, names }: Props) {
                 type="button"
                 data-lightbox-index={index}
                 aria-label={t("open", { index: index + 1 })}
-                className="group block w-full text-left"
+                className="group block w-full text-start"
               >
                 <MiniatureFrame windowClassName="aspect-[4/5]">
                   <WeddingImage

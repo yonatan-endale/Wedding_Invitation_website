@@ -34,7 +34,7 @@ export async function EditorialGifts({ site, locale }: Props) {
         </p>
 
         {giftAccounts.length > 0 ? (
-          <ul data-reveal-group className={cn("mx-auto mt-12 grid gap-6 text-left", columns(giftAccounts.length))}>
+          <ul data-reveal-group className={cn("mx-auto mt-12 grid gap-6 text-start", columns(giftAccounts.length))}>
             {giftAccounts.map((account, index) => {
               const accountNote = pickText(account.note, locale);
               return (
@@ -66,7 +66,7 @@ export async function EditorialGifts({ site, locale }: Props) {
             <h3 data-reveal="up" className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)]">
               {t("wishlist")}
             </h3>
-            <ul data-reveal-group className={cn("mx-auto mt-8 grid gap-6 text-left", columns(wishlistItems.length))}>
+            <ul data-reveal-group className={cn("mx-auto mt-8 grid gap-6 text-start", columns(wishlistItems.length))}>
               {wishlistItems.map((item, index) => {
                 const title = pickText(item.title, locale);
                 return (

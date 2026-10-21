@@ -121,7 +121,9 @@ export function StoryController({ count, labels }: Props) {
       const card = target.closest<HTMLElement>("[data-tap]");
       if (!card) return;
       const box = card.getBoundingClientRect();
-      const across = (event.clientX - box.left) / box.width;
+      // Measured from where the line starts, so the back zone is on the right in Arabic.
+      const fromLeft = (event.clientX - box.left) / box.width;
+      const across = getComputedStyle(card).direction === "rtl" ? 1 - fromLeft : fromLeft;
       const list = cards();
       if (across < 1 / 3) go(list, list.indexOf(card) - 1, false);
       else if (across > 2 / 3) go(list, list.indexOf(card) + 1, false);

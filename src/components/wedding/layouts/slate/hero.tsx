@@ -123,8 +123,8 @@ export async function SlateHero({ site, locale, names }: Props) {
               word="&"
               index={first.length}
               className={cn(
-                "mr-[0.22em] text-(--slate-glow)",
-                isEthiopic(locale) ? "text-[0.7em]" : "font-script text-[0.92em] [&>span]:pr-[0.08em]",
+                "me-[0.22em] text-(--slate-glow)",
+                isEthiopic(locale) ? "text-[0.7em]" : "font-script text-[0.92em] [&>span]:pe-[0.08em]",
               )}
             />
             {second.map((word, index) => (

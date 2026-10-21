@@ -85,7 +85,7 @@ export function MusicButton({ title }: { title: string | null }) {
       aria-pressed={playing}
       aria-label={playing ? t("pause") : t("play")}
       title={title ? t("nowPlaying", { title }) : undefined}
-      className="fixed right-4 bottom-4 z-40 flex size-14 items-center justify-center rounded-full bg-thread-1 text-on-thread-1 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)] transition-transform hover:scale-105 active:scale-95 sm:right-6 sm:bottom-6"
+      className="fixed end-4 bottom-4 z-40 flex size-14 items-center justify-center rounded-full bg-thread-1 text-on-thread-1 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)] transition-transform hover:scale-105 active:scale-95 sm:end-6 sm:bottom-6"
     >
       {playing ? (
         <span aria-hidden className="flex h-5 items-end gap-[3px]">
@@ -98,7 +98,7 @@ export function MusicButton({ title }: { title: string | null }) {
           ))}
         </span>
       ) : (
-        <Play aria-hidden className="ml-0.5 size-5 fill-current" />
+        <Play aria-hidden className="ms-0.5 size-5 fill-current" />
       )}
     </button>
   );

@@ -46,15 +46,15 @@ export async function ScheduleTimeline({ site, locale, className }: Props & { cl
   const { items, end } = timelineItems(site, locale);
 
   return (
-    <TimelineRail level={getMotionLevel(site.couple.motion)} className={cn("ml-1", className)}>
+    <TimelineRail level={getMotionLevel(site.couple.motion)} className={cn("ms-1", className)}>
       <EventIconSprite kinds={items.map((item) => item.kind)} ornament={getOrnament(site.couple.ornament)} />
       <ol>
         {items.map((item) => (
-          <li key={item.id} data-reveal-group className="relative pb-12 pl-8 sm:pl-12">
+          <li key={item.id} data-reveal-group className="relative pb-12 ps-8 sm:ps-12">
             <span
               aria-hidden
               data-reveal="pop"
-              className="absolute top-[0.7rem] -left-[4px] size-[9px] rotate-45 bg-thread-2"
+              className="absolute top-[0.7rem] -start-[4px] size-[9px] rotate-45 bg-thread-2"
             />
             <div data-reveal="up" style={{ "--i": 1 } as CSSProperties}>
               <p className="text-base text-ink-soft tabular-nums">
@@ -71,7 +71,7 @@ export async function ScheduleTimeline({ site, locale, className }: Props & { cl
               </p>
               <h3 className="relative mt-1 font-display text-[clamp(1.5rem,3.5vw,2rem)]">
                 {/* In the gutter beside the rail and as tall as the first line, so the title stays flush with the time. */}
-                <span className="absolute top-0 right-full flex h-lh items-center pr-[0.3em] text-metal">
+                <span className="absolute top-0 end-full flex h-lh items-center pe-[0.3em] text-metal">
                   <EventIcon kind={item.kind} className="size-[0.75em]" />
                 </span>
                 {item.title}
@@ -96,12 +96,12 @@ export async function ScheduleTimeline({ site, locale, className }: Props & { cl
             </div>
           </li>
         ))}
-        <li data-reveal-group className="relative pl-8 sm:pl-12">
+        <li data-reveal-group className="relative ps-8 sm:ps-12">
           {/* Pinned to the last line, where the rail ends, in case the label wraps. */}
           <span
             aria-hidden
             data-reveal="pop"
-            className="absolute bottom-[0.25rem] -left-[6px] size-[13px] rotate-45 bg-thread-2"
+            className="absolute bottom-[0.25rem] -start-[6px] size-[13px] rotate-45 bg-thread-2"
           />
           <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="text-base text-ink-soft">
             {end ? t("endAt", { time: end.time }) : t("end")}

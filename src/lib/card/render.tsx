@@ -129,7 +129,8 @@ function Monogram({ text, theme, fontFamily }: { text: string; theme: Theme; fon
  */
 export async function renderGuestCard({ site, guest }: GuestCard, { passLink, requestOrigin, headers }: RenderOptions) {
   const { couple, venues } = site;
-  const locale = guest.locale;
+  // The image renderer can't join Arabic letters or set them right to left, so Arabic guests get the English card.
+  const locale = guest.locale === "ar" ? "en" : guest.locale;
   const t = await getTranslations({ locale, namespace: "card" });
   const tInvitation = await getTranslations({ locale, namespace: "invitation" });
   const theme = getTheme(couple.theme);

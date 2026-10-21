@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 /* Ge'ez-script pages: Amharic and Tigrigna share the same typography. */
 @custom-variant ethiopic (&:is(:lang(am), :lang(ti)));
+@custom-variant arabic (&:lang(ar));
 
 @theme inline {
   --color-background: var(--background);
@@ -14,8 +15,8 @@
   --font-heading: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 
   /* Guest invitation sites. Latin glyphs use the first family, Ge'ez glyphs fall through to the Ethiopic one. */
-  --font-display: var(--font-marcellus), var(--font-abyssinica), "Iowan Old Style", serif;
-  --font-body: var(--font-source-serif), var(--font-noto-serif-ethiopic), Georgia, serif;
+  --font-display: var(--font-marcellus), var(--font-abyssinica), var(--font-amiri), "Iowan Old Style", serif;
+  --font-body: var(--font-source-serif), var(--font-noto-serif-ethiopic), var(--font-noto-naskh-arabic), Georgia, serif;
   --color-paper: var(--w-paper);
   --color-ink: var(--w-ink);
   --color-ink-soft: var(--w-ink-soft);
@@ -165,12 +166,12 @@
  * the display font, and Ge'ez glyphs always fall through to Abyssinica.
  */
 @utility font-cormorant {
-  font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+  font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), var(--font-amiri), serif;
 }
 
 /* Script accents (Slate). Ge'ez has no script cut, so Amharic falls to Abyssinica. */
 @utility font-script {
-  font-family: var(--font-script, var(--font-display)), var(--font-abyssinica), cursive;
+  font-family: var(--font-script, var(--font-display)), var(--font-abyssinica), var(--font-amiri), cursive;
 }
 
 @layer components {
@@ -216,6 +217,27 @@
   .wedding:is(:lang(am), :lang(ti)) {
     font-size: 1.1875rem;
     line-height: 1.85;
+  }
+
+  /*
+   * Arabic: the Arabic faces take the place of the Latin ones, so the display
+   * and body stacks stay as they are and Latin names still get a matching cut.
+   * Letters join, so tracking would pull words apart, and none of the faces
+   * has an italic for the browser to slant.
+   */
+  .wedding:lang(ar),
+  .wedding :lang(ar) {
+    --font-marcellus: var(--font-amiri);
+    --font-cormorant: var(--font-amiri);
+    --font-script: var(--font-amiri);
+    --font-source-serif: var(--font-noto-naskh-arabic);
+    letter-spacing: normal !important;
+    font-style: normal !important;
+  }
+
+  .wedding:lang(ar) {
+    font-size: 1.1875rem;
+    line-height: 1.9;
   }
 }
 

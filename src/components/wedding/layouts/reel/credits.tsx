@@ -109,8 +109,8 @@ export function CreditRow({ label, children, index }: { label: string; children:
       style={{ "--i": index } as CSSProperties}
       className="grid gap-1.5 sm:grid-cols-2 sm:items-baseline sm:gap-8"
     >
-      <dt className={cn(creditCaps, "text-ink-soft sm:text-right")}>{label}</dt>
-      <dd className="text-[1.05em] leading-snug sm:text-left">{children}</dd>
+      <dt className={cn(creditCaps, "text-ink-soft sm:text-end")}>{label}</dt>
+      <dd className="text-[1.05em] leading-snug sm:text-start">{children}</dd>
     </div>
   );
 }

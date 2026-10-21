@@ -77,8 +77,8 @@ export function MotionToggle({ visible }: { visible: boolean }) {
       aria-label={t("pause")}
       title={t("pause")}
       className={cn(
-        "fixed right-4 z-40 flex size-12 items-center justify-center rounded-full border border-rule bg-paper text-ink shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)] transition-transform hover:scale-105 active:scale-95 sm:right-6",
-        music ? "bottom-21 sm:right-23 sm:bottom-7" : "bottom-4 sm:bottom-6",
+        "fixed end-4 z-40 flex size-12 items-center justify-center rounded-full border border-rule bg-paper text-ink shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)] transition-transform hover:scale-105 active:scale-95 sm:end-6",
+        music ? "bottom-21 sm:end-23 sm:bottom-7" : "bottom-4 sm:bottom-6",
       )}
     >
       <span aria-hidden className="relative">

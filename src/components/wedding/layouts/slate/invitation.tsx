@@ -68,7 +68,7 @@ export async function SlateInvitation({ site, locale, names }: Props) {
             {/* One name a line on phones ("One" / "& Two"), one line from tablets up. */}
             <span className="block md:inline">{names.one}</span>{" "}
             <span className="block md:inline">
-              <span className={cn("mr-[0.3em] text-(--slate-accent) md:ml-[0.05em]", isEthiopic(locale) ? "text-[0.8em]" : "font-script text-[1.05em]")}>&amp;</span>
+              <span className={cn("me-[0.3em] text-(--slate-accent) md:ms-[0.05em]", isEthiopic(locale) ? "text-[0.8em]" : "font-script text-[1.05em]")}>&amp;</span>
               {names.two}
             </span>
           </h2>

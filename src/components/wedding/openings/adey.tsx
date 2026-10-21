@@ -77,7 +77,7 @@ export function AdeyOpening({ names, dateLine, guestName, level }: OpeningProps)
                 <m.span
                   key={index}
                   aria-hidden
-                  className="absolute top-1/2 left-1/2 -mt-2 -ml-2 size-4"
+                  className="absolute top-1/2 left-1/2 -mt-2 -ms-2 size-4"
                   initial={{ x: 0, y: 0, opacity: 0, scale: 0.4 }}
                   animate={{
                     x: `${Math.cos((daisy.angle * Math.PI) / 180) * daisy.distance}vmin`,

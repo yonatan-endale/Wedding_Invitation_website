@@ -17,7 +17,7 @@ export function OpeningShell({ titleId, className, children }: { titleId: string
   return (
     <div data-opening role="dialog" aria-modal="true" aria-labelledby={titleId} className={cn("fixed inset-0 z-[60]", className)}>
       {children}
-      <div className={cn("absolute top-4 right-4 transition-opacity", phase === "opening" && "opacity-0")}>
+      <div className={cn("absolute top-4 end-4 transition-opacity", phase === "opening" && "opacity-0")}>
         <LanguageToggle />
       </div>
     </div>

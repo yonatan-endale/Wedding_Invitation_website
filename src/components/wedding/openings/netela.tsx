@@ -39,7 +39,7 @@ export function NetelaOpening({ names, dateLine, border, guestName }: OpeningPro
         transition={panelTransition}
         onAnimationComplete={() => opening && finish()}
       >
-        <Band variant={border} orientation="vertical" className={cn("mr-2 sm:mr-4", bandClass)} />
+        <Band variant={border} orientation="vertical" className={cn("me-2 sm:me-4", bandClass)} />
       </m.div>
       <m.div
         aria-hidden
@@ -48,7 +48,7 @@ export function NetelaOpening({ names, dateLine, border, guestName }: OpeningPro
         animate={{ x: opening ? "100%" : "0%" }}
         transition={panelTransition}
       >
-        <Band variant={border} orientation="vertical" className={cn("ml-2 sm:ml-4", bandClass)} />
+        <Band variant={border} orientation="vertical" className={cn("ms-2 sm:ms-4", bandClass)} />
       </m.div>
 
       <m.div

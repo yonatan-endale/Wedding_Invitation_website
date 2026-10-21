@@ -187,7 +187,7 @@ function EventRow({
 }) {
   return (
     <li data-reveal="up" style={order(index + 2)} className="relative flex gap-4 pb-8 last:pb-0">
-      {thread ? <span aria-hidden className="absolute top-12 bottom-1 left-[1.375rem] border-l border-dashed border-metal/60" /> : null}
+      {thread ? <span aria-hidden className="absolute top-12 bottom-1 start-[1.375rem] border-s border-dashed border-metal/60" /> : null}
       <Badge item={item} number={number} className="size-11" iconClassName="size-5" numberClassName="text-lg" />
       <div className="min-w-0 pt-0.5">
         <p className="font-sans text-sm text-ink-soft tabular-nums">
@@ -195,7 +195,7 @@ function EventRow({
         </p>
         <h3 className="mt-0.5 font-display text-[clamp(1.3rem,6.4cqi,1.65rem)] leading-snug">{item.title}</h3>
         <EventDescription text={item.description} collapsible={collapsible} className="mt-1 text-base text-ink-soft" />
-        {item.venue ? <Venue item={item} className="mt-2.5 justify-start text-left" /> : null}
+        {item.venue ? <Venue item={item} className="mt-2.5 justify-start text-start" /> : null}
       </div>
     </li>
   );

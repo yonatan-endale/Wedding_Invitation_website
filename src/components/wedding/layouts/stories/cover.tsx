@@ -70,7 +70,7 @@ export async function StoriesCover({ site, locale, names }: Props) {
           <span className="font-semibold">
             {names.firstOne} &amp; {names.firstTwo}
           </span>
-          <span className="ml-2 text-white/75">
+          <span className="ms-2 text-white/75">
             {day.day} {day.month}
           </span>
         </p>
@@ -91,7 +91,7 @@ export async function StoriesCover({ site, locale, names }: Props) {
           // Capped by the widest word (plus the ampersand before the second name) so long names fit the card.
           style={{ "--name-em": Math.max(widestWordEm(one), widestWordEm(two) + 0.9).toFixed(2) } as CSSProperties}
         >
-          <HeroNames one={one} two={two} ampersand="mr-[0.22em] align-[0.12em] text-[0.5em] text-[color-mix(in_oklab,var(--w-metal)_60%,white)]" />
+          <HeroNames one={one} two={two} ampersand="me-[0.22em] align-[0.12em] text-[0.5em] text-[color-mix(in_oklab,var(--w-metal)_60%,white)]" />
         </h1>
         <p className="hero-fade mt-6 text-[1.05rem] text-white" style={order(2)}>
           {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}

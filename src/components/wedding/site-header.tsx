@@ -121,7 +121,7 @@ export function SiteHeader({ monogram, links, startSolid = false, progress = fal
         <span
           ref={line}
           aria-hidden
-          className="absolute inset-x-0 -bottom-px h-0.5 origin-left bg-thread-1"
+          className="absolute inset-x-0 -bottom-px h-0.5 origin-left rtl:origin-right bg-thread-1"
           style={{ transform: "scaleX(0)" }}
         />
       ) : null}

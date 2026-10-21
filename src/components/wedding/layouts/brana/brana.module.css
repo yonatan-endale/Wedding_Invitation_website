@@ -24,7 +24,7 @@
   --brana-rule: color-mix(in srgb, var(--w-ink) 20%, transparent);
   --brana-ink-rule: color-mix(in srgb, var(--w-ink) 72%, transparent);
   --brana-rubric: var(--w-thread-3);
-  --brana-display: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+  --brana-display: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), var(--font-amiri), serif;
   --brana-geez: var(--font-abyssinica), var(--font-noto-serif-ethiopic), serif;
   position: relative;
   isolation: isolate;
@@ -429,7 +429,7 @@
 .canon :is(th, td) {
   padding: 0.95rem clamp(0.75rem, 1.6vw, 1.25rem);
   vertical-align: top;
-  text-align: left;
+  text-align: start;
   border-inline: 4px double var(--w-thread-2);
 }
 

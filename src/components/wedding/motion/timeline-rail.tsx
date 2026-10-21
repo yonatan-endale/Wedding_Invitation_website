@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * which ScheduleTimeline pins to the last line of the list, so the rail ends
  * under it however the closing label wraps.
  */
-const LINE = "pointer-events-none absolute top-[0.7rem] bottom-[0.65rem] left-0 w-px";
+const LINE = "pointer-events-none absolute top-[0.7rem] bottom-[0.65rem] start-0 w-px";
 
 // The guest can pause motion at any time; the boot script and the toggle mirror it to html[data-motion-off].
 function subscribe(onChange: () => void) {

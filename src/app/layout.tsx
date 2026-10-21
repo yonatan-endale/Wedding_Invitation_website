@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
+import { isLocale, localeDir } from "@/lib/localized";
 import { fontVariables } from "./fonts";
 import "./globals.css";
 
@@ -14,7 +15,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const locale = await getLocale();
   return (
     // Wedding pages set data-intro, data-motion-off and data-lite on <html> before the first paint.
-    <html lang={locale} className={fontVariables} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={locale} dir={isLocale(locale) ? localeDir(locale) : "ltr"} className={fontVariables} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="antialiased">
         <NextIntlClientProvider>
           {children}

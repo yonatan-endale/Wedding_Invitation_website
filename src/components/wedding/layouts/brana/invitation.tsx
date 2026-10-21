@@ -89,7 +89,7 @@ export async function BranaInvitation({ site, locale }: Props) {
             style={order(1)}
             className={cn(
               "mx-auto mt-5 space-y-4 font-cormorant text-[clamp(1.35rem,3.2vw,1.7rem)] leading-snug font-medium ethiopic:text-[clamp(1.15rem,2.8vw,1.35rem)] ethiopic:leading-relaxed",
-              long ? cn(styles.columns, "max-w-[62ch] text-left md:columns-2 md:gap-12") : "max-w-[30ch] ethiopic:max-w-[34ch]",
+              long ? cn(styles.columns, "max-w-[62ch] text-start md:columns-2 md:gap-12") : "max-w-[30ch] ethiopic:max-w-[34ch]",
             )}
           >
             {paragraphs.map((paragraph, index) => (
@@ -101,7 +101,7 @@ export async function BranaInvitation({ site, locale }: Props) {
 
           <SectionMark className="mt-10 text-[1.4rem]" />
 
-          <dl className="mx-auto mt-8 max-w-xl border-y border-(--brana-rule) text-center sm:text-left">
+          <dl className="mx-auto mt-8 max-w-xl border-y border-(--brana-rule) text-center sm:text-start">
             {particulars.map((entry, index) => (
               <div
                 key={entry.key}
@@ -109,7 +109,7 @@ export async function BranaInvitation({ site, locale }: Props) {
                 style={order(2 + index)}
                 className={cn("py-4 sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6", index > 0 && "border-t border-(--brana-rule)")}
               >
-                <dt className={cn(styles.incipit, "text-xs leading-6 sm:pt-1 sm:text-right ethiopic:text-sm")}>{entry.label}</dt>
+                <dt className={cn(styles.incipit, "text-xs leading-6 sm:pt-1 sm:text-end ethiopic:text-sm")}>{entry.label}</dt>
                 <dd className="mt-1 text-lg lining-nums sm:mt-0">{entry.value}</dd>
               </div>
             ))}

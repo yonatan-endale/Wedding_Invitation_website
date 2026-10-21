@@ -96,13 +96,13 @@ export function ArchesHero({ site, locale, names }: Props) {
           )}
         >
           <span className="sr-only">{`${one} & ${two}`}</span>
-          <span aria-hidden className="block break-words lg:col-start-1 lg:text-right">
+          <span aria-hidden className="block break-words lg:col-start-1 lg:text-end">
             <Words words={firstWords} start={0} />
           </span>
           <span aria-hidden className="my-2 block text-[0.42em] text-ink-soft italic lg:hidden">
             <Words words={["&"]} start={firstWords.length} />
           </span>
-          <span aria-hidden className="block break-words lg:col-start-3 lg:text-left">
+          <span aria-hidden className="block break-words lg:col-start-3 lg:text-start">
             <Words words={secondWords} start={firstWords.length + 1} />
           </span>
         </h1>

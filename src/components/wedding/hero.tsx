@@ -55,8 +55,8 @@ export function Hero({ site, locale }: Props) {
             <HeroNames
               one={one}
               two={two}
-              secondLine="pl-[0.55em]"
-              ampersand="mr-[0.28em] align-[0.14em] text-[0.48em]"
+              secondLine="ps-[0.55em]"
+              ampersand="me-[0.28em] align-[0.14em] text-[0.48em]"
             />
           </h1>
           <div className="mt-8 space-y-1 text-lg text-white/90 sm:text-xl">

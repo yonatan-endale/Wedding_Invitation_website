@@ -104,7 +104,7 @@ export async function ScheduleCardFace({ site, locale }: Props) {
         <p className="mt-2 text-ink-soft">{formatWeddingDate(couple.weddingAt, couple.timezone, locale)}</p>
         <span aria-hidden className="mx-auto mt-6 block h-px w-12 bg-metal" />
       </div>
-      <ScheduleTimeline site={site} locale={locale} className="relative mx-auto mt-10 max-w-[30rem] pl-6 sm:pl-8" />
+      <ScheduleTimeline site={site} locale={locale} className="relative mx-auto mt-10 max-w-[30rem] ps-6 sm:ps-8" />
     </section>
   );
 }

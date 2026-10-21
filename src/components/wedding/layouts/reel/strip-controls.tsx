@@ -18,8 +18,11 @@ export function StripControls({ target, previous, next }: Props) {
   useEffect(() => {
     const strip = document.getElementById(target);
     if (!strip) return;
-    const update = () =>
-      setEnds({ start: strip.scrollLeft <= 2, end: strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 2 });
+    // Right to left, scrollLeft runs from 0 down to minus the overflow.
+    const update = () => {
+      const scrolled = Math.abs(strip.scrollLeft);
+      setEnds({ start: scrolled <= 2, end: scrolled + strip.clientWidth >= strip.scrollWidth - 2 });
+    };
     update();
     strip.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
@@ -34,7 +37,8 @@ export function StripControls({ target, previous, next }: Props) {
     const frame = strip?.querySelector("li");
     if (!strip || !frame) return;
     const still = document.documentElement.hasAttribute("data-motion-off") || matchMedia("(prefers-reduced-motion: reduce)").matches;
-    strip.scrollBy({ left: direction * frame.getBoundingClientRect().width, behavior: still ? "auto" : "smooth" });
+    const reading = getComputedStyle(strip).direction === "rtl" ? -1 : 1;
+    strip.scrollBy({ left: reading * direction * frame.getBoundingClientRect().width, behavior: still ? "auto" : "smooth" });
   };
 
   return (
@@ -47,7 +51,7 @@ export function StripControls({ target, previous, next }: Props) {
         aria-label={previous}
         className={cn(roundButton, "border-ink/25 hover:border-ink")}
       >
-        <ChevronLeft aria-hidden className="size-5" />
+        <ChevronLeft aria-hidden className="size-5 rtl:-scale-x-100" />
       </button>
       <button
         type="button"
@@ -57,7 +61,7 @@ export function StripControls({ target, previous, next }: Props) {
         aria-label={next}
         className={cn(roundButton, "border-ink/25 hover:border-ink")}
       >
-        <ChevronRight aria-hidden className="size-5" />
+        <ChevronRight aria-hidden className="size-5 rtl:-scale-x-100" />
       </button>
     </div>
   );

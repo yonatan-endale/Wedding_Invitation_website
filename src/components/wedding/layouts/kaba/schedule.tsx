@@ -30,7 +30,7 @@ const LIGHT = { "--sheen-x": "88%", "--sheen-y": "-4%", "--shade-x": "8%", "--sh
  */
 const row = "grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-4 md:grid-cols-[minmax(0,1fr)_5rem_minmax(0,1.35fr)] md:gap-x-8";
 const markerCell = "col-start-1 row-span-2 row-start-1 flex flex-col items-center md:col-start-2";
-const timeCell = "col-start-2 row-start-1 md:col-start-1 md:row-span-2 md:pt-3 md:text-right";
+const timeCell = "col-start-2 row-start-1 md:col-start-1 md:row-span-2 md:pt-3 md:text-end";
 const bodyCell = "col-start-2 row-start-2 pb-14 md:col-start-3 md:row-span-2 md:row-start-1 md:pb-16";
 
 /** The time as guests read it, with the start alone for machines; a day other than the wedding's comes first. */

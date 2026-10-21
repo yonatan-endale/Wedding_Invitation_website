@@ -443,3 +443,242 @@ Calendar words, weekdays, time-of-day words, Ge'ez numerals and separators that 
 | `messages/am.json` | layouts.slate.signature | With love, {one} and {two} | በፍቅር፣ {one} እና {two} | |
 | `messages/am.json` | layouts.slate.when | When | መቼ | |
 | `messages/am.json` | layouts.slate.where | Where | የት | |
+
+## Phase B: graduations
+
+Graduation sites lay `events.graduation` over the shared wording, and every honoree site (graduation, birthday, baptism) lays `events.honorees` under it. The Amharic for "graduate" uses ተመራቂ; please check whether ምሩቃን reads better in the class-year line.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | layouts.commencement.classOf | Class of {year} | የ{year} ዓ.ም. ምሩቃን | |
+| `messages/am.json` | layouts.commencement.gallery | Along the way | የጉዞው ትዝታዎች | |
+| `messages/am.json` | layouts.tassel.graduates | {count, plural, one {Graduate of {year}} other {Graduates of {year}}} | {count, plural, one {የ{year} ዓ.ም. ተመራቂ} other {የ{year} ዓ.ም. ተመራቂዎች}} | |
+| `messages/am.json` | layouts.tassel.gallery | Along the way | የጉዞው ትዝታዎች | |
+| `messages/am.json` | honorees.heading | {count, plural, one {Who we celebrate} other {Who we celebrate}} | {count, plural, one {የምናከብረው} other {የምናከብራቸው}} | |
+| `messages/am.json` | events.honorees.intro.sealLabel | Open the invitation from {one} | ከ{one} የመጣውን ግብዣ ይክፈቱ | |
+| `messages/am.json` | events.honorees.intro.letter | invite you to celebrate with them | ደስታቸውን አብረዋቸው እንዲያከብሩ ይጋብዙዎታል | |
+| `messages/am.json` | events.honorees.nav.couple | Who we celebrate | የምናከብራቸው | |
+| `messages/am.json` | events.honorees.nav.story | Their story | ታሪካቸው | |
+| `messages/am.json` | events.honorees.couple.heading | Who we celebrate | የምናከብራቸው | |
+| `messages/am.json` | events.honorees.story.heading | Their story | ታሪካቸው | |
+| `messages/am.json` | events.honorees.footer.families | With love, the family | በፍቅር፣ ቤተሰቡ | |
+| `messages/am.json` | events.honorees.countdown.since | Since the celebration | ከበዓሉ ቀን ጀምሮ | |
+| `messages/am.json` | events.honorees.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the celebration | ከበዓሉ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.honorees.saveTheDate.couple | {one} | {one} | |
+| `messages/am.json` | events.honorees.invitation.hostsFallback | Together with their family | ከቤተሰባቸው ጋር በመሆን | |
+| `messages/am.json` | events.honorees.rsvp.closed | RSVPs are closed. Please contact the family directly. | የምላሽ መስጫ ጊዜው አልፏል። እባክዎ ቤተሰቡን በቀጥታ ያነጋግሩ። | |
+| `messages/am.json` | events.honorees.rsvp.message | A message for them (optional) | መልዕክት ካለዎት (አማራጭ) | |
+| `messages/am.json` | events.honorees.rsvp.errors.closed | RSVPs for this celebration are closed. | የዚህ በዓል የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.honorees.card.openSite | Open the invitation website | የግብዣውን ድረ-ገጽ ይክፈቱ | |
+| `messages/am.json` | events.honorees.card.pass.invalidBody | This invitation was cancelled or the code is wrong. Please check with the family. | ይህ ግብዣ ተሰርዟል ወይም ኮዱ ትክክል አይደለም። እባክዎ ቤተሰቡን ያነጋግሩ። | |
+| `messages/am.json` | events.honorees.memories.body | Took photos at the celebration? Send them to us on Telegram. | በበዓሉ ላይ ፎቶ አንስተዋል? በቴሌግራም ይላኩልን። | |
+| `messages/am.json` | events.honorees.notFound.body | Check the link you were sent, or ask the family for a new one. | የተላከልዎትን ማስፈንጠሪያ ያረጋግጡ ወይም ቤተሰቡን አዲስ ማስፈንጠሪያ ይጠይቁ። | |
+| `messages/am.json` | events.graduation.intro.invited | You are invited to the graduation of | በምረቃ በዓላችን ላይ እንዲገኙ ተጋብዘዋል | |
+| `messages/am.json` | events.graduation.intro.letter | invite you to celebrate their graduation | በምረቃ በዓላቸው ላይ እንዲገኙ ይጋብዙዎታል | |
+| `messages/am.json` | events.graduation.nav.couple | Graduates | ተመራቂዎች | |
+| `messages/am.json` | events.graduation.couple.heading | Graduates | ተመራቂዎች | |
+| `messages/am.json` | events.graduation.honorees.heading | {count, plural, one {The graduate} other {The graduates}} | {count, plural, one {ተመራቂ} other {ተመራቂዎች}} | |
+| `messages/am.json` | events.graduation.countdown.heading | Graduation day | የምረቃው ቀን | |
+| `messages/am.json` | events.graduation.countdown.label | Time until the graduation | ለምረቃው ቀን የቀረው ጊዜ | |
+| `messages/am.json` | events.graduation.countdown.since | Since graduation day | ከምረቃው ቀን ጀምሮ | |
+| `messages/am.json` | events.graduation.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since graduation day | ከምረቃው ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.graduation.saveTheDate.captionEthiopian | {month} {year} in the Ethiopian calendar, with graduation day marked | {month} {year} ዓ.ም.፣ የምረቃው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.graduation.saveTheDate.captionGregorian | {month} {year}, with graduation day marked | {month} {year}፣ የምረቃው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.graduation.saveTheDate.weddingDay | Graduation day | የምረቃው ቀን | |
+| `messages/am.json` | events.graduation.calendar.add | Add the graduation to your calendar | ምረቃውን በቀን መቁጠሪያዎ ያስቀምጡ | |
+| `messages/am.json` | events.graduation.calendar.eventTitle | Graduation of {one} | የ{one} ምረቃ | |
+| `messages/am.json` | events.graduation.invitation.eyebrow | Graduation invitation | የምረቃ ግብዣ | |
+| `messages/am.json` | events.graduation.invitation.defaultText | request the pleasure of your company as they celebrate their graduation. | በምረቃ በዓላቸው ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል። | |
+| `messages/am.json` | events.graduation.rsvp.message | A message for the graduates (optional) | ለተመራቂዎቹ መልዕክት (አማራጭ) | |
+| `messages/am.json` | events.graduation.rsvp.errors.closed | RSVPs for this graduation are closed. | የዚህ ምረቃ የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.graduation.card.shareText | My invitation to the graduation of {couple} | የ{couple} የምረቃ ግብዣዬ | |
+| `messages/am.json` | events.graduation.couplePortal.cardShareText | Your invitation card for the graduation of {couple}: {url} | ለ{couple} ምረቃ የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
+| `src/lib/event-kinds.ts` | commencement title | Graduation ceremony | የምረቃ ሥነ ሥርዓት | |
+| `src/lib/event-kinds.ts` | celebration title | Celebration | የደስታ ግብዣ | |
+| `public/examples/graduation.json` | demo text | (the demo site) | (see the file) | |
+
+## Phase D: birthdays
+
+Birthday sites lay `events.birthday` over the shared wording (and `events.honorees` under it). The layouts avoid lines that would need a gendered verb, such as "turns 60"; the admin writes that line for each person in their own words.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | layouts.confetti.party | Let's celebrate | እናክብር | |
+| `messages/am.json` | layouts.confetti.gallery | Through the years | በዓመታት ውስጥ | |
+| `messages/am.json` | layouts.milestone.years | years | ዓመት | |
+| `messages/am.json` | layouts.milestone.gallery | Through the years | በዓመታት ውስጥ | |
+| `messages/am.json` | events.birthday.intro.invited | You are invited to the birthday of | በልደት በዓላችን ላይ እንዲገኙ ተጋብዘዋል | |
+| `messages/am.json` | events.birthday.intro.letter | invite you to celebrate their birthday | በልደት በዓላቸው ላይ እንዲገኙ ይጋብዙዎታል | |
+| `messages/am.json` | events.birthday.nav.couple | Birthday | የልደቱ ባለቤት | |
+| `messages/am.json` | events.birthday.countdown.heading | The birthday | የልደት ቀን | |
+| `messages/am.json` | events.birthday.countdown.label | Time until the birthday | ለልደቱ ቀን የቀረው ጊዜ | |
+| `messages/am.json` | events.birthday.countdown.since | Since the birthday | ከልደቱ ቀን ጀምሮ | |
+| `messages/am.json` | events.birthday.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the birthday | ከልደቱ ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.birthday.saveTheDate.captionEthiopian | {month} {year} in the Ethiopian calendar, with the birthday marked | {month} {year} ዓ.ም.፣ የልደቱ ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.birthday.saveTheDate.captionGregorian | {month} {year}, with the birthday marked | {month} {year}፣ የልደቱ ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.birthday.saveTheDate.weddingDay | The birthday | የልደት ቀን | |
+| `messages/am.json` | events.birthday.calendar.add | Add the birthday to your calendar | የልደት በዓሉን በቀን መቁጠሪያዎ ያስቀምጡ | |
+| `messages/am.json` | events.birthday.calendar.eventTitle | Birthday of {one} | የ{one} የልደት በዓል | |
+| `messages/am.json` | events.birthday.invitation.eyebrow | Birthday invitation | የልደት በዓል ግብዣ | |
+| `messages/am.json` | events.birthday.invitation.defaultText | request the pleasure of your company as they celebrate their birthday. | በልደት በዓላቸው ተገኝተው የደስታቸው ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል። | |
+| `messages/am.json` | events.birthday.rsvp.message | Birthday wishes (optional) | የልደት መልካም ምኞት (አማራጭ) | |
+| `messages/am.json` | events.birthday.rsvp.errors.closed | RSVPs for this birthday are closed. | የዚህ የልደት በዓል የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.birthday.card.shareText | My invitation to the birthday of {couple} | የ{couple} የልደት በዓል ግብዣዬ | |
+| `messages/am.json` | events.birthday.couplePortal.cardShareText | Your invitation card for the birthday of {couple}: {url} | ለ{couple} የልደት በዓል የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
+| `src/lib/event-kinds.ts` | cake title | Cake and candles | ኬክ መቁረስ | |
+| `public/examples/birthday.json` | demo text | (the demo site) | (see the file) | |
+
+## Phase E: christenings (kristina)
+
+Christening sites lay `events.baptism` over the shared wording. Please check "የክርስትና አባት እና እናት" for godparents, and whether the invitation lines should speak for the parents ("our") or of the child.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | layouts.shema.christeningName | Christening name | የክርስትና ስም | |
+| `messages/am.json` | layouts.shema.godparents | Godparents | የክርስትና አባት እና እናት | |
+| `messages/am.json` | layouts.shema.gallery | Little moments | ትናንሽ ትዝታዎች | |
+| `messages/am.json` | events.baptism.intro.invited | You are invited to the christening of | በክርስትና በዓላችን ላይ እንዲገኙ ተጋብዘዋል | |
+| `messages/am.json` | events.baptism.intro.letter | invite you to celebrate their christening | በክርስትና በዓሉ ላይ እንዲገኙ ይጋብዙዎታል | |
+| `messages/am.json` | events.baptism.countdown.heading | Christening day | የክርስትናው ቀን | |
+| `messages/am.json` | events.baptism.countdown.label | Time until the christening | ለክርስትናው ቀን የቀረው ጊዜ | |
+| `messages/am.json` | events.baptism.countdown.since | Since the christening | ከክርስትናው ቀን ጀምሮ | |
+| `messages/am.json` | events.baptism.countdown.summarySince | {days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the christening | ከክርስትናው ወዲህ {days} ቀናት፣ {hours} ሰዓታት እና {minutes} ደቂቃዎች | |
+| `messages/am.json` | events.baptism.saveTheDate.captionEthiopian | {month} {year} in the Ethiopian calendar, with the christening marked | {month} {year} ዓ.ም.፣ የክርስትናው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.baptism.saveTheDate.captionGregorian | {month} {year}, with the christening marked | {month} {year}፣ የክርስትናው ቀን ምልክት ተደርጎበታል | |
+| `messages/am.json` | events.baptism.saveTheDate.weddingDay | Christening day | የክርስትናው ቀን | |
+| `messages/am.json` | events.baptism.calendar.add | Add the christening to your calendar | ክርስትናውን በቀን መቁጠሪያዎ ያስቀምጡ | |
+| `messages/am.json` | events.baptism.calendar.eventTitle | Christening of {one} | የ{one} ክርስትና | |
+| `messages/am.json` | events.baptism.invitation.eyebrow | Christening invitation | የክርስትና ግብዣ | |
+| `messages/am.json` | events.baptism.invitation.defaultText | request the pleasure of your company as they celebrate the christening. | በክርስትና በዓሉ ተገኝተው የደስታችን ተካፋይ እንዲሆኑ በአክብሮት ተጋብዘዋል። | |
+| `messages/am.json` | events.baptism.rsvp.message | A blessing or message (optional) | ምርቃት ወይም መልዕክት (አማራጭ) | |
+| `messages/am.json` | events.baptism.rsvp.errors.closed | RSVPs for this christening are closed. | የዚህ ክርስትና የምላሽ መስጫ ተዘግቷል። | |
+| `messages/am.json` | events.baptism.card.shareText | My invitation to the christening of {couple} | የ{couple} የክርስትና ግብዣዬ | |
+| `messages/am.json` | events.baptism.couplePortal.cardShareText | Your invitation card for the christening of {couple}: {url} | ለ{couple} ክርስትና የተዘጋጀ የግብዣ ካርድዎ፦ {url} | |
+| `src/lib/event-kinds.ts` | christening title | Christening | ክርስትና | |
+| `public/examples/baptism.json` | demo text | (the demo site) | (see the file) | |
+
+## Designs page (showcase)
+
+The public /designs page explains every layout beside a live demo. All Amharic here is a draft by the assistant and needs a native speaker. Open questions: the layout names (Classic, Editorial, Reel and so on) stay in English on the Amharic page; the colour names are English too; "engagements" is written with the words for telosh and kelekel; ነጠላ for netela; and whether each layout's one-line description reads naturally.
+
+| Where | Key or context | English | Amharic draft | Reviewer, date |
+| --- | --- | --- | --- | --- |
+| `messages/am.json` | showcase.title | Our designs | የእኛ ንድፎች | |
+| `messages/am.json` | showcase.intro | Every look we make, shown on invented examples. Tap one to open it, then try other colours and opening screens. The names, places and numbers are made up and the pictures are illustrations. | የምንሠራቸው ሁሉም ገጽታዎች በምሳሌ ተፈጥረው ይታያሉ። አንዱን ይንኩ፣ ከዚያ ሌሎች ቀለሞችን እና የመክፈቻ ገጾችን ይሞክሩ። ስሞቹ፣ ቦታዎቹ እና ቁጥሮቹ የተፈጠሩ ሲሆኑ ሥዕሎቹ ምሳሌ ናቸው። | |
+| `messages/am.json` | showcase.filterLabel | Show | አሳይ | |
+| `messages/am.json` | showcase.all | All | ሁሉም | |
+| `messages/am.json` | showcase.kinds.wedding | Weddings | ሠርግ | |
+| `messages/am.json` | showcase.kinds.graduation | Graduations | ምረቃ | |
+| `messages/am.json` | showcase.kinds.birthday | Birthdays | ልደት | |
+| `messages/am.json` | showcase.kinds.baptism | Christenings | ክርስትና | |
+| `messages/am.json` | showcase.comingSoon | Engagements are coming soon. | ጥሎሽ እና ቅልቅል በቅርቡ ይመጣሉ። | |
+| `messages/am.json` | showcase.tryIt | Try it live | በቀጥታ ይሞክሩ | |
+| `messages/am.json` | showcase.loading | Opening the design… | ንድፉን በመክፈት ላይ… | |
+| `messages/am.json` | showcase.backToPicture | Back to the picture | ወደ ሥዕሉ ተመለስ | |
+| `messages/am.json` | showcase.phoneTitle | A live example of the {name} design | የ{name} ንድፍ የቀጥታ ምሳሌ | |
+| `messages/am.json` | showcase.posterAlt | A picture of the {name} design | የ{name} ንድፍ ሥዕል | |
+| `messages/am.json` | showcase.mood | Mood | ስሜት | |
+| `messages/am.json` | showcase.goodFor | Good for | ለማን ይሆናል | |
+| `messages/am.json` | showcase.highlights | Standout moments | ልዩ ገጽታዎች | |
+| `messages/am.json` | showcase.colours | Colours | ቀለሞች | |
+| `messages/am.json` | showcase.opening | Opening screen | የመክፈቻ ገጽ | |
+| `messages/am.json` | showcase.coloursNote | Try another colour | ሌላ ቀለም ይሞክሩ | |
+| `messages/am.json` | showcase.openingNote | Try another opening | ሌላ መክፈቻ ይሞክሩ | |
+| `messages/am.json` | showcase.ask | Ask for this design | ይህን ንድፍ ይጠይቁ | |
+| `messages/am.json` | showcase.example | Example sites use invented names and illustrated pictures. | የምሳሌ ገጾች የተፈጠሩ ስሞችን እና የተሳሉ ሥዕሎችን ይጠቀማሉ። | |
+| `messages/am.json` | showcase.back | Back to the home page | ወደ መነሻ ገጽ | |
+| `messages/am.json` | showcase.openings.netela | Netela | ነጠላ | |
+| `messages/am.json` | showcase.openings.seal | Wax-seal gates | የማኅተም በሮች | |
+| `messages/am.json` | showcase.openings.envelope | Envelope | ኤንቨሎፕ | |
+| `messages/am.json` | showcase.openings.adey | Adey bloom | የአደይ አበባ | |
+| `messages/am.json` | showcase.layouts.classic.feel | A full-screen cover photo and a framed invitation card, then the day, the venues and a swipeable gallery. | ሙሉ ገጽ የሽፋን ፎቶ እና በፍሬም የተሰራ የግብዣ ካርድ፤ ከዚያ የቀኑ መርሐ ግብር፣ ቦታዎች እና የፎቶ መቀያየሪያ። | |
+| `messages/am.json` | showcase.layouts.classic.mood | Warm and familiar | ሞቅ ያለ እና የተለመደ | |
+| `messages/am.json` | showcase.layouts.classic.goodFor | Families who want the traditional look, done well. | ባህላዊውን ገጽታ በጥሩ ሁኔታ የሚፈልጉ ቤተሰቦች። | |
+| `messages/am.json` | showcase.layouts.classic.b1 | A framed invitation card with the border you choose | በመረጡት ጠርዝ የተሠራ የግብዣ ካርድ | |
+| `messages/am.json` | showcase.layouts.classic.b2 | A timeline of the day with an icon for each step | ለእያንዳንዱ ክፍል አዶ ያለው የቀኑ መርሐ ግብር | |
+| `messages/am.json` | showcase.layouts.classic.b3 | A swipeable photo carousel | በጣት የሚገለበጥ የፎቶ ማሳያ | |
+| `messages/am.json` | showcase.layouts.editorial.feel | A magazine spread: the date in huge numerals, oval portraits and a dated love story. | እንደ መጽሔት ገጽ፤ ቀኑ በትልልቅ ቁጥሮች፣ ሞላላ ፎቶዎች እና በቀን የተደራጀ የፍቅር ታሪክ። | |
+| `messages/am.json` | showcase.layouts.editorial.mood | Light and designed | ብሩህ እና በንድፍ የተሠራ | |
+| `messages/am.json` | showcase.layouts.editorial.goodFor | Couples with a story to tell and good portraits. | የሚያወሩት ታሪክ እና ጥሩ ፎቶ ያላቸው ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.editorial.b1 | A split cover with the date in large numerals | ቀኑ በትልልቅ ቁጥሮች የሚታይበት ሽፋን | |
+| `messages/am.json` | showcase.layouts.editorial.b2 | Oval portraits of the couple | የጥንዶቹ ሞላላ ፎቶዎች | |
+| `messages/am.json` | showcase.layouts.editorial.b3 | Dated story chapters and a mosaic gallery | በቀን የተደራጁ የታሪክ ምዕራፎች | |
+| `messages/am.json` | showcase.layouts.reel.feel | A film: opening credits, the couple as the stars and the day told as scenes. | እንደ ፊልም፤ የመክፈቻ ስሞች፣ ጥንዶቹ ዋና ተዋንያን እና ቀኑ በትዕይንት። | |
+| `messages/am.json` | showcase.layouts.reel.mood | Dark and cinematic | ጨለማ እና ፊልማዊ | |
+| `messages/am.json` | showcase.layouts.reel.goodFor | Couples who love photography and video. | ፎቶግራፍ እና ቪዲዮ የሚወዱ ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.reel.b1 | A letterboxed cover with opening credits | የመክፈቻ ስሞች ያሉት ሽፋን | |
+| `messages/am.json` | showcase.layouts.reel.b2 | The day told as scenes | ቀኑ በትዕይንቶች የተነገረ | |
+| `messages/am.json` | showcase.layouts.reel.b3 | A film-strip gallery and end credits | የፊልም ሪል ማሳያ እና የመዝጊያ ስሞች | |
+| `messages/am.json` | showcase.layouts.noir.feel | Black tie: a gold crest monogram, gold-foil names and a framed gallery wall. | ጥቁር ልብስ ምሽት፤ የወርቅ ምልክት፣ በወርቅ የተጻፉ ስሞች እና የፎቶ ግድግዳ። | |
+| `messages/am.json` | showcase.layouts.noir.mood | Dark and formal | ጨለማ እና መደበኛ | |
+| `messages/am.json` | showcase.layouts.noir.goodFor | Evening weddings and formal receptions. | የምሽት ሠርግ እና መደበኛ ግብዣ። | |
+| `messages/am.json` | showcase.layouts.noir.b1 | A gold crest made from your initials | ከመጀመሪያ ፊደላትዎ የተሠራ የወርቅ ምልክት | |
+| `messages/am.json` | showcase.layouts.noir.b2 | Names in gold foil | በወርቅ የተጻፉ ስሞች | |
+| `messages/am.json` | showcase.layouts.noir.b3 | Black-metal gift cards | ጥቁር የስጦታ ካርዶች | |
+| `messages/am.json` | showcase.layouts.arches.feel | Ivory and gold, with the cover photo in an arched window. | የዝሆን ጥርስ እና ወርቃማ ቀለም፣ የሽፋኑ ፎቶ በቅስት መስኮት ውስጥ። | |
+| `messages/am.json` | showcase.layouts.arches.mood | Light and elegant | ብሩህ እና ውብ | |
+| `messages/am.json` | showcase.layouts.arches.goodFor | Church weddings and garden venues. | የቤተክርስቲያን ሠርግ እና የአትክልት ስፍራ ግብዣ። | |
+| `messages/am.json` | showcase.layouts.arches.b1 | The cover photo in an arched window | የሽፋን ፎቶ በቅስት መስኮት | |
+| `messages/am.json` | showcase.layouts.arches.b2 | Twin arches for the couple | ለጥንዶቹ ሁለት ቅስቶች | |
+| `messages/am.json` | showcase.layouts.arches.b3 | An arcade of events and an arch-cropped photo strip | የቅስት ቅርጽ ያላቸው የፎቶ ረድፍ | |
+| `messages/am.json` | showcase.layouts.stories.feel | Tap through it like stories on a phone, one full-screen card at a time. | እንደ ስልክ ታሪኮች በጣት እየነኩ ይሂዱ፤ በአንድ ጊዜ አንድ ሙሉ ገጽ። | |
+| `messages/am.json` | showcase.layouts.stories.mood | Light and playful | ብሩህ እና ተጫዋች | |
+| `messages/am.json` | showcase.layouts.stories.goodFor | Younger couples and guests who live on their phones. | ወጣት ጥንዶች እና ስልክ ላይ የሚኖሩ እንግዶች። | |
+| `messages/am.json` | showcase.layouts.stories.b1 | One card at a time, with progress bars | በአንድ ጊዜ አንድ ካርድ፣ ከሂደት መስመር ጋር | |
+| `messages/am.json` | showcase.layouts.stories.b2 | Tap or use the arrow keys to move on | ለመቀጠል ይንኩ ወይም የቀስት ቁልፎችን ይጠቀሙ | |
+| `messages/am.json` | showcase.layouts.stories.b3 | Cover, invitation, the day, photos and RSVP | ሽፋን፣ ግብዣ፣ ቀኑ፣ ፎቶዎች እና ምላሽ | |
+| `messages/am.json` | showcase.layouts.flatlay.feel | A stationery suite on linen: a sealed envelope, then cards that stack as you scroll. | በሸራ ላይ የተዘረጋ የወረቀት ስብስብ፤ የታሸገ ኤንቨሎፕ፣ ከዚያ ሲያንሸራትቱ የሚደራረቡ ካርዶች። | |
+| `messages/am.json` | showcase.layouts.flatlay.mood | Light and tactile | ብሩህ እና በእጅ የሚዳሰስ | |
+| `messages/am.json` | showcase.layouts.flatlay.goodFor | Couples who care about paper and detail. | ለወረቀት እና ለዝርዝር የሚጨነቁ ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.flatlay.b1 | A sealed envelope that opens onto the cards | ካርዶቹ ላይ የሚከፈት የታሸገ ኤንቨሎፕ | |
+| `messages/am.json` | showcase.layouts.flatlay.b2 | Invitation, schedule, details and RSVP cards stacking up | የግብዣ፣ የመርሐ ግብር እና የምላሽ ካርዶች ሲደራረቡ | |
+| `messages/am.json` | showcase.layouts.flatlay.b3 | Photo prints fanned across the page | በገጹ ላይ የተዘረጉ የፎቶ ህትመቶች | |
+| `messages/am.json` | showcase.layouts.kaba.feel | A groom's velvet kaba: deep velvet with gold-thread embroidery that stitches itself in. | የሙሽራው የቬልቬት ካባ፤ ጥልቅ ቬልቬት እና ራሱ የሚጠለፍ የወርቅ ጥልፍ። | |
+| `messages/am.json` | showcase.layouts.kaba.mood | Always dark and regal | ሁልጊዜ ጨለማ እና ንጉሣዊ | |
+| `messages/am.json` | showcase.layouts.kaba.goodFor | Traditional Habesha weddings. | ባህላዊ የሀበሻ ሠርግ። | |
+| `messages/am.json` | showcase.layouts.kaba.b1 | Embroidery that stitches itself in as you scroll | ሲያንሸራትቱ ራሱ የሚጠለፍ ጥልፍ | |
+| `messages/am.json` | showcase.layouts.kaba.b2 | A stitched timeline that marks the Mels | መልስን የሚያመለክት የተጠለፈ መርሐ ግብር | |
+| `messages/am.json` | showcase.layouts.kaba.b3 | A stitched monogram | የተጠለፈ የመጀመሪያ ፊደላት ምልክት | |
+| `messages/am.json` | showcase.layouts.brana.feel | An illuminated Ge'ez manuscript on parchment, with the names in red. | በብራና ላይ የተጻፈ ያጌጠ የግዕዝ መጽሐፍ፤ ስሞቹ በቀይ። | |
+| `messages/am.json` | showcase.layouts.brana.mood | Light and scholarly | ብሩህ እና ምሁራዊ | |
+| `messages/am.json` | showcase.layouts.brana.goodFor | Couples who love Ethiopian manuscripts and Amharic. | የኢትዮጵያ ብራናዎችን እና አማርኛን የሚወዱ ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.brana.b1 | Harag headpieces and names in red | የሐራግ ጌጥ እና በቀይ የተጻፉ ስሞች | |
+| `messages/am.json` | showcase.layouts.brana.b2 | Ge'ez numerals | የግዕዝ ቁጥሮች | |
+| `messages/am.json` | showcase.layouts.brana.b3 | The day as a canon table, and a colophon at the end | ቀኑ እንደ ሰንጠረዥ፣ መጨረሻ ላይ ማጠቃለያ | |
+| `messages/am.json` | showcase.layouts.slate.feel | Clean and modern: a full photo cover, script accents over serif headings and cards for the day. | ንጹህ እና ዘመናዊ፤ ሙሉ የፎቶ ሽፋን፣ በጽሑፍ ላይ የእጅ ጽሑፍ ጌጥ እና ለቀኑ ካርዶች። | |
+| `messages/am.json` | showcase.layouts.slate.mood | Light and modern | ብሩህ እና ዘመናዊ | |
+| `messages/am.json` | showcase.layouts.slate.goodFor | Modern weddings, and destination and diaspora couples. | ዘመናዊ ሠርግ፣ ከሀገር ውጭ የሚደረግ እና የውጭ ሀገር ኑሮ ያላቸው ጥንዶች። | |
+| `messages/am.json` | showcase.layouts.slate.b1 | A boxed countdown | በሳጥን ውስጥ የተቀመጠ ቆጠራ | |
+| `messages/am.json` | showcase.layouts.slate.b2 | The day as cards down a rail | ቀኑ በመስመር ላይ እንደ ካርዶች | |
+| `messages/am.json` | showcase.layouts.slate.b3 | A framed photo strip | በፍሬም የተሰራ የፎቶ ረድፍ | |
+| `messages/am.json` | showcase.layouts.commencement.feel | Light and modern, with the class year in huge outline numerals behind the names. | ብሩህ እና ዘመናዊ፤ የምረቃው ዓመት ከስሞቹ ጀርባ በትልልቅ ቁጥሮች። | |
+| `messages/am.json` | showcase.layouts.commencement.mood | Clean and bright | ንጹህ እና ብሩህ | |
+| `messages/am.json` | showcase.layouts.commencement.goodFor | One graduate, or several finishing together. | አንድ ተመራቂ ወይም አብረው የሚመረቁ ብዙዎች። | |
+| `messages/am.json` | showcase.layouts.commencement.b1 | A diploma-style card for each graduate | ለእያንዳንዱ ተመራቂ የዲፕሎማ ዓይነት ካርድ | |
+| `messages/am.json` | showcase.layouts.commencement.b2 | Photos in groups you name, like “The two of us” | በሚሰጧቸው ስም የተደራጁ ፎቶዎች፣ እንደ «ሁለታችን» | |
+| `messages/am.json` | showcase.layouts.commencement.b3 | The class year across the cover | ሽፋኑ ላይ የምረቃው ዓመት | |
+| `messages/am.json` | showcase.layouts.tassel.feel | A deep cover in your first colour, with a laurel wreath of initials hung on a gold cord. | በመጀመሪያ ቀለምዎ ጥልቅ ሽፋን፣ በወርቅ ገመድ ላይ የተሰቀለ የመጀመሪያ ፊደላት የላውረል ጉንጉን። | |
+| `messages/am.json` | showcase.layouts.tassel.mood | Deep and ceremonial | ጥልቅ እና ሥነ ሥርዓታዊ | |
+| `messages/am.json` | showcase.layouts.tassel.goodFor | Families who want a formal, gown-and-gold look. | መደበኛ፣ የወርቅ እና የካባ ገጽታ የሚፈልጉ ቤተሰቦች። | |
+| `messages/am.json` | showcase.layouts.tassel.b1 | A tassel that swings once as the page opens | ገጹ ሲከፈት አንድ ጊዜ የሚወዛወዝ ዘርፍ | |
+| `messages/am.json` | showcase.layouts.tassel.b2 | Each graduate in an arch | እያንዳንዱ ተመራቂ በቅስት ውስጥ | |
+| `messages/am.json` | showcase.layouts.tassel.b3 | The invitation on a bordered card | በጠርዝ የተከበበ የግብዣ ካርድ | |
+| `messages/am.json` | showcase.layouts.confetti.feel | The name set huge in a page of confetti in your three colours. | ስሙ በሶስቱ ቀለሞችዎ በቀለም ወረቀት ገጽ ውስጥ በትልቁ። | |
+| `messages/am.json` | showcase.layouts.confetti.mood | Bright and warm | ብሩህ እና ሞቅ ያለ | |
+| `messages/am.json` | showcase.layouts.confetti.goodFor | Children's and young people's birthdays, and happy parties. | የልጆች እና የወጣቶች ልደት፣ እና የደስታ ግብዣዎች። | |
+| `messages/am.json` | showcase.layouts.confetti.b1 | Confetti that settles once as the page opens | ገጹ ሲከፈት አንድ ጊዜ የሚያርፍ ቀለም ወረቀት | |
+| `messages/am.json` | showcase.layouts.confetti.b2 | Their own line on a ribbon, like “Turns 7” | የራሳቸው መስመር በሪባን ላይ | |
+| `messages/am.json` | showcase.layouts.confetti.b3 | Cake and party details | የኬክ እና የግብዣ ዝርዝር | |
+| `messages/am.json` | showcase.layouts.milestone.feel | Elegant, for the big numbers: the age in large gold foil on a dark cover. | ለትልልቅ ቁጥሮች የሚሆን ውብ ገጽታ፤ ዕድሜው በትልቅ የወርቅ ቀለም በጨለማ ሽፋን ላይ። | |
+| `messages/am.json` | showcase.layouts.milestone.mood | Dark and elegant | ጨለማ እና ውብ | |
+| `messages/am.json` | showcase.layouts.milestone.goodFor | A 50th, 60th or 70th birthday. | 50ኛ፣ 60ኛ ወይም 70ኛ ልደት። | |
+| `messages/am.json` | showcase.layouts.milestone.b1 | The age in gold foil | ዕድሜው በወርቅ ቀለም | |
+| `messages/am.json` | showcase.layouts.milestone.b2 | The age is read from their own line | ዕድሜው ከራሳቸው መስመር ይነበባል | |
+| `messages/am.json` | showcase.layouts.milestone.b3 | Shows the name alone when there is no age | ዕድሜ ከሌለ ስሙን ብቻ ያሳያል | |
+| `messages/am.json` | showcase.layouts.shema.feel | A christening in white: a length of woven shema cloth with your border down both edges. | በነጭ የተሠራ ክርስትና፤ በጠርዝዎ የተከበበ የሸማ ጨርቅ። | |
+| `messages/am.json` | showcase.layouts.shema.mood | Pale and gentle | ለስላሳ እና ረጋ ያለ | |
+| `messages/am.json` | showcase.layouts.shema.goodFor | Christenings (kristina). | ክርስትና። | |
+| `messages/am.json` | showcase.layouts.shema.b1 | Christening name and godparents on the child's card | የክርስትና ስም እና የክርስትና ወላጆች በልጁ ካርድ ላይ | |
+| `messages/am.json` | showcase.layouts.shema.b2 | The photo in an arch | ፎቶው በቅስት ውስጥ | |
+| `messages/am.json` | showcase.layouts.shema.b3 | A cross only if the family chooses one | መስቀል ቤተሰቡ ከመረጠ ብቻ | |
+| `public/examples/showcase-*.json` | the four fictional demo sites (names, venues, texts in both languages) | (see the files) | (see the files) | |

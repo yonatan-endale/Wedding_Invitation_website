@@ -64,6 +64,27 @@
       "when": 1791572304906,
       "tag": "0008_extras_switches",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791814342742,
+      "tag": "0009_event_types",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792472076339,
+      "tag": "0010_showcase_switch",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792579455742,
+      "tag": "0011_site_languages",
+      "breakpoints": true
     }
   ]
 }

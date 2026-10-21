@@ -25,6 +25,7 @@ describe("parseCoupleImport", () => {
     expect(result.data.couple).toMatchObject({
       slug: "hanna-dawit",
       status: "draft",
+      eventType: "wedding",
       partnerOne: { en: "Hanna", am: "ሐና" },
       partnerTwo: { en: "Dawit" },
       partnerOneRole: "bride",
@@ -47,15 +48,37 @@ describe("parseCoupleImport", () => {
       calendarButtons: false,
       scrollProgress: false,
       collapsibleEvents: false,
+      showcaseEnabled: false,
+      enabledLocales: ["en", "am"],
       city: null,
       heroPhotoUrl: null,
     });
+    expect(result.data.honorees).toEqual([]);
     expect(result.data.venues).toEqual([]);
     expect(result.data.events).toEqual([]);
     expect(result.data.photos).toEqual([]);
     expect(result.data.gifts).toEqual([]);
     expect(result.data.milestones).toEqual([]);
     expect(result.data.wishlist).toEqual([]);
+  });
+
+  it("takes text and switched-on languages beyond English and Amharic", () => {
+    const result = parseCoupleImport({
+      couple: {
+        ...minimal.couple,
+        partnerTwo: { en: "Dawit", ar: "داويت" },
+        enabledLocales: ["ar", "en", "am"],
+      },
+    });
+    if (!result.success) throw new Error(result.issues.join("\n"));
+    expect(result.data.couple.partnerTwo).toEqual({ en: "Dawit", ar: "داويت" });
+    expect(result.data.couple.enabledLocales).toEqual(["en", "am", "ar"]);
+  });
+
+  it("rejects unknown languages and an empty language list", () => {
+    expect(issuesOf({ couple: { ...minimal.couple, enabledLocales: ["fr"] } }).length).toBeGreaterThan(0);
+    expect(issuesOf({ couple: { ...minimal.couple, enabledLocales: [] } }).length).toBeGreaterThan(0);
+    expect(issuesOf({ couple: { ...minimal.couple, partnerTwo: { en: "Dawit", fr: "Dawit" } } }).length).toBeGreaterThan(0);
   });
 
   it("resolves local times in the couple's time zone", () => {
@@ -108,8 +131,8 @@ describe("parseCoupleImport", () => {
     });
     if (!result.success) throw new Error(result.issues.join("\n"));
     expect(result.data.photos).toEqual([
-      { url: "/couples/x/a.jpg", caption: null },
-      { url: "https://example.com/b.jpg", caption: { en: "Us" } },
+      { url: "/couples/x/a.jpg", caption: null, groupLabel: null },
+      { url: "https://example.com/b.jpg", caption: { en: "Us" }, groupLabel: null },
     ]);
   });
 
@@ -176,6 +199,18 @@ describe("parseCoupleImport", () => {
       "couple.opening: Unknown opening.",
       expect.stringMatching(/^couple\.motion: /),
       expect.stringMatching(/^events\[0\]\.kind: /),
+    ]);
+  });
+
+  it("refuses an event type that has no layouts yet", () => {
+    expect(issuesOf({ ...minimal, couple: { ...minimal.couple, eventType: "engagement" } })).toEqual([
+      "couple.eventType: This event type is not open yet.",
+    ]);
+  });
+
+  it("keeps a wedding's partners and refuses honorees on it", () => {
+    expect(issuesOf({ ...minimal, honorees: [{ name: { en: "Ruth" } }] })).toEqual([
+      "honorees: A wedding names its two partners on the couple instead.",
     ]);
   });
 

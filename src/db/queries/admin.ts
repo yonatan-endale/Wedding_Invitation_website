@@ -2,33 +2,43 @@ import "server-only";
 
 import { asc, desc, eq, sql } from "drizzle-orm";
 import { getDb } from "@/db";
-import { couples, events, giftAccounts, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
+import { couples, events, giftAccounts, honorees, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export const isUuid = (value: string) => UUID_PATTERN.test(value);
 
 export async function listCouples() {
-  return getDb()
-    .select({
-      id: couples.id,
-      slug: couples.slug,
-      status: couples.status,
-      partnerOne: couples.partnerOne,
-      partnerTwo: couples.partnerTwo,
-      partnerOneFather: couples.partnerOneFather,
-      partnerTwoFather: couples.partnerTwoFather,
-      weddingAt: couples.weddingAt,
-      timezone: couples.timezone,
-      theme: couples.theme,
-      heroPhotoUrl: couples.heroPhotoUrl,
-      responses: sql<number>`count(${rsvps.id})::int`,
-      guests: sql<number>`coalesce(sum(case when ${rsvps.attending} then ${rsvps.guestCount} else 0 end), 0)::int`,
-    })
-    .from(couples)
-    .leftJoin(rsvps, eq(rsvps.coupleId, couples.id))
-    .groupBy(couples.id)
-    .orderBy(asc(couples.weddingAt));
+  const db = getDb();
+  const [rows, people] = await Promise.all([
+    db
+      .select({
+        id: couples.id,
+        slug: couples.slug,
+        status: couples.status,
+        eventType: couples.eventType,
+        partnerOne: couples.partnerOne,
+        partnerTwo: couples.partnerTwo,
+        partnerOneFather: couples.partnerOneFather,
+        partnerTwoFather: couples.partnerTwoFather,
+        weddingAt: couples.weddingAt,
+        timezone: couples.timezone,
+        theme: couples.theme,
+        heroPhotoUrl: couples.heroPhotoUrl,
+        responses: sql<number>`count(${rsvps.id})::int`,
+        guests: sql<number>`coalesce(sum(case when ${rsvps.attending} then ${rsvps.guestCount} else 0 end), 0)::int`,
+      })
+      .from(couples)
+      .leftJoin(rsvps, eq(rsvps.coupleId, couples.id))
+      .groupBy(couples.id)
+      .orderBy(asc(couples.weddingAt)),
+    db
+      .select({ coupleId: honorees.coupleId, name: honorees.name, father: honorees.father })
+      .from(honorees)
+      .orderBy(asc(honorees.sortOrder), asc(honorees.createdAt)),
+  ]);
+  // Each site with the people it celebrates, for the names on its card.
+  return rows.map((row) => ({ ...row, honorees: people.filter((person) => person.coupleId === row.id) }));
 }
 
 export type CoupleListItem = Awaited<ReturnType<typeof listCouples>>[number];
@@ -38,6 +48,7 @@ export async function getCoupleForAdmin(id: string) {
   const couple = await getDb().query.couples.findFirst({
     where: eq(couples.id, id),
     with: {
+      honorees: { orderBy: [asc(honorees.sortOrder), asc(honorees.createdAt)] },
       photos: { orderBy: [asc(photos.sortOrder), asc(photos.createdAt)] },
       venues: { orderBy: [asc(venues.sortOrder), asc(venues.createdAt)] },
       events: { orderBy: [asc(events.startsAt)] },

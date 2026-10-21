@@ -5,14 +5,36 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import type { AdminCouple } from "@/db/queries/admin";
 import { toDateTimeLocalValue } from "@/lib/datetime";
-import { Field, FormSection, LocalizedField, SubmitButton } from "./fields";
+import { Field, FieldError, FormSection, LocalizedField, SubmitButton } from "./fields";
 import { useAdminForm } from "./use-action-feedback";
+import { EVENT_TYPE_META } from "@/lib/event-types";
+import { LANGUAGES, LOCALES } from "@/lib/localized";
 
 export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
   const { pending, onSubmit, errors } = useAdminForm(updateCoupleTexts.bind(null, couple.id));
 
   return (
     <form onSubmit={onSubmit} className="grid gap-8" noValidate>
+      <FormSection
+        title="Languages"
+        description="The languages guests can switch between. Amharic and English are on to start; Arabic, Tigrigna and Afaan Oromo stay off until you turn them on. Save, then the text fields below show the languages you picked."
+      >
+        <div className="grid gap-3 sm:grid-cols-2">
+          {LOCALES.map((locale) => (
+            <label key={locale} className="flex items-center justify-between gap-4 rounded-lg border p-4">
+              <span>
+                <span className="block text-sm font-medium" lang={locale} dir={LANGUAGES[locale].dir}>
+                  {LANGUAGES[locale].nativeName}
+                </span>
+                <span className="block text-sm text-muted-foreground">{LANGUAGES[locale].englishName}</span>
+              </span>
+              <Switch name={`locale.${locale}`} defaultChecked={couple.enabledLocales.includes(locale)} value="on" />
+            </label>
+          ))}
+        </div>
+        <FieldError message={errors.enabledLocales} />
+      </FormSection>
+
       <FormSection title="Invitation" description="Leave a field empty to hide it or use the default wording.">
         <LocalizedField
           name="tagline"
@@ -67,9 +89,10 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
         </label>
         <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
           <span>
-            <span className="block text-sm font-medium">Couple&apos;s private page</span>
+            <span className="block text-sm font-medium">Private page</span>
             <span className="block text-sm text-muted-foreground">
-              Lets the couple read RSVPs and wishes with a link and passcode, made in the RSVPs tab. Off by default.
+              Lets {EVENT_TYPE_META[couple.eventType].hosts} read RSVPs and wishes with a link and passcode, made in the RSVPs tab. Off by
+              default.
             </span>
           </span>
           <Switch name="couplePageEnabled" defaultChecked={couple.couplePageEnabled} value="on" />
@@ -134,6 +157,15 @@ export function CoupleTextsForm({ couple }: { couple: AdminCouple }) {
             <span className="block text-sm text-muted-foreground">Event descriptions fold behind “Show details” in the timeline, so the day reads at a glance. Off by default.</span>
           </span>
           <Switch name="collapsibleEvents" defaultChecked={couple.collapsibleEvents} value="on" />
+        </label>
+        <label className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span>
+            <span className="block text-sm font-medium">Showcase mode</span>
+            <span className="block text-sm text-muted-foreground">
+              For demo sites on the public designs page only: anyone can try another layout, theme or opening on this site with a link. Never turn it on for a real family. Off by default.
+            </span>
+          </span>
+          <Switch name="showcaseEnabled" defaultChecked={couple.showcaseEnabled} value="on" />
         </label>
       </FormSection>
 

@@ -102,7 +102,7 @@ async function SlateGallery({ site, locale, photos, names }: Props & Pick<Layout
   const t = await getTranslations("layouts.slate");
   return (
     <div className={cn(styles.shared, styles.gallery, "pt-10 pb-4 sm:pt-16")}>
-      <Kicker locale={locale} className="mb-1 px-5 text-center [&:lang(am)]:mb-2">
+      <Kicker locale={locale} className="mb-1 px-5 text-center ethiopic:mb-2">
         {t("kicker.gallery")}
       </Kicker>
       <GallerySection photos={photos} names={names} drift={site.couple.galleryDrift} />

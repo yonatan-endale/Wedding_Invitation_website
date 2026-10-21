@@ -107,7 +107,7 @@ export function RsvpForm({ slug, tone = "paper" }: { slug: string; tone?: RsvpTo
     <form key={formKey} action={formAction} onSubmit={onSubmit} className="mt-10 space-y-6" noValidate>
       <input type="hidden" name="submissionId" value={formKey} />
       {/* Hidden from people; bots that fill it are ignored. */}
-      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+      <div aria-hidden className="absolute -start-[9999px] h-px w-px overflow-hidden">
         <label>
           Website
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />

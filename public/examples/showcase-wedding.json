@@ -1,0 +1,241 @@
+{
+  "couple": {
+    "status": "published",
+    "timezone": "Africa/Addis_Ababa",
+    "showcaseEnabled": true,
+    "calendarButtons": true,
+    "rsvpEnabled": true,
+    "petals": false,
+    "motion": "moderate",
+    "calendarStyle": "both",
+    "slug": "demo-wedding",
+    "eventType": "wedding",
+    "partnerOne": {
+      "en": "Saron",
+      "am": "ሳሮን"
+    },
+    "partnerOneFather": {
+      "en": "Tadesse",
+      "am": "ታደሰ"
+    },
+    "partnerOneRole": "bride",
+    "partnerOnePortraitUrl": "/showcase/art/portrait-3.svg",
+    "partnerTwo": {
+      "en": "Eyob",
+      "am": "ኤዮብ"
+    },
+    "partnerTwoFather": {
+      "en": "Bekele",
+      "am": "በቀለ"
+    },
+    "partnerTwoRole": "groom",
+    "partnerTwoPortraitUrl": "/showcase/art/portrait-2.svg",
+    "weddingAt": "2027-02-06T15:00",
+    "city": {
+      "en": "Addis Ababa",
+      "am": "አዲስ አበባ"
+    },
+    "tagline": {
+      "en": "An example invitation. The names, places and numbers are invented.",
+      "am": "ምሳሌ ግብዣ ነው። ስሞቹ፣ ቦታዎቹ እና ቁጥሮቹ የተፈጠሩ ናቸው።"
+    },
+    "invitation": {
+      "en": "Together with their families, Saron and Eyob invite you to celebrate their wedding.",
+      "am": "ሳሮን እና ኤዮብ ከቤተሰቦቻቸው ጋር በመሆን በሠርጋቸው ላይ እንዲገኙ በአክብሮት ይጋብዙዎታል።"
+    },
+    "hosts": {
+      "en": "The Tadesse and Bekele families",
+      "am": "የታደሰ እና የበቀለ ቤተሰቦች"
+    },
+    "story": {
+      "en": "They met at a friend's graduation, argued about coffee, and have been sharing a cup ever since.",
+      "am": "በጓደኛቸው ምረቃ ላይ ተዋወቁ፤ ስለ ቡና ተከራከሩ፤ ከዚያ ወዲህ አንድ ስኒ ይጋራሉ።"
+    },
+    "scripture": {
+      "en": "Love is patient, love is kind.",
+      "am": "ፍቅር ይታገሣል፤ ፍቅር ቸር ነው።"
+    },
+    "scriptureRef": {
+      "en": "1 Corinthians 13:4",
+      "am": "1ኛ ቆሮንቶስ 13፥4"
+    },
+    "dressCode": {
+      "en": "Habesha kemis and suits",
+      "am": "የሀበሻ ቀሚስ እና ሱፍ"
+    },
+    "giftNote": {
+      "en": "Your presence is the gift. If you wish to give, these details are for example only.",
+      "am": "መገኘትዎ ስጦታችን ነው። ለመስጠት ከፈለጉ እነዚህ ዝርዝሮች ለምሳሌ ብቻ ናቸው።"
+    },
+    "heroPhotoUrl": "/showcase/art/wedding-walk.svg",
+    "heroPosition": "50% 60%",
+    "calendarPhotoUrl": "/showcase/art/wedding-arch.svg",
+    "musicUrl": "/demo/canon-in-d.mp3",
+    "musicTitle": "Canon in D",
+    "theme": "tibeb",
+    "layout": "classic",
+    "border": "tibeb",
+    "opening": "netela",
+    "ornament": "none"
+  },
+  "venues": [
+    {
+      "name": {
+        "en": "Garden Hall (example)",
+        "am": "የአትክልት አዳራሽ (ምሳሌ)"
+      },
+      "address": {
+        "en": "Example Road, Addis Ababa",
+        "am": "ምሳሌ መንገድ፣ አዲስ አበባ"
+      },
+      "imageUrl": "/showcase/art/wedding-arch.svg"
+    },
+    {
+      "name": {
+        "en": "Skyline Ballroom (example)",
+        "am": "ስካይላይን አዳራሽ (ምሳሌ)"
+      },
+      "address": {
+        "en": "Example Street, Addis Ababa",
+        "am": "ምሳሌ ጎዳና፣ አዲስ አበባ"
+      }
+    }
+  ],
+  "events": [
+    {
+      "title": {
+        "en": "Telosh",
+        "am": "ጥሎሽ"
+      },
+      "kind": "telosh",
+      "startsAt": "2027-02-05T16:00",
+      "endsAt": "2027-02-05T18:00",
+      "venue": 1,
+      "description": {
+        "en": "The groom's family arrives with gifts.",
+        "am": "የሙሽራው ቤተሰብ ስጦታ ይዞ ይመጣል።"
+      }
+    },
+    {
+      "title": {
+        "en": "Church ceremony",
+        "am": "የቤተክርስቲያን ሥርዓት"
+      },
+      "kind": "ceremony_orthodox",
+      "startsAt": "2027-02-06T10:00",
+      "endsAt": "2027-02-06T12:00",
+      "venue": 0
+    },
+    {
+      "title": {
+        "en": "Photo session",
+        "am": "የፎቶ ፕሮግራም"
+      },
+      "kind": "photos",
+      "startsAt": "2027-02-06T13:00",
+      "endsAt": "2027-02-06T15:00",
+      "venue": 0
+    },
+    {
+      "title": {
+        "en": "Reception and dinner",
+        "am": "አቀባበል እና እራት"
+      },
+      "kind": "reception",
+      "startsAt": "2027-02-06T18:00",
+      "endsAt": "2027-02-06T23:00",
+      "venue": 1,
+      "description": {
+        "en": "Dinner, music and the first dance.",
+        "am": "እራት፣ ሙዚቃ እና የመጀመሪያ ጭፈራ።"
+      }
+    },
+    {
+      "title": {
+        "en": "Mels",
+        "am": "መልስ"
+      },
+      "kind": "mels",
+      "startsAt": "2027-02-07T12:00",
+      "endsAt": "2027-02-07T15:00",
+      "venue": 0
+    }
+  ],
+  "photos": [
+    {
+      "url": "/showcase/art/wedding-arch.svg"
+    },
+    {
+      "url": "/showcase/art/rings.svg",
+      "caption": {
+        "en": "Two rings, one story",
+        "am": "ሁለት ቀለበት፣ አንድ ታሪክ"
+      }
+    },
+    {
+      "url": "/showcase/art/coffee-jebena.svg",
+      "caption": {
+        "en": "The coffee that started it",
+        "am": "የጀመረው ቡና"
+      }
+    },
+    {
+      "url": "/showcase/art/adey-flowers.svg"
+    },
+    {
+      "url": "/showcase/art/mesob.svg"
+    },
+    {
+      "url": "/showcase/art/tibeb-textile.svg"
+    }
+  ],
+  "gifts": [
+    {
+      "kind": "bank",
+      "provider": "Example Bank",
+      "accountName": "Saron Tadesse (example)",
+      "accountNumber": "0000000000000"
+    },
+    {
+      "kind": "telebirr",
+      "provider": "Telebirr",
+      "accountName": "Eyob Bekele (example)",
+      "accountNumber": "0900000000"
+    }
+  ],
+  "milestones": [
+    {
+      "happenedOn": "2021-06-12",
+      "title": {
+        "en": "We met",
+        "am": "ተዋወቅን"
+      },
+      "body": {
+        "en": "At a friend's graduation.",
+        "am": "በጓደኛ ምረቃ ላይ።"
+      },
+      "imageUrl": "/showcase/art/graduation-gate.svg"
+    },
+    {
+      "happenedOn": "2024-01-07",
+      "title": {
+        "en": "The proposal",
+        "am": "ጥያቄው"
+      },
+      "body": {
+        "en": "Over coffee, of course.",
+        "am": "በቡና ላይ፣ በእርግጥ።"
+      },
+      "imageUrl": "/showcase/art/coffee-jebena.svg"
+    }
+  ],
+  "wishlist": [
+    {
+      "title": {
+        "en": "Coffee set",
+        "am": "የቡና ዕቃ"
+      },
+      "price": "ETB 3,500"
+    }
+  ]
+}

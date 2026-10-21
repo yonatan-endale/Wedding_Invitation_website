@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
 import { FaithOrnament } from "../../ornaments/faith-ornament";
@@ -56,7 +56,7 @@ export async function StoriesInvitation({ site, locale, names }: Props) {
                 style={{ objectPosition: couple.heroPosition }}
               />
             ) : (
-              <Initials initials={names.initials} separator={locale === "am" ? "፡" : "&"} className="text-2xl" />
+              <Initials initials={names.initials} separator={LANGUAGES[locale].initialsSeparator} className="text-2xl" />
             )}
           </StoryRing>
         </span>
@@ -69,7 +69,7 @@ export async function StoriesInvitation({ site, locale, names }: Props) {
           id="stories-invitation-names"
           data-reveal="up"
           style={order(3)}
-          className="mt-3 font-display text-[clamp(2rem,9.6cqi,2.65rem)] leading-[1.08] [&:lang(am)]:text-[clamp(1.65rem,8cqi,2.2rem)] [&:lang(am)]:leading-[1.3]"
+          className="mt-3 font-display text-[clamp(2rem,9.6cqi,2.65rem)] leading-[1.08] ethiopic:text-[clamp(1.65rem,8cqi,2.2rem)] ethiopic:leading-[1.3]"
         >
           {names.one}
           <span className="mx-2 inline-block align-[0.1em] text-[0.55em] text-ink-soft">&amp;</span>
@@ -86,7 +86,7 @@ export async function StoriesInvitation({ site, locale, names }: Props) {
           {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
         </p>
         {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-        {locale === "am" ? (
+        {usesEthiopianCalendar(locale) ? (
           <p data-reveal="up" style={order(7)} className="mt-2 text-base text-ink-soft">
             {formatGregorianDate(couple.weddingAt, couple.timezone)}
           </p>

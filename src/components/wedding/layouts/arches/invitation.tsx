@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { fullName } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
@@ -44,7 +44,7 @@ export async function ArchesInvitation({ site, locale }: Props) {
             id="invitation-names"
             data-reveal="up"
             style={step(3)}
-            className="mt-6 font-cormorant text-[clamp(2.4rem,8vw,3.6rem)] leading-[1.02] font-light [&:lang(am)]:text-[clamp(2rem,6.5vw,2.9rem)] [&:lang(am)]:leading-[1.2]"
+            className="mt-6 font-cormorant text-[clamp(2.4rem,8vw,3.6rem)] leading-[1.02] font-light ethiopic:text-[clamp(2rem,6.5vw,2.9rem)] ethiopic:leading-[1.2]"
           >
             <span className="block">{one}</span>
             <span className="my-1 block text-[0.55em] text-ink-soft italic">&amp;</span>
@@ -63,11 +63,11 @@ export async function ArchesInvitation({ site, locale }: Props) {
           <p
             data-reveal="up"
             style={step(6)}
-            className="font-cormorant text-[clamp(1.6rem,5vw,2.1rem)] leading-tight font-medium lining-nums [&:lang(am)]:text-[clamp(1.35rem,4.4vw,1.75rem)]"
+            className="font-cormorant text-[clamp(1.6rem,5vw,2.1rem)] leading-tight font-medium lining-nums ethiopic:text-[clamp(1.35rem,4.4vw,1.75rem)]"
           >
             {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
           </p>
-          {locale === "am" ? (
+          {usesEthiopianCalendar(locale) ? (
             <p data-reveal="up" style={step(7)} className="mt-1 text-base text-ink-soft">
               {formatGregorianDate(couple.weddingAt, couple.timezone)}
             </p>

@@ -6,11 +6,12 @@ import { redirect } from "next/navigation";
 import { getDb } from "@/db";
 import { isUuid } from "@/db/queries/admin";
 import { importCouple, SlugTakenError } from "@/db/queries/couple-import";
-import { couples, events, giftAccounts, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
+import { couples, events, giftAccounts, honorees, photos, rsvps, storyMilestones, venues, wishlistItems } from "@/db/schema";
 import { getAdminUser } from "@/lib/auth";
 import { couplePortalUrl } from "@/lib/card-links";
 import { siteCacheTag, type CoupleStatus } from "@/lib/constants";
 import { createAccess, revokeAccess, unlockAccess } from "@/lib/couple-access";
+import { EVENT_TYPE_META, usesHonorees, type EventType } from "@/lib/event-types";
 import { moveItem, type Direction } from "@/lib/reorder";
 import { siteLinks } from "@/lib/site-links";
 import {
@@ -19,8 +20,12 @@ import {
   parseCoupleDetails,
   parseCoupleTexts,
   parseEvent,
+  parseEventType,
+  parseFirstHonoree,
   parseGiftAccount,
+  parseHonoree,
   parseMilestone,
+  parsePhotoLabels,
   parseVenue,
   parseWishlistItem,
   type FieldErrors,
@@ -47,6 +52,13 @@ function isUniqueViolation(error: unknown): boolean {
   return err?.code === "23505" || err?.cause?.code === "23505";
 }
 
+/** What the site celebrates, fixed when it was created; null when the site is gone. */
+async function coupleEventType(coupleId: string): Promise<EventType | null> {
+  if (!isUuid(coupleId)) return null;
+  const [row] = await getDb().select({ eventType: couples.eventType }).from(couples).where(eq(couples.id, coupleId));
+  return row?.eventType ?? null;
+}
+
 async function coupleSlug(coupleId: string): Promise<string | null> {
   if (!isUuid(coupleId)) return null;
   const [row] = await getDb().select({ slug: couples.slug }).from(couples).where(eq(couples.id, coupleId));
@@ -66,25 +78,39 @@ async function refreshCouple(coupleId: string, extraSlugs: string[] = []) {
 
 export async function createCouple(_previous: ActionState, formData: FormData): Promise<ActionState> {
   if (!(await getAdminUser())) return failure(SESSION_ENDED);
-  const parsed = parseCoupleDetails(formDataToFields(formData));
-  if (!parsed.success) return failure(CHECK_FIELDS, parsed.fieldErrors);
+  const fields = formDataToFields(formData);
+  const type = parseEventType(fields);
+  if (!type.success) return failure(CHECK_FIELDS, type.fieldErrors);
+  const eventType = type.data;
+  const parsed = parseCoupleDetails(fields, eventType);
+  // An honoree site starts with its first honoree, so it is never without a name.
+  const first = usesHonorees(eventType) ? parseFirstHonoree(fields) : null;
+  if (!parsed.success || (first && !first.success)) {
+    return failure(CHECK_FIELDS, {
+      ...(parsed.success ? {} : parsed.fieldErrors),
+      ...(first && !first.success ? first.fieldErrors : {}),
+    });
+  }
 
   let id: string;
   try {
-    const [row] = await getDb()
-      .insert(couples)
-      .values({ ...parsed.data, status: "draft" })
-      .returning({ id: couples.id });
-    id = row.id;
+    id = await getDb().transaction(async (tx) => {
+      const [row] = await tx
+        .insert(couples)
+        .values({ ...parsed.data, eventType, status: "draft" })
+        .returning({ id: couples.id });
+      if (first?.success) await tx.insert(honorees).values({ ...first.data, coupleId: row.id, sortOrder: 0 });
+      return row.id;
+    });
   } catch (error) {
     if (isUniqueViolation(error)) {
-      return failure(CHECK_FIELDS, { slug: "Another couple already uses this link. Try adding the year." });
+      return failure(CHECK_FIELDS, { slug: "Another site already uses this link. Try adding the year." });
     }
     throw error;
   }
 
   revalidatePath("/admin");
-  redirect(`/admin/couples/${id}?tab=texts`);
+  redirect(`/admin/sites/${id}?tab=texts`);
 }
 
 const MAX_IMPORT_BYTES = 1_000_000;
@@ -119,29 +145,30 @@ export async function importCoupleFromJson(_previous: ActionState, formData: For
   } catch (error) {
     if (error instanceof SlugTakenError) {
       return failure(CHECK_FIELDS, {
-        file: `A couple already uses /s/${error.slug}. Turn on "Replace the existing couple" to overwrite it, RSVPs included.`,
+        file: `A site already uses /s/${error.slug}. Turn on "Replace the existing site" to overwrite it, RSVPs included.`,
       });
     }
     throw error;
   }
 
   await refreshCouple(id);
-  redirect(`/admin/couples/${id}`);
+  redirect(`/admin/sites/${id}`);
 }
 
 export async function updateCoupleDetails(coupleId: string, _previous: ActionState, formData: FormData): Promise<ActionState> {
   if (!(await getAdminUser())) return failure(SESSION_ENDED);
   const previousSlug = await coupleSlug(coupleId);
-  if (!previousSlug) return failure(NOT_FOUND);
+  const eventType = await coupleEventType(coupleId);
+  if (!previousSlug || !eventType) return failure(NOT_FOUND);
 
-  const parsed = parseCoupleDetails(formDataToFields(formData));
+  const parsed = parseCoupleDetails(formDataToFields(formData), eventType);
   if (!parsed.success) return failure(CHECK_FIELDS, parsed.fieldErrors);
 
   try {
     await getDb().update(couples).set(parsed.data).where(eq(couples.id, coupleId));
   } catch (error) {
     if (isUniqueViolation(error)) {
-      return failure(CHECK_FIELDS, { slug: "Another couple already uses this link. Try adding the year." });
+      return failure(CHECK_FIELDS, { slug: "Another site already uses this link. Try adding the year." });
     }
     throw error;
   }
@@ -186,8 +213,8 @@ export async function deleteCouple(coupleId: string): Promise<ActionState> {
 
 /* ----------------------------- List helpers ---------------------------- */
 
-const SORTABLE = { photos, venues, giftAccounts, wishlistItems, storyMilestones } as const;
-const DELETABLE = { photos, venues, events, giftAccounts, wishlistItems, storyMilestones, rsvps } as const;
+const SORTABLE = { photos, honorees, venues, giftAccounts, wishlistItems, storyMilestones } as const;
+const DELETABLE = { photos, honorees, venues, events, giftAccounts, wishlistItems, storyMilestones, rsvps } as const;
 
 export type SortableList = keyof typeof SORTABLE;
 export type DeletableList = keyof typeof DELETABLE;
@@ -234,6 +261,12 @@ export async function deleteListItem(list: DeletableList, id: string): Promise<A
   if (!(await getAdminUser())) return failure(SESSION_ENDED);
   if (!(list in DELETABLE) || !isUuid(id)) return failure(NOT_FOUND);
   const table = DELETABLE[list] as unknown as ListTable;
+  if (list === "honorees") {
+    const [item] = await getDb().select({ coupleId: honorees.coupleId }).from(honorees).where(eq(honorees.id, id));
+    if (!item) return failure(NOT_FOUND);
+    const siblings = await getDb().select({ id: honorees.id }).from(honorees).where(eq(honorees.coupleId, item.coupleId));
+    if (siblings.length <= 1) return failure("Keep at least one person on the site. Edit this one instead.");
+  }
   const [removed] = await getDb().delete(table).where(eq(table.id, id)).returning({ coupleId: table.coupleId });
   if (!removed) return failure(NOT_FOUND);
   await refreshCouple(removed.coupleId);
@@ -255,6 +288,17 @@ export async function addPhotos(coupleId: string, urls: string[]): Promise<Actio
     .values(clean.map((url, index) => ({ coupleId, url, sortOrder: start + index })));
   await refreshCouple(coupleId);
   return success(clean.length === 1 ? "Photo added." : `${clean.length} photos added.`);
+}
+
+export async function updatePhotoLabels(photoId: string, _previous: ActionState, formData: FormData): Promise<ActionState> {
+  if (!(await getAdminUser())) return failure(SESSION_ENDED);
+  if (!isUuid(photoId)) return failure(NOT_FOUND);
+  const parsed = parsePhotoLabels(formDataToFields(formData));
+  if (!parsed.success) return failure(CHECK_FIELDS, parsed.fieldErrors);
+  const [photo] = await getDb().update(photos).set(parsed.data).where(eq(photos.id, photoId)).returning({ coupleId: photos.coupleId });
+  if (!photo) return failure(NOT_FOUND);
+  await refreshCouple(photo.coupleId);
+  return success("Photo saved.");
 }
 
 export async function setCoverPhoto(photoId: string): Promise<ActionState> {
@@ -303,10 +347,13 @@ export async function saveEvent(
   if (!(await getAdminUser())) return failure(SESSION_ENDED);
   if (!isUuid(coupleId)) return failure(NOT_FOUND);
   const db = getDb();
-  const [couple] = await db.select({ timezone: couples.timezone }).from(couples).where(eq(couples.id, coupleId));
+  const [couple] = await db
+    .select({ timezone: couples.timezone, eventType: couples.eventType })
+    .from(couples)
+    .where(eq(couples.id, coupleId));
   if (!couple) return failure(NOT_FOUND);
 
-  const parsed = parseEvent(formDataToFields(formData), couple.timezone);
+  const parsed = parseEvent(formDataToFields(formData), couple.timezone, couple.eventType);
   if (!parsed.success) return failure(CHECK_FIELDS, parsed.fieldErrors);
 
   if (parsed.data.venueId) {
@@ -328,6 +375,37 @@ export async function saveEvent(
   }
   await refreshCouple(coupleId);
   return success(eventId ? "Event saved." : "Event added.");
+}
+
+/* -------------------------------- Honorees ------------------------------- */
+
+export async function saveHonoree(
+  coupleId: string,
+  honoreeId: string | null,
+  _previous: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  if (!(await getAdminUser())) return failure(SESSION_ENDED);
+  const eventType = await coupleEventType(coupleId);
+  if (!eventType || !usesHonorees(eventType)) return failure(NOT_FOUND);
+  const parsed = parseHonoree(formDataToFields(formData));
+  if (!parsed.success) return failure(CHECK_FIELDS, parsed.fieldErrors);
+
+  const db = getDb();
+  if (honoreeId) {
+    if (!isUuid(honoreeId)) return failure(NOT_FOUND);
+    await db
+      .update(honorees)
+      .set(parsed.data)
+      .where(and(eq(honorees.id, honoreeId), eq(honorees.coupleId, coupleId)));
+  } else {
+    const existing = await db.select({ id: honorees.id }).from(honorees).where(eq(honorees.coupleId, coupleId));
+    const { label, honorees: limit } = EVENT_TYPE_META[eventType];
+    if (existing.length >= limit.max) return failure(`A ${label.toLowerCase()} site lists up to ${limit.max} people.`);
+    await db.insert(honorees).values({ ...parsed.data, coupleId, sortOrder: await nextSortOrder("honorees", coupleId) });
+  }
+  await refreshCouple(coupleId);
+  return success(honoreeId ? "Saved." : "Added.");
 }
 
 /* ---------------------------- Story milestones ---------------------------- */
@@ -432,7 +510,7 @@ export async function createCoupleAccess(coupleId: string): Promise<CoupleAccess
     .from(couples)
     .where(eq(couples.id, coupleId));
   if (!couple) return { ok: false, message: NOT_FOUND };
-  if (!couple.enabled) return { ok: false, message: "Turn on the couple's private page in the Invitation text tab first." };
+  if (!couple.enabled) return { ok: false, message: "Turn on the private page in the Invitation text tab first." };
   const { slug } = couple;
   const { token, passcode } = await createAccess(coupleId);
   const { share } = await siteLinks(slug);
@@ -453,5 +531,5 @@ export async function unlockCoupleAccess(coupleId: string): Promise<ActionState>
   if (!isUuid(coupleId)) return failure(NOT_FOUND);
   await unlockAccess(coupleId);
   revalidatePath("/admin", "layout");
-  return success("Unlocked. The couple can try their passcode again.");
+  return success("Unlocked. They can try their passcode again.");
 }

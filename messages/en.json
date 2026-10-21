@@ -293,6 +293,359 @@
       "signature": "With love, {one} and {two}",
       "when": "When",
       "where": "Where"
+    },
+    "commencement": {
+      "classOf": "Class of {year}",
+      "gallery": "Along the way"
+    },
+    "tassel": {
+      "graduates": "{count, plural, one {Graduate of {year}} other {Graduates of {year}}}",
+      "gallery": "Along the way"
+    },
+    "confetti": {
+      "party": "Let's celebrate",
+      "gallery": "Through the years"
+    },
+    "milestone": {
+      "years": "years",
+      "gallery": "Through the years"
+    },
+    "shema": {
+      "christeningName": "Christening name",
+      "godparents": "Godparents",
+      "gallery": "Little moments"
+    }
+  },
+  "honorees": {
+    "heading": "{count, plural, one {Who we celebrate} other {Who we celebrate}}"
+  },
+  "events": {
+    "honorees": {
+      "intro": {
+        "sealLabel": "Open the invitation from {one}",
+        "letter": "invite you to celebrate with them"
+      },
+      "nav": {
+        "couple": "Who we celebrate",
+        "story": "Their story"
+      },
+      "couple": {
+        "heading": "Who we celebrate"
+      },
+      "story": {
+        "heading": "Their story"
+      },
+      "footer": {
+        "families": "With love, the family"
+      },
+      "countdown": {
+        "since": "Since the celebration",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the celebration"
+      },
+      "saveTheDate": {
+        "couple": "{one}"
+      },
+      "invitation": {
+        "hostsFallback": "Together with their family"
+      },
+      "rsvp": {
+        "closed": "RSVPs are closed. Please contact the family directly.",
+        "message": "A message for them (optional)",
+        "errors": {
+          "closed": "RSVPs for this celebration are closed."
+        }
+      },
+      "card": {
+        "openSite": "Open the invitation website",
+        "pass": {
+          "invalidBody": "This invitation was cancelled or the code is wrong. Please check with the family."
+        }
+      },
+      "memories": {
+        "body": "Took photos at the celebration? Send them to us on Telegram."
+      },
+      "notFound": {
+        "body": "Check the link you were sent, or ask the family for a new one."
+      }
+    },
+    "graduation": {
+      "intro": {
+        "invited": "You are invited to the graduation of",
+        "letter": "invite you to celebrate their graduation"
+      },
+      "nav": {
+        "couple": "Graduates"
+      },
+      "couple": {
+        "heading": "Graduates"
+      },
+      "honorees": {
+        "heading": "{count, plural, one {The graduate} other {The graduates}}"
+      },
+      "countdown": {
+        "heading": "Graduation day",
+        "label": "Time until the graduation",
+        "since": "Since graduation day",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since graduation day"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} in the Ethiopian calendar, with graduation day marked",
+        "captionGregorian": "{month} {year}, with graduation day marked",
+        "weddingDay": "Graduation day"
+      },
+      "calendar": {
+        "add": "Add the graduation to your calendar",
+        "eventTitle": "Graduation of {one}"
+      },
+      "invitation": {
+        "eyebrow": "Graduation invitation",
+        "defaultText": "request the pleasure of your company as they celebrate their graduation."
+      },
+      "rsvp": {
+        "message": "A message for the graduates (optional)",
+        "errors": {
+          "closed": "RSVPs for this graduation are closed."
+        }
+      },
+      "card": {
+        "shareText": "My invitation to the graduation of {couple}"
+      },
+      "couplePortal": {
+        "cardShareText": "Your invitation card for the graduation of {couple}: {url}"
+      }
+    },
+    "birthday": {
+      "intro": {
+        "invited": "You are invited to the birthday of",
+        "letter": "invite you to celebrate their birthday"
+      },
+      "nav": {
+        "couple": "Birthday"
+      },
+      "countdown": {
+        "heading": "The birthday",
+        "label": "Time until the birthday",
+        "since": "Since the birthday",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the birthday"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} in the Ethiopian calendar, with the birthday marked",
+        "captionGregorian": "{month} {year}, with the birthday marked",
+        "weddingDay": "The birthday"
+      },
+      "calendar": {
+        "add": "Add the birthday to your calendar",
+        "eventTitle": "Birthday of {one}"
+      },
+      "invitation": {
+        "eyebrow": "Birthday invitation",
+        "defaultText": "request the pleasure of your company as they celebrate their birthday."
+      },
+      "rsvp": {
+        "message": "Birthday wishes (optional)",
+        "errors": {
+          "closed": "RSVPs for this birthday are closed."
+        }
+      },
+      "card": {
+        "shareText": "My invitation to the birthday of {couple}"
+      },
+      "couplePortal": {
+        "cardShareText": "Your invitation card for the birthday of {couple}: {url}"
+      }
+    },
+    "baptism": {
+      "intro": {
+        "invited": "You are invited to the christening of",
+        "letter": "invite you to celebrate their christening"
+      },
+      "countdown": {
+        "heading": "Christening day",
+        "label": "Time until the christening",
+        "since": "Since the christening",
+        "summarySince": "{days, plural, one {# day} other {# days}}, {hours, plural, one {# hour} other {# hours}} and {minutes, plural, one {# minute} other {# minutes}} since the christening"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} in the Ethiopian calendar, with the christening marked",
+        "captionGregorian": "{month} {year}, with the christening marked",
+        "weddingDay": "Christening day"
+      },
+      "calendar": {
+        "add": "Add the christening to your calendar",
+        "eventTitle": "Christening of {one}"
+      },
+      "invitation": {
+        "eyebrow": "Christening invitation",
+        "defaultText": "request the pleasure of your company as they celebrate the christening."
+      },
+      "rsvp": {
+        "message": "A blessing or message (optional)",
+        "errors": {
+          "closed": "RSVPs for this christening are closed."
+        }
+      },
+      "card": {
+        "shareText": "My invitation to the christening of {couple}"
+      },
+      "couplePortal": {
+        "cardShareText": "Your invitation card for the christening of {couple}: {url}"
+      }
+    }
+  },
+  "showcase": {
+    "title": "Our designs",
+    "intro": "Every look we make, shown on invented examples. Tap one to open it, then try other colours and opening screens. The names, places and numbers are made up and the pictures are illustrations.",
+    "filterLabel": "Show",
+    "all": "All",
+    "kinds": {
+      "wedding": "Weddings",
+      "graduation": "Graduations",
+      "birthday": "Birthdays",
+      "baptism": "Christenings"
+    },
+    "comingSoon": "Engagements are coming soon.",
+    "tryIt": "Try it live",
+    "loading": "Opening the design…",
+    "backToPicture": "Back to the picture",
+    "phoneTitle": "A live example of the {name} design",
+    "posterAlt": "A picture of the {name} design",
+    "mood": "Mood",
+    "goodFor": "Good for",
+    "highlights": "Standout moments",
+    "colours": "Colours",
+    "opening": "Opening screen",
+    "coloursNote": "Try another colour",
+    "openingNote": "Try another opening",
+    "ask": "Ask for this design",
+    "example": "Example sites use invented names and illustrated pictures.",
+    "back": "Back to the home page",
+    "openings": {
+      "netela": "Netela",
+      "seal": "Wax-seal gates",
+      "envelope": "Envelope",
+      "adey": "Adey bloom"
+    },
+    "layouts": {
+      "classic": {
+        "feel": "A full-screen cover photo and a framed invitation card, then the day, the venues and a swipeable gallery.",
+        "mood": "Warm and familiar",
+        "goodFor": "Families who want the traditional look, done well.",
+        "b1": "A framed invitation card with the border you choose",
+        "b2": "A timeline of the day with an icon for each step",
+        "b3": "A swipeable photo carousel"
+      },
+      "editorial": {
+        "feel": "A magazine spread: the date in huge numerals, oval portraits and a dated love story.",
+        "mood": "Light and designed",
+        "goodFor": "Couples with a story to tell and good portraits.",
+        "b1": "A split cover with the date in large numerals",
+        "b2": "Oval portraits of the couple",
+        "b3": "Dated story chapters and a mosaic gallery"
+      },
+      "reel": {
+        "feel": "A film: opening credits, the couple as the stars and the day told as scenes.",
+        "mood": "Dark and cinematic",
+        "goodFor": "Couples who love photography and video.",
+        "b1": "A letterboxed cover with opening credits",
+        "b2": "The day told as scenes",
+        "b3": "A film-strip gallery and end credits"
+      },
+      "noir": {
+        "feel": "Black tie: a gold crest monogram, gold-foil names and a framed gallery wall.",
+        "mood": "Dark and formal",
+        "goodFor": "Evening weddings and formal receptions.",
+        "b1": "A gold crest made from your initials",
+        "b2": "Names in gold foil",
+        "b3": "Black-metal gift cards"
+      },
+      "arches": {
+        "feel": "Ivory and gold, with the cover photo in an arched window.",
+        "mood": "Light and elegant",
+        "goodFor": "Church weddings and garden venues.",
+        "b1": "The cover photo in an arched window",
+        "b2": "Twin arches for the couple",
+        "b3": "An arcade of events and an arch-cropped photo strip"
+      },
+      "stories": {
+        "feel": "Tap through it like stories on a phone, one full-screen card at a time.",
+        "mood": "Light and playful",
+        "goodFor": "Younger couples and guests who live on their phones.",
+        "b1": "One card at a time, with progress bars",
+        "b2": "Tap or use the arrow keys to move on",
+        "b3": "Cover, invitation, the day, photos and RSVP"
+      },
+      "flatlay": {
+        "feel": "A stationery suite on linen: a sealed envelope, then cards that stack as you scroll.",
+        "mood": "Light and tactile",
+        "goodFor": "Couples who care about paper and detail.",
+        "b1": "A sealed envelope that opens onto the cards",
+        "b2": "Invitation, schedule, details and RSVP cards stacking up",
+        "b3": "Photo prints fanned across the page"
+      },
+      "kaba": {
+        "feel": "A groom's velvet kaba: deep velvet with gold-thread embroidery that stitches itself in.",
+        "mood": "Always dark and regal",
+        "goodFor": "Traditional Habesha weddings.",
+        "b1": "Embroidery that stitches itself in as you scroll",
+        "b2": "A stitched timeline that marks the Mels",
+        "b3": "A stitched monogram"
+      },
+      "brana": {
+        "feel": "An illuminated Ge'ez manuscript on parchment, with the names in red.",
+        "mood": "Light and scholarly",
+        "goodFor": "Couples who love Ethiopian manuscripts and Amharic.",
+        "b1": "Harag headpieces and names in red",
+        "b2": "Ge'ez numerals",
+        "b3": "The day as a canon table, and a colophon at the end"
+      },
+      "slate": {
+        "feel": "Clean and modern: a full photo cover, script accents over serif headings and cards for the day.",
+        "mood": "Light and modern",
+        "goodFor": "Modern weddings, and destination and diaspora couples.",
+        "b1": "A boxed countdown",
+        "b2": "The day as cards down a rail",
+        "b3": "A framed photo strip"
+      },
+      "commencement": {
+        "feel": "Light and modern, with the class year in huge outline numerals behind the names.",
+        "mood": "Clean and bright",
+        "goodFor": "One graduate, or several finishing together.",
+        "b1": "A diploma-style card for each graduate",
+        "b2": "Photos in groups you name, like “The two of us”",
+        "b3": "The class year across the cover"
+      },
+      "tassel": {
+        "feel": "A deep cover in your first colour, with a laurel wreath of initials hung on a gold cord.",
+        "mood": "Deep and ceremonial",
+        "goodFor": "Families who want a formal, gown-and-gold look.",
+        "b1": "A tassel that swings once as the page opens",
+        "b2": "Each graduate in an arch",
+        "b3": "The invitation on a bordered card"
+      },
+      "confetti": {
+        "feel": "The name set huge in a page of confetti in your three colours.",
+        "mood": "Bright and warm",
+        "goodFor": "Children's and young people's birthdays, and happy parties.",
+        "b1": "Confetti that settles once as the page opens",
+        "b2": "Their own line on a ribbon, like “Turns 7”",
+        "b3": "Cake and party details"
+      },
+      "milestone": {
+        "feel": "Elegant, for the big numbers: the age in large gold foil on a dark cover.",
+        "mood": "Dark and elegant",
+        "goodFor": "A 50th, 60th or 70th birthday.",
+        "b1": "The age in gold foil",
+        "b2": "The age is read from their own line",
+        "b3": "Shows the name alone when there is no age"
+      },
+      "shema": {
+        "feel": "A christening in white: a length of woven shema cloth with your border down both edges.",
+        "mood": "Pale and gentle",
+        "goodFor": "Christenings (kristina).",
+        "b1": "Christening name and godparents on the child's card",
+        "b2": "The photo in an arch",
+        "b3": "A cross only if the family chooses one"
+      }
     }
   }
 }

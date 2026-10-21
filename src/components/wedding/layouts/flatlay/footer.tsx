@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import type { Locale } from "@/lib/localized";
+import { type Locale, LANGUAGES } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import { WaxSeal } from "../../ornaments/wax-seal";
@@ -22,7 +22,7 @@ export async function FlatlayFooter({ site, locale, names }: Props) {
       <div className={cn(styles.note, styles.deckleShadow, "mx-auto w-[min(100%,30rem)]")}>
         <div data-reveal-group className={cn(styles.sheet, styles.deckleAll, "px-8 pt-14 pb-12 text-center sm:px-12")}>
           <span aria-hidden className={styles.keyline} />
-          <p data-reveal="up" className="relative font-cormorant text-[clamp(2.6rem,10vw,3.6rem)] leading-none font-medium italic [&:lang(am)]:text-[clamp(2rem,8vw,2.8rem)] [&:lang(am)]:leading-tight [&:lang(am)]:not-italic">
+          <p data-reveal="up" className="relative font-cormorant text-[clamp(2.6rem,10vw,3.6rem)] leading-none font-medium italic ethiopic:text-[clamp(2rem,8vw,2.8rem)] ethiopic:leading-tight ethiopic:not-italic">
             {t("thanks")}
           </p>
           <p data-reveal="up" style={{ "--i": 1 } as CSSProperties} className="relative mx-auto mt-5 max-w-[30ch] text-ink-soft">
@@ -40,7 +40,7 @@ export async function FlatlayFooter({ site, locale, names }: Props) {
             {tFooter("families")}
           </p>
           <span aria-hidden data-reveal="pop" style={{ "--i": 5 } as CSSProperties} className="relative mx-auto mt-8 block w-16 drop-shadow-[0_3px_4px_rgb(60_10_10/0.3)]">
-            <WaxSeal initials={names.initials} separator={locale === "am" ? "፡" : "&"} tone="wax" className="w-full" />
+            <WaxSeal initials={names.initials} separator={LANGUAGES[locale].initialsSeparator} tone="wax" className="w-full" />
           </span>
         </div>
       </div>

@@ -105,7 +105,7 @@ export function ArchTitle({ id, children, className }: { id: string; children: R
         id={id}
         data-reveal="up"
         style={{ "--i": 1 } as CSSProperties}
-        className="mt-5 font-cormorant text-[clamp(2.6rem,6.5vw,4.25rem)] leading-[1.02] font-light [&:lang(am)]:text-[clamp(2.1rem,5.4vw,3.25rem)] [&:lang(am)]:leading-[1.2]"
+        className="mt-5 font-cormorant text-[clamp(2.6rem,6.5vw,4.25rem)] leading-[1.02] font-light ethiopic:text-[clamp(2.1rem,5.4vw,3.25rem)] ethiopic:leading-[1.2]"
       >
         {children}
       </h2>

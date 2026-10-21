@@ -2,7 +2,7 @@ import { LogOut } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { lockPortal } from "@/actions/couple-portal";
 import type { CoupleRsvp } from "@/db/queries/couple-portal";
-import type { Locale } from "@/lib/localized";
+import { type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { formatEthiopianDateLine, formatGregorianDate } from "@/lib/wedding-format";
 import { GuestCardActions } from "./guest-card-actions";
 import { WishToggle } from "./wish-toggle";
@@ -21,7 +21,7 @@ type Props = {
 export async function CoupleDashboard({ slug, rows, coupleNames, timezone, siteBase, locale, cardsEnabled }: Props) {
   const t = await getTranslations("couplePortal");
   const received = (date: Date) =>
-    locale === "am" ? formatEthiopianDateLine(date.toISOString(), timezone) : formatGregorianDate(date.toISOString(), timezone);
+    usesEthiopianCalendar(locale) ? formatEthiopianDateLine(date.toISOString(), timezone) : formatGregorianDate(date.toISOString(), timezone);
 
   const coming = rows.filter((r) => r.attending);
   const stats = [

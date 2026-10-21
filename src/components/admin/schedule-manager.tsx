@@ -16,7 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import type { AdminCouple } from "@/db/queries/admin";
 import { toDateTimeLocalValue } from "@/lib/datetime";
-import { EVENT_KINDS, EVENT_KIND_META, getEventKind, titleForKind, type EventKind } from "@/lib/event-kinds";
+import { EVENT_KIND_META, type EventKind, getEventKind, kindsFor, titleForKind } from "@/lib/event-kinds";
+import { LOCALES } from "@/lib/localized";
 import { mapsLink } from "@/lib/maps";
 import { formatStandardTime, formatStandardTimeRange } from "@/lib/wedding-format";
 import { Field, LocalizedField, NativeSelect, SubmitButton } from "./fields";
@@ -93,19 +94,18 @@ function VenueDialog({
  * inputs stay uncontrolled, so this writes to them directly. Mounted with the
  * dialog's content, so every opening starts from the saved kind.
  */
-function EventKindField({ defaultKind, error }: { defaultKind: EventKind; error?: string }) {
+function EventKindField({ kinds, defaultKind, error }: { kinds: readonly EventKind[]; defaultKind: EventKind; error?: string }) {
   const previous = useRef(defaultKind);
 
   function onChange(event: ChangeEvent<HTMLSelectElement>) {
     const next = getEventKind(event.currentTarget.value);
     const fields = event.currentTarget.form?.elements;
-    const en = fields?.namedItem("title.en");
-    const am = fields?.namedItem("title.am");
-    if (en instanceof HTMLInputElement && am instanceof HTMLInputElement) {
-      const title = titleForKind({ en: en.value, am: am.value }, previous.current, next);
-      en.value = title.en;
-      am.value = title.am;
-    }
+    const inputs = LOCALES.flatMap((locale) => {
+      const input = fields?.namedItem(`title.${locale}`);
+      return input instanceof HTMLInputElement ? [[locale, input] as const] : [];
+    });
+    const title = titleForKind(Object.fromEntries(inputs.map(([locale, input]) => [locale, input.value])), previous.current, next);
+    for (const [locale, input] of inputs) input.value = title[locale] ?? "";
     // Other has no title of its own, so the last default stays the one a later pick may replace.
     if (EVENT_KIND_META[next].title) previous.current = next;
   }
@@ -113,7 +113,7 @@ function EventKindField({ defaultKind, error }: { defaultKind: EventKind; error?
   return (
     <Field label="Kind of event" htmlFor="kind" error={error} hint="Fills in a title in English and Amharic. You can still change it.">
       <NativeSelect id="kind" name="kind" defaultValue={defaultKind} onChange={onChange}>
-        {EVENT_KINDS.map((kind) => (
+        {kinds.map((kind) => (
           <option key={kind} value={kind}>
             {EVENT_KIND_META[kind].label}
           </option>
@@ -140,7 +140,7 @@ function EventDialog({ couple, event, trigger }: { couple: AdminCouple; event?: 
           <DialogDescription>Events appear in time order on the day&apos;s timeline.</DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit} className="grid gap-5" noValidate>
-          <EventKindField defaultKind={getEventKind(event?.kind)} error={errors.kind} />
+          <EventKindField kinds={kindsFor(couple.eventType)} defaultKind={getEventKind(event?.kind)} error={errors.kind} />
           <LocalizedField name="title" label="Title" defaultValue={event?.title} errors={errors} required />
           <LocalizedField name="description" label="Details (optional)" defaultValue={event?.description} multiline rows={2} />
           <div className="grid gap-4 sm:grid-cols-2">

@@ -1,6 +1,6 @@
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { FaithOrnament } from "../../ornaments/faith-ornament";
@@ -55,7 +55,7 @@ export function BranaHero({ site, locale }: Props) {
   const two = scribedName(couple.partnerTwo);
   const tagline = pickText(couple.tagline, locale);
   const city = pickText(couple.city, locale);
-  const and = locale === "am" ? "እና" : "&";
+  const and = LANGUAGES[locale].and;
   // Screen readers get the names once, in the page's language; the two scripts are for the eye.
   const spoken = `${pickText(couple.partnerOne, locale)} ${and} ${pickText(couple.partnerTwo, locale)}`;
   const photo = couple.heroPhotoUrl;
@@ -106,7 +106,7 @@ export function BranaHero({ site, locale }: Props) {
                 <span className="sr-only">{spoken}</span>
                 <span aria-hidden className="block">
                   <Name name={one} step={0} />
-                  <span className="hero-fade my-2 block font-cormorant text-[clamp(1.4rem,4vw,1.9rem)] leading-none text-ink italic [&:lang(am)]:my-3 [&:lang(am)]:text-[clamp(1.1rem,3.2vw,1.4rem)] [&:lang(am)]:not-italic" style={order(1)}>
+                  <span className="hero-fade my-2 block font-cormorant text-[clamp(1.4rem,4vw,1.9rem)] leading-none text-ink italic ethiopic:my-3 ethiopic:text-[clamp(1.1rem,3.2vw,1.4rem)] ethiopic:not-italic" style={order(1)}>
                     {and}
                   </span>
                   <Name name={two} step={steps(one) + 1} />
@@ -116,7 +116,7 @@ export function BranaHero({ site, locale }: Props) {
               {tagline ? (
                 <p
                   lang={scriptLang(tagline)}
-                  className="hero-fade mx-auto mt-5 max-w-[34ch] font-cormorant text-[clamp(1.15rem,2.6vw,1.4rem)] text-ink-soft italic [&:lang(am)]:not-italic"
+                  className="hero-fade mx-auto mt-5 max-w-[34ch] font-cormorant text-[clamp(1.15rem,2.6vw,1.4rem)] text-ink-soft italic ethiopic:not-italic"
                   style={order(2)}
                 >
                   {tagline}
@@ -126,13 +126,13 @@ export function BranaHero({ site, locale }: Props) {
               <SectionMark className="hero-fade mt-6 text-[1.35rem]" style={order(2)} />
 
               <p
-                className="hero-fade mt-3 font-cormorant text-[clamp(1.3rem,3.4vw,1.7rem)] leading-tight font-medium lining-nums [&:lang(am)]:text-[clamp(1.15rem,3vw,1.4rem)]"
+                className="hero-fade mt-3 font-cormorant text-[clamp(1.3rem,3.4vw,1.7rem)] leading-tight font-medium lining-nums ethiopic:text-[clamp(1.15rem,3vw,1.4rem)]"
                 style={order(3)}
               >
                 {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
               </p>
               {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-              {locale === "am" ? (
+              {usesEthiopianCalendar(locale) ? (
                 <p className="hero-fade mt-1 text-base text-ink-soft" style={order(4)}>
                   {formatGregorianDate(couple.weddingAt, couple.timezone)}
                 </p>
@@ -144,7 +144,7 @@ export function BranaHero({ site, locale }: Props) {
               {city ? (
                 <p
                   lang={scriptLang(city)}
-                  className={cn(styles.incipit, "hero-fade mt-4 text-sm [&:lang(am)]:text-base")}
+                  className={cn(styles.incipit, "hero-fade mt-4 text-sm ethiopic:text-base")}
                   style={order(5)}
                 >
                   {city}

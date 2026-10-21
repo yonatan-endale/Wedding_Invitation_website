@@ -18,13 +18,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { telegramShareUrl, whatsappShareUrl } from "@/lib/card-links";
+import { EVENT_TYPE_META, type EventType } from "@/lib/event-types";
 import { reportResult } from "./use-action-feedback";
 
 /** Dates arrive formatted in the couple's time zone. `lockedUntil` is set only while locked. */
 export type AccessSummary = { since: string; lastOpened: string | null; lockedUntil: string | null } | null;
 
 /** `enabled` is the couple's page switch in Invitation text; while off, links and sessions don't work. */
-type Props = { coupleId: string; coupleNames: string; status: AccessSummary; enabled: boolean };
+type Props = { coupleId: string; coupleNames: string; status: AccessSummary; enabled: boolean; eventType: EventType };
 
 async function copy(text: string, what: string) {
   try {
@@ -39,7 +40,8 @@ async function copy(text: string, what: string) {
  * The couple's private RSVP and wishes page: a secret link plus a passcode,
  * shown once when made. The admin sends them over different channels.
  */
-export function CoupleAccessPanel({ coupleId, coupleNames, status, enabled }: Props) {
+export function CoupleAccessPanel({ coupleId, coupleNames, status, enabled, eventType }: Props) {
+  const hosts = EVENT_TYPE_META[eventType].hosts;
   const [pending, startTransition] = useTransition();
   const [secret, setSecret] = useState<{ link: string; passcode: string } | null>(null);
   const [confirm, setConfirm] = useState<"rotate" | "revoke" | null>(null);
@@ -65,17 +67,17 @@ export function CoupleAccessPanel({ coupleId, coupleNames, status, enabled }: Pr
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <h2 className="flex items-center gap-2 text-lg font-semibold">
-            <KeyRound className="size-5" aria-hidden /> Couple&apos;s private page
+            <KeyRound className="size-5" aria-hidden /> Private page
           </h2>
           <p className="mt-1 max-w-prose text-sm text-muted-foreground">
-            The couple reads RSVPs and wishes there and can send guests their cards. No account: a secret link plus a
+            {hosts.charAt(0).toUpperCase() + hosts.slice(1)} reads RSVPs and wishes there and can send guests their cards. No account: a secret link plus a
             passcode. Only their hashes are stored, so they are shown once.
           </p>
           {!enabled ? (
             <p className="mt-3 text-sm">
               <Badge variant="outline">Off</Badge>{" "}
               <span className="text-muted-foreground">
-                Turn on <span className="font-medium text-foreground">Couple&apos;s private page</span> in the Invitation text tab
+                Turn on <span className="font-medium text-foreground">Private page</span> in the Invitation text tab
                 first.{status ? " The existing link starts working again when you do." : ""}
               </span>
             </p>
@@ -166,7 +168,7 @@ export function CoupleAccessPanel({ coupleId, coupleNames, status, enabled }: Pr
             <AlertDialogTitle>{confirm === "rotate" ? "Make a new link and passcode?" : "Turn off the private page?"}</AlertDialogTitle>
             <AlertDialogDescription>
               {confirm === "rotate"
-                ? "The current link and passcode stop working and every device signed in to the page is signed out. Send the couple the new pair."
+                ? `The current link and passcode stop working and every device signed in to the page is signed out. Send ${hosts} the new pair.`
                 : "The link stops working and every device signed in to the page is signed out. RSVPs and wishes are kept."}
             </AlertDialogDescription>
           </AlertDialogHeader>

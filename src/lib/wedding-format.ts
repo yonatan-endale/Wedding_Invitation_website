@@ -1,12 +1,15 @@
 import {
   ETHIOPIAN_MONTHS_AM,
   ETHIOPIAN_MONTHS_LATIN,
+  ETHIOPIAN_MONTHS_OM,
+  ETHIOPIAN_MONTHS_TI,
   formatEthiopianDate,
   gregorianToEthiopian,
+  type EthiopianDate,
   type GregorianDate,
 } from "./ethiopian-calendar";
 import { zonedParts } from "./datetime";
-import type { Locale } from "./localized";
+import { usesEthiopianCalendar, type Locale } from "./localized";
 
 export const MONTHS_EN = [
   "January",
@@ -22,13 +25,35 @@ export const MONTHS_EN = [
   "November",
   "December",
 ];
-const WEEKDAYS_EN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const WEEKDAYS_AM = ["እሑድ", "ሰኞ", "ማክሰኞ", "ረቡዕ", "ሐሙስ", "ዓርብ", "ቅዳሜ"];
+const MONTHS_AR = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+
+/** Weekday names, Sunday first, and the comma that follows them in a date. */
+const WEEKDAYS: Record<Locale, { names: string[]; comma: string }> = {
+  en: { names: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], comma: "," },
+  am: { names: ["እሑድ", "ሰኞ", "ማክሰኞ", "ረቡዕ", "ሐሙስ", "ዓርብ", "ቅዳሜ"], comma: "፣" },
+  ar: { names: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"], comma: "،" },
+  ti: { names: ["ሰንበት", "ሰኑይ", "ሰሉስ", "ረቡዕ", "ሓሙስ", "ዓርቢ", "ቀዳም"], comma: "፣" },
+  om: { names: ["Dilbata", "Wiixata", "Kibxata", "Roobii", "Kamiisa", "Jimaata", "Sanbata"], comma: "," },
+};
 
 function localParts(iso: string, timeZone: string) {
   const parts = zonedParts(new Date(iso), timeZone);
   const weekday = new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).getUTCDay();
   return { ...parts, weekday };
+}
+
+/** An Ethiopian calendar date in the guest's language. English and Arabic read the Latin spelling. */
+function ethiopianDateIn(date: EthiopianDate, locale: Locale): string {
+  if (locale === "am") return formatEthiopianDate(date);
+  if (locale === "ti") return `${date.day} ${ETHIOPIAN_MONTHS_TI[date.month - 1]} ${date.year} ዓ.ም.`;
+  if (locale === "om") return `${date.day} ${ETHIOPIAN_MONTHS_OM[date.month - 1]} ${date.year}`;
+  return `${ETHIOPIAN_MONTHS_LATIN[date.month - 1]} ${date.day}, ${date.year} E.C.`;
+}
+
+/** A Gregorian date with month names in Arabic on Arabic pages and in English everywhere else. */
+function gregorianDateIn(p: GregorianDate, locale: Locale): string {
+  if (locale === "ar") return `${p.day} ${MONTHS_AR[p.month - 1]} ${p.year}`;
+  return `${p.day} ${MONTHS_EN[p.month - 1]} ${p.year}`;
 }
 
 /** The Ethiopian calendar date in Amharic script, with no weekday: "ጥር 15 ቀን 2019 ዓ.ም." */
@@ -38,8 +63,7 @@ export function formatEthiopianDateLine(iso: string, timeZone: string): string {
 }
 
 export function formatGregorianDate(iso: string, timeZone: string): string {
-  const p = localParts(iso, timeZone);
-  return `${p.day} ${MONTHS_EN[p.month - 1]} ${p.year}`;
+  return gregorianDateIn(localParts(iso, timeZone), "en");
 }
 
 /** The Gregorian months an Ethiopian month covers: "October – November 2026". */
@@ -51,44 +75,61 @@ export function formatGregorianSpan(first: GregorianDate, last: GregorianDate): 
   return `${lastMonth} ${last.year}`;
 }
 
-/** English: "Saturday, 18 July 2026". Amharic: weekday plus the Ethiopian calendar date. */
+/**
+ * The weekday and date in the guest's own calendar: English "Saturday, 18 July 2026",
+ * Amharic the weekday plus the Ethiopian calendar date.
+ */
 export function formatWeddingDate(iso: string, timeZone: string, locale: Locale): string {
   const p = localParts(iso, timeZone);
-  if (locale === "am") {
-    const ethiopian = gregorianToEthiopian(p.year, p.month, p.day);
-    return `${WEEKDAYS_AM[p.weekday]}፣ ${formatEthiopianDate(ethiopian)}`;
-  }
-  return `${WEEKDAYS_EN[p.weekday]}, ${formatGregorianDate(iso, timeZone)}`;
+  const { names, comma } = WEEKDAYS[locale];
+  const date = usesEthiopianCalendar(locale)
+    ? ethiopianDateIn(gregorianToEthiopian(p.year, p.month, p.day), locale)
+    : gregorianDateIn(p, locale);
+  return `${names[p.weekday]}${comma} ${date}`;
 }
 
 const MONTHS_EN_SHORT = MONTHS_EN.map((month) => month.slice(0, 3));
+const ETHIOPIAN_MONTHS: Partial<Record<Locale, readonly string[]>> = {
+  am: ETHIOPIAN_MONTHS_AM,
+  ti: ETHIOPIAN_MONTHS_TI,
+  om: ETHIOPIAN_MONTHS_OM,
+};
 
 /**
  * The wedding date split for large numerals: English "14 / Mar / 2025",
- * Amharic the Ethiopian calendar day, month and year.
+ * Ethiopian-calendar languages the Ethiopian day, month and year.
  */
 export function weddingDateParts(iso: string, timeZone: string, locale: Locale): { day: string; month: string; year: string } {
   const p = localParts(iso, timeZone);
-  if (locale === "am") {
+  const months = ETHIOPIAN_MONTHS[locale];
+  if (months) {
     const ethiopian = gregorianToEthiopian(p.year, p.month, p.day);
-    return { day: String(ethiopian.day), month: ETHIOPIAN_MONTHS_AM[ethiopian.month - 1], year: String(ethiopian.year) };
+    return { day: String(ethiopian.day), month: months[ethiopian.month - 1], year: String(ethiopian.year) };
   }
-  return { day: String(p.day), month: MONTHS_EN_SHORT[p.month - 1], year: String(p.year) };
+  const month = locale === "ar" ? MONTHS_AR[p.month - 1] : MONTHS_EN_SHORT[p.month - 1];
+  return { day: String(p.day), month, year: String(p.year) };
 }
 
-/** A plain calendar day, "YYYY-MM-DD", with no weekday: English "6 January 2023", Amharic the Ethiopian date. */
+/** A plain calendar day, "YYYY-MM-DD", with no weekday, in the guest's own calendar. */
 export function formatCalendarDate(date: string, locale: Locale): string {
-  const iso = `${date}T12:00:00Z`;
-  return locale === "am" ? formatEthiopianDateLine(iso, "UTC") : formatGregorianDate(iso, "UTC");
+  const p = localParts(`${date}T12:00:00Z`, "UTC");
+  return usesEthiopianCalendar(locale)
+    ? ethiopianDateIn(gregorianToEthiopian(p.year, p.month, p.day), locale)
+    : gregorianDateIn(p, locale);
 }
 
-/** Periods of the Ethiopian day, from midnight. Amharic names go before the clock, English after. */
-const ETHIOPIAN_PERIODS = [
-  { until: 6, en: "at night", am: "ከሌሊቱ" },
-  { until: 12, en: "in the morning", am: "ከጠዋቱ" },
-  { until: 18, en: "in the afternoon", am: "ከቀኑ" },
-  { until: 24, en: "in the evening", am: "ከምሽቱ" },
-];
+/**
+ * How each language reads the Ethiopian clock: the names of the day's four
+ * periods from midnight, whether the period comes before the hour, the word
+ * after the hour, and the word for "to" in a range.
+ */
+const CLOCK: Record<Locale, { periods: [string, string, string, string]; before: boolean; suffix: string; to: string }> = {
+  en: { periods: ["at night", "in the morning", "in the afternoon", "in the evening"], before: false, suffix: "", to: "to" },
+  am: { periods: ["ከሌሊቱ", "ከጠዋቱ", "ከቀኑ", "ከምሽቱ"], before: true, suffix: "ሰዓት", to: "እስከ" },
+  ar: { periods: ["ليلاً", "صباحاً", "بعد الظهر", "مساءً"], before: false, suffix: "", to: "إلى" },
+  ti: { periods: ["ናይ ለይቲ", "ናይ ንግሆ", "ድሕሪ ቐትሪ", "ናይ ምሸት"], before: true, suffix: "ሰዓት", to: "ክሳብ" },
+  om: { periods: ["halkan", "ganama", "guyyaa", "galgala"], before: true, suffix: "", to: "hanga" },
+};
 
 /** The Ethiopian clock starts the day at 6 in the morning, so 2 PM is 8:00 in the afternoon. */
 function ethiopianClock(iso: string, timeZone: string, locale: Locale) {
@@ -96,14 +137,17 @@ function ethiopianClock(iso: string, timeZone: string, locale: Locale) {
   const hour = (p.hour + 6) % 12 || 12;
   return {
     clock: `${hour}:${String(p.minute).padStart(2, "0")}`,
-    period: ETHIOPIAN_PERIODS.find((candidate) => p.hour < candidate.until)![locale],
+    period: CLOCK[locale].periods[Math.floor(p.hour / 6)],
   };
 }
+
+const words = (...parts: string[]) => parts.filter(Boolean).join(" ");
 
 /** English "8:00 in the afternoon", Amharic "ከቀኑ 8:00 ሰዓት". */
 export function formatWeddingTime(iso: string, timeZone: string, locale: Locale): string {
   const { clock, period } = ethiopianClock(iso, timeZone, locale);
-  return locale === "am" ? `${period} ${clock} ሰዓት` : `${clock} ${period}`;
+  const { before, suffix } = CLOCK[locale];
+  return before ? words(period, clock, suffix) : words(clock, period);
 }
 
 /** A start and end in the Ethiopian clock, naming the period once when both share it. */
@@ -111,14 +155,15 @@ export function formatWeddingTimeRange(startIso: string, endIso: string, timeZon
   const start = ethiopianClock(startIso, timeZone, locale);
   const end = ethiopianClock(endIso, timeZone, locale);
   const same = start.period === end.period;
-  if (locale === "am") {
+  const { before, suffix, to } = CLOCK[locale];
+  if (before) {
     return same
-      ? `${start.period} ${start.clock} እስከ ${end.clock} ሰዓት`
-      : `${start.period} ${start.clock} እስከ ${end.period} ${end.clock} ሰዓት`;
+      ? words(start.period, start.clock, to, end.clock, suffix)
+      : words(start.period, start.clock, to, end.period, end.clock, suffix);
   }
   return same
-    ? `${start.clock} to ${end.clock} ${start.period}`
-    : `${start.clock} ${start.period} to ${end.clock} ${end.period}`;
+    ? words(start.clock, to, end.clock, start.period)
+    : words(start.clock, start.period, to, end.clock, end.period);
 }
 
 /** International clock, for the admin dashboard where times are typed in this form. */
@@ -135,12 +180,12 @@ export function formatStandardTimeRange(startIso: string, endIso: string, timeZo
 /**
  * The big date on the save-the-date, month first: English "August 29, 2026"
  * or "Nehase 23, 2018 E.C.", Amharic "ነሐሴ 23 ቀን 2018 ዓ.ም.". Gregorian dates
- * keep English month names on Amharic pages, as elsewhere on the site.
+ * keep English month names on Ethiopic pages, as elsewhere on the site.
  */
 export function formatSaveTheDate(iso: string, timeZone: string, locale: Locale, system: "ethiopian" | "gregorian"): string {
   const p = localParts(iso, timeZone);
-  if (system === "gregorian") return `${MONTHS_EN[p.month - 1]} ${p.day}, ${p.year}`;
-  const ethiopian = gregorianToEthiopian(p.year, p.month, p.day);
-  if (locale === "am") return formatEthiopianDate(ethiopian);
-  return `${ETHIOPIAN_MONTHS_LATIN[ethiopian.month - 1]} ${ethiopian.day}, ${ethiopian.year} E.C.`;
+  if (system === "gregorian") {
+    return locale === "ar" ? gregorianDateIn(p, "ar") : `${MONTHS_EN[p.month - 1]} ${p.day}, ${p.year}`;
+  }
+  return ethiopianDateIn(gregorianToEthiopian(p.year, p.month, p.day), locale);
 }

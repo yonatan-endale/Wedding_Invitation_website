@@ -18,7 +18,7 @@ export function KabaVerse({ site, locale }: Props) {
         <blockquote
           data-reveal="fade"
           style={{ "--i": 1 } as CSSProperties}
-          className="mt-10 font-cormorant text-[clamp(1.6rem,4.2vw,2.5rem)] leading-[1.35] italic [&:lang(am)]:text-[clamp(1.3rem,3.4vw,1.9rem)] [&:lang(am)]:leading-[1.6] [&:lang(am)]:not-italic"
+          className="mt-10 font-cormorant text-[clamp(1.6rem,4.2vw,2.5rem)] leading-[1.35] italic ethiopic:text-[clamp(1.3rem,3.4vw,1.9rem)] ethiopic:leading-[1.6] ethiopic:not-italic"
         >
           <p>{text}</p>
         </blockquote>

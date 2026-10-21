@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { splitWords } from "@/lib/hero-words";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { widestWordEm } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
@@ -55,8 +55,8 @@ export function Hero({ site, locale }: Props) {
             <HeroNames
               one={one}
               two={two}
-              secondLine="pl-[0.55em]"
-              ampersand="mr-[0.28em] align-[0.14em] text-[0.48em]"
+              secondLine="ps-[0.55em]"
+              ampersand="me-[0.28em] align-[0.14em] text-[0.48em]"
             />
           </h1>
           <div className="mt-8 space-y-1 text-lg text-white/90 sm:text-xl">
@@ -64,7 +64,7 @@ export function Hero({ site, locale }: Props) {
               {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
             </p>
             {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-            {locale === "am" ? (
+            {usesEthiopianCalendar(locale) ? (
               <p className="hero-fade text-white/70" style={{ "--i": 1 } as CSSProperties}>
                 {formatGregorianDate(couple.weddingAt, couple.timezone)}
               </p>

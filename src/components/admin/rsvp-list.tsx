@@ -6,6 +6,7 @@ import type { listRsvps } from "@/db/queries/admin";
 import { formatGregorianDate, formatStandardTime } from "@/lib/wedding-format";
 import { CardActions } from "./card-actions";
 import { DeleteButton } from "./item-actions";
+import type { EventType } from "@/lib/event-types";
 
 type Rsvp = Awaited<ReturnType<typeof listRsvps>>[number];
 
@@ -16,11 +17,12 @@ type Props = {
   /** The couple's site link, which card links are built on. */
   siteBase: string;
   coupleNames: string;
+  eventType: EventType;
   /** Card buttons show only while guest cards are on for this couple. */
   cardsEnabled: boolean;
 };
 
-export function RsvpList({ coupleId, rows, timezone, siteBase, coupleNames, cardsEnabled }: Props) {
+export function RsvpList({ coupleId, rows, timezone, siteBase, coupleNames, eventType, cardsEnabled }: Props) {
   const attending = rows.filter((r) => r.attending);
   const stats = [
     { label: "Responses", value: rows.length },
@@ -84,7 +86,7 @@ export function RsvpList({ coupleId, rows, timezone, siteBase, coupleNames, card
                     {row.message}
                     {row.message && row.hiddenAt ? (
                       <Badge variant="outline" className="ml-2 align-middle">
-                        Hidden by couple
+                        Hidden on their private page
                       </Badge>
                     ) : null}
                   </TableCell>
@@ -100,6 +102,7 @@ export function RsvpList({ coupleId, rows, timezone, siteBase, coupleNames, card
                           guestName={row.name}
                           phone={row.phone}
                           coupleNames={coupleNames}
+                          eventType={eventType}
                         />
                       ) : null}
                       <DeleteButton list="rsvps" id={row.id} itemLabel={`${row.name}'s RSVP`} />

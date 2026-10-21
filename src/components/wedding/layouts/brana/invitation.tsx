@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
 import styles from "./brana.module.css";
@@ -42,7 +42,7 @@ export async function BranaInvitation({ site, locale }: Props) {
       value: (
         <>
           <span className="block">{formatWeddingDate(couple.weddingAt, couple.timezone, locale)}</span>
-          {locale === "am" ? (
+          {usesEthiopianCalendar(locale) ? (
             <span className="block text-base text-ink-soft">{formatGregorianDate(couple.weddingAt, couple.timezone)}</span>
           ) : (
             <span lang="am" className="block text-base text-ink-soft">
@@ -80,7 +80,7 @@ export async function BranaInvitation({ site, locale }: Props) {
           <p
             data-reveal="up"
             lang={scriptLang(hosts)}
-            className={cn(styles.incipit, "mx-auto max-w-[36ch] text-[clamp(0.95rem,2.4vw,1.1rem)] leading-relaxed [&:lang(am)]:text-[clamp(1.1rem,2.8vw,1.3rem)]")}
+            className={cn(styles.incipit, "mx-auto max-w-[36ch] text-[clamp(0.95rem,2.4vw,1.1rem)] leading-relaxed ethiopic:text-[clamp(1.1rem,2.8vw,1.3rem)]")}
           >
             {hosts}
           </p>
@@ -88,8 +88,8 @@ export async function BranaInvitation({ site, locale }: Props) {
             data-reveal="up"
             style={order(1)}
             className={cn(
-              "mx-auto mt-5 space-y-4 font-cormorant text-[clamp(1.35rem,3.2vw,1.7rem)] leading-snug font-medium [&:lang(am)]:text-[clamp(1.15rem,2.8vw,1.35rem)] [&:lang(am)]:leading-relaxed",
-              long ? cn(styles.columns, "max-w-[62ch] text-left md:columns-2 md:gap-12") : "max-w-[30ch] [&:lang(am)]:max-w-[34ch]",
+              "mx-auto mt-5 space-y-4 font-cormorant text-[clamp(1.35rem,3.2vw,1.7rem)] leading-snug font-medium ethiopic:text-[clamp(1.15rem,2.8vw,1.35rem)] ethiopic:leading-relaxed",
+              long ? cn(styles.columns, "max-w-[62ch] text-start md:columns-2 md:gap-12") : "max-w-[30ch] ethiopic:max-w-[34ch]",
             )}
           >
             {paragraphs.map((paragraph, index) => (
@@ -101,7 +101,7 @@ export async function BranaInvitation({ site, locale }: Props) {
 
           <SectionMark className="mt-10 text-[1.4rem]" />
 
-          <dl className="mx-auto mt-8 max-w-xl border-y border-(--brana-rule) text-center sm:text-left">
+          <dl className="mx-auto mt-8 max-w-xl border-y border-(--brana-rule) text-center sm:text-start">
             {particulars.map((entry, index) => (
               <div
                 key={entry.key}
@@ -109,7 +109,7 @@ export async function BranaInvitation({ site, locale }: Props) {
                 style={order(2 + index)}
                 className={cn("py-4 sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6", index > 0 && "border-t border-(--brana-rule)")}
               >
-                <dt className={cn(styles.incipit, "text-xs leading-6 sm:pt-1 sm:text-right [&:lang(am)]:text-sm")}>{entry.label}</dt>
+                <dt className={cn(styles.incipit, "text-xs leading-6 sm:pt-1 sm:text-end ethiopic:text-sm")}>{entry.label}</dt>
                 <dd className="mt-1 text-lg lining-nums sm:mt-0">{entry.value}</dd>
               </div>
             ))}
@@ -134,12 +134,12 @@ export function BranaVerse({ site, locale }: Props) {
           data-reveal="fade"
           style={order(1)}
           lang={scriptLang(text)}
-          className="mt-6 font-cormorant text-[clamp(1.5rem,4vw,2.25rem)] leading-[1.35] font-medium italic [&:lang(am)]:text-[clamp(1.25rem,3.2vw,1.7rem)] [&:lang(am)]:leading-[1.6] [&:lang(am)]:not-italic"
+          className="mt-6 font-cormorant text-[clamp(1.5rem,4vw,2.25rem)] leading-[1.35] font-medium italic ethiopic:text-[clamp(1.25rem,3.2vw,1.7rem)] ethiopic:leading-[1.6] ethiopic:not-italic"
         >
           <p>{text}</p>
         </blockquote>
         {reference ? (
-          <figcaption data-reveal="up" style={order(2)} lang={scriptLang(reference)} className={cn(styles.incipit, "mt-6 text-sm [&:lang(am)]:text-base")}>
+          <figcaption data-reveal="up" style={order(2)} lang={scriptLang(reference)} className={cn(styles.incipit, "mt-6 text-sm ethiopic:text-base")}>
             {reference}
           </figcaption>
         ) : null}

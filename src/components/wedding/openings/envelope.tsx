@@ -10,6 +10,7 @@ import { FaithOrnament } from "../ornaments/faith-ornament";
 import { WaxSeal } from "../ornaments/wax-seal";
 import { OpeningShell } from "./shell";
 import type { OpeningProps } from "./types";
+import { joinNames } from "@/lib/names";
 
 /** Steps of the opening, in order, with when each starts (ms after the tap). */
 const STEPS = [
@@ -58,7 +59,7 @@ export function EnvelopeOpening({ names, initials, separator, dateLine, ornament
           {guestName ? <p className="mb-1 line-clamp-2 text-lg">{t("dear", { name: guestName })}</p> : null}
           <p className="text-ink-soft">{t("invited")}</p>
           <h2 id="intro-names" className="mt-2 font-display text-[clamp(2rem,8vw,3.25rem)] leading-tight">
-            {names.one} &amp; {names.two}
+            {joinNames([names.one, names.two])}
           </h2>
         </m.div>
 
@@ -90,7 +91,7 @@ export function EnvelopeOpening({ names, initials, separator, dateLine, ornament
               <span className="line-clamp-1 text-[clamp(0.85rem,3vw,1rem)] text-ink-soft">{t("dear", { name: guestName })}</span>
             ) : null}
             <span className="font-display text-[clamp(1.25rem,5vw,1.9rem)] leading-tight">
-              {names.one} &amp; {names.two}
+              {joinNames([names.one, names.two])}
             </span>
             <span className="text-[clamp(0.75rem,2.6vw,0.95rem)] text-ink-soft">{t("letter")}</span>
             <span className="h-px w-12 bg-metal" />
@@ -139,7 +140,7 @@ export function EnvelopeOpening({ names, initials, separator, dateLine, ornament
         </m.button>
 
         <m.p
-          className="font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase [&:lang(am)]:tracking-normal"
+          className="font-sans text-sm font-semibold tracking-[0.18em] text-ink-soft uppercase ethiopic:tracking-normal"
           initial={false}
           animate={{ opacity: step >= 1 ? 0 : 1 }}
           transition={{ duration: 0.3 }}

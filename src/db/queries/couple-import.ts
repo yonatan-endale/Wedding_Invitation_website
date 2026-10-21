@@ -1,11 +1,11 @@
 import { eq } from "drizzle-orm";
 import type { Db } from "@/db";
-import { couples, events, giftAccounts, photos, storyMilestones, venues, wishlistItems } from "@/db/schema";
+import { couples, events, giftAccounts, honorees, photos, storyMilestones, venues, wishlistItems } from "@/db/schema";
 import type { CoupleImport } from "@/lib/validation/couple-import";
 
 export class SlugTakenError extends Error {
   constructor(readonly slug: string) {
-    super(`A couple already uses the link /s/${slug}.`);
+    super(`A site already uses the link /s/${slug}.`);
     this.name = "SlugTakenError";
   }
 }
@@ -26,8 +26,17 @@ export async function importCouple(
   const id = await db.transaction(async (tx) => {
     if (existing) await tx.delete(couples).where(eq(couples.id, existing.id));
 
-    const [couple] = await tx.insert(couples).values(data.couple).returning({ id: couples.id });
+    // Honoree sites leave the partners empty; the column still needs a value.
+    const blank = { en: "" };
+    const [couple] = await tx
+      .insert(couples)
+      .values({ ...data.couple, partnerOne: data.couple.partnerOne ?? blank, partnerTwo: data.couple.partnerTwo ?? blank })
+      .returning({ id: couples.id });
     const coupleId = couple.id;
+
+    if (data.honorees.length) {
+      await tx.insert(honorees).values(data.honorees.map((honoree, sortOrder) => ({ ...honoree, coupleId, sortOrder })));
+    }
 
     const venueRows = data.venues.length
       ? await tx

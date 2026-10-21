@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { splitWords } from "@/lib/hero-words";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, isEthiopic } from "@/lib/localized";
 import { widestWordEm } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
@@ -30,7 +30,7 @@ function Word({ word, index, className }: { word: string; index: number; classNa
 const ONE_LINE_EM = 9.5;
 
 const buttonBase =
-  "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[0.875rem] px-7 font-sans text-sm font-semibold uppercase tracking-[0.14em] transition-[filter,background-color,border-color] sm:w-auto [&:lang(am)]:text-base [&:lang(am)]:font-medium [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case";
+  "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[0.875rem] px-7 font-sans text-sm font-semibold uppercase tracking-[0.14em] transition-[filter,background-color,border-color] sm:w-auto ethiopic:text-base ethiopic:font-medium ethiopic:tracking-normal ethiopic:normal-case";
 
 /**
  * The cover: the couple's photo full-bleed, the deep band rising from its
@@ -98,7 +98,7 @@ export async function SlateHero({ site, locale, names }: Props) {
         <p
           className={cn(
             slateEyebrow,
-            "hero-fade inline-flex min-h-8 items-center rounded-full border border-white/35 bg-white/10 px-4 text-[0.7rem] text-white backdrop-blur-sm [&:lang(am)]:text-sm",
+            "hero-fade inline-flex min-h-8 items-center rounded-full border border-white/35 bg-white/10 px-4 text-[0.7rem] text-white backdrop-blur-sm ethiopic:text-sm",
           )}
           style={order(0)}
         >
@@ -106,7 +106,7 @@ export async function SlateHero({ site, locale, names }: Props) {
         </p>
 
         <h1
-          className="mt-5 font-display text-[length:min(clamp(2.9rem,11vw,6.25rem),calc((100vw_-_2.5rem)/var(--name-em)))] leading-[1.06] [text-shadow:0_2px_22px_rgb(0_0_0/0.28)] [&:lang(am)]:leading-[1.25] md:text-[length:min(clamp(2.9rem,7.4vw,6.25rem),calc((100vw_-_4rem)/var(--name-em)))]"
+          className="mt-5 font-display text-[length:min(clamp(2.9rem,11vw,6.25rem),calc((100vw_-_2.5rem)/var(--name-em)))] leading-[1.06] [text-shadow:0_2px_22px_rgb(0_0_0/0.28)] ethiopic:leading-[1.25] md:text-[length:min(clamp(2.9rem,7.4vw,6.25rem),calc((100vw_-_4rem)/var(--name-em)))]"
           style={{ "--name-em": nameEm } as CSSProperties}
         >
           <span className="sr-only">{`${one} & ${two}`}</span>
@@ -123,8 +123,8 @@ export async function SlateHero({ site, locale, names }: Props) {
               word="&"
               index={first.length}
               className={cn(
-                "mr-[0.22em] text-(--slate-glow)",
-                locale === "am" ? "text-[0.7em]" : "font-script text-[0.92em] [&>span]:pr-[0.08em]",
+                "me-[0.22em] text-(--slate-glow)",
+                isEthiopic(locale) ? "text-[0.7em]" : "font-script text-[0.92em] [&>span]:pe-[0.08em]",
               )}
             />
             {second.map((word, index) => (

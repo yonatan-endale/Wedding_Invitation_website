@@ -5,6 +5,24 @@ import { cn } from "@/lib/utils";
 
 /** Line drawings on a 24-unit square, stroked 1.5 in currentColor by the symbol around them. */
 const DRAWINGS: Record<EventIconName, ReactNode> = {
+  // A layer cake with three candles, for cake and candles.
+  cake: (
+    <>
+      <path d="M4.5 20.5v-6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5v6.5M3 20.5h18" />
+      <path d="M4.5 16.25c1.25 1 2.5 1 3.75 0s2.5-1 3.75 0 2.5 1 3.75 0 2.5-1 3.75 0" />
+      <path d="M8 12.5v-3M12 12.5v-3M16 12.5v-3" />
+      <path d="M8 7.25c.6-.5.6-1.25 0-2.25-.6 1-.6 1.75 0 2.25ZM12 7.25c.6-.5.6-1.25 0-2.25-.6 1-.6 1.75 0 2.25ZM16 7.25c.6-.5.6-1.25 0-2.25-.6 1-.6 1.75 0 2.25Z" />
+    </>
+  ),
+  // A mortarboard with its tassel, for a graduation ceremony.
+  mortarboard: (
+    <>
+      <path d="M2.5 9 12 5l9.5 4L12 13Z" />
+      <path d="M6.5 10.9v4.6c0 1.4 2.5 2.75 5.5 2.75s5.5-1.35 5.5-2.75v-4.6" />
+      <path d="M19.5 9.9v5.35" />
+      <path d="M18.75 15.25h1.5l.5 2.75h-2.5Z" />
+    </>
+  ),
   // A wrapped gift with a bow, for the telosh.
   gift: (
     <>

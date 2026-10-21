@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { ORNAMENTS } from "./appearance";
-import { EVENT_KINDS, EVENT_KIND_META, eventIconFor, getEventKind, hasEventIcon, isEventKind, titleForKind } from "./event-kinds";
+import { EVENT_TYPES } from "./event-types";
+import {
+  EVENT_KINDS,
+  EVENT_KIND_META,
+  eventIconFor,
+  getEventKind,
+  hasEventIcon,
+  isEventKind,
+  kindsFor,
+  titleForKind,
+} from "./event-kinds";
 
 describe("event kinds", () => {
   it("fall back to other for unknown or missing kinds", () => {
@@ -77,9 +87,17 @@ describe("eventIconFor", () => {
     }
   });
 
+  it("gives a christening the cross of the chosen faith, and a plain church otherwise", () => {
+    expect(eventIconFor("christening", "orthodox")).toBe("orthodox-cross");
+    expect(eventIconFor("christening", "protestant")).toBe("cross");
+    for (const ornament of ORNAMENTS.filter((o) => o !== "orthodox" && o !== "protestant")) {
+      expect(eventIconFor("christening", ornament)).toBe("church");
+    }
+  });
+
   it("keeps faith imagery away from every other kind, whatever the ornament", () => {
     const faith = new Set(["orthodox-cross", "cross", "crescent"]);
-    const gated = new Set(["ceremony_orthodox", "ceremony_protestant", "nikah"]);
+    const gated = new Set(["ceremony_orthodox", "ceremony_protestant", "nikah", "christening"]);
     for (const kind of EVENT_KINDS.filter((k) => !gated.has(k))) {
       const icons = new Set(ORNAMENTS.map((ornament) => eventIconFor(kind, ornament)));
       expect(icons.size).toBe(1);
@@ -94,5 +112,29 @@ describe("hasEventIcon", () => {
   it("leaves events of kind other without an icon, so older timelines are unchanged", () => {
     expect(hasEventIcon("other")).toBe(false);
     for (const kind of EVENT_KINDS.filter((k) => k !== "other")) expect(hasEventIcon(kind), kind).toBe(true);
+  });
+});
+
+describe("kindsFor", () => {
+  it("offers weddings the wedding kinds, in the original order", () => {
+    expect(kindsFor("wedding")).toEqual(EVENT_KINDS.slice(0, EVENT_KINDS.indexOf("other") + 1));
+  });
+
+  it("offers every kind to at least one event type", () => {
+    for (const kind of EVENT_KINDS) expect(EVENT_TYPES.some((type) => kindsFor(type).includes(kind)), kind).toBe(true);
+  });
+
+  it("gives every type known kinds, once each, ending with other", () => {
+    for (const type of EVENT_TYPES) {
+      const kinds = kindsFor(type);
+      for (const kind of kinds) expect(isEventKind(kind), `${type} ${kind}`).toBe(true);
+      expect(new Set(kinds).size, type).toBe(kinds.length);
+      expect(kinds.at(-1), type).toBe("other");
+    }
+  });
+
+  it("keeps wedding-only ceremonies off graduations", () => {
+    expect(kindsFor("graduation")).not.toContain("mels");
+    expect(kindsFor("graduation")).not.toContain("ceremony_orthodox");
   });
 });

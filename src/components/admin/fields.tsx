@@ -1,10 +1,13 @@
+"use client";
+
 import { Loader2 } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import type { LocalizedText } from "@/lib/localized";
+import type { Locale, LocalizedText } from "@/lib/localized";
+import { inputDir, KeptTranslations, languageLabel, useAdminLocales } from "./admin-locales";
 import { cn } from "@/lib/utils";
 import type { FieldErrors } from "@/lib/validation/admin";
 
@@ -41,7 +44,7 @@ export function Field({
   );
 }
 
-/** Side-by-side English and Amharic inputs posting `<name>.en` and `<name>.am`. */
+/** One input per site language, posting `<name>.<code>`; English is always there. */
 export function LocalizedField({
   name,
   label,
@@ -49,7 +52,6 @@ export function LocalizedField({
   errors,
   multiline = false,
   rows = 4,
-  required = false,
   hint,
   placeholder,
 }: {
@@ -61,19 +63,21 @@ export function LocalizedField({
   rows?: number;
   required?: boolean;
   hint?: ReactNode;
-  placeholder?: { en?: string; am?: string };
+  placeholder?: Partial<Record<Locale, string>>;
 }) {
   const enError = errors?.[`${name}.en`];
+  const { shown, hidden } = useAdminLocales();
   return (
     <fieldset className="grid gap-2">
       <legend className="mb-2 text-sm font-medium">{label}</legend>
       <div className="grid gap-3 md:grid-cols-2">
-        {(["en", "am"] as const).map((lang) => {
+        {shown.map((lang) => {
           const id = `${name}-${lang}`;
           const props = {
             id,
             name: `${name}.${lang}`,
             lang,
+            dir: inputDir(lang),
             defaultValue: defaultValue?.[lang] ?? "",
             placeholder: placeholder?.[lang],
             "aria-invalid": lang === "en" && enError ? true : undefined,
@@ -81,13 +85,14 @@ export function LocalizedField({
           return (
             <div key={lang} className="grid gap-1.5">
               <Label htmlFor={id} className="text-xs font-normal text-muted-foreground">
-                {lang === "en" ? (required ? "English" : "English") : "Amharic (optional)"}
+                {languageLabel(lang)}
               </Label>
               {multiline ? <Textarea rows={rows} {...props} /> : <Input {...props} />}
             </div>
           );
         })}
       </div>
+      <KeptTranslations name={name} value={defaultValue} locales={hidden} />
       {enError ? <FieldError message={enError} /> : hint ? <p className="text-sm text-muted-foreground">{hint}</p> : null}
     </fieldset>
   );

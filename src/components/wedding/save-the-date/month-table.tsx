@@ -27,6 +27,33 @@ const WEEKDAYS: Record<Locale, { short: string; full: string }[]> = {
     { short: "Fri", full: "Friday" },
     { short: "Sat", full: "Saturday" },
   ],
+  ar: [
+    { short: "أحد", full: "الأحد" },
+    { short: "اثنين", full: "الاثنين" },
+    { short: "ثلاثاء", full: "الثلاثاء" },
+    { short: "أربعاء", full: "الأربعاء" },
+    { short: "خميس", full: "الخميس" },
+    { short: "جمعة", full: "الجمعة" },
+    { short: "سبت", full: "السبت" },
+  ],
+  ti: [
+    { short: "ሰን", full: "ሰንበት" },
+    { short: "ሰኑ", full: "ሰኑይ" },
+    { short: "ሰሉ", full: "ሰሉስ" },
+    { short: "ረቡ", full: "ረቡዕ" },
+    { short: "ሓሙ", full: "ሓሙስ" },
+    { short: "ዓር", full: "ዓርቢ" },
+    { short: "ቀዳ", full: "ቀዳም" },
+  ],
+  om: [
+    { short: "Dil", full: "Dilbata" },
+    { short: "Wix", full: "Wiixata" },
+    { short: "Kib", full: "Kibxata" },
+    { short: "Rob", full: "Roobii" },
+    { short: "Kam", full: "Kamiisa" },
+    { short: "Jim", full: "Jimaata" },
+    { short: "San", full: "Sanbata" },
+  ],
 };
 
 /** Marker outlines in a 40×40 box; the same path draws the stroke and the soft fill. */
@@ -62,7 +89,7 @@ export function MonthTable({ grid, locale, marker, caption, weddingDayLabel, ton
               abbr={weekday.full}
               style={{ "--c": index } as CSSProperties}
               className={cn(
-                "std-weekday pb-3 font-sans text-[clamp(0.7rem,2.3vw,0.95rem)] font-semibold tracking-[0.08em] uppercase [&:lang(am)]:tracking-normal",
+                "std-weekday pb-3 font-sans text-[clamp(0.7rem,2.3vw,0.95rem)] font-semibold tracking-[0.08em] uppercase ethiopic:tracking-normal",
                 tone === "light" ? "text-white" : "text-ink-soft",
               )}
             >

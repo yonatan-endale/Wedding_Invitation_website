@@ -4,8 +4,9 @@ import AutoScroll from "embla-carousel-auto-scroll";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { useReducedMotion } from "motion/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { localeDir, type Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { Lightbox, roundButton, type GalleryPhoto } from "./lightbox";
 import { useMotionPaused } from "./motion/motion-toggle";
@@ -27,6 +28,7 @@ type Props = {
 
 export function GallerySection({ photos, names, drift = false }: Props) {
   const t = useTranslations("gallery");
+  const locale = useLocale() as Locale;
   const plugins = useMemo(
     () =>
       drift
@@ -45,7 +47,7 @@ export function GallerySection({ photos, names, drift = false }: Props) {
     [drift],
   );
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    drift ? { align: "start", loop: true } : { align: "start", containScroll: "trimSnaps" },
+    { align: "start", direction: localeDir(locale), ...(drift ? { loop: true } : { containScroll: "trimSnaps" }) },
     plugins,
   );
   const [canPrev, setCanPrev] = useState(false);
@@ -124,7 +126,7 @@ export function GallerySection({ photos, names, drift = false }: Props) {
                 aria-label={t("previous")}
                 className={cn(roundButton, "border-ink/25 hover:border-ink")}
               >
-                <ChevronLeft aria-hidden className="size-5" />
+                <ChevronLeft aria-hidden className="size-5 rtl:-scale-x-100" />
               </button>
               <button
                 type="button"
@@ -133,16 +135,16 @@ export function GallerySection({ photos, names, drift = false }: Props) {
                 aria-label={t("next")}
                 className={cn(roundButton, "border-ink/25 hover:border-ink")}
               >
-                <ChevronRight aria-hidden className="size-5" />
+                <ChevronRight aria-hidden className="size-5 rtl:-scale-x-100" />
               </button>
             </div>
           ) : null}
         </div>
 
         <div ref={emblaRef} className="mt-10 overflow-hidden">
-          <ul className="-ml-4 flex touch-pan-y">
+          <ul className="-ms-4 flex touch-pan-y">
             {photos.map((photo, index) => (
-              <li key={photo.id} className="min-w-0 shrink-0 grow-0 basis-[82%] pl-4 sm:basis-[46%] lg:basis-[31%]">
+              <li key={photo.id} className="min-w-0 shrink-0 grow-0 basis-[82%] ps-4 sm:basis-[46%] lg:basis-[31%]">
                 <button
                   type="button"
                   onClick={() => setOpen(index)}

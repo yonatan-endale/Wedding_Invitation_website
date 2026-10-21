@@ -1,23 +1,69 @@
 "use client";
 
-import { ImagePlus, Loader2, Star } from "lucide-react";
+import { ImagePlus, Loader2, Pencil, Star } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { addPhotos, setCoverPhoto } from "@/actions/admin";
+import { addPhotos, setCoverPhoto, updatePhotoLabels } from "@/actions/admin";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import type { AdminCouple } from "@/db/queries/admin";
+import { usesHonorees } from "@/lib/event-types";
+import { LocalizedField, SubmitButton } from "./fields";
 import { DeleteButton, MoveButtons } from "./item-actions";
 import { uploadErrorMessage, uploadMedia } from "./media-field";
-import { reportResult } from "./use-action-feedback";
+import { reportResult, useAdminForm } from "./use-action-feedback";
+
+type Photo = AdminCouple["photos"][number];
+
+/** A photo's caption and the group heading it shows under in the grouped galleries. */
+function PhotoLabelsDialog({ photo, index }: { photo: Photo; index: number }) {
+  const [open, setOpen] = useState(false);
+  const { pending, onSubmit, errors } = useAdminForm(updatePhotoLabels.bind(null, photo.id), {
+    onSuccess: () => setOpen(false),
+  });
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button type="button" variant="ghost" size="icon" aria-label={`Edit photo ${index + 1}`} title="Caption and group">
+          <Pencil aria-hidden />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-xl">
+        <DialogHeader>
+          <DialogTitle>Photo {index + 1}</DialogTitle>
+          <DialogDescription>
+            Photos next to each other with the same group name show together under it, like &quot;The two of us&quot;.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={onSubmit} className="grid gap-5" noValidate>
+          <LocalizedField name="groupLabel" label="Group (optional)" defaultValue={photo.groupLabel} errors={errors} />
+          <LocalizedField name="caption" label="Caption (optional)" defaultValue={photo.caption} errors={errors} />
+          <DialogFooter>
+            <SubmitButton pending={pending}>Save photo</SubmitButton>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export function PhotosManager({ couple, uploadsEnabled }: { couple: AdminCouple; uploadsEnabled: boolean }) {
   const fileInput = useRef<HTMLInputElement>(null);
   const [link, setLink] = useState("");
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [pending, startTransition] = useTransition();
+  const grouped = usesHonorees(couple.eventType);
 
   async function onFiles(files: FileList | null) {
     if (!files?.length) return;
@@ -109,6 +155,9 @@ export function PhotosManager({ couple, uploadsEnabled }: { couple: AdminCouple;
                   <Image src={photo.url} alt={`Photo ${index + 1}`} fill sizes="240px" unoptimized className="object-cover" />
                   {isCover ? <Badge className="absolute top-2 left-2">Cover</Badge> : null}
                 </div>
+                {grouped && photo.groupLabel?.en ? (
+                  <p className="truncate px-3 pt-2 text-sm text-muted-foreground">{photo.groupLabel.en}</p>
+                ) : null}
                 <div className="flex items-center justify-between gap-1 p-1.5">
                   <span className="pl-1.5 text-sm text-muted-foreground tabular-nums">{index + 1}</span>
                   <div className="flex">
@@ -123,6 +172,7 @@ export function PhotosManager({ couple, uploadsEnabled }: { couple: AdminCouple;
                     >
                       <Star aria-hidden className={isCover ? "fill-current" : undefined} />
                     </Button>
+                    {grouped ? <PhotoLabelsDialog photo={photo} index={index} /> : null}
                     <MoveButtons list="photos" id={photo.id} first={index === 0} last={index === couple.photos.length - 1} />
                     <DeleteButton list="photos" id={photo.id} itemLabel="this photo" description="It will be removed from the gallery." />
                   </div>

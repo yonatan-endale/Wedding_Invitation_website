@@ -195,7 +195,7 @@ export function GiftsManager({ couple, uploadsEnabled }: { couple: AdminCouple; 
         </div>
         {couple.wishlistItems.length === 0 ? (
           <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-            Add household items, a honeymoon fund or anything else the couple would love.
+            Add household items, a honeymoon fund or anything else they would love.
           </p>
         ) : (
           <ul className="grid gap-3">

@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { getOpening } from "@/lib/opening";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
 import { WaxSeal } from "../../ornaments/wax-seal";
@@ -25,7 +25,7 @@ export async function FlatlayHero({ site, locale, names }: Props) {
   // Nicknames, when the couple set them, replace the first names on the cover only.
   const one = pickText(couple.partnerOneNick, locale) || pickText(couple.partnerOne, locale);
   const two = pickText(couple.partnerTwoNick, locale) || pickText(couple.partnerTwo, locale);
-  const separator = locale === "am" ? "፡" : "&";
+  const separator = LANGUAGES[locale].initialsSeparator;
   const city = pickText(couple.city, locale);
 
   return (
@@ -40,12 +40,12 @@ export async function FlatlayHero({ site, locale, names }: Props) {
         <div className={cn(styles.piece, styles.heroCard, styles.sheet)}>
           <div className={cn(styles.cardFace, "flex flex-col items-center px-[9cqw] pt-[11cqw] text-center")}>
             <span aria-hidden className={styles.keyline} />
-            <p className="text-[max(0.75rem,3.6cqw)] tracking-[0.28em] text-ink-soft uppercase [&:lang(am)]:text-[max(0.85rem,4.4cqw)] [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case">
+            <p className="text-[max(0.75rem,3.6cqw)] tracking-[0.28em] text-ink-soft uppercase ethiopic:text-[max(0.85rem,4.4cqw)] ethiopic:tracking-normal ethiopic:normal-case">
               {t("eyebrow")}
             </p>
             <h1
               id="flatlay-names"
-              className="mt-[5cqw] font-cormorant text-[13cqw] leading-[1.02] font-medium text-ink italic [overflow-wrap:anywhere] [&:lang(am)]:text-[9.5cqw] [&:lang(am)]:leading-[1.25] [&:lang(am)]:not-italic"
+              className="mt-[5cqw] font-cormorant text-[13cqw] leading-[1.02] font-medium text-ink italic [overflow-wrap:anywhere] ethiopic:text-[9.5cqw] ethiopic:leading-[1.25] ethiopic:not-italic"
             >
               {/* Spaces between the lines keep the heading's text "One & Two" for screen readers. */}
               <span className="block">{one}</span>{" "}
@@ -53,11 +53,11 @@ export async function FlatlayHero({ site, locale, names }: Props) {
               <span className="block">{two}</span>
             </h1>
             <span aria-hidden className="mt-[5cqw] block h-px w-[18cqw] bg-metal" />
-            <p className="mt-[4.5cqw] font-display text-[max(1rem,5.6cqw)] leading-snug [&:lang(am)]:text-[max(1rem,5cqw)]">
+            <p className="mt-[4.5cqw] font-display text-[max(1rem,5.6cqw)] leading-snug ethiopic:text-[max(1rem,5cqw)]">
               {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
             </p>
             {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-            {locale === "am" ? (
+            {usesEthiopianCalendar(locale) ? (
               <p className="mt-[1cqw] text-[max(0.8rem,4cqw)] text-ink-soft">{formatGregorianDate(couple.weddingAt, couple.timezone)}</p>
             ) : (
               <p lang="am" className="mt-[1cqw] text-[max(0.8rem,4cqw)] text-ink-soft">
@@ -65,7 +65,7 @@ export async function FlatlayHero({ site, locale, names }: Props) {
               </p>
             )}
             {city && !open ? (
-              <p className="mt-[3cqw] text-[max(0.75rem,3.6cqw)] tracking-[0.2em] text-ink-soft uppercase [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case">
+              <p className="mt-[3cqw] text-[max(0.75rem,3.6cqw)] tracking-[0.2em] text-ink-soft uppercase ethiopic:tracking-normal ethiopic:normal-case">
                 {city}
               </p>
             ) : null}

@@ -694,7 +694,7 @@
   position: relative;
   display: block;
   width: 100%;
-  text-align: left;
+  text-align: start;
   transition: transform 0.45s var(--ease-out-soft), box-shadow 0.45s var(--ease-out-soft);
 }
 

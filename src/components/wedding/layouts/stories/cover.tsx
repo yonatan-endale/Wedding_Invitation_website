@@ -2,7 +2,7 @@ import { ChevronDown, MapPin } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { widestWordEm } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate, weddingDateParts } from "@/lib/wedding-format";
@@ -64,13 +64,13 @@ export async function StoriesCover({ site, locale, names }: Props) {
       {/* The story header: the couple's avatar, their names and the day, under the progress bar. */}
       <div className="hero-fade flex items-center gap-2.5 px-4 pt-9" style={order(0)}>
         <StoryRing className="size-10" ground="bg-[#110f0e]">
-          <Initials initials={names.initials} separator={locale === "am" ? "፡" : "&"} className="text-[0.9rem]" />
+          <Initials initials={names.initials} separator={LANGUAGES[locale].initialsSeparator} className="text-[0.9rem]" />
         </StoryRing>
         <p className="min-w-0 font-sans text-sm leading-tight [text-shadow:0_1px_4px_rgb(0_0_0/0.5)]">
           <span className="font-semibold">
             {names.firstOne} &amp; {names.firstTwo}
           </span>
-          <span className="ml-2 text-white/75">
+          <span className="ms-2 text-white/75">
             {day.day} {day.month}
           </span>
         </p>
@@ -87,17 +87,17 @@ export async function StoriesCover({ site, locale, names }: Props) {
         ) : null}
         <h1
           id="stories-title"
-          className="mt-5 font-display text-[length:min(clamp(2.9rem,16cqi,4.4rem),calc((100cqi_-_3rem)/var(--name-em)))] leading-[0.95] [&:lang(am)]:text-[length:min(clamp(2.4rem,13cqi,3.6rem),calc((100cqi_-_3rem)/var(--name-em)))] [&:lang(am)]:leading-[1.15]"
+          className="mt-5 font-display text-[length:min(clamp(2.9rem,16cqi,4.4rem),calc((100cqi_-_3rem)/var(--name-em)))] leading-[0.95] ethiopic:text-[length:min(clamp(2.4rem,13cqi,3.6rem),calc((100cqi_-_3rem)/var(--name-em)))] ethiopic:leading-[1.15]"
           // Capped by the widest word (plus the ampersand before the second name) so long names fit the card.
           style={{ "--name-em": Math.max(widestWordEm(one), widestWordEm(two) + 0.9).toFixed(2) } as CSSProperties}
         >
-          <HeroNames one={one} two={two} ampersand="mr-[0.22em] align-[0.12em] text-[0.5em] text-[color-mix(in_oklab,var(--w-metal)_60%,white)]" />
+          <HeroNames one={one} two={two} ampersand="me-[0.22em] align-[0.12em] text-[0.5em] text-[color-mix(in_oklab,var(--w-metal)_60%,white)]" />
         </h1>
         <p className="hero-fade mt-6 text-[1.05rem] text-white" style={order(2)}>
           {formatWeddingDate(couple.weddingAt, couple.timezone, locale)}
         </p>
         {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-        {locale === "am" ? (
+        {usesEthiopianCalendar(locale) ? (
           <p className="hero-fade text-base text-white/75" style={order(3)}>
             {formatGregorianDate(couple.weddingAt, couple.timezone)}
           </p>

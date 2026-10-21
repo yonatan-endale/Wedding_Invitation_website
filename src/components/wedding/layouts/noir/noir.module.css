@@ -9,7 +9,7 @@
  * falls through to Abyssinica.
  */
 .root :is(h2, h3):not(.label) {
-  font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+  font-family: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), var(--font-amiri), serif;
 }
 
 .root h2:not(.label) {

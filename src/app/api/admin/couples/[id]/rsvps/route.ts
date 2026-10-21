@@ -2,6 +2,7 @@ import { getCoupleForAdmin, listRsvps } from "@/db/queries/admin";
 import { getAdminUser } from "@/lib/auth";
 import { cardPageUrl } from "@/lib/card-links";
 import { toCsv } from "@/lib/csv";
+import { isLocale, LANGUAGES } from "@/lib/localized";
 import { siteLinks } from "@/lib/site-links";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -19,7 +20,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     attending: r.attending ? "Yes" : "No",
     guests: r.guestCount,
     message: r.message,
-    language: r.locale === "am" ? "Amharic" : "English",
+    language: isLocale(r.locale) ? LANGUAGES[r.locale].englishName : r.locale,
     received: r.createdAt.toISOString(),
     card: r.attending && couple.guestCardsEnabled ? cardPageUrl(share, r.cardToken) : "",
   }));

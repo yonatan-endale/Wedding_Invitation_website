@@ -25,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { CoupleStatus } from "@/lib/constants";
+import { EVENT_TYPE_META, type EventType } from "@/lib/event-types";
 import { reportResult } from "./use-action-feedback";
 
 type Props = {
@@ -32,15 +33,17 @@ type Props = {
   names: string;
   dateLine: string;
   status: CoupleStatus;
+  eventType: EventType;
   shareUrl: string;
   previewUrl: string;
 };
 
-export function CoupleHeader({ id, names, dateLine, status, shareUrl, previewUrl }: Props) {
+export function CoupleHeader({ id, names, dateLine, status, eventType, shareUrl, previewUrl }: Props) {
   const [pending, startTransition] = useTransition();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const published = status === "published";
-  const shareText = `You're invited to the wedding of ${names}. ${shareUrl}`;
+  const invited = `You're invited to the ${EVENT_TYPE_META[eventType].noun} of ${names}`;
+  const shareText = `${invited}. ${shareUrl}`;
 
   async function copyLink() {
     try {
@@ -54,7 +57,7 @@ export function CoupleHeader({ id, names, dateLine, status, shareUrl, previewUrl
   return (
     <div className="grid gap-5">
       <Link href="/admin" className="inline-flex w-fit items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="size-4" aria-hidden /> All couples
+        <ArrowLeft className="size-4" aria-hidden /> All sites
       </Link>
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -105,7 +108,7 @@ export function CoupleHeader({ id, names, dateLine, status, shareUrl, previewUrl
               </DropdownMenuItem>
               <DropdownMenuItem asChild disabled={!published}>
                 <a
-                  href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(`You're invited to the wedding of ${names}`)}`}
+                  href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(invited)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -114,7 +117,7 @@ export function CoupleHeader({ id, names, dateLine, status, shareUrl, previewUrl
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem variant="destructive" onSelect={() => setConfirmDelete(true)}>
-                <Trash2 aria-hidden /> Delete couple
+                <Trash2 aria-hidden /> Delete site
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -131,7 +134,7 @@ export function CoupleHeader({ id, names, dateLine, status, shareUrl, previewUrl
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Keep couple</AlertDialogCancel>
+            <AlertDialogCancel>Keep site</AlertDialogCancel>
             <AlertDialogAction
               variant="destructive"
               onClick={() => startTransition(async () => reportResult(await deleteCouple(id)))}

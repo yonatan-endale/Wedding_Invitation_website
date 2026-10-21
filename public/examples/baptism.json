@@ -1,0 +1,39 @@
+{
+  "couple": {
+    "slug": "liya-kristina",
+    "status": "draft",
+    "eventType": "baptism",
+    "weddingAt": "2027-01-17T08:00",
+    "timezone": "Africa/Addis_Ababa",
+    "city": { "en": "Addis Ababa", "am": "አዲስ አበባ" },
+    "tagline": { "en": "Forty days old and already the centre of every room.", "am": "አርባ ቀኗ ነው፤ ግን የሁሉም ዓይን ማረፊያ ሆናለች።" },
+    "invitation": {
+      "en": "We are christening our daughter Liya, and we would love you to be with us at church and at home afterwards.",
+      "am": "ልጃችን ሊያን ክርስትና ልናስነሳ ነው። በቤተ ክርስቲያን እና ከዚያም በቤታችን አብረውን እንዲሆኑ እንወዳለን።"
+    },
+    "hosts": { "en": "Her parents, Dawit and Hanna", "am": "ወላጆቿ ዳዊት እና ሐና" },
+    "layout": "shema",
+    "theme": "ivory",
+    "opening": "envelope",
+    "border": "tibeb2",
+    "ornament": "none",
+    "rsvpEnabled": true,
+    "calendarButtons": true
+  },
+  "honorees": [
+    {
+      "name": { "en": "Liya", "am": "ሊያ" },
+      "father": { "en": "Dawit", "am": "ዳዊት" },
+      "headline": { "en": "Wolete Mariam", "am": "ወለተ ማርያም" },
+      "subheadline": { "en": "Abebe Kebede and Meron Tadesse", "am": "አበበ ከበደ እና ሜሮን ታደሰ" }
+    }
+  ],
+  "venues": [
+    { "name": { "en": "Medhane Alem Church", "am": "መድኃኔ ዓለም ቤተ ክርስቲያን" }, "address": { "en": "Bole", "am": "ቦሌ" } },
+    { "name": { "en": "Our home", "am": "ቤታችን" }, "address": { "en": "CMC", "am": "ሲኤምሲ" } }
+  ],
+  "events": [
+    { "title": { "en": "Christening", "am": "ክርስትና" }, "startsAt": "2027-01-17T08:00", "venue": 0, "kind": "christening" },
+    { "title": { "en": "Lunch at home", "am": "ምሳ በቤታችን" }, "startsAt": "2027-01-17T12:30", "venue": 1, "kind": "celebration" }
+  ]
+}

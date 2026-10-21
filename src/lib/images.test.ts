@@ -16,4 +16,10 @@ describe("canOptimizeImage", () => {
     expect(canOptimizeImage("http://images.unsplash.com/photo-1")).toBe(false);
     expect(canOptimizeImage("not a url")).toBe(false);
   });
+
+  it("serves SVG as-is, since next/image refuses to optimise it", () => {
+    expect(canOptimizeImage("/showcase/art/wedding-walk.svg")).toBe(false);
+    expect(canOptimizeImage("/a.SVG?v=2")).toBe(false);
+    expect(canOptimizeImage("https://images.unsplash.com/photo-1/icon.svg")).toBe(false);
+  });
 });

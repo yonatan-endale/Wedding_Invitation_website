@@ -50,7 +50,7 @@ export async function StoriesCountdown({ site, locale }: Props) {
             "w-full max-w-[23rem] rounded-[1.75rem] bg-sheet pt-6 text-ink shadow-[0_28px_60px_-24px_rgb(0_0_0/0.6)]",
           )}
         >
-          <p className="px-5 text-center font-sans text-xs font-semibold tracking-[0.24em] text-thread-1 uppercase [&:lang(am)]:text-sm [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case">
+          <p className="px-5 text-center font-sans text-xs font-semibold tracking-[0.24em] text-thread-1 uppercase ethiopic:text-sm ethiopic:tracking-normal ethiopic:normal-case">
             {t("heading")}
           </p>
           <CountdownSection site={site} variant="plain" tone="ink" className="px-3 pt-3 pb-6 sm:pt-3 sm:pb-6" />

@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import type { Locale } from "@/lib/localized";
+import { type Locale, LANGUAGES } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate } from "@/lib/wedding-format";
 import { ArchFrame } from "../../kit/arch-frame";
@@ -27,7 +27,7 @@ export async function ArchesFooter({ site, locale, names }: Props) {
             <span aria-hidden className="flex size-full items-center justify-center pt-[18%]" style={GLOW}>
               <span className="font-cormorant text-[2.6rem] leading-none font-light text-ink">
                 {names.initials[0]}
-                <span className="mx-[0.14em] text-[0.55em] text-ink-soft italic">{locale === "am" ? "፡" : "&"}</span>
+                <span className="mx-[0.14em] text-[0.55em] text-ink-soft italic">{LANGUAGES[locale].initialsSeparator}</span>
                 {names.initials[1]}
               </span>
             </span>
@@ -40,7 +40,7 @@ export async function ArchesFooter({ site, locale, names }: Props) {
         <p
           data-reveal="up"
           style={{ "--i": 3 } as CSSProperties}
-          className="mt-5 font-cormorant text-[clamp(1.8rem,5vw,2.6rem)] leading-tight font-light [&:lang(am)]:text-[clamp(1.5rem,4.2vw,2.1rem)]"
+          className="mt-5 font-cormorant text-[clamp(1.8rem,5vw,2.6rem)] leading-tight font-light ethiopic:text-[clamp(1.5rem,4.2vw,2.1rem)]"
         >
           {names.one}
           <span className="mx-3 inline-block text-[0.7em] text-ink-soft italic">&amp;</span>

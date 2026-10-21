@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, isEthiopic } from "@/lib/localized";
 import { cn } from "@/lib/utils";
 import { Diamond, eyebrow } from "./ornaments";
 
@@ -25,7 +25,7 @@ export function ArchesVerse({ site, locale }: Props) {
           style={{ "--i": 1 } as CSSProperties}
           className={cn(
             "mt-10 font-cormorant text-[clamp(1.6rem,4.4vw,2.5rem)] leading-[1.35]",
-            locale === "am" ? "text-[clamp(1.35rem,3.6vw,2rem)] leading-[1.6]" : "font-light italic",
+            isEthiopic(locale) ? "text-[clamp(1.35rem,3.6vw,2rem)] leading-[1.6]" : "font-light italic",
           )}
         >
           <p>{text}</p>

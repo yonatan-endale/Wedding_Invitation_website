@@ -1,0 +1,48 @@
+{
+  "couple": {
+    "slug": "selam-60",
+    "status": "draft",
+    "eventType": "birthday",
+    "weddingAt": "2026-12-12T18:00",
+    "timezone": "Africa/Addis_Ababa",
+    "city": { "en": "Addis Ababa", "am": "አዲስ አበባ" },
+    "tagline": { "en": "Sixty years of laughter, and the coffee is still on.", "am": "ስልሳ ዓመት ሳቅ፤ ቡናውም አሁንም ተፈልቷል።" },
+    "invitation": {
+      "en": "Our mother turns sixty this December. Come and celebrate her with dinner, music and a very large cake.",
+      "am": "እናታችን በዚህ ታኅሣሥ ስልሳ ዓመት ይሞላታል። በእራት፣ በሙዚቃ እና በትልቅ ኬክ አብረውን ያክብሩ።"
+    },
+    "hosts": { "en": "Her children and grandchildren", "am": "ልጆቿ እና የልጅ ልጆቿ" },
+    "heroPhotoUrl": "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1600",
+    "layout": "milestone",
+    "theme": "burgundy",
+    "opening": "envelope",
+    "border": "line",
+    "rsvpEnabled": true,
+    "calendarButtons": true
+  },
+  "honorees": [
+    {
+      "name": { "en": "Selam", "am": "ሰላም" },
+      "father": { "en": "Haile", "am": "ኃይሌ" },
+      "headline": { "en": "Turns 60", "am": "60 ዓመት" },
+      "story": {
+        "en": "Teacher, gardener, keeper of every family recipe, and the first to dance at any wedding.",
+        "am": "መምህርት፣ አትክልተኛ፣ የቤተሰቡ የምግብ አዘገጃጀቶች ጠባቂ፣ በየሠርጉ መጀመሪያ የምትጨፍር።"
+      }
+    }
+  ],
+  "venues": [
+    {
+      "name": { "en": "Family home", "am": "የቤተሰብ ቤት" },
+      "address": { "en": "Old Airport, near the roundabout", "am": "ኦልድ ኤርፖርት፣ አደባባዩ አጠገብ" }
+    }
+  ],
+  "events": [
+    { "title": { "en": "Dinner", "am": "እራት" }, "startsAt": "2026-12-12T18:00", "venue": 0, "kind": "celebration" },
+    { "title": { "en": "Cake and candles", "am": "ኬክ መቁረስ" }, "startsAt": "2026-12-12T20:30", "venue": 0, "kind": "cake" }
+  ],
+  "photos": [
+    { "url": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=1200", "groupLabel": { "en": "Through the years", "am": "በዓመታት ውስጥ" } },
+    { "url": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200", "groupLabel": { "en": "Through the years", "am": "በዓመታት ውስጥ" } }
+  ]
+}

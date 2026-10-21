@@ -11,13 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { guestCardLinks, whatsappShareUrl } from "@/lib/card-links";
+import { EVENT_TYPE_META, type EventType } from "@/lib/event-types";
 
-type Props = { siteBase: string; token: string; guestName: string; phone: string; coupleNames: string };
+type Props = { siteBase: string; token: string; guestName: string; phone: string; coupleNames: string; eventType: EventType };
 
 /** Download a guest's invitation card, or send it to them on WhatsApp. */
-export function CardActions({ siteBase, token, guestName, phone, coupleNames }: Props) {
+export function CardActions({ siteBase, token, guestName, phone, coupleNames, eventType }: Props) {
   const links = guestCardLinks(siteBase, token);
-  const message = `Hello ${guestName}, here is your invitation card for the wedding of ${coupleNames}. Show its QR code at the entrance: ${links.page}`;
+  const message = `Hello ${guestName}, here is your invitation card for the ${EVENT_TYPE_META[eventType].noun} of ${coupleNames}. Show its QR code at the entrance: ${links.page}`;
 
   async function copy() {
     try {

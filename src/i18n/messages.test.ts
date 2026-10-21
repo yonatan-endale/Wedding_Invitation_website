@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { LOCALES } from "@/lib/localized";
 
 type Messages = { [key: string]: string | Messages };
 
@@ -22,21 +23,43 @@ function argumentsOf(message: string): string[] {
 
 describe("messages", () => {
   const en = flatten(load("en"));
-  const am = flatten(load("am"));
+  const others = LOCALES.filter((locale) => locale !== "en").map((locale) => [locale, flatten(load(locale))] as const);
 
-  it("have the same keys in English and Amharic", () => {
-    expect(Object.keys(am).sort()).toEqual(Object.keys(en).sort());
+  it("have the same keys in every language", () => {
+    for (const [locale, messages] of others) expect(Object.keys(messages).sort(), locale).toEqual(Object.keys(en).sort());
   });
 
-  it("use the same ICU arguments in both languages", () => {
-    for (const key of Object.keys(en)) {
-      expect(argumentsOf(am[key] ?? ""), key).toEqual(argumentsOf(en[key]));
+  it("use the same ICU arguments in every language", () => {
+    for (const [locale, messages] of others) {
+      for (const key of Object.keys(en)) {
+        expect(argumentsOf(messages[key] ?? ""), `${locale} ${key}`).toEqual(argumentsOf(en[key]));
+      }
     }
   });
 
   it("have no empty translations", () => {
-    for (const [locale, messages] of Object.entries({ en, am })) {
+    for (const [locale, messages] of [["en", en] as const, ...others]) {
       for (const [key, value] of Object.entries(messages)) expect(value.trim(), `${locale} ${key}`).not.toBe("");
+    }
+  });
+});
+
+describe("event type wording", () => {
+  const en = flatten(load("en"));
+  const overrides = Object.keys(en).filter((key) => key.startsWith("events."));
+
+  it("only replaces messages that exist, so a typo can't hide behind the wedding wording", () => {
+    expect(overrides.length).toBeGreaterThan(0);
+    for (const key of overrides) {
+      const shared = key.split(".").slice(2).join(".");
+      expect(en[shared], key).toBeDefined();
+    }
+  });
+
+  it("asks for no argument the shared message's callers don't pass", () => {
+    for (const key of overrides) {
+      const shared = key.split(".").slice(2).join(".");
+      for (const name of argumentsOf(en[key])) expect(argumentsOf(en[shared] ?? ""), key).toContain(name);
     }
   });
 });

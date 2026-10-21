@@ -1,0 +1,124 @@
+{
+  "couple": {
+    "status": "published",
+    "timezone": "Africa/Addis_Ababa",
+    "showcaseEnabled": true,
+    "calendarButtons": true,
+    "rsvpEnabled": true,
+    "petals": false,
+    "motion": "moderate",
+    "calendarStyle": "both",
+    "slug": "demo-birthday",
+    "eventType": "birthday",
+    "weddingAt": "2027-05-15T18:00",
+    "city": {
+      "en": "Addis Ababa",
+      "am": "አዲስ አበባ"
+    },
+    "tagline": {
+      "en": "An example invitation. The names, places and numbers are invented.",
+      "am": "ምሳሌ ግብዣ ነው። ስሞቹ፣ ቦታዎቹ እና ቁጥሮቹ የተፈጠሩ ናቸው።"
+    },
+    "invitation": {
+      "en": "Our mother turns sixty this May. Come and celebrate her with dinner, music and a very large cake.",
+      "am": "እናታችን በዚህ ግንቦት ስልሳ ዓመት ይሞላታል። በእራት፣ በሙዚቃ እና በትልቅ ኬክ አብረውን ያክብሩ።"
+    },
+    "hosts": {
+      "en": "Her children and grandchildren",
+      "am": "ልጆቿ እና የልጅ ልጆቿ"
+    },
+    "dressCode": {
+      "en": "Festive",
+      "am": "የደስታ ልብስ"
+    },
+    "heroPhotoUrl": "/showcase/art/birthday-cake.svg",
+    "theme": "burgundy",
+    "layout": "milestone",
+    "border": "line",
+    "opening": "envelope",
+    "ornament": "none"
+  },
+  "honorees": [
+    {
+      "name": {
+        "en": "Tigist",
+        "am": "ትግስት"
+      },
+      "father": {
+        "en": "Mulugeta",
+        "am": "ሙሉጌታ"
+      },
+      "headline": {
+        "en": "Turns 60",
+        "am": "60 ዓመት"
+      },
+      "story": {
+        "en": "Teacher, gardener, keeper of every family recipe, and the first to dance at any wedding.",
+        "am": "መምህርት፣ አትክልተኛ፣ የቤተሰቡ የምግብ አዘገጃጀቶች ጠባቂ፣ በየሠርጉ መጀመሪያ የምትጨፍር።"
+      },
+      "portraitUrl": "/showcase/art/portrait-1.svg"
+    }
+  ],
+  "venues": [
+    {
+      "name": {
+        "en": "Family home (example)",
+        "am": "የቤተሰብ ቤት (ምሳሌ)"
+      },
+      "address": {
+        "en": "Example Road, Addis Ababa",
+        "am": "ምሳሌ መንገድ፣ አዲስ አበባ"
+      }
+    }
+  ],
+  "events": [
+    {
+      "title": {
+        "en": "Dinner",
+        "am": "እራት"
+      },
+      "kind": "celebration",
+      "startsAt": "2027-05-15T18:00",
+      "venue": 0
+    },
+    {
+      "title": {
+        "en": "Cake and candles",
+        "am": "ኬክ መቁረስ"
+      },
+      "kind": "cake",
+      "startsAt": "2027-05-15T20:30",
+      "venue": 0
+    }
+  ],
+  "photos": [
+    {
+      "url": "/showcase/art/birthday-balloons.svg",
+      "groupLabel": {
+        "en": "Through the years",
+        "am": "በዓመታት ውስጥ"
+      }
+    },
+    {
+      "url": "/showcase/art/confetti-burst.svg",
+      "groupLabel": {
+        "en": "Through the years",
+        "am": "በዓመታት ውስጥ"
+      }
+    },
+    {
+      "url": "/showcase/art/candles.svg",
+      "groupLabel": {
+        "en": "Through the years",
+        "am": "በዓመታት ውስጥ"
+      }
+    },
+    {
+      "url": "/showcase/art/mesob.svg",
+      "groupLabel": {
+        "en": "At the table",
+        "am": "በገበታው ዙሪያ"
+      }
+    }
+  ]
+}

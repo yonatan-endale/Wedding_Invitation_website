@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import type { SiteData } from "@/db/queries/site";
 import { getOrnament } from "@/lib/appearance";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, LANGUAGES, isEthiopic } from "@/lib/localized";
 import { initials } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatWeddingDate, formatWeddingTime, weddingDateParts } from "@/lib/wedding-format";
@@ -40,7 +40,7 @@ export async function EditorialHero({ site, locale }: Props) {
           <FaithOrnament ornament={getOrnament(couple.ornament)} className="mb-5 size-9 sm:size-10" />
           <p className={eyebrow}>{t("eyebrow")}</p>
           <h1 className="mt-6 font-display text-[clamp(3rem,9vw,6.5rem)] leading-[0.95] tracking-[-0.01em]">
-            <HeroNames one={one} two={two} ampersand="mr-[0.22em] align-[0.1em] text-[0.6em]" />
+            <HeroNames one={one} two={two} ampersand="me-[0.22em] align-[0.1em] text-[0.6em]" />
           </h1>
           {tagline ? (
             <p className="hero-fade mt-6 text-xl" style={{ "--i": 0 } as CSSProperties}>
@@ -88,7 +88,7 @@ export async function EditorialHero({ site, locale }: Props) {
                   className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_50%_38%,color-mix(in_oklab,var(--w-thread-1)_72%,var(--w-sheet))_0%,var(--w-thread-1)_78%)] font-display text-[clamp(3rem,11vw,6.5rem)] leading-none text-on-thread-1"
                 >
                   {initialOne}
-                  <span className="mx-[0.3em] text-[0.45em] opacity-75">{locale === "am" ? "፡" : "&"}</span>
+                  <span className="mx-[0.3em] text-[0.45em] opacity-75">{LANGUAGES[locale].initialsSeparator}</span>
                   {initialTwo}
                 </div>
               )}
@@ -108,7 +108,7 @@ export async function EditorialHero({ site, locale }: Props) {
             <span
               className={cn(
                 "hero-fade text-[clamp(1.6rem,4vw,2.5rem)] uppercase",
-                locale === "am" && "text-[clamp(1.35rem,3vw,2rem)]",
+                isEthiopic(locale) && "text-[clamp(1.35rem,3vw,2rem)]",
               )}
               style={{ "--i": 3 } as CSSProperties}
             >

@@ -65,14 +65,14 @@ export async function BranaChapters({ site, locale }: Props) {
               return (
                 <li key={milestone.id} data-reveal-group className={cn("py-10", index > 0 && "border-t border-(--brana-rule)")}>
                   <div className="text-center">
-                    <p data-reveal="fade" className={cn(styles.chapterLabel, "text-sm [&:lang(am)]:text-base")}>
-                      {tb("chapter")} <GeezNumeral value={index + 1} className="ml-1 text-[1.5em] tracking-normal" />
+                    <p data-reveal="fade" className={cn(styles.chapterLabel, "text-sm ethiopic:text-base")}>
+                      {tb("chapter")} <GeezNumeral value={index + 1} className="ms-1 text-[1.5em] tracking-normal" />
                     </p>
                     <h3
                       data-reveal="up"
                       style={order(1)}
                       lang={scriptLang(title)}
-                      className="mt-3 font-cormorant text-[clamp(1.75rem,4vw,2.4rem)] leading-tight font-medium [&:lang(am)]:text-[clamp(1.45rem,3.4vw,1.9rem)] [&:lang(am)]:leading-snug"
+                      className="mt-3 font-cormorant text-[clamp(1.75rem,4vw,2.4rem)] leading-tight font-medium ethiopic:text-[clamp(1.45rem,3.4vw,1.9rem)] ethiopic:leading-snug"
                     >
                       {title}
                     </h3>
@@ -84,7 +84,7 @@ export async function BranaChapters({ site, locale }: Props) {
                     <div data-reveal="up" style={order(3)} className={cn("mt-7", milestone.imageUrl && "sm:flow-root")}>
                       {milestone.imageUrl ? (
                         <MiniatureFrame
-                          className={cn("mx-auto mb-6 w-[min(70%,15rem)] sm:mb-3 sm:ml-8 sm:w-[13rem]", "sm:float-right")}
+                          className={cn("mx-auto mb-6 w-[min(70%,15rem)] sm:mb-3 sm:ms-8 sm:w-[13rem]", "sm:float-end")}
                           windowClassName="aspect-[4/5]"
                         >
                           <WeddingImage src={milestone.imageUrl} alt={title} fill sizes="(min-width: 640px) 13rem, 70vw" className="object-cover" />

@@ -24,7 +24,7 @@
   --brana-rule: color-mix(in srgb, var(--w-ink) 20%, transparent);
   --brana-ink-rule: color-mix(in srgb, var(--w-ink) 72%, transparent);
   --brana-rubric: var(--w-thread-3);
-  --brana-display: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), serif;
+  --brana-display: var(--font-cormorant, var(--font-display)), var(--font-abyssinica), var(--font-amiri), serif;
   --brana-geez: var(--font-abyssinica), var(--font-noto-serif-ethiopic), serif;
   position: relative;
   isolation: isolate;
@@ -169,7 +169,7 @@
   line-height: 1.1;
 }
 
-.heading:lang(am) {
+.heading:is(:lang(am), :lang(ti)) {
   font-size: clamp(1.8rem, 4.6vw, 2.6rem);
   line-height: 1.3;
 }
@@ -274,8 +274,8 @@
   line-height: 1.02;
 }
 
-.heroLatin:lang(am),
-.heroGloss:lang(am) {
+.heroLatin:is(:lang(am), :lang(ti)),
+.heroGloss:is(:lang(am), :lang(ti)) {
   letter-spacing: 0;
   text-transform: none;
 }
@@ -320,7 +320,7 @@
   text-transform: uppercase;
 }
 
-.incipit:lang(am) {
+.incipit:is(:lang(am), :lang(ti)) {
   font-family: var(--brana-geez);
   letter-spacing: 0;
   text-transform: none;
@@ -429,7 +429,7 @@
 .canon :is(th, td) {
   padding: 0.95rem clamp(0.75rem, 1.6vw, 1.25rem);
   vertical-align: top;
-  text-align: left;
+  text-align: start;
   border-inline: 4px double var(--w-thread-2);
 }
 
@@ -444,7 +444,7 @@
   color: var(--brana-rubric);
 }
 
-.canon th:lang(am) {
+.canon th:is(:lang(am), :lang(ti)) {
   font-family: var(--brana-geez);
   font-size: 1.05rem;
   letter-spacing: 0;
@@ -505,7 +505,7 @@
   border-bottom: 3px double var(--brana-ink-rule);
 }
 
-.calendar :global(th:lang(am)) {
+.calendar :global(th:is(:lang(am), :lang(ti))) {
   font-family: var(--brana-geez);
 }
 
@@ -517,8 +517,8 @@
   color: var(--w-ink-soft);
 }
 
-.calendar :global(.std-month :lang(am)),
-.calendar :global(.std-month:lang(am)) {
+.calendar :global(.std-month :is(:lang(am), :lang(ti))),
+.calendar :global(.std-month:is(:lang(am), :lang(ti))) {
   font-family: var(--brana-geez);
   font-size: 1.05rem;
 }
@@ -553,7 +553,7 @@
   text-transform: uppercase;
 }
 
-.chapterLabel:lang(am) {
+.chapterLabel:is(:lang(am), :lang(ti)) {
   font-family: var(--brana-geez);
   letter-spacing: 0;
   text-transform: none;
@@ -582,7 +582,7 @@
   color: var(--brana-rubric);
 }
 
-.countdown :global(#countdown-caption:lang(am)) {
+.countdown :global(#countdown-caption:is(:lang(am), :lang(ti))) {
   font-family: var(--brana-geez);
 }
 
@@ -639,7 +639,7 @@
   text-align: center;
 }
 
-.leaf :global(section h2:lang(am)) {
+.leaf :global(section h2:is(:lang(am), :lang(ti))) {
   font-size: clamp(1.8rem, 4.6vw, 2.6rem);
   line-height: 1.3;
 }

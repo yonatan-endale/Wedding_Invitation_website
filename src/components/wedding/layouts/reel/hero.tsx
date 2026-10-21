@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { getTranslations } from "next-intl/server";
 import type { SiteData } from "@/db/queries/site";
 import { splitWords } from "@/lib/hero-words";
-import { pickText, type Locale } from "@/lib/localized";
+import { pickText, type Locale, usesEthiopianCalendar } from "@/lib/localized";
 import { widestWordEm } from "@/lib/names";
 import { cn } from "@/lib/utils";
 import { formatEthiopianDateLine, formatGregorianDate, formatWeddingDate } from "@/lib/wedding-format";
@@ -89,7 +89,7 @@ export async function ReelHero({ site, locale }: Props) {
             </>
           ) : null}
           {/* The other calendar, so Ethiopian and international guests both recognise the day. */}
-          {locale === "am" ? (
+          {usesEthiopianCalendar(locale) ? (
             <p className={creditCaps}>{formatGregorianDate(couple.weddingAt, couple.timezone)}</p>
           ) : (
             <p lang="am" className={creditCaps}>
@@ -108,7 +108,7 @@ export async function ReelHero({ site, locale }: Props) {
         </p>
         <h1
           id="reel-title"
-          className="mt-5 font-display text-[length:min(clamp(3.25rem,13.5vw,8rem),calc((100vw_-_2.5rem)/var(--name-em)))] leading-[0.95] tracking-[0.01em] [text-shadow:0_2px_30px_rgba(0,0,0,0.35)] [&:lang(am)]:tracking-normal"
+          className="mt-5 font-display text-[length:min(clamp(3.25rem,13.5vw,8rem),calc((100vw_-_2.5rem)/var(--name-em)))] leading-[0.95] tracking-[0.01em] [text-shadow:0_2px_30px_rgba(0,0,0,0.35)] ethiopic:tracking-normal"
           // Capped by the widest word so a long name never runs off a phone screen.
           style={{ "--name-em": (widestWordEm(one, two) + 0.2).toFixed(2) } as CSSProperties}
         >
@@ -126,7 +126,7 @@ export async function ReelHero({ site, locale }: Props) {
         </h1>
         <span aria-hidden className={cn(styles.heroRule, "mx-auto mt-7 block h-px w-24 bg-white/45")} />
         <p
-          className={cn(styles.credit, "mt-6 text-[clamp(0.95rem,2.4vw,1.2rem)] tracking-[0.22em] text-white/90 uppercase [&:lang(am)]:tracking-normal [&:lang(am)]:normal-case")}
+          className={cn(styles.credit, "mt-6 text-[clamp(0.95rem,2.4vw,1.2rem)] tracking-[0.22em] text-white/90 uppercase ethiopic:tracking-normal ethiopic:normal-case")}
           style={{ "--i": 2 } as CSSProperties}
         >
           {date}

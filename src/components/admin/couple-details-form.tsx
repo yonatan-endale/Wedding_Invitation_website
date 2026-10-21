@@ -20,11 +20,13 @@ import {
 } from "@/lib/appearance";
 import { DEFAULT_TIMEZONE, HERO_POSITIONS, PARTNER_ROLES, type BorderStyle } from "@/lib/constants";
 import { toDateTimeLocalValue } from "@/lib/datetime";
-import { LAYOUTS, LAYOUT_NAMES, type LayoutMeta, type LayoutName } from "@/lib/layout";
-import { OPENINGS, OPENING_NAMES, getOpening, type OpeningName } from "@/lib/opening";
+import { EVENT_TYPE_META, usesHonorees, type EventType } from "@/lib/event-types";
+import { LAYOUTS, LAYOUT_NAMES, getLayout, layoutsFor, type LayoutName } from "@/lib/layout";
+import { OPENINGS, getOpening, openingsFor, type OpeningName } from "@/lib/opening";
 import { slugify } from "@/lib/slug";
 import { THEME_LIST, getTheme, themeStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import { OtherLanguageInputs } from "./admin-locales";
 import { Field, FormSection, LocalizedField, NativeSelect, SubmitButton } from "./fields";
 import { MediaField } from "./media-field";
 import { useAdminForm } from "./use-action-feedback";
@@ -150,6 +152,66 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <rect x="0.5" y="51" width="95" height="8.5" fill={stroke} opacity="0.7" />
     </>
   ),
+  commencement: (
+    <>
+      <text x="52" y="54" fontSize="34" fill="none" stroke={stroke} strokeWidth="0.8" opacity="0.6" fontFamily="serif">
+        26
+      </text>
+      <rect x="8" y="10" width="34" height="5" fill={stroke} />
+      <rect x="8" y="17" width="22" height="2" fill={stroke} opacity="0.5" />
+      <rect x="8" y="24" width="30" height="5" fill={stroke} />
+      <rect x="8" y="31" width="20" height="2" fill={stroke} opacity="0.5" />
+      <rect x="8" y="44" width="40" height="1" fill={stroke} opacity="0.5" />
+    </>
+  ),
+  tassel: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="44" fill={stroke} opacity="0.7" />
+      <path d="M48 0.5v9" stroke="white" opacity="0.8" />
+      <circle cx="48" cy="20" r="9" fill="none" stroke="white" opacity="0.85" />
+      <path d="M50 11c4 2 6 5 7 9" stroke="white" opacity="0.8" fill="none" />
+      <rect x="55" y="20" width="4" height="6" fill="white" opacity="0.8" />
+      <rect x="32" y="34" width="32" height="3" fill="white" opacity="0.9" />
+      <path d="M28 52v-6a6 6 0 0 1 12 0v6zM56 52v-6a6 6 0 0 1 12 0v6z" fill={stroke} opacity="0.35" />
+    </>
+  ),
+  confetti: (
+    <>
+      {[
+        [8, 8],
+        [20, 46],
+        [84, 10],
+        [74, 50],
+        [12, 30],
+        [88, 34],
+        [40, 6],
+        [60, 54],
+      ].map(([x, y], index) => (
+        <circle key={index} cx={x} cy={y} r="2.2" fill={stroke} opacity={0.35 + (index % 3) * 0.2} />
+      ))}
+      <rect x="26" y="20" width="44" height="8" fill={stroke} opacity="0.8" />
+      <rect x="34" y="33" width="28" height="5" rx="2.5" fill={stroke} opacity="0.5" />
+    </>
+  ),
+  milestone: (
+    <>
+      <rect x="0.5" y="0.5" width="95" height="59" rx="2" fill={stroke} opacity="0.75" />
+      <path d="M40 8h16M40 40h16" stroke="white" opacity="0.7" />
+      <text x="48" y="34" textAnchor="middle" fontSize="22" fill="white" opacity="0.9" fontFamily="serif">
+        60
+      </text>
+      <rect x="32" y="46" width="32" height="3" fill="white" opacity="0.85" />
+    </>
+  ),
+  shema: (
+    <>
+      <rect x="28" y="4" width="40" height="52" fill="none" stroke={stroke} opacity="0.6" />
+      <path d="M31 4v52M65 4v52" stroke={stroke} strokeDasharray="2 2" opacity="0.7" />
+      <rect x="36" y="14" width="24" height="4" fill={stroke} opacity="0.85" />
+      <rect x="40" y="21" width="16" height="2" fill={stroke} opacity="0.5" />
+      <path d="M42 50v-12a6 6 0 0 1 12 0v12z" fill={stroke} opacity="0.35" />
+    </>
+  ),
   arches: (
     <>
       <path d="M34 34V16a14 14 0 0 1 28 0v18z" fill={stroke} opacity="0.35" />
@@ -217,13 +279,18 @@ function LayoutSketch({ name }: { name: LayoutName }) {
 
 type Props = {
   couple?: AdminCouple;
+  /** What the site celebrates: the saved one when editing, the one picked on the create page otherwise. */
+  eventType: EventType;
   timeZones: string[];
   uploadsEnabled: boolean;
   siteBase: string;
 };
 
-export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase }: Props) {
+export function CoupleDetailsForm({ couple, eventType, timeZones, uploadsEnabled, siteBase }: Props) {
   const editing = Boolean(couple);
+  const wedding = eventType === "wedding";
+  const honorees = usesHonorees(eventType);
+  const typeLabel = EVENT_TYPE_META[eventType].label.toLowerCase();
   const action = couple ? updateCoupleDetails.bind(null, couple.id) : createCouple;
   const { pending, onSubmit, errors } = useAdminForm(action);
 
@@ -238,112 +305,151 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
   }
 
   const timezone = couple?.timezone ?? DEFAULT_TIMEZONE;
+  const slugField = (
+    <Field
+      label="Site link"
+      htmlFor="slug"
+      error={errors.slug}
+      hint={
+        <>
+          Guests will open <span className="font-medium text-foreground">{siteBase.replace("{slug}", slug || "your-link")}</span>
+        </>
+      }
+    >
+      <Input
+        id="slug"
+        name="slug"
+        value={slug}
+        onChange={(event) => {
+          setSlugTouched(true);
+          setSlug(event.target.value.toLowerCase());
+        }}
+        aria-invalid={errors.slug ? true : undefined}
+        autoComplete="off"
+        spellCheck={false}
+      />
+    </Field>
+  );
 
   return (
     <form onSubmit={onSubmit} className="grid gap-8" noValidate>
-      <FormSection
-        title="Couple"
-        description="The opening screen shows first names, the hero shows nicknames when set, and the invitation card and footer show first and father's names."
-      >
-        <div className="grid gap-4 md:grid-cols-2">
-          {(["one", "two"] as const).map((which) => {
-            const key = which === "one" ? "partnerOne" : "partnerTwo";
-            const existing = couple?.[key];
-            const nick = couple?.[`${key}Nick`];
-            const father = couple?.[`${key}Father`];
-            const role = couple?.[`${key}Role`] ?? (which === "one" ? "bride" : "groom");
-            return (
-              <fieldset key={which} className="grid gap-3 rounded-lg border p-4">
-                <legend className="px-1 text-sm font-medium">{which === "one" ? "First partner" : "Second partner"}</legend>
-                <Field label="Role" htmlFor={`${key}Role`} error={errors[`${key}Role`]} className="max-w-48">
-                  <NativeSelect id={`${key}Role`} name={`${key}Role`} defaultValue={role}>
-                    {PARTNER_ROLES.map((option) => (
-                      <option key={option} value={option}>
-                        {ROLE_LABELS[option]}
-                      </option>
-                    ))}
-                  </NativeSelect>
-                </Field>
-                <Field label="First name in English" htmlFor={`${key}-en`} error={errors[`${key}.en`]}>
-                  <Input
-                    id={`${key}-en`}
-                    name={`${key}.en`}
-                    defaultValue={existing?.en}
-                    onChange={(event) => updateName(which, event.target.value)}
-                    aria-invalid={errors[`${key}.en`] ? true : undefined}
-                    autoComplete="off"
-                  />
-                </Field>
-                <Field label="First name in Amharic (optional)" htmlFor={`${key}-am`}>
-                  <Input id={`${key}-am`} name={`${key}.am`} lang="am" defaultValue={existing?.am} autoComplete="off" />
-                </Field>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <Field
-                    label="Father's name (optional)"
-                    htmlFor={`${key}Father-en`}
-                    hint="Makes the full name on the invitation card and footer."
-                  >
-                    <Input id={`${key}Father-en`} name={`${key}Father.en`} defaultValue={father?.en} autoComplete="off" />
-                  </Field>
-                  <Field label="Father's name in Amharic" htmlFor={`${key}Father-am`}>
-                    <Input id={`${key}Father-am`} name={`${key}Father.am`} lang="am" defaultValue={father?.am} autoComplete="off" />
-                  </Field>
-                </div>
-                <div className="grid gap-3 border-t pt-3 sm:grid-cols-2">
-                  <Field
-                    label="Nickname (optional)"
-                    htmlFor={`${key}Nick-en`}
-                    hint="Shown in the hero instead of the first name."
-                  >
-                    <Input id={`${key}Nick-en`} name={`${key}Nick.en`} defaultValue={nick?.en} autoComplete="off" />
-                  </Field>
-                  <Field label="Nickname in Amharic" htmlFor={`${key}Nick-am`}>
-                    <Input id={`${key}Nick-am`} name={`${key}Nick.am`} lang="am" defaultValue={nick?.am} autoComplete="off" />
-                  </Field>
-                </div>
-                <div className="border-t pt-3">
-                  <MediaField
-                    name={`${key}PortraitUrl`}
-                    label="Portrait (optional)"
-                    kind="image"
-                    defaultValue={couple?.[`${key}PortraitUrl`]}
-                    uploadsEnabled={uploadsEnabled}
-                    error={errors[`${key}PortraitUrl`]}
-                    hint="A head-and-shoulders photo. Shown in the Editorial layout."
-                  />
-                </div>
-              </fieldset>
-            );
-          })}
-        </div>
-        <Field
-          label="Site link"
-          htmlFor="slug"
-          error={errors.slug}
-          hint={
-            <>
-              Guests will open <span className="font-medium text-foreground">{siteBase.replace("{slug}", slug || "your-link")}</span>
-            </>
+      {editing ? null : <input type="hidden" name="eventType" value={eventType} />}
+      {honorees ? (
+        <FormSection
+          title="People"
+          description={
+            editing
+              ? "Add, edit and order the people this site celebrates in the People tab."
+              : "Start with the first person. You can add the others, their photos and their details next."
           }
         >
-          <Input
-            id="slug"
-            name="slug"
-            value={slug}
-            onChange={(event) => {
-              setSlugTouched(true);
-              setSlug(event.target.value.toLowerCase());
-            }}
-            aria-invalid={errors.slug ? true : undefined}
-            autoComplete="off"
-            spellCheck={false}
-          />
-        </Field>
-      </FormSection>
+          {editing ? null : (
+            <fieldset className="grid gap-3 rounded-lg border p-4">
+              <legend className="px-1 text-sm font-medium">First person</legend>
+              <Field label="First name in English" htmlFor="honoreeName-en" error={errors["honoreeName.en"]}>
+                <Input
+                  id="honoreeName-en"
+                  name="honoreeName.en"
+                  onChange={(event) => {
+                    if (!slugTouched) setSlug(slugify(event.target.value));
+                  }}
+                  aria-invalid={errors["honoreeName.en"] ? true : undefined}
+                  autoComplete="off"
+                />
+              </Field>
+              <OtherLanguageInputs name="honoreeName" label="First name" />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Field label="Father's name (optional)" htmlFor="honoreeFather-en">
+                  <Input id="honoreeFather-en" name="honoreeFather.en" autoComplete="off" />
+                </Field>
+                <OtherLanguageInputs name="honoreeFather" label="Father's name" />
+              </div>
+            </fieldset>
+          )}
+          {slugField}
+        </FormSection>
+      ) : (
+        <FormSection
+          title="Couple"
+          description="The opening screen shows first names, the hero shows nicknames when set, and the invitation card and footer show first and father's names."
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            {(["one", "two"] as const).map((which) => {
+              const key = which === "one" ? "partnerOne" : "partnerTwo";
+              const existing = couple?.[key];
+              const nick = couple?.[`${key}Nick`];
+              const father = couple?.[`${key}Father`];
+              const role = couple?.[`${key}Role`] ?? (which === "one" ? "bride" : "groom");
+              return (
+                <fieldset key={which} className="grid gap-3 rounded-lg border p-4">
+                  <legend className="px-1 text-sm font-medium">{which === "one" ? "First partner" : "Second partner"}</legend>
+                  <Field label="Role" htmlFor={`${key}Role`} error={errors[`${key}Role`]} className="max-w-48">
+                    <NativeSelect id={`${key}Role`} name={`${key}Role`} defaultValue={role}>
+                      {PARTNER_ROLES.map((option) => (
+                        <option key={option} value={option}>
+                          {ROLE_LABELS[option]}
+                        </option>
+                      ))}
+                    </NativeSelect>
+                  </Field>
+                  <Field label="First name in English" htmlFor={`${key}-en`} error={errors[`${key}.en`]}>
+                    <Input
+                      id={`${key}-en`}
+                      name={`${key}.en`}
+                      defaultValue={existing?.en}
+                      onChange={(event) => updateName(which, event.target.value)}
+                      aria-invalid={errors[`${key}.en`] ? true : undefined}
+                      autoComplete="off"
+                    />
+                  </Field>
+                  <OtherLanguageInputs name={key} label="First name" value={existing} />
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field
+                      label="Father's name (optional)"
+                      htmlFor={`${key}Father-en`}
+                      hint="Makes the full name on the invitation card and footer."
+                    >
+                      <Input id={`${key}Father-en`} name={`${key}Father.en`} defaultValue={father?.en} autoComplete="off" />
+                    </Field>
+                    <OtherLanguageInputs name={`${key}Father`} label="Father's name" value={father} />
+                  </div>
+                  <div className="grid gap-3 border-t pt-3 sm:grid-cols-2">
+                    <Field
+                      label="Nickname (optional)"
+                      htmlFor={`${key}Nick-en`}
+                      hint="Shown in the hero instead of the first name."
+                    >
+                      <Input id={`${key}Nick-en`} name={`${key}Nick.en`} defaultValue={nick?.en} autoComplete="off" />
+                    </Field>
+                    <OtherLanguageInputs name={`${key}Nick`} label="Nickname" value={nick} />
+                  </div>
+                  <div className="border-t pt-3">
+                    <MediaField
+                      name={`${key}PortraitUrl`}
+                      label="Portrait (optional)"
+                      kind="image"
+                      defaultValue={couple?.[`${key}PortraitUrl`]}
+                      uploadsEnabled={uploadsEnabled}
+                      error={errors[`${key}PortraitUrl`]}
+                      hint="A head-and-shoulders photo. Shown in the Editorial layout."
+                    />
+                  </div>
+                </fieldset>
+              );
+            })}
+          </div>
+          {slugField}
+        </FormSection>
+      )}
 
-      <FormSection title="Date and place" description="Times are entered in the wedding's local time.">
+      <FormSection title="Date and place" description={`Times are entered in the ${typeLabel}'s local time.`}>
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Wedding date and time" htmlFor="weddingAt" error={errors.weddingAt} hint="Usually the ceremony start.">
+          <Field
+            label={wedding ? "Wedding date and time" : "Date and time"}
+            htmlFor="weddingAt"
+            error={errors.weddingAt}
+            hint={wedding ? "Usually the ceremony start." : "When guests should arrive, or the main event starts."}
+          >
             <Input
               id="weddingAt"
               name="weddingAt"
@@ -372,9 +478,8 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Layout</legend>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {LAYOUT_NAMES.map((name) => {
-              // Typed as the wide shape so "dark" stays comparable while every registered layout is "theme".
-              const layout: LayoutMeta = LAYOUTS[name];
+            {layoutsFor(eventType).map((layout) => {
+              const name = layout.name as LayoutName;
               const themeLabels = layout.recommendedThemes.map((theme) => getTheme(theme).label);
               return (
                 <label
@@ -385,7 +490,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                     type="radio"
                     name="layout"
                     value={name}
-                    defaultChecked={((couple?.layout as LayoutName | undefined) ?? "classic") === name}
+                    defaultChecked={getLayout(couple?.layout, eventType) === name}
                     className="mt-1"
                   />
                   <span className="grid gap-2">
@@ -414,37 +519,39 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
             What guests tap to open the invitation. It also starts the music. Works with any layout.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
-            {OPENING_NAMES.map((name) => OPENINGS[name]).map((opening) => {
-              const suggestedFor = LAYOUT_NAMES.filter((layout) => LAYOUTS[layout].defaultOpening === opening.name).map(
-                (layout) => LAYOUTS[layout].label,
-              );
-              return (
-                <label
-                  key={opening.name}
-                  className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
-                >
-                  <input
-                    type="radio"
-                    name="opening"
-                    value={opening.name}
-                    defaultChecked={getOpening(couple?.opening) === opening.name}
-                    className="mt-1"
-                  />
-                  <span className="grid gap-2">
-                    <span className="flex items-center gap-3">
-                      <OpeningSketch name={opening.name} />
-                      <span className="grid gap-0.5">
-                        <span className="font-medium">{opening.label}</span>
-                        {suggestedFor.length ? (
-                          <span className="text-xs text-muted-foreground">Suggested for {suggestedFor.join(" and ")}</span>
-                        ) : null}
+            {openingsFor(eventType)
+              .map((name) => OPENINGS[name])
+              .map((opening) => {
+                const suggestedFor = LAYOUT_NAMES.filter((layout) => LAYOUTS[layout].defaultOpening === opening.name).map(
+                  (layout) => LAYOUTS[layout].label,
+                );
+                return (
+                  <label
+                    key={opening.name}
+                    className="flex cursor-pointer gap-3 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
+                  >
+                    <input
+                      type="radio"
+                      name="opening"
+                      value={opening.name}
+                      defaultChecked={getOpening(couple?.opening, eventType) === opening.name}
+                      className="mt-1"
+                    />
+                    <span className="grid gap-2">
+                      <span className="flex items-center gap-3">
+                        <OpeningSketch name={opening.name} />
+                        <span className="grid gap-0.5">
+                          <span className="font-medium">{opening.label}</span>
+                          {suggestedFor.length ? (
+                            <span className="text-xs text-muted-foreground">Suggested for {suggestedFor.join(" and ")}</span>
+                          ) : null}
+                        </span>
                       </span>
+                      <span className="text-sm text-muted-foreground">{opening.description}</span>
                     </span>
-                    <span className="text-sm text-muted-foreground">{opening.description}</span>
-                  </span>
-                </label>
-              );
-            })}
+                  </label>
+                );
+              })}
           </div>
           {couple ? (
             // The path on this (main) domain also works for drafts, which a couple subdomain hides.
@@ -478,9 +585,11 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                 <span className="grid gap-2">
                   <span className="flex items-center gap-2">
                     <span className="flex overflow-hidden rounded border" aria-hidden>
-                      {[theme.colors.paper, theme.colors.thread1, theme.colors.thread2, theme.colors.thread3].map((color, index) => (
-                        <span key={index} className="block size-5" style={{ backgroundColor: color }} />
-                      ))}
+                      {[theme.colors.paper, theme.colors.thread1, theme.colors.thread2, theme.colors.thread3].map(
+                        (color, index) => (
+                          <span key={index} className="block size-5" style={{ backgroundColor: color }} />
+                        ),
+                      )}
                     </span>
                     <span className="font-medium">{theme.label}</span>
                   </span>
@@ -501,7 +610,12 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
                 className="grid cursor-pointer gap-2 rounded-lg border p-3 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/20"
               >
                 <span className="flex items-center gap-2">
-                  <input type="radio" name="border" value={option.value} defaultChecked={(couple?.border ?? "tibeb") === option.value} />
+                  <input
+                    type="radio"
+                    name="border"
+                    value={option.value}
+                    defaultChecked={(couple?.border ?? "tibeb") === option.value}
+                  />
                   <span className="font-medium">{option.label}</span>
                 </span>
                 <span className="rounded bg-[var(--w-paper)] px-2 py-1" style={themeStyle(couple?.theme)}>
@@ -521,7 +635,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
         <fieldset className="grid gap-3">
           <legend className="mb-2 text-sm font-medium">Faith ornament</legend>
           <p className="-mt-1 text-sm text-muted-foreground">
-            A small gold symbol above the names on the invitation. Leave it on None unless the couple asks for one.
+            A small gold symbol above the names on the invitation. Leave it on None unless {EVENT_TYPE_META[eventType].hosts} asks for one.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             {ORNAMENTS.map((ornament) => (
@@ -574,7 +688,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
           defaultValue={couple?.heroPhotoUrl}
           uploadsEnabled={uploadsEnabled}
           error={errors.heroPhotoUrl}
-          hint="A landscape photo of the couple works best. You can also pick one from the Photos tab."
+          hint={`A landscape photo of ${wedding ? "the couple" : "the people you celebrate"} works best. You can also pick one from the Photos tab.`}
         />
         <Field
           label="Keep this part of the cover photo visible"
@@ -660,7 +774,7 @@ export function CoupleDetailsForm({ couple, timeZones, uploadsEnabled, siteBase 
       </FormSection>
 
       <div className={cn("flex justify-end gap-3", !editing && "sticky bottom-0 -mx-4 border-t bg-background/95 px-4 py-3")}>
-        <SubmitButton pending={pending}>{editing ? "Save details" : "Create couple"}</SubmitButton>
+        <SubmitButton pending={pending}>{editing ? "Save details" : wedding ? "Create couple" : "Create site"}</SubmitButton>
       </div>
     </form>
   );

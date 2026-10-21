@@ -58,7 +58,7 @@ export async function FlatlayGallery({ photos, names }: Props) {
                         {/* Only the top print shows its caption; on the prints beneath it would peek out half-hidden.
                             Every caption stays in the alt text and the viewer. */}
                         {photo.caption && pose.z === Math.max(...poses.map((p) => p.z)) ? (
-                          <span className="absolute inset-x-[5%] bottom-0 flex h-[17%] items-center justify-center overflow-hidden px-1 text-center font-cormorant text-[clamp(0.8rem,3.4cqw,1rem)] leading-tight text-[#3a352e] italic [&:lang(am)]:not-italic">
+                          <span className="absolute inset-x-[5%] bottom-0 flex h-[17%] items-center justify-center overflow-hidden px-1 text-center font-cormorant text-[clamp(0.8rem,3.4cqw,1rem)] leading-tight text-[#3a352e] italic ethiopic:not-italic">
                             <span className="line-clamp-2">{photo.caption}</span>
                           </span>
                         ) : null}

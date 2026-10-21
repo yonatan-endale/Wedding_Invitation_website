@@ -5,8 +5,8 @@ import { getTranslations } from "next-intl/server";
 import { ImageResponse } from "next/og";
 import type { GuestCard } from "@/db/queries/cards";
 import { canOptimizeImage } from "@/lib/images";
-import { pickText } from "@/lib/localized";
-import { fullName, initials, monogramText } from "@/lib/names";
+import { pickText, usesEthiopianCalendar } from "@/lib/localized";
+import { celebratedNames, layoutNames } from "@/lib/site-names";
 import { loadFullGoogleFont } from "@/lib/og-fonts";
 import { getTheme, type Theme } from "@/lib/theme";
 import { formatGregorianDate, formatWeddingDate, formatWeddingTime } from "@/lib/wedding-format";
@@ -129,19 +129,20 @@ function Monogram({ text, theme, fontFamily }: { text: string; theme: Theme; fon
  */
 export async function renderGuestCard({ site, guest }: GuestCard, { passLink, requestOrigin, headers }: RenderOptions) {
   const { couple, venues } = site;
-  const locale = guest.locale;
+  // The image renderer can't join Arabic letters or set them right to left, so Arabic guests get the English card.
+  const locale = guest.locale === "ar" ? "en" : guest.locale;
   const t = await getTranslations({ locale, namespace: "card" });
   const tInvitation = await getTranslations({ locale, namespace: "invitation" });
   const theme = getTheme(couple.theme);
   const { colors } = theme;
 
-  const one = fullName(couple.partnerOne, couple.partnerOneFather, locale);
-  const two = fullName(couple.partnerTwo, couple.partnerTwoFather, locale);
-  const monogram = monogramText(initials(pickText(couple.partnerOne, locale), pickText(couple.partnerTwo, locale)));
+  // A couple's two names, or every honoree's, stacked with an ampersand before the last.
+  const people = celebratedNames(site, locale).full.filter(Boolean);
+  const monogram = layoutNames(site, locale).monogram;
   const hosts = pickText(couple.hosts, locale) || tInvitation("hostsFallback");
   const invitation = clip(pickText(couple.invitation, locale) || tInvitation("defaultText"), 200);
   const date = formatWeddingDate(couple.weddingAt, couple.timezone, locale);
-  const gregorian = locale === "am" ? formatGregorianDate(couple.weddingAt, couple.timezone) : "";
+  const gregorian = usesEthiopianCalendar(locale) ? formatGregorianDate(couple.weddingAt, couple.timezone) : "";
   const time = formatWeddingTime(couple.weddingAt, couple.timezone, locale);
   const venue = venues[0];
   const venueName = venue ? pickText(venue.name, locale) : "";
@@ -150,7 +151,7 @@ export async function renderGuestCard({ site, guest }: GuestCard, { passLink, re
   const admits = t("admits", { count: guest.guestCount });
   const entrance = t("showAtEntrance");
 
-  const allText = [dear, hosts, one, two, monogram, invitation, date, gregorian, time, venueName, venueAddress, admits, entrance].join(
+  const allText = [dear, hosts, ...people, monogram, invitation, date, gregorian, time, venueName, venueAddress, admits, entrance].join(
     " ",
   );
   const [display, body, ethiopic, photo] = await Promise.all([
@@ -178,7 +179,7 @@ export async function renderGuestCard({ site, guest }: GuestCard, { passLink, re
   // Scanners want dark modules on a light ground, whichever way the theme runs.
   const qrGround = theme.scheme === "dark" ? colors.ink : colors.sheet;
   const qrInk = theme.scheme === "dark" ? colors.paper : colors.ink;
-  const longest = Math.max(one.length, two.length);
+  const longest = Math.max(...people.map((name) => name.length));
   const nameSize = longest > 18 ? 56 : longest > 12 ? 66 : 78;
 
   return new ImageResponse(
@@ -264,9 +265,14 @@ export async function renderGuestCard({ site, guest }: GuestCard, { passLink, re
                       lineHeight: 1.05,
                     }}
                   >
-                    <div>{one}</div>
-                    <div style={{ margin: "4px 0", fontSize: nameSize * 0.5, color: colors.metal }}>&amp;</div>
-                    <div>{two}</div>
+                    {people.map((name, index) => (
+                      <div key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        {index > 0 && index === people.length - 1 ? (
+                          <div style={{ margin: "4px 0", fontSize: nameSize * 0.5, color: colors.metal }}>&amp;</div>
+                        ) : null}
+                        <div>{name}</div>
+                      </div>
+                    ))}
                   </div>
                   <div style={{ marginTop: 22, maxWidth: 760, fontSize: invitation.length > 140 ? 24 : 26, lineHeight: 1.4 }}>
                     {invitation}

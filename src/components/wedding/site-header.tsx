@@ -6,22 +6,28 @@ import { useRouter } from "next/navigation";
 import { Dialog } from "radix-ui";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { setLocale } from "@/actions/locale";
-import type { Locale } from "@/lib/localized";
+import { LANGUAGES, LOCALES, type Locale } from "@/lib/localized";
 import { cn } from "@/lib/utils";
+import { useSiteLocales } from "./site-locales";
 
 export function LanguageToggle({ tone = "ink" }: { tone?: "ink" | "light" }) {
   const locale = useLocale();
   const t = useTranslations("language");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const { slug, locales } = useSiteLocales();
+  const options = LOCALES.filter((option) => locales.includes(option));
 
   function choose(next: Locale) {
     if (next === locale) return;
     startTransition(async () => {
-      await setLocale(next);
+      await setLocale(next, slug ?? undefined);
       router.refresh();
     });
   }
+
+  // One language leaves nothing to switch between.
+  if (options.length < 2) return null;
 
   return (
     <div
@@ -34,7 +40,7 @@ export function LanguageToggle({ tone = "ink" }: { tone?: "ink" | "light" }) {
         pending && "opacity-60",
       )}
     >
-      {(["en", "am"] as const).map((option) => {
+      {options.map((option) => {
         const active = locale === option;
         return (
           <button
@@ -42,14 +48,14 @@ export function LanguageToggle({ tone = "ink" }: { tone?: "ink" | "light" }) {
             type="button"
             lang={option}
             aria-pressed={active}
-            aria-label={t(option)}
+            aria-label={LANGUAGES[option].nativeName}
             onClick={() => choose(option)}
             className={cn(
               "min-h-9 min-w-11 rounded-full px-3 transition-colors",
               active && (tone === "light" ? "bg-white text-black" : "bg-ink text-paper"),
             )}
           >
-            {option === "en" ? "EN" : "አማ"}
+            {LANGUAGES[option].short}
           </button>
         );
       })}

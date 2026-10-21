@@ -26,6 +26,7 @@ import { OPENINGS, getOpening, openingsFor, type OpeningName } from "@/lib/openi
 import { slugify } from "@/lib/slug";
 import { THEME_LIST, getTheme, themeStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import { OtherLanguageInputs } from "./admin-locales";
 import { Field, FormSection, LocalizedField, NativeSelect, SubmitButton } from "./fields";
 import { MediaField } from "./media-field";
 import { useAdminForm } from "./use-action-feedback";
@@ -356,16 +357,12 @@ export function CoupleDetailsForm({ couple, eventType, timeZones, uploadsEnabled
                   autoComplete="off"
                 />
               </Field>
-              <Field label="First name in Amharic (optional)" htmlFor="honoreeName-am">
-                <Input id="honoreeName-am" name="honoreeName.am" lang="am" autoComplete="off" />
-              </Field>
+              <OtherLanguageInputs name="honoreeName" label="First name" />
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Father's name (optional)" htmlFor="honoreeFather-en">
                   <Input id="honoreeFather-en" name="honoreeFather.en" autoComplete="off" />
                 </Field>
-                <Field label="Father's name in Amharic" htmlFor="honoreeFather-am">
-                  <Input id="honoreeFather-am" name="honoreeFather.am" lang="am" autoComplete="off" />
-                </Field>
+                <OtherLanguageInputs name="honoreeFather" label="Father's name" />
               </div>
             </fieldset>
           )}
@@ -405,9 +402,7 @@ export function CoupleDetailsForm({ couple, eventType, timeZones, uploadsEnabled
                       autoComplete="off"
                     />
                   </Field>
-                  <Field label="First name in Amharic (optional)" htmlFor={`${key}-am`}>
-                    <Input id={`${key}-am`} name={`${key}.am`} lang="am" defaultValue={existing?.am} autoComplete="off" />
-                  </Field>
+                  <OtherLanguageInputs name={key} label="First name" value={existing} />
                   <div className="grid gap-3 sm:grid-cols-2">
                     <Field
                       label="Father's name (optional)"
@@ -416,15 +411,7 @@ export function CoupleDetailsForm({ couple, eventType, timeZones, uploadsEnabled
                     >
                       <Input id={`${key}Father-en`} name={`${key}Father.en`} defaultValue={father?.en} autoComplete="off" />
                     </Field>
-                    <Field label="Father's name in Amharic" htmlFor={`${key}Father-am`}>
-                      <Input
-                        id={`${key}Father-am`}
-                        name={`${key}Father.am`}
-                        lang="am"
-                        defaultValue={father?.am}
-                        autoComplete="off"
-                      />
-                    </Field>
+                    <OtherLanguageInputs name={`${key}Father`} label="Father's name" value={father} />
                   </div>
                   <div className="grid gap-3 border-t pt-3 sm:grid-cols-2">
                     <Field
@@ -434,9 +421,7 @@ export function CoupleDetailsForm({ couple, eventType, timeZones, uploadsEnabled
                     >
                       <Input id={`${key}Nick-en`} name={`${key}Nick.en`} defaultValue={nick?.en} autoComplete="off" />
                     </Field>
-                    <Field label="Nickname in Amharic" htmlFor={`${key}Nick-am`}>
-                      <Input id={`${key}Nick-am`} name={`${key}Nick.am`} lang="am" defaultValue={nick?.am} autoComplete="off" />
-                    </Field>
+                    <OtherLanguageInputs name={`${key}Nick`} label="Nickname" value={nick} />
                   </div>
                   <div className="border-t pt-3">
                     <MediaField

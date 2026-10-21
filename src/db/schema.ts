@@ -90,6 +90,8 @@ export const couples = pgTable("couples", {
    * family's site.
    */
   showcaseEnabled: boolean("showcase_enabled").notNull().default(false),
+  /** Languages guests can pick. Amharic and English to start; Arabic, Tigrigna and Afaan Oromo are switched on per couple. */
+  enabledLocales: text("enabled_locales").array().notNull().default(sql`'{am,en}'::text[]`),
   ...timestamps,
 });
 

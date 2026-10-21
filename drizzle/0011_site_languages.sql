@@ -1,0 +1,1 @@
+ALTER TABLE "couples" ADD COLUMN "enabled_locales" text[] DEFAULT '{am,en}'::text[] NOT NULL;

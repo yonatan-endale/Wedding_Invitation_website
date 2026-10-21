@@ -263,6 +263,8 @@ describe("parseCoupleTexts", () => {
         galleryDrift: "on",
         collapsibleEvents: "on",
         showcaseEnabled: "on",
+        "locale.am": "on",
+        "locale.en": "on",
       },
       "Africa/Addis_Ababa",
     );
@@ -287,11 +289,12 @@ describe("parseCoupleTexts", () => {
       scrollProgress: false,
       collapsibleEvents: true,
       showcaseEnabled: true,
+      enabledLocales: ["en", "am"],
     });
   });
 
   it("treats a missing checkbox as RSVP off and a blank deadline as none", () => {
-    const result = parseCoupleTexts({ rsvpDeadline: "" }, "Africa/Addis_Ababa");
+    const result = parseCoupleTexts({ rsvpDeadline: "", "locale.am": "on" }, "Africa/Addis_Ababa");
     expect(result.success).toBe(true);
     if (!result.success) return;
     expect(result.data.rsvpEnabled).toBe(false);
@@ -303,6 +306,22 @@ describe("parseCoupleTexts", () => {
     expect(result.data.scrollProgress).toBe(false);
     expect(result.data.collapsibleEvents).toBe(false);
     expect(result.data.showcaseEnabled).toBe(false);
+  });
+
+  it("reads the switched-on languages and needs at least one", () => {
+    const some = parseCoupleTexts({ "locale.ar": "on", "locale.en": "on", "locale.xx": "on" }, "Africa/Addis_Ababa");
+    expect(some.success && some.data.enabledLocales).toEqual(["en", "ar"]);
+    const none = parseCoupleTexts({}, "Africa/Addis_Ababa");
+    expect(none.success).toBe(false);
+    if (!none.success) expect(none.fieldErrors.enabledLocales).toBe("Keep at least one language on.");
+  });
+
+  it("keeps text in every language", () => {
+    const result = parseCoupleTexts(
+      { "locale.en": "on", "tagline.en": "Welcome", "tagline.ar": "أهلاً", "tagline.om": "  ", "tagline.ti": "እንቋዕ" },
+      "Africa/Addis_Ababa",
+    );
+    expect(result.success && result.data.tagline).toEqual({ en: "Welcome", ar: "أهلاً", ti: "እንቋዕ" });
   });
 });
 

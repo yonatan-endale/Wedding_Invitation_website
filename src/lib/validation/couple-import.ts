@@ -12,7 +12,7 @@ import { zonedTimeToUtc } from "@/lib/datetime";
 import { EVENT_KINDS, kindsFor } from "@/lib/event-kinds";
 import { EVENT_TYPES, EVENT_TYPE_META, usesHonorees } from "@/lib/event-types";
 import { LAYOUTS, isLayoutName, type LayoutMeta } from "@/lib/layout";
-import type { LocalizedText } from "@/lib/localized";
+import { DEFAULT_SITE_LOCALES, LOCALES, sanitizeLocales, type Locale, type LocalizedText } from "@/lib/localized";
 import { isOpeningName } from "@/lib/opening";
 import { isValidSlug } from "@/lib/slug";
 import { isThemeName } from "@/lib/theme";
@@ -29,19 +29,21 @@ const LOCAL_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/;
 const ISO_WITH_OFFSET = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/;
 const URL_MESSAGE = "Enter a full link starting with https://";
 
-function collapse(value: { en?: string; am?: string } | null | undefined): LocalizedText | null {
-  const en = value?.en?.trim() ?? "";
-  const am = value?.am?.trim() ?? "";
-  if (!en && !am) return null;
-  return am ? { en, am } : { en };
+function collapse(value: Partial<Record<Locale, string>> | null | undefined): LocalizedText | null {
+  const result: LocalizedText = { en: value?.en?.trim() ?? "" };
+  for (const locale of LOCALES) {
+    const entry = value?.[locale]?.trim();
+    if (locale !== "en" && entry) result[locale] = entry;
+  }
+  return Object.values(result).some(Boolean) ? result : null;
 }
 
-const localizedShape = z.object({ en: z.string().optional(), am: z.string().optional() }).strict();
+const localizedShape = z.object(Object.fromEntries(LOCALES.map((locale) => [locale, z.string().optional()]))).strict();
 
-/** `{ en, am? }`, or null when both languages are blank or the field is missing. */
+/** `{ en, am?, … }`, or null when every language is blank or the field is missing. */
 const optionalLocalized = localizedShape.nullish().transform(collapse);
 
-/** `{ en, am? }` with English text present. */
+/** `{ en, am?, … }` with English text present. */
 const requiredLocalized = localizedShape.transform(collapse).pipe(
   z.custom<LocalizedText>((value) => value !== null && (value as LocalizedText).en.length > 0, {
     message: "Add the English text.",
@@ -174,6 +176,11 @@ function buildSchema(timeZone: string) {
       scrollProgress: z.boolean().default(false),
       collapsibleEvents: z.boolean().default(false),
       showcaseEnabled: z.boolean().default(false),
+      enabledLocales: z
+        .array(z.enum(LOCALES))
+        .min(1, "Keep at least one language.")
+        .default(DEFAULT_SITE_LOCALES)
+        .transform((locales) => sanitizeLocales(locales)),
     })
     .strict();
 

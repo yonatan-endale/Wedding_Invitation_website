@@ -6,7 +6,12 @@ import { getDb } from "@/db";
 import { couples, events, giftAccounts, honorees, photos, storyMilestones, venues, wishlistItems } from "@/db/schema";
 import { siteCacheTag, type BorderStyle, type CoupleStatus, type GiftKind, type PartnerRole } from "@/lib/constants";
 import type { EventType } from "@/lib/event-types";
-import type { LocalizedText } from "@/lib/localized";
+import { DEFAULT_SITE_LOCALES, sanitizeLocales, type Locale, type LocalizedText } from "@/lib/localized";
+
+function siteLocales(values: readonly string[]): Locale[] {
+  const known = sanitizeLocales(values);
+  return known.length > 0 ? known : DEFAULT_SITE_LOCALES;
+}
 
 /** Plain, JSON-safe shapes: cached data loses Date objects, so dates travel as ISO strings. */
 export type SiteCouple = {
@@ -65,6 +70,8 @@ export type SiteCouple = {
   scrollProgress: boolean;
   collapsibleEvents: boolean;
   showcaseEnabled: boolean;
+  /** Never empty: a row with no known languages falls back to Amharic and English. */
+  enabledLocales: Locale[];
 };
 
 export type SitePhoto = { id: string; url: string; caption: LocalizedText | null; groupLabel: LocalizedText | null };
@@ -222,6 +229,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
       scrollProgress: row.scrollProgress,
       collapsibleEvents: row.collapsibleEvents,
       showcaseEnabled: row.showcaseEnabled,
+      enabledLocales: siteLocales(row.enabledLocales),
       rsvpDeadline: row.rsvpDeadline?.toISOString() ?? null,
     },
     honorees: honoreeRows.map((h) => ({
@@ -285,7 +293,7 @@ async function loadSite(slug: string): Promise<SiteData | null> {
  * cached before a deploy are never read with the new shape.
  */
 export function getSiteData(slug: string): Promise<SiteData | null> {
-  return unstable_cache(() => loadSite(slug), ["site-data", "v6", slug], {
+  return unstable_cache(() => loadSite(slug), ["site-data", "v7", slug], {
     tags: [siteCacheTag(slug)],
     revalidate: 3600,
   })();

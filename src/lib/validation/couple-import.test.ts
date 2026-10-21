@@ -49,6 +49,7 @@ describe("parseCoupleImport", () => {
       scrollProgress: false,
       collapsibleEvents: false,
       showcaseEnabled: false,
+      enabledLocales: ["en", "am"],
       city: null,
       heroPhotoUrl: null,
     });
@@ -59,6 +60,25 @@ describe("parseCoupleImport", () => {
     expect(result.data.gifts).toEqual([]);
     expect(result.data.milestones).toEqual([]);
     expect(result.data.wishlist).toEqual([]);
+  });
+
+  it("takes text and switched-on languages beyond English and Amharic", () => {
+    const result = parseCoupleImport({
+      couple: {
+        ...minimal.couple,
+        partnerTwo: { en: "Dawit", ar: "داويت" },
+        enabledLocales: ["ar", "en", "am"],
+      },
+    });
+    if (!result.success) throw new Error(result.issues.join("\n"));
+    expect(result.data.couple.partnerTwo).toEqual({ en: "Dawit", ar: "داويت" });
+    expect(result.data.couple.enabledLocales).toEqual(["en", "am", "ar"]);
+  });
+
+  it("rejects unknown languages and an empty language list", () => {
+    expect(issuesOf({ couple: { ...minimal.couple, enabledLocales: ["fr"] } }).length).toBeGreaterThan(0);
+    expect(issuesOf({ couple: { ...minimal.couple, enabledLocales: [] } }).length).toBeGreaterThan(0);
+    expect(issuesOf({ couple: { ...minimal.couple, partnerTwo: { en: "Dawit", fr: "Dawit" } } }).length).toBeGreaterThan(0);
   });
 
   it("resolves local times in the couple's time zone", () => {

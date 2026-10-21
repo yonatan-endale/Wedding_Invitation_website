@@ -19,7 +19,7 @@ import { zonedTimeToUtc } from "@/lib/datetime";
 import { isEventKind, kindsFor, type EventKind } from "@/lib/event-kinds";
 import { EVENT_TYPE_META, isEventType, usesHonorees, type EventType } from "@/lib/event-types";
 import { getLayout, isLayoutName, layoutsFor, type LayoutName } from "@/lib/layout";
-import type { LocalizedText } from "@/lib/localized";
+import { LOCALES, type Locale, type LocalizedText } from "@/lib/localized";
 import { isOpeningName, openingsFor, type OpeningName } from "@/lib/opening";
 import { isValidSlug } from "@/lib/slug";
 import { isThemeName, type ThemeName } from "@/lib/theme";
@@ -49,10 +49,17 @@ function optionalText(form: FormFields, key: string, max: number, errors: FieldE
 }
 
 export function readLocalized(form: FormFields, base: string): LocalizedText | null {
-  const en = text(form, `${base}.en`);
-  const am = text(form, `${base}.am`);
-  if (!en && !am) return null;
-  return am ? { en, am } : { en };
+  const value: LocalizedText = { en: text(form, `${base}.en`) };
+  for (const locale of LOCALES) {
+    const entry = text(form, `${base}.${locale}`);
+    if (locale !== "en" && entry) value[locale] = entry;
+  }
+  return Object.values(value).some(Boolean) ? value : null;
+}
+
+/** True when any language's text is longer than max. */
+function tooLong(value: LocalizedText | null, max: number): boolean {
+  return Object.values(value ?? {}).some((entry) => (entry?.length ?? 0) > max);
 }
 
 function requiredLocalized(form: FormFields, base: string, errors: FieldErrors, message: string): LocalizedText {
@@ -208,7 +215,7 @@ export function parseHonoree(form: FormFields): Parsed<HonoreeInput> {
   const portraitPosition = text(form, "portraitPosition") || HERO_POSITIONS[1].value;
   if (!HERO_POSITIONS.some((p) => p.value === portraitPosition)) errors.portraitPosition = "Choose a photo position.";
   const story = readLocalized(form, "story");
-  if (story && (story.en.length > 1200 || (story.am?.length ?? 0) > 1200)) errors["story.en"] = "Keep the story under 1,200 characters.";
+  if (tooLong(story, 1200)) errors["story.en"] = "Keep the story under 1,200 characters.";
   return result(
     {
       name: requiredLocalized(form, "name", errors, "Enter the name in English."),
@@ -346,7 +353,15 @@ export type CoupleTexts = {
   scrollProgress: boolean;
   collapsibleEvents: boolean;
   showcaseEnabled: boolean;
+  enabledLocales: Locale[];
 };
+
+/** The languages guests can pick, from one switch per language named locale.<code>. */
+function enabledLocales(form: FormFields, errors: FieldErrors): Locale[] {
+  const chosen = LOCALES.filter((locale) => form[`locale.${locale}`] === "on");
+  if (chosen.length === 0) errors.enabledLocales = "Keep at least one language on.";
+  return chosen;
+}
 
 export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<CoupleTexts> {
   const errors: FieldErrors = {};
@@ -370,6 +385,7 @@ export function parseCoupleTexts(form: FormFields, timeZone: string): Parsed<Cou
       scrollProgress: form.scrollProgress === "on",
       collapsibleEvents: form.collapsibleEvents === "on",
       showcaseEnabled: form.showcaseEnabled === "on",
+      enabledLocales: enabledLocales(form, errors),
     },
     errors,
   );

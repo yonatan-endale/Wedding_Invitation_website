@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AdminLocalesProvider } from "@/components/admin/admin-locales";
 import { CoupleAccessPanel, type AccessSummary } from "@/components/admin/couple-access-panel";
 import { CoupleDetailsForm } from "@/components/admin/couple-details-form";
 import { CoupleHeader } from "@/components/admin/couple-header";
@@ -14,6 +15,7 @@ import { StoryManager } from "@/components/admin/story-manager";
 import { getCoupleForAdmin, listRsvps } from "@/db/queries/admin";
 import { getAccessStatus } from "@/lib/couple-access";
 import { usesHonorees } from "@/lib/event-types";
+import { sanitizeLocales } from "@/lib/localized";
 import { siteLinks } from "@/lib/site-links";
 import { siteTitleNames } from "@/lib/site-names";
 import { formatGregorianDate, formatStandardTime, formatWeddingDate } from "@/lib/wedding-format";
@@ -61,92 +63,94 @@ export default async function CouplePage({ params, searchParams }: Props) {
         previewUrl={links.preview}
       />
 
-      <CoupleTabs
-        initial={tab ?? "details"}
-        tabs={[
-          {
-            value: "details",
-            label: "Details",
-            content: (
-              <div className="rounded-xl border bg-background p-4 sm:p-6">
-                <CoupleDetailsForm
-                  couple={couple}
-                  eventType={couple.eventType}
-                  timeZones={Intl.supportedValuesOf("timeZone")}
-                  uploadsEnabled={uploadsEnabled}
-                  siteBase={links.pattern}
-                />
-              </div>
-            ),
-          },
-          {
-            value: "texts",
-            label: "Invitation text",
-            content: (
-              <div className="rounded-xl border bg-background p-4 sm:p-6">
-                <CoupleTextsForm couple={couple} />
-              </div>
-            ),
-          },
-          // Honoree sites tell their story on each person's card and in the story text; the dated chapters are a couple's.
-          honorees
-            ? {
-                value: "people",
-                label: "People",
-                count: couple.honorees.length,
-                content: <HonoreesManager couple={couple} uploadsEnabled={uploadsEnabled} />,
-              }
-            : {
-                value: "story",
-                label: "Our story",
-                count: couple.storyMilestones.length,
-                content: <StoryManager couple={couple} uploadsEnabled={uploadsEnabled} />,
-              },
-          {
-            value: "photos",
-            label: "Photos",
-            count: couple.photos.length,
-            content: <PhotosManager couple={couple} uploadsEnabled={uploadsEnabled} />,
-          },
-          {
-            value: "schedule",
-            label: "Venues and schedule",
-            count: couple.events.length,
-            content: <ScheduleManager couple={couple} uploadsEnabled={uploadsEnabled} />,
-          },
-          {
-            value: "gifts",
-            label: "Gifts",
-            count: couple.giftAccounts.length + couple.wishlistItems.length,
-            content: <GiftsManager couple={couple} uploadsEnabled={uploadsEnabled} />,
-          },
-          {
-            value: "rsvps",
-            label: "RSVPs",
-            count: rsvpRows.length,
-            content: (
-              <div className="grid gap-6">
-                <CoupleAccessPanel
-                  coupleId={couple.id}
-                  coupleNames={names}
-                  status={accessSummary}
-                  enabled={couple.couplePageEnabled}
-                  eventType={couple.eventType}
-                />
-                <RsvpList
-                  coupleId={couple.id}
-                  rows={rsvpRows}
-                  timezone={couple.timezone}
-                  siteBase={links.share}
-                  coupleNames={names}
-                  eventType={couple.eventType}
-                  cardsEnabled={couple.guestCardsEnabled}
-                />
-              </div>
-            ),
-          },
-        ]}
-      />
+      <AdminLocalesProvider locales={sanitizeLocales(couple.enabledLocales)}>
+        <CoupleTabs
+          initial={tab ?? "details"}
+          tabs={[
+            {
+              value: "details",
+              label: "Details",
+              content: (
+                <div className="rounded-xl border bg-background p-4 sm:p-6">
+                  <CoupleDetailsForm
+                    couple={couple}
+                    eventType={couple.eventType}
+                    timeZones={Intl.supportedValuesOf("timeZone")}
+                    uploadsEnabled={uploadsEnabled}
+                    siteBase={links.pattern}
+                  />
+                </div>
+              ),
+            },
+            {
+              value: "texts",
+              label: "Invitation text",
+              content: (
+                <div className="rounded-xl border bg-background p-4 sm:p-6">
+                  <CoupleTextsForm couple={couple} />
+                </div>
+              ),
+            },
+            // Honoree sites tell their story on each person's card and in the story text; the dated chapters are a couple's.
+            honorees
+              ? {
+                  value: "people",
+                  label: "People",
+                  count: couple.honorees.length,
+                  content: <HonoreesManager couple={couple} uploadsEnabled={uploadsEnabled} />,
+                }
+              : {
+                  value: "story",
+                  label: "Our story",
+                  count: couple.storyMilestones.length,
+                  content: <StoryManager couple={couple} uploadsEnabled={uploadsEnabled} />,
+                },
+            {
+              value: "photos",
+              label: "Photos",
+              count: couple.photos.length,
+              content: <PhotosManager couple={couple} uploadsEnabled={uploadsEnabled} />,
+            },
+            {
+              value: "schedule",
+              label: "Venues and schedule",
+              count: couple.events.length,
+              content: <ScheduleManager couple={couple} uploadsEnabled={uploadsEnabled} />,
+            },
+            {
+              value: "gifts",
+              label: "Gifts",
+              count: couple.giftAccounts.length + couple.wishlistItems.length,
+              content: <GiftsManager couple={couple} uploadsEnabled={uploadsEnabled} />,
+            },
+            {
+              value: "rsvps",
+              label: "RSVPs",
+              count: rsvpRows.length,
+              content: (
+                <div className="grid gap-6">
+                  <CoupleAccessPanel
+                    coupleId={couple.id}
+                    coupleNames={names}
+                    status={accessSummary}
+                    enabled={couple.couplePageEnabled}
+                    eventType={couple.eventType}
+                  />
+                  <RsvpList
+                    coupleId={couple.id}
+                    rows={rsvpRows}
+                    timezone={couple.timezone}
+                    siteBase={links.share}
+                    coupleNames={names}
+                    eventType={couple.eventType}
+                    cardsEnabled={couple.guestCardsEnabled}
+                  />
+                </div>
+              ),
+            },
+          ]}
+        />
+      </AdminLocalesProvider>
     </div>
   );
 }

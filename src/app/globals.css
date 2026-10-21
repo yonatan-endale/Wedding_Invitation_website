@@ -239,6 +239,16 @@
     font-size: 1.1875rem;
     line-height: 1.9;
   }
+
+  /*
+   * On Arabic pages a couple's English text (no Arabic version written yet)
+   * or a Latin date line takes its own direction from its first letter, so its
+   * full stop stays at the end. Alignment still follows the page.
+   */
+  .wedding:lang(ar) :is(p, h1, h2, h3, h4, li, dt, dd, blockquote, figcaption, label, td, th),
+  .wedding:lang(ar) [lang]:not([lang="ar"]) {
+    unicode-bidi: plaintext;
+  }
 }
 
 @keyframes music-bar {

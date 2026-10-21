@@ -3,11 +3,8 @@ import { cookies, headers } from "next/headers";
 import { getSiteData } from "@/db/queries/site";
 import { LOCALE_COOKIE, SITE_HEADER } from "@/lib/constants";
 import { messagesForEvent } from "@/lib/event-messages";
-import { isLocale, LOCALES, type Locale } from "@/lib/localized";
+import { DEFAULT_SITE_LOCALES, isLocale } from "@/lib/localized";
 import { pickLocale } from "./pick-locale";
-
-/** Languages with a message file. */
-const TRANSLATED: readonly Locale[] = ["en", "am"];
 
 /**
  * The site behind this request, from the header the middleware sets on
@@ -21,11 +18,11 @@ async function currentSite() {
 /** An explicit locale, as in getTranslations({ locale }) for a guest's card, wins over the visitor's own. */
 export default getRequestConfig(async ({ locale: requested }) => {
   const site = await currentSite();
-  const offered = (site?.couple.enabledLocales ?? LOCALES).filter((locale) => TRANSLATED.includes(locale));
-  const locale =
-    isLocale(requested) && TRANSLATED.includes(requested)
-      ? requested
-      : pickLocale(offered, (await cookies()).get(LOCALE_COOKIE)?.value, (await headers()).get("accept-language"));
+  // Pages outside a guest site (the landing page, admin) stay in English or Amharic.
+  const offered = site?.couple.enabledLocales ?? DEFAULT_SITE_LOCALES;
+  const locale = isLocale(requested)
+    ? requested
+    : pickLocale(offered, (await cookies()).get(LOCALE_COOKIE)?.value, (await headers()).get("accept-language"));
   const messages = (await import(`../../messages/${locale}.json`)).default;
   return {
     locale,

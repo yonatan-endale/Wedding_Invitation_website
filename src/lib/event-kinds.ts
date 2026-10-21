@@ -1,13 +1,13 @@
 import type { Ornament } from "./appearance";
 import type { EventType } from "./event-types";
-import type { LocalizedText } from "./localized";
+import type { Locale, LocalizedText } from "./localized";
 
 /**
  * What kind of step an event is. The wedding kinds follow a Habesha wedding:
  * the days before, the ceremony in each tradition, the day itself and the days
  * after; the other event types add their own after them. Picking a kind in
- * admin pre-fills a bilingual title; the title stays editable. The Amharic
- * titles are listed in docs/i18n-review.md for a native speaker.
+ * admin pre-fills the title in every language; the title stays editable. The
+ * drafts are listed in docs/i18n-review*.md for native speakers.
  */
 const WEDDING_KINDS = [
   "telosh",
@@ -37,21 +37,21 @@ type EventKindMeta = {
 };
 
 export const EVENT_KIND_META: Record<EventKind, EventKindMeta> = {
-  telosh: { label: "Telosh (the groom's family brings gifts)", title: { en: "Telosh", am: "ጥሎሽ" } },
-  ceremony_orthodox: { label: "Church ceremony (Orthodox)", title: { en: "Church ceremony", am: "የቤተክርስቲያን ሥርዓት" } },
-  ceremony_protestant: { label: "Wedding service (Protestant)", title: { en: "Wedding service", am: "የጋብቻ አገልግሎት" } },
-  ceremony_civil: { label: "Vow ceremony", title: { en: "Vow ceremony", am: "የቃልኪዳን ሥርዓት" } },
-  nikah: { label: "Nikah", title: { en: "Nikah", am: "ኒካህ" } },
-  photos: { label: "Photo session", title: { en: "Photo session", am: "የፎቶ ፕሮግራም" } },
-  reception: { label: "Reception", title: { en: "Reception", am: "የሠርግ ግብዣ" } },
-  blessing: { label: "Elders' blessing", title: { en: "Elders' blessing", am: "የሽማግሌዎች ምርቃት" } },
-  mels: { label: "Mels (the return)", title: { en: "Mels", am: "መልስ" } },
-  kelekel: { label: "Kelekel (the families meet)", title: { en: "Kelekel", am: "ቅልቅል" } },
-  buna: { label: "Coffee ceremony", title: { en: "Coffee ceremony", am: "የቡና ሥነ ሥርዓት" } },
-  commencement: { label: "Graduation ceremony", title: { en: "Graduation ceremony", am: "የምረቃ ሥነ ሥርዓት" } },
-  celebration: { label: "Celebration (lunch, dinner or party)", title: { en: "Celebration", am: "የደስታ ግብዣ" } },
-  cake: { label: "Cake and candles", title: { en: "Cake and candles", am: "ኬክ መቁረስ" } },
-  christening: { label: "Christening (church service)", title: { en: "Christening", am: "ክርስትና" } },
+  telosh: { label: "Telosh (the groom's family brings gifts)", title: { en: "Telosh", am: "ጥሎሽ", ar: "تيلوش", ti: "ጥሎሽ", om: "Tilosh" } },
+  ceremony_orthodox: { label: "Church ceremony (Orthodox)", title: { en: "Church ceremony", am: "የቤተክርስቲያን ሥርዓት", ar: "مراسم الكنيسة", ti: "ስርዓት ቤተ ክርስትያን", om: "Sirna mana kiristaanaa" } },
+  ceremony_protestant: { label: "Wedding service (Protestant)", title: { en: "Wedding service", am: "የጋብቻ አገልግሎት", ar: "خدمة الزفاف", ti: "ኣገልግሎት መርዓ", om: "Tajaajila cidhaa" } },
+  ceremony_civil: { label: "Vow ceremony", title: { en: "Vow ceremony", am: "የቃልኪዳን ሥርዓት", ar: "مراسم تبادل العهود", ti: "ስርዓት ቃል ኪዳን", om: "Sirna kakuu" } },
+  nikah: { label: "Nikah", title: { en: "Nikah", am: "ኒካህ", ar: "عقد القران", ti: "ኒካሕ", om: "Nikaahaa" } },
+  photos: { label: "Photo session", title: { en: "Photo session", am: "የፎቶ ፕሮግራም", ar: "جلسة التصوير", ti: "መደብ ስእሊ", om: "Sagantaa suuraa" } },
+  reception: { label: "Reception", title: { en: "Reception", am: "የሠርግ ግብዣ", ar: "حفل الاستقبال", ti: "ዕድመ መርዓ", om: "Affeerraa cidhaa" } },
+  blessing: { label: "Elders' blessing", title: { en: "Elders' blessing", am: "የሽማግሌዎች ምርቃት", ar: "مباركة الكبار", ti: "ምርቓ ዓበይቲ", om: "Eebba maanguddootaa" } },
+  mels: { label: "Mels (the return)", title: { en: "Mels", am: "መልስ", ar: "ميلس", ti: "መልሲ", om: "Mels" } },
+  kelekel: { label: "Kelekel (the families meet)", title: { en: "Kelekel", am: "ቅልቅል", ar: "كيليكيل", ti: "ቅልቅል", om: "Kelekel" } },
+  buna: { label: "Coffee ceremony", title: { en: "Coffee ceremony", am: "የቡና ሥነ ሥርዓት", ar: "مراسم القهوة", ti: "ስርዓት ቡን", om: "Sirna buna" } },
+  commencement: { label: "Graduation ceremony", title: { en: "Graduation ceremony", am: "የምረቃ ሥነ ሥርዓት", ar: "حفل التخرج", ti: "ስርዓት ምረቓ", om: "Sirna eebbaa" } },
+  celebration: { label: "Celebration (lunch, dinner or party)", title: { en: "Celebration", am: "የደስታ ግብዣ", ar: "احتفال", ti: "ዕድመ ሓጎስ", om: "Ayyaana" } },
+  cake: { label: "Cake and candles", title: { en: "Cake and candles", am: "ኬክ መቁረስ", ar: "الكعكة والشموع", ti: "ኬክ ምቑራስ", om: "Keekii fi shamaa" } },
+  christening: { label: "Christening (church service)", title: { en: "Christening", am: "ክርስትና", ar: "المعمودية", ti: "ክርስትና", om: "Kiristinnaa" } },
   other: { label: "Other", title: null },
 };
 
@@ -86,18 +86,20 @@ export function getEventKind(value: unknown): EventKind {
  * the title as it is.
  */
 export function titleForKind(
-  title: { en: string; am: string },
+  title: Partial<Record<Locale, string>>,
   from: EventKind,
   to: EventKind,
-): { en: string; am: string } {
+): Partial<Record<Locale, string>> {
   const next = EVENT_KIND_META[to].title;
   if (!next) return title;
   const previous = EVENT_KIND_META[from].title;
   const untouched = (value: string, previousDefault = "") => !value.trim() || value.trim() === previousDefault;
-  return {
-    en: untouched(title.en, previous?.en) ? next.en : title.en,
-    am: untouched(title.am, previous?.am) ? (next.am ?? "") : title.am,
-  };
+  return Object.fromEntries(
+    Object.entries(title).map(([locale, value = ""]) => {
+      const code = locale as Locale;
+      return [code, untouched(value, previous?.[code]) ? (next[code] ?? "") : value];
+    }),
+  );
 }
 
 /** The drawings the timeline can put beside an event title (see ornaments/event-icons.tsx). */

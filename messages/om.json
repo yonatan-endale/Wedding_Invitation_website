@@ -1,0 +1,651 @@
+{
+  "intro": {
+    "invited": "Cidha fuudhaa fi heerumaa kanaaf affeeramtaniittu",
+    "open": "Affeerraa banaa",
+    "dear": "Jaalatamaa {name},",
+    "pressToOpen": "Banuuf tuqaa",
+    "sealLabel": "Affeerraa {one} fi {two} irraa dhufe banaa",
+    "openEnvelope": "Banuuf poostaa tuqaa",
+    "letter": "ayyaana cidha isaanii irratti akka argamtan isin affeeru",
+    "tapFlower": "Banuuf abaaboo tuqaa"
+  },
+  "nav": {
+    "label": "Kutaalee",
+    "menu": "Baafata",
+    "close": "Baafata cufaa",
+    "invitation": "Affeerraa",
+    "couple": "Misirroota",
+    "story": "Seenaa keenya",
+    "schedule": "Sagantaa guyyaa",
+    "venues": "Bakkeewwan",
+    "gallery": "Suuraalee",
+    "gifts": "Kennaa",
+    "rsvp": "Deebii"
+  },
+  "language": {
+    "label": "Afaan",
+    "en": "English",
+    "am": "አማርኛ"
+  },
+  "couple": {
+    "heading": "Misirroota",
+    "bride": "Misirrittii",
+    "groom": "Misirricha"
+  },
+  "footer": {
+    "families": "Jaalalaan, maatii misirrittii fi misirrichaa"
+  },
+  "countdown": {
+    "heading": "Guyyaa cidhaa",
+    "label": "Hanga guyyaa cidhaatti yeroo hafe",
+    "until": "Hanga guyyaa guddaatti kan hafe",
+    "since": "Erga gaa'ela raawwannee as",
+    "days": "guyyaa",
+    "hours": "sa'aatii",
+    "minutes": "daqiiqaa",
+    "seconds": "sekondii",
+    "summary": "{days, plural, one {guyyaa #} other {guyyaa #}}, {hours, plural, one {sa'aatii #} other {sa'aatii #}} fi {minutes, plural, one {daqiiqaa #} other {daqiiqaa #}} hafe",
+    "summarySince": "Cidha booda {days, plural, one {guyyaa #} other {guyyaa #}}, {hours, plural, one {sa'aatii #} other {sa'aatii #}} fi {minutes, plural, one {daqiiqaa #} other {daqiiqaa #}} darbe"
+  },
+  "saveTheDate": {
+    "title": "Guyyaa kana qabadhaa",
+    "couple": "{one} fi {two}",
+    "switchLabel": "Dhaha guyyaa",
+    "ethiopian": "Kan Itoophiyaa",
+    "gregorian": "Kan Gorgooriyaa",
+    "captionEthiopian": "{month} {year} dhaha guyyaa Itoophiyaatiin, guyyaan cidhaa mallattaa'eera",
+    "captionGregorian": "{month} {year}, guyyaan cidhaa mallattaa'eera",
+    "weddingDay": "Guyyaa cidhaa"
+  },
+  "calendar": {
+    "add": "Cidha kana dhaha guyyaa keessan irratti dabaladhaa",
+    "google": "Google Calendar",
+    "ics": "Apple / Outlook",
+    "eventTitle": "Cidha {one} fi {two}",
+    "details": "Affeeramtaniittu. Affeerraan guutuun, sagantaan guyyaa fi deebiin marsariitii irra jiru."
+  },
+  "invitation": {
+    "eyebrow": "Affeerraa cidhaa",
+    "hostsFallback": "Maatii isaanii wajjin ta'uun",
+    "defaultText": "ayyaana gaa'ela isaanii irratti argamtanii gammachuu isaanii akka qooddattan kabajaan isin affeeru.",
+    "dressCode": "Akkaataa uffannaa",
+    "ethiopianDate": "Dhaha guyyaa Itoophiyaa"
+  },
+  "story": {
+    "heading": "Seenaa keenya"
+  },
+  "schedule": {
+    "heading": "Sagantaa guyyaa",
+    "directions": "Kallattii",
+    "viewLocation": "Bakka ilaalaa",
+    "end": "Xumura guyyaa",
+    "endAt": "Xumura guyyaa, {time}",
+    "showDetails": "Bal'ina ilaalaa",
+    "hideDetails": "Bal'ina dhoksaa"
+  },
+  "venues": {
+    "heading": "Bakka nu argattan",
+    "openMaps": "Google Maps irratti banaa",
+    "showMap": "Kaartaa agarsiisaa",
+    "hideMap": "Kaartaa dhoksaa",
+    "mapTitle": "Kaartaa {name}"
+  },
+  "gallery": {
+    "heading": "Suuraalee",
+    "previous": "Suuraa duraa",
+    "next": "Suuraa itti aanu",
+    "open": "Suuraa {index} guutummaa iskiriinii irratti ilaalaa",
+    "close": "Cufaa",
+    "counter": "{current} / {total}",
+    "pause": "Suuraalee dhaabaa",
+    "play": "Suuraalee taphachiisaa"
+  },
+  "gifts": {
+    "heading": "Kennaa",
+    "defaultNote": "Argamuun keessan kennaa guddaa nuuf ti. Kennaa kennuu yoo barbaaddan, odeeffannoo armaan gadii fayyadamuu ni dandeessu.",
+    "accountName": "Maqaa abbaa herregaa",
+    "copy": "Lakkoofsa garagalchaa",
+    "copied": "Garagalfameera",
+    "copyFailed": "Garagalchuun hin milkoofne. Lakkoofsa filadhaatii harkaan garagalchaa.",
+    "showQr": "Koodii QR agarsiisaa",
+    "hideQr": "Koodii QR dhoksaa",
+    "qrAlt": "Koodii QR {number}",
+    "wishlist": "Tarree kennaa",
+    "viewItem": "Meeshaa ilaalaa",
+    "kind": {
+      "bank": "Dabarsa baankii",
+      "telebirr": "Telebirr",
+      "other": "Kan biraa"
+    }
+  },
+  "rsvp": {
+    "heading": "Argamuu keessan nutti himaa",
+    "intro": "Nu bira argamuu dandeessanii fi dandeessanii akka nutti himtan kabajaan isin gaafanna.",
+    "replyBy": "Maaloo hanga {date}tti deebii nuuf kennaa.",
+    "closed": "Yeroon deebii kennuu darbeera. Maaloo misirroota kallattiin quunnamaa.",
+    "name": "Maqaa guutuu",
+    "phone": "Lakkoofsa bilbilaa",
+    "email": "Imeelii (dirqama miti)",
+    "attendance": "Ni argamtuu?",
+    "yes": "Gammachuun nan argama",
+    "no": "Gaddaan hin argamu",
+    "guestCount": "Keessummoota, isin dabalatee",
+    "message": "Ergaa misirrootaaf (dirqama miti)",
+    "submit": "Deebii ergaa",
+    "sending": "Ergamaa jira…",
+    "thanksYes": "Galatoomaa, {name}. Isin wajjin ayyaaneffachuuf hawwiin eegaa jirra.",
+    "thanksNo": "Nutti himuu keessaniif galatoomaa, {name}. Isin dhabuun nu gaddisiisa.",
+    "another": "Deebii biraa ergaa",
+    "errors": {
+      "name": "Maqaa keessan guutuu galchaa.",
+      "phone": "Lakkoofsa bilbilaa galchaa, fakkeenyaaf +251 911 234 567.",
+      "email": "Imeelii sirrii galchaa ykn duwwaa dhiisaa.",
+      "guestCount": "Keessummoota 1 hanga 10 filadhaa.",
+      "message": "Ergaan qubee 500 gadi haa ta'u.",
+      "attending": "Ni argamtu moo hin argamtu, filadhaa.",
+      "generic": "Deebiin keessan hin ergamne. Walqunnamtii keessan mirkaneessaatii irra deebi'aa yaalaa.",
+      "rateLimited": "Yaaliin baay'ee ta'eera. Daqiiqaa tokko eegaatii irra deebi'aa yaalaa.",
+      "closed": "Deebiin cidha kanaa cufameera."
+    }
+  },
+  "card": {
+    "dear": "Jaalatamaa {name},",
+    "admits": "Nama {count}f seensa",
+    "showAtEntrance": "Koodii kana balbala seensaa irratti agarsiisaa",
+    "ready": "Kaardiin affeerraa dhuunfaa keessanii qophaa'eera.",
+    "download": "Kaardii buusaa",
+    "viewAndShare": "Ilaalaa fi qoodaa",
+    "imageAlt": "Kaardii affeerraa {name}f",
+    "pageTitle": "Affeerraa {name}",
+    "pageIntro": "Kaardii kana bilbila keessan irratti olkaa'aatii koodii QR isaa balbala seensaa irratti agarsiisaa.",
+    "share": "Qoodaa",
+    "shareText": "Affeerraa cidha {couple} kiyya",
+    "whatsapp": "WhatsApp",
+    "telegram": "Telegram",
+    "copyLink": "Liinkii garagalchaa",
+    "copied": "Liinkiin garagalfameera",
+    "copyFailed": "Liinkii garagalchuun hin danda'amne.",
+    "openSite": "Marsariitii cidhaa banaa",
+    "pass": {
+      "title": "Hayyama seensaa",
+      "valid": "Affeerraa sirrii",
+      "invalid": "Affeerraan sirrii miti",
+      "invalidBody": "Affeerraan kun haqameera ykn koodiin dogoggora. Maaloo maatii misirrootaa gaafadhaa."
+    }
+  },
+  "couplePortal": {
+    "title": "Deebiiwwanii fi hawwiiwwan keessan",
+    "unlockTitle": "Fuula dhuunfaa keessan",
+    "unlockIntro": "Koodii icciitii adda isinii ergame galchaa.",
+    "passcode": "Koodii icciitii",
+    "unlock": "Banaa",
+    "unlocking": "Banamaa jira…",
+    "noLink": "Liinkii dhuunfaa isinii ergame banaa. Yoo isin jalaa bade, haaraa gaafadhaa.",
+    "signOut": "Ba'aa",
+    "errors": {
+      "invalid": "Koodiin icciitii ykn liinkiin sun sirrii miti.",
+      "locked": "Yaaliin dogoggoraa baay'ee ta'eera. Fuulli yeroof cufameera; booda irra deebi'aa yaalaa.",
+      "rateLimited": "Yaaliin baay'ee ta'eera. Daqiiqaa tokko eegaatii irra deebi'aa yaalaa.",
+      "generic": "Rakkoon uumameera. Walqunnamtii keessan mirkaneessaatii irra deebi'aa yaalaa."
+    },
+    "stats": {
+      "responses": "Deebiiwwan",
+      "coming": "Keessummoota dhufan",
+      "declined": "Hin dhufan"
+    },
+    "wishesHeading": "Hawwiiwwan gaarii",
+    "noWishes": "Ammaaf hawwiin hin jiru. Ergaan foormii deebii irraa dhufan as mul'atu.",
+    "hide": "Dhoksaa",
+    "unhide": "Deebisaa agarsiisaa",
+    "hiddenHeading": "Hawwiiwwan dhokfaman ({count})",
+    "guestsHeading": "Keessummoota",
+    "noGuests": "Ammaaf deebiin hin jiru.",
+    "coming": "Ni dhufu",
+    "notComing": "Hin dhufan",
+    "guestCount": "Keessummoota",
+    "downloadCard": "Kaardii buusaa",
+    "sendWhatsApp": "WhatsApp irratti ergaa",
+    "copyCardLink": "Liinkii kaardii garagalchaa",
+    "copied": "Garagalfameera",
+    "copyFailed": "Liinkii garagalchuun hin danda'amne.",
+    "cardShareText": "Kaardii affeerraa cidha {couple} keessan: {url}"
+  },
+  "memories": {
+    "heading": "Suuraalee keessan nuuf qoodaa",
+    "body": "Cidha irratti suuraa kaaftanii? Telegram irratti nuuf ergaa.",
+    "cta": "Telegram banaa"
+  },
+  "music": {
+    "play": "Muuziqaa taphachiisaa",
+    "pause": "Muuziqaa dhaabaa",
+    "nowPlaying": "Amma kan taphatu: {title}"
+  },
+  "notFound": {
+    "title": "Affeerraan kun hin argamu",
+    "body": "Liinkii isinii ergame mirkaneeffadhaa, ykn misirroota liinkii haaraa gaafadhaa."
+  },
+  "motion": {
+    "pause": "Sochii dhaabaa",
+    "play": "Sochii eegalchiisaa"
+  },
+  "layouts": {
+    "reel": {
+      "presents": "Maatiin lama ni dhiyeessu",
+      "starring": "Taphattoota ijoo",
+      "scenes": "Mul'atoota",
+      "locations": "Bakkeewwan",
+      "stills": "Suuraalee",
+      "ending": "Akkasitti jalqaba",
+      "date": "Guyyaa",
+      "time": "Sa'aatii",
+      "venue": "Bakka"
+    },
+    "noir": {
+      "accountNumber": "Lakkoofsa herregaa",
+      "morePhotos": "{count, plural, one {Suuraa # dabalataa ilaalaa} other {Suuraalee # dabalataa ilaalaa}}"
+    },
+    "arches": {
+      "allPhotos": "Suuraalee {count} hunda ilaalaa"
+    },
+    "stories": {
+      "open": "Affeerraa banaa",
+      "previous": "Fuula duraa",
+      "next": "Fuula itti aanu",
+      "thanks": "Galatoomaa",
+      "restart": "Gara jalqabaatti deebi'aa",
+      "allPhotos": "Suuraalee {count} hunda ilaalaa"
+    },
+    "kaba": {
+      "mels": "Aadaa maatii"
+    },
+    "flatlay": {
+      "thanks": "Galatoomaa",
+      "thanksNote": "Guyyaa kana isin wajjin qooddachuu keenyaan baay'ee gammadneerra.",
+      "allPhotos": "Suuraalee {count} hunda ilaalaa"
+    },
+    "brana": {
+      "date": "Guyyaa",
+      "time": "Sa'aatii",
+      "place": "Bakka",
+      "event": "Sagantaa",
+      "number": "Lakkoofsa",
+      "allPhotos": "Suuraalee {count} hunda ilaalaa",
+      "chapter": "Boqonnaa",
+      "colophon": "Kitaabni kun asitti xumurama; jaalalli keessatti barreeffame garuu xumura hin qabaatin.",
+      "writtenIn": "Bara <year></year> dhaha guyyaa Itoophiyaatiin barreeffame"
+    },
+    "slate": {
+      "confirm": "Argamuu mirkaneessaa",
+      "seeDay": "Sagantaa guyyaa ilaalaa",
+      "scroll": "Gadi siqsaa",
+      "kicker": {
+        "invitation": "Affeeramtaniittu",
+        "schedule": "Sa'aatii sa'aatiin",
+        "venues": "Karaa keessan argadhaa",
+        "gallery": "Kan nuti jaallannu muraasa",
+        "story": "Akkamitti akka jalqabe",
+        "rsvp": "Akka dhuftan abdanna",
+        "gifts": "Galata wajjin",
+        "thanks": "Galatoomaa"
+      },
+      "footerNav": "Fuula kana irratti",
+      "backToTop": "Gara oliitti deebi'aa",
+      "signature": "Jaalalaan, {one} fi {two}",
+      "when": "Yoom",
+      "where": "Eessa"
+    },
+    "commencement": {
+      "classOf": "Eebbifamtoota bara {year}",
+      "gallery": "Karaa irratti"
+    },
+    "tassel": {
+      "graduates": "{count, plural, one {Eebbifamaa bara {year}} other {Eebbifamtoota bara {year}}}",
+      "gallery": "Karaa irratti"
+    },
+    "confetti": {
+      "party": "Haa ayyaaneffannu",
+      "gallery": "Waggoota keessa"
+    },
+    "milestone": {
+      "years": "waggaa",
+      "gallery": "Waggoota keessa"
+    },
+    "shema": {
+      "christeningName": "Maqaa cuuphaa",
+      "godparents": "Abbaa fi haadha cuuphaa",
+      "gallery": "Yeroolee xixiqqoo"
+    }
+  },
+  "honorees": {
+    "heading": "{count, plural, one {Kan nuti kabajnu} other {Warra nuti kabajnu}}"
+  },
+  "events": {
+    "honorees": {
+      "intro": {
+        "sealLabel": "Affeerraa {one} irraa dhufe banaa",
+        "letter": "isaan wajjin akka ayyaaneffattan isin affeeru"
+      },
+      "nav": {
+        "couple": "Kan nuti kabajnu",
+        "story": "Seenaa isaanii"
+      },
+      "couple": {
+        "heading": "Kan nuti kabajnu"
+      },
+      "story": {
+        "heading": "Seenaa isaanii"
+      },
+      "footer": {
+        "families": "Jaalalaan, maatii"
+      },
+      "countdown": {
+        "since": "Ayyaanicha booda",
+        "summarySince": "Ayyaanicha booda {days, plural, one {guyyaa #} other {guyyaa #}}, {hours, plural, one {sa'aatii #} other {sa'aatii #}} fi {minutes, plural, one {daqiiqaa #} other {daqiiqaa #}} darbe"
+      },
+      "saveTheDate": {
+        "couple": "{one}"
+      },
+      "invitation": {
+        "hostsFallback": "Maatii isaanii wajjin ta'uun"
+      },
+      "rsvp": {
+        "closed": "Yeroon deebii kennuu darbeera. Maaloo maatii kallattiin quunnamaa.",
+        "message": "Ergaa isaaniif (dirqama miti)",
+        "errors": {
+          "closed": "Deebiin ayyaana kanaa cufameera."
+        }
+      },
+      "card": {
+        "openSite": "Marsariitii affeerraa banaa",
+        "pass": {
+          "invalidBody": "Affeerraan kun haqameera ykn koodiin dogoggora. Maaloo maatii gaafadhaa."
+        }
+      },
+      "memories": {
+        "body": "Ayyaana irratti suuraa kaaftanii? Telegram irratti nuuf ergaa."
+      },
+      "notFound": {
+        "body": "Liinkii isinii ergame mirkaneeffadhaa, ykn maatii liinkii haaraa gaafadhaa."
+      }
+    },
+    "graduation": {
+      "intro": {
+        "invited": "Ayyaana eebbaa kanaaf affeeramtaniittu",
+        "letter": "ayyaana eebba isaanii irratti akka argamtan isin affeeru"
+      },
+      "nav": {
+        "couple": "Eebbifamtoota"
+      },
+      "couple": {
+        "heading": "Eebbifamtoota"
+      },
+      "honorees": {
+        "heading": "{count, plural, one {Eebbifamaa keenya} other {Eebbifamtoota keenya}}"
+      },
+      "countdown": {
+        "heading": "Guyyaa eebbaa",
+        "label": "Hanga guyyaa eebbaatti yeroo hafe",
+        "since": "Guyyaa eebbaa booda",
+        "summarySince": "Guyyaa eebbaa booda {days, plural, one {guyyaa #} other {guyyaa #}}, {hours, plural, one {sa'aatii #} other {sa'aatii #}} fi {minutes, plural, one {daqiiqaa #} other {daqiiqaa #}} darbe"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} dhaha guyyaa Itoophiyaatiin, guyyaan eebbaa mallattaa'eera",
+        "captionGregorian": "{month} {year}, guyyaan eebbaa mallattaa'eera",
+        "weddingDay": "Guyyaa eebbaa"
+      },
+      "calendar": {
+        "add": "Eebba kana dhaha guyyaa keessan irratti dabaladhaa",
+        "eventTitle": "Eebba {one}"
+      },
+      "invitation": {
+        "eyebrow": "Affeerraa eebbaa",
+        "defaultText": "ayyaana eebba isaanii irratti argamtanii gammachuu isaanii akka qooddattan kabajaan isin affeeru."
+      },
+      "rsvp": {
+        "message": "Ergaa eebbifamtootaaf (dirqama miti)",
+        "errors": {
+          "closed": "Deebiin eebba kanaa cufameera."
+        }
+      },
+      "card": {
+        "shareText": "Affeerraa eebba {couple} kiyya"
+      },
+      "couplePortal": {
+        "cardShareText": "Kaardii affeerraa eebba {couple} keessan: {url}"
+      }
+    },
+    "birthday": {
+      "intro": {
+        "invited": "Ayyaana guyyaa dhalootaa kanaaf affeeramtaniittu",
+        "letter": "ayyaana guyyaa dhaloota isaanii irratti akka argamtan isin affeeru"
+      },
+      "nav": {
+        "couple": "Guyyaa dhalootaa"
+      },
+      "countdown": {
+        "heading": "Guyyaa dhalootaa",
+        "label": "Hanga guyyaa dhalootaatti yeroo hafe",
+        "since": "Guyyaa dhalootaa booda",
+        "summarySince": "Guyyaa dhalootaa booda {days, plural, one {guyyaa #} other {guyyaa #}}, {hours, plural, one {sa'aatii #} other {sa'aatii #}} fi {minutes, plural, one {daqiiqaa #} other {daqiiqaa #}} darbe"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} dhaha guyyaa Itoophiyaatiin, guyyaan dhalootaa mallattaa'eera",
+        "captionGregorian": "{month} {year}, guyyaan dhalootaa mallattaa'eera",
+        "weddingDay": "Guyyaa dhalootaa"
+      },
+      "calendar": {
+        "add": "Guyyaa dhalootaa kana dhaha guyyaa keessan irratti dabaladhaa",
+        "eventTitle": "Guyyaa dhaloota {one}"
+      },
+      "invitation": {
+        "eyebrow": "Affeerraa guyyaa dhalootaa",
+        "defaultText": "ayyaana guyyaa dhaloota isaanii irratti argamtanii gammachuu isaanii akka qooddattan kabajaan isin affeeru."
+      },
+      "rsvp": {
+        "message": "Hawwii guyyaa dhalootaa (dirqama miti)",
+        "errors": {
+          "closed": "Deebiin guyyaa dhalootaa kanaa cufameera."
+        }
+      },
+      "card": {
+        "shareText": "Affeerraa guyyaa dhaloota {couple} kiyya"
+      },
+      "couplePortal": {
+        "cardShareText": "Kaardii affeerraa guyyaa dhaloota {couple} keessan: {url}"
+      }
+    },
+    "baptism": {
+      "intro": {
+        "invited": "Ayyaana cuuphaa kanaaf affeeramtaniittu",
+        "letter": "ayyaana cuuphaa isaanii irratti akka argamtan isin affeeru"
+      },
+      "countdown": {
+        "heading": "Guyyaa cuuphaa",
+        "label": "Hanga guyyaa cuuphaatti yeroo hafe",
+        "since": "Cuuphaa booda",
+        "summarySince": "Cuuphaa booda {days, plural, one {guyyaa #} other {guyyaa #}}, {hours, plural, one {sa'aatii #} other {sa'aatii #}} fi {minutes, plural, one {daqiiqaa #} other {daqiiqaa #}} darbe"
+      },
+      "saveTheDate": {
+        "captionEthiopian": "{month} {year} dhaha guyyaa Itoophiyaatiin, guyyaan cuuphaa mallattaa'eera",
+        "captionGregorian": "{month} {year}, guyyaan cuuphaa mallattaa'eera",
+        "weddingDay": "Guyyaa cuuphaa"
+      },
+      "calendar": {
+        "add": "Cuuphaa kana dhaha guyyaa keessan irratti dabaladhaa",
+        "eventTitle": "Cuuphaa {one}"
+      },
+      "invitation": {
+        "eyebrow": "Affeerraa cuuphaa",
+        "defaultText": "ayyaana cuuphaa irratti argamtanii gammachuu isaanii akka qooddattan kabajaan isin affeeru."
+      },
+      "rsvp": {
+        "message": "Eebba ykn ergaa (dirqama miti)",
+        "errors": {
+          "closed": "Deebiin cuuphaa kanaa cufameera."
+        }
+      },
+      "card": {
+        "shareText": "Affeerraa cuuphaa {couple} kiyya"
+      },
+      "couplePortal": {
+        "cardShareText": "Kaardii affeerraa cuuphaa {couple} keessan: {url}"
+      }
+    }
+  },
+  "showcase": {
+    "title": "Dizaayinoota keenya",
+    "intro": "Bifa nuti hojjannu hunda, fakkeenyota uumaman irratti. Tokko tuqaatii banaa, achii halluu fi fuula banamaa biroo yaalaa. Maqaan, bakki fi lakkoofsi uumamoo dha, fakkiiwwanis fakkii kaafamoo dha.",
+    "filterLabel": "Agarsiisaa",
+    "all": "Hunda",
+    "kinds": {
+      "wedding": "Cidhoota",
+      "graduation": "Eebbawwan",
+      "birthday": "Guyyaa dhalootaa",
+      "baptism": "Cuuphaa"
+    },
+    "comingSoon": "Kaadhimmannaan dhiyootti ni dhufa.",
+    "tryIt": "Kallattiin yaalaa",
+    "loading": "Dizaayinii banaa jira…",
+    "backToPicture": "Gara fakkiitti deebi'aa",
+    "phoneTitle": "Fakkeenya kallattii dizaayinii {name}",
+    "posterAlt": "Fakkii dizaayinii {name}",
+    "mood": "Haala",
+    "goodFor": "Kan itti tolu",
+    "highlights": "Yeroolee addaa",
+    "colours": "Halluuwwan",
+    "opening": "Fuula banamaa",
+    "coloursNote": "Halluu biraa yaalaa",
+    "openingNote": "Banamaa biraa yaalaa",
+    "ask": "Dizaayinii kana gaafadhaa",
+    "example": "Marsariitiin fakkeenyaa maqaa uumamaa fi fakkii kaafamaa fayyadamu.",
+    "back": "Gara fuula jalqabaatti deebi'aa",
+    "openings": {
+      "netela": "Netela",
+      "seal": "Balbala chaappaa sibiilaa",
+      "envelope": "Poostaa",
+      "adey": "Abaaboo Adey"
+    },
+    "layouts": {
+      "classic": {
+        "feel": "Suuraa fuula duraa guutuu fi kaardii affeerraa gaagurame, achii sagantaa guyyaa, bakkeewwan fi suuraalee harkaan sochoofaman.",
+        "mood": "Ho'aa fi beekamaa",
+        "goodFor": "Maatii bifa aadaa, haala gaariin hojjetame barbaadan.",
+        "b1": "Kaardii affeerraa daangaa isin filattaniin gaagurame",
+        "b2": "Sagantaa guyyaa tartiibaan, tarkaanfii hundaaf mallattoo wajjin",
+        "b3": "Suuraalee harkaan sochoofaman"
+      },
+      "editorial": {
+        "feel": "Akka fuula maagaziinii: guyyaan lakkoofsa guddaadhaan, suuraa dhuunfaa bifa hanqaaquu fi seenaa jaalalaa guyyaa qabu.",
+        "mood": "Ifaa fi bareedaa",
+        "goodFor": "Misirroota seenaa himan qabanii fi suuraa dhuunfaa gaarii qaban.",
+        "b1": "Fuula duraa qoodame kan guyyaa lakkoofsa guddaadhaan qabu",
+        "b2": "Suuraa misirrootaa bifa hanqaaquu",
+        "b3": "Boqonnaalee seenaa guyyaa qaban fi suuraalee walmakoo"
+      },
+      "reel": {
+        "feel": "Akka fiilmii: maqaa jalqabaa, misirroonni akka taphattoota ijootti, guyyaan akka mul'atootaatti himama.",
+        "mood": "Dukkanaa'aa fi fiilmii fakkaataa",
+        "goodFor": "Misirroota suuraa fi viidiyoo jaallatan.",
+        "b1": "Fuula duraa bifa fiilmii kan maqaa jalqabaa qabu",
+        "b2": "Guyyaan akka mul'atootaatti himame",
+        "b3": "Suuraalee bifa fiilmii fi maqaa xumuraa"
+      },
+      "noir": {
+        "feel": "Uffata galgalaa: mallattoo maqaa warqee, maqaa warqeedhaan barreeffame fi suuraalee keenyan gaaguraman.",
+        "mood": "Dukkanaa'aa fi kabajaa",
+        "goodFor": "Cidha galgalaa fi simannaa kabajaa.",
+        "b1": "Mallattoo warqee qubee jalqabaa keessan irraa hojjetame",
+        "b2": "Maqaa warqeedhaan",
+        "b3": "Kaardii kennaa sibiila gurraacha"
+      },
+      "arches": {
+        "feel": "Halluu adii fi warqee, suuraa fuula duraa foddaa olii marsaa qabu keessatti.",
+        "mood": "Ifaa fi miidhagaa",
+        "goodFor": "Cidha mana amantaa fi bakka biqiltootaa.",
+        "b1": "Suuraa fuula duraa foddaa olii marsaa qabu keessatti",
+        "b2": "Misirroota lamaaf foddaa marsaa lama",
+        "b3": "Sagantaalee tarree foddaa marsaa fi suuraalee bifa foddaa marsaatiin muraman"
+      },
+      "stories": {
+        "feel": "Akka istooriiwwan bilbilaa tuqaa darbaa, kaardii fuula guutuu tokko tokkoon.",
+        "mood": "Ifaa fi taphaa",
+        "goodFor": "Misirroota dargaggoota fi keessummoota bilbila irraa hin fagaanne.",
+        "b1": "Kaardii tokko tokkoon, sararoota adeemsaa wajjin",
+        "b2": "Itti fufuuf tuqaa ykn furtuu xiyyaa fayyadamaa",
+        "b3": "Fuula duraa, affeerraa, sagantaa guyyaa, suuraalee fi deebii"
+      },
+      "flatlay": {
+        "feel": "Kaardiiwwan waraqaa huccuu irratti: poostaa chaappaa'e, achii kaardiiwwan yeroo gadi siqsitan walirra tuulaman.",
+        "mood": "Ifaa fi tuqamuu danda'u",
+        "goodFor": "Misirroota waraqaa fi wantoota xixiqqaaf yaadan.",
+        "b1": "Poostaa chaappaa'e kan gara kaardiiwwaniitti banamu",
+        "b2": "Kaardiiwwan affeerraa, sagantaa, odeeffannoo fi deebii walirra tuulaman",
+        "b3": "Suuraalee maxxanfaman fuula irratti diriirfaman"
+      },
+      "kaba": {
+        "feel": "Kabaa veelvetii misirrichaa: veelvetii gadi fagoo fi tolfama foon warqee kan ofumaan hodhamu.",
+        "mood": "Yeroo hunda dukkanaa'aa fi kabajamaa",
+        "goodFor": "Cidha aadaa Habashaa.",
+        "b1": "Tolfama yeroo gadi siqsitan ofumaan hodhamu",
+        "b2": "Sagantaa hodhame kan Melsii mallatteessu",
+        "b3": "Mallattoo maqaa hodhame"
+      },
+      "brana": {
+        "feel": "Barreeffama harkaa Ge'ez kan miidhagfame gogaa irratti, maqaawwan diimaan.",
+        "mood": "Ifaa fi barnootaa",
+        "goodFor": "Misirroota barreeffama harkaa Itoophiyaa fi Afaan Amaaraa jaallatan.",
+        "b1": "Faaya Harag fi maqaawwan diimaan",
+        "b2": "Lakkoofsota Ge'ez",
+        "b3": "Guyyaan akka gabatee qajeelfamaatti, fi kolofoonii xumura irratti"
+      },
+      "slate": {
+        "feel": "Qulqulluu fi ammayyaa: fuula duraa suuraa guutuu, faaya barreeffama harkaa mataduree irratti fi kaardiiwwan guyyaaf.",
+        "mood": "Ifaa fi ammayyaa",
+        "goodFor": "Cidha ammayyaa, fi misirroota biyya alaa ykn bakka fagoo.",
+        "b1": "Lakkaawwii gara duubaa saanduqa keessatti",
+        "b2": "Guyyaan akka kaardiiwwan sarara tokko irratti",
+        "b3": "Suuraalee tarree gaaguramaa"
+      },
+      "commencement": {
+        "feel": "Ifaa fi ammayyaa, waggaan eebbaa lakkoofsa guddaa sararaan maqaawwan duuba.",
+        "mood": "Qulqulluu fi ifaa",
+        "goodFor": "Eebbifamaa tokko, ykn kanneen hedduu walfaana xumuran.",
+        "b1": "Kaardii bifa diploomaa eebbifamaa hundaaf",
+        "b2": "Suuraalee garee isin moggaaftaniin, kan akka “Nu lamaan”",
+        "b3": "Waggaa eebbaa fuula duraa irratti"
+      },
+      "tassel": {
+        "feel": "Fuula duraa halluu jalqabaa keessaniin gadi fagoo, gonfoo qubee jalqabaa funyoo warqee irratti fannifame.",
+        "mood": "Gadi fagoo fi sirna qabeessa",
+        "goodFor": "Maatii bifa sirnaa, uffata eebbaa fi warqee barbaadan.",
+        "b1": "Funyoo gonfoo kan yeroo fuulli banamu al tokko raafamu",
+        "b2": "Eebbifamaa tokkoon tokkoon foddaa marsaa keessatti",
+        "b3": "Affeerraa kaardii daangaa qabu irratti"
+      },
+      "confetti": {
+        "feel": "Maqaan guddaan fuula konfeettii halluu sadan keessaniin guutame keessatti.",
+        "mood": "Ifaa fi ho'aa",
+        "goodFor": "Guyyaa dhaloota ijoollee fi dargaggootaa, fi ayyaana gammachuu.",
+        "b1": "Konfeettii yeroo fuulli banamu al tokko taa'u",
+        "b2": "Sarara isaanii riibbanii irratti, kan akka “Waggaa 7 guute”",
+        "b3": "Odeeffannoo keekii fi ayyaanaa"
+      },
+      "milestone": {
+        "feel": "Miidhagaa, lakkoofsota gurguddaaf: umuriin warqee guddaadhaan fuula duraa dukkanaa'aa irratti.",
+        "mood": "Dukkanaa'aa fi miidhagaa",
+        "goodFor": "Guyyaa dhalootaa 50ffaa, 60ffaa ykn 70ffaa.",
+        "b1": "Umurii warqeedhaan",
+        "b2": "Umuriin sarara isaanii irraa dubbifama",
+        "b3": "Yeroo umuriin hin jirre maqaa qofa agarsiisa"
+      },
+      "shema": {
+        "feel": "Cuuphaa adiidhaan: huccuu shamaa dhaabame kan daangaa keessan qarqara lamaan irratti qabu.",
+        "mood": "Ifaa fi laafaa",
+        "goodFor": "Cuuphaa (kiristinnaa).",
+        "b1": "Maqaa cuuphaa fi abbaa fi haadha cuuphaa kaardii daa'imaa irratti",
+        "b2": "Suuraa foddaa marsaa keessatti",
+        "b3": "Fannoo yoo maatiin filate qofa"
+      }
+    }
+  }
+}

@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import type { AdminCouple } from "@/db/queries/admin";
 import { toDateTimeLocalValue } from "@/lib/datetime";
 import { EVENT_KIND_META, type EventKind, getEventKind, kindsFor, titleForKind } from "@/lib/event-kinds";
+import { LOCALES } from "@/lib/localized";
 import { mapsLink } from "@/lib/maps";
 import { formatStandardTime, formatStandardTimeRange } from "@/lib/wedding-format";
 import { Field, LocalizedField, NativeSelect, SubmitButton } from "./fields";
@@ -99,13 +100,12 @@ function EventKindField({ kinds, defaultKind, error }: { kinds: readonly EventKi
   function onChange(event: ChangeEvent<HTMLSelectElement>) {
     const next = getEventKind(event.currentTarget.value);
     const fields = event.currentTarget.form?.elements;
-    const en = fields?.namedItem("title.en");
-    const am = fields?.namedItem("title.am");
-    if (en instanceof HTMLInputElement && am instanceof HTMLInputElement) {
-      const title = titleForKind({ en: en.value, am: am.value }, previous.current, next);
-      en.value = title.en;
-      am.value = title.am;
-    }
+    const inputs = LOCALES.flatMap((locale) => {
+      const input = fields?.namedItem(`title.${locale}`);
+      return input instanceof HTMLInputElement ? [[locale, input] as const] : [];
+    });
+    const title = titleForKind(Object.fromEntries(inputs.map(([locale, input]) => [locale, input.value])), previous.current, next);
+    for (const [locale, input] of inputs) input.value = title[locale] ?? "";
     // Other has no title of its own, so the last default stays the one a later pick may replace.
     if (EVENT_KIND_META[next].title) previous.current = next;
   }

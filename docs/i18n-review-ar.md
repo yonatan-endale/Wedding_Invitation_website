@@ -86,9 +86,9 @@ The birthday layout for an elder's 90th or 100th (`src/components/events/layouts
 | `messages/ar.json` | layouts.meto.years | {age, plural, one {# year} other {# years}} | {age, plural, zero {# عام} one {عام واحد} two {عامان} few {# أعوام} many {# عامًا} other {# عام}} | |
 | `messages/ar.json` | layouts.meto.gallery | A life in pictures | حياة في صور | |
 | `messages/ar.json` | layouts.meto.wish | Many happy returns of the day | كل عام وأنتم بخير | |
-| `messages/ar.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, over a broad band of woven tibeb. | لعيد الميلاد التسعين أو المئة: العمر بالأرقام الجعزية داخل إكليل غار ذهبي، فوق شريط عريض من التطريز المنسوج. | |
+| `messages/ar.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, and their full name over a band of your border. | لعيد الميلاد التسعين أو المئة: العمر بالأرقام الجعزية داخل إكليل غار ذهبي، والاسم الكامل فوق شريط من إطارك. | |
 | `messages/ar.json` | showcase.layouts.meto.mood | Pale, warm and dignified | فاتح ودافئ ووقور | |
 | `messages/ar.json` | showcase.layouts.meto.goodFor | A 90th, a 100th, or any elder's birthday. | عيد الميلاد التسعون أو المئة، أو ميلاد أي من كبار السن. | |
 | `messages/ar.json` | showcase.layouts.meto.b1 | The age in Ge'ez numerals, read from their own line | العمر بالأرقام الجعزية، يُقرأ من سطرهم الخاص | |
-| `messages/ar.json` | showcase.layouts.meto.b2 | Woven tibeb under the cover and at the close | تطريز منسوج تحت الغلاف وفي الختام | |
+| `messages/ar.json` | showcase.layouts.meto.b2 | Your border under the cover and at the close | إطارك تحت الغلاف وفي الختام | |
 | `messages/ar.json` | showcase.layouts.meto.b3 | An adey flower and a wish above the replies | زهرة أداي وأمنية فوق الردود | |

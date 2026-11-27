@@ -63,9 +63,9 @@ The birthday layout for an elder's 90th or 100th (`src/components/events/layouts
 | `messages/ti.json` | layouts.meto.years | {age, plural, one {# year} other {# years}} | {age} ዓመት | |
 | `messages/ti.json` | layouts.meto.gallery | A life in pictures | ህይወት ብስእሊ | |
 | `messages/ti.json` | layouts.meto.wish | Many happy returns of the day | እንቋዕ ኣብጽሐኩም | |
-| `messages/ti.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, over a broad band of woven tibeb. | ንናይ ዓበይቲ 90ይ ወይ 100ይ፦ ዕድመ ብቁጽሪ ግዕዝ ኣብ ውሽጢ ወርቃዊ ኣኽሊል፣ ኣብ ልዕሊ ሰፊሕ ዝተኣልመ ጥልፊ። | |
+| `messages/ti.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, and their full name over a band of your border. | ንናይ ዓበይቲ 90ይ ወይ 100ይ፦ ዕድመ ብቁጽሪ ግዕዝ ኣብ ውሽጢ ወርቃዊ ኣኽሊል፣ ምሉእ ስሞም ድማ ኣብ ልዕሊ ጥልፍኹም። | |
 | `messages/ti.json` | showcase.layouts.meto.mood | Pale, warm and dignified | ብሩህ፣ ሙቐትን ክቡርን | |
 | `messages/ti.json` | showcase.layouts.meto.goodFor | A 90th, a 100th, or any elder's birthday. | 90ይ፣ 100ይ ወይ ናይ ዝኾነ ዓቢ ሰብ በዓል ልደት። | |
 | `messages/ti.json` | showcase.layouts.meto.b1 | The age in Ge'ez numerals, read from their own line | ዕድመ ብቁጽሪ ግዕዝ፣ ካብ ናይ ገዛእ ርእሶም መስመር ይንበብ | |
-| `messages/ti.json` | showcase.layouts.meto.b2 | Woven tibeb under the cover and at the close | ዝተኣልመ ጥልፊ ኣብ ትሕቲ ሽፋንን ኣብ መወዳእታን | |
+| `messages/ti.json` | showcase.layouts.meto.b2 | Your border under the cover and at the close | ጥልፍኹም ኣብ ትሕቲ ሽፋንን ኣብ መወዳእታን | |
 | `messages/ti.json` | showcase.layouts.meto.b3 | An adey flower and a wish above the replies | ዕምባባ ኣደይን ድሌትን ኣብ ልዕሊ መልስታት | |

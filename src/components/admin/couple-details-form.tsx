@@ -203,6 +203,18 @@ const LAYOUT_SKETCHES: Record<LayoutName, ReactNode> = {
       <rect x="32" y="46" width="32" height="3" fill="white" opacity="0.85" />
     </>
   ),
+  meto: (
+    <>
+      <circle cx="48" cy="17" r="12" fill="none" stroke={stroke} opacity="0.7" />
+      <text x="48" y="21" textAnchor="middle" fontSize="11" fill={stroke} opacity="0.9" fontFamily="serif">
+        ፻
+      </text>
+      <rect x="32" y="34" width="32" height="3" fill={stroke} opacity="0.85" />
+      <rect x="38" y="40" width="20" height="2" fill={stroke} opacity="0.5" />
+      <rect x="0.5" y="48" width="95" height="11" fill={stroke} opacity="0.45" />
+      <path d="M6 53.5l4-3 4 3-4 3zM22 53.5l4-3 4 3-4 3zM38 53.5l4-3 4 3-4 3zM54 53.5l4-3 4 3-4 3zM70 53.5l4-3 4 3-4 3zM86 53.5l4-3 4 3-4 3z" fill="white" opacity="0.8" />
+    </>
+  ),
   shema: (
     <>
       <rect x="28" y="4" width="40" height="52" fill="none" stroke={stroke} opacity="0.6" />

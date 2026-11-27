@@ -41,6 +41,9 @@ const OUTER_RING = "M80 4A76 76 0 1 1 80 156A76 76 0 1 1 80 4Z";
 const INNER_RING = "M80 9A71 71 0 1 0 80 151A71 71 0 1 0 80 9Z";
 const TIE = "M80 132.5 84 137 80 141.5 76 137Z";
 
+/** The crest's rings, stems, leaves and tie in its 160×160 box, for emblems that put something else at its heart. */
+export const CREST_PATHS = { outerRing: OUTER_RING, innerRing: INNER_RING, stem: STEM_PATH, leaves: LEAVES_PATH, tie: TIE } as const;
+
 const order = (index: number) => ({ "--i": index }) as CSSProperties;
 
 type Props = {

@@ -682,3 +682,19 @@ The public /designs page explains every layout beside a live demo. All Amharic h
 | `messages/am.json` | showcase.layouts.shema.b2 | The photo in an arch | ፎቶው በቅስት ውስጥ | |
 | `messages/am.json` | showcase.layouts.shema.b3 | A cross only if the family chooses one | መስቀል ቤተሰቡ ከመረጠ ብቻ | |
 | `public/examples/showcase-*.json` | the four fictional demo sites (names, venues, texts in both languages) | (see the files) | (see the files) | |
+
+## Meto birthday layout
+
+The birthday layout for an elder's 90th or 100th (`src/components/events/layouts/meto`). The wish uses the polite, ungendered form (አደረሰዎ) for an elder. The age line is `{age} ዓመት` with Arabic digits; the crest beside it shows the age in Ge'ez numerals (toGeez).
+
+| File | Key | English | Amharic | Reviewer |
+|---|---|---|---|---|
+| `messages/am.json` | layouts.meto.years | {age, plural, one {# year} other {# years}} | {age} ዓመት | |
+| `messages/am.json` | layouts.meto.gallery | A life in pictures | የሕይወት ጉዞ በፎቶ | |
+| `messages/am.json` | layouts.meto.wish | Many happy returns of the day | እንኳን አደረሰዎ | |
+| `messages/am.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, over a broad band of woven tibeb. | ለአዛውንት 90ኛ ወይም 100ኛ ልደት፤ ዕድሜው በግዕዝ ቁጥር በወርቅ የቅጠል አክሊል ውስጥ፣ ከሰፊ የተሸመነ ጥለት በላይ። | |
+| `messages/am.json` | showcase.layouts.meto.mood | Pale, warm and dignified | ነጣ ያለ፣ ሞቅ ያለ እና የተከበረ | |
+| `messages/am.json` | showcase.layouts.meto.goodFor | A 90th, a 100th, or any elder's birthday. | 90ኛ፣ 100ኛ ወይም የማንኛውም አዛውንት ልደት። | |
+| `messages/am.json` | showcase.layouts.meto.b1 | The age in Ge'ez numerals, read from their own line | ዕድሜው በግዕዝ ቁጥር፣ ከራሳቸው መስመር ይነበባል | |
+| `messages/am.json` | showcase.layouts.meto.b2 | Woven tibeb under the cover and at the close | የተሸመነ ጥለት ከሽፋኑ ስር እና በመጨረሻ | |
+| `messages/am.json` | showcase.layouts.meto.b3 | An adey flower and a wish above the replies | የአደይ አበባ እና መልካም ምኞት ከምላሹ በላይ | |

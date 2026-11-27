@@ -76,3 +76,19 @@ read the rest too. Mark a row done by filling in the reviewer and date.
 ## Default event titles
 
 The titles the admin schedule pre-fills when an event kind is picked, in `src/lib/event-kinds.ts`. Ethiopian names (Telosh, Mels, Kelekel) are transliterated.
+
+## Meto birthday layout
+
+The birthday layout for an elder's 90th or 100th (`src/components/events/layouts/meto`). `years` uses Arabic plural categories: 100 takes the singular genitive (100 عام), 11–99 the accusative (60 عامًا). `wish` is the usual birthday greeting addressed to everyone (أنتم).
+
+| File | Key | English | Arabic | Reviewer |
+|---|---|---|---|---|
+| `messages/ar.json` | layouts.meto.years | {age, plural, one {# year} other {# years}} | {age, plural, zero {# عام} one {عام واحد} two {عامان} few {# أعوام} many {# عامًا} other {# عام}} | |
+| `messages/ar.json` | layouts.meto.gallery | A life in pictures | حياة في صور | |
+| `messages/ar.json` | layouts.meto.wish | Many happy returns of the day | كل عام وأنتم بخير | |
+| `messages/ar.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, over a broad band of woven tibeb. | لعيد الميلاد التسعين أو المئة: العمر بالأرقام الجعزية داخل إكليل غار ذهبي، فوق شريط عريض من التطريز المنسوج. | |
+| `messages/ar.json` | showcase.layouts.meto.mood | Pale, warm and dignified | فاتح ودافئ ووقور | |
+| `messages/ar.json` | showcase.layouts.meto.goodFor | A 90th, a 100th, or any elder's birthday. | عيد الميلاد التسعون أو المئة، أو ميلاد أي من كبار السن. | |
+| `messages/ar.json` | showcase.layouts.meto.b1 | The age in Ge'ez numerals, read from their own line | العمر بالأرقام الجعزية، يُقرأ من سطرهم الخاص | |
+| `messages/ar.json` | showcase.layouts.meto.b2 | Woven tibeb under the cover and at the close | تطريز منسوج تحت الغلاف وفي الختام | |
+| `messages/ar.json` | showcase.layouts.meto.b3 | An adey flower and a wish above the replies | زهرة أداي وأمنية فوق الردود | |

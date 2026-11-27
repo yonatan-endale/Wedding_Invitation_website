@@ -18,7 +18,7 @@ import { getMotionLevel, getOrnament } from "@/lib/appearance";
 import { getAdminUser } from "@/lib/auth";
 import { parseGuestName } from "@/lib/guest";
 import { CLERK_SESSION_COOKIE, TENANT_HEADER } from "@/lib/constants";
-import { LAYOUTS, getLayout } from "@/lib/layout";
+import { LAYOUTS, getLayout, type LayoutMeta } from "@/lib/layout";
 import { isLocale, pickText, type Locale, LANGUAGES, usesEthiopianCalendar } from "@/lib/localized";
 import { getOpening } from "@/lib/opening";
 import { layoutNames, siteTitleNames } from "@/lib/site-names";
@@ -99,12 +99,14 @@ export default async function CoupleSitePage({ params, searchParams }: Props) {
 
   // Three forms of each name: first name on the opening screen, nickname in the
   // hero, and first plus father's name in the formal places.
-  const names = layoutNames(site, locale);
+  const baseNames = layoutNames(site, locale);
 
   // The layout decides the section order and look; the shell around it is shared.
   const layout = getLayout(couple.layout, couple.eventType);
   const Layout = LAYOUT_COMPONENTS[layout];
   const meta = LAYOUTS[layout];
+  // Some layouts name people in full everywhere, the opening and save-the-date included.
+  const names = (meta as LayoutMeta).formalNames ? { ...baseNames, firstOne: baseNames.one, firstTwo: baseNames.two } : baseNames;
   const links = sectionLinks(site, locale, (key) => t(key), meta);
   const photos = site.photos.map((photo) => ({
     id: photo.id,

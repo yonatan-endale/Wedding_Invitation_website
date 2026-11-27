@@ -33,6 +33,11 @@ export type LayoutMeta = {
   showsMilestones: boolean;
   /** "dark" layouts swap a light theme for its dark variant. */
   scheme: "theme" | "dark";
+  /**
+   * The opening screen and save-the-date name people in full (first and father's
+   * name) instead of by first name, as an elder is addressed.
+   */
+  formalNames?: boolean;
   /** Opening screen suggested in admin when this layout is picked. */
   defaultOpening: OpeningName;
   /** Themes the admin picker suggests for this layout. */
@@ -252,13 +257,14 @@ export const LAYOUTS = {
     eventTypes: ["birthday"],
     label: "Meto",
     description:
-      "For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel crest, the name and both calendars on a pale cover over a broad length of woven tibeb, and an adey flower with a wish above the replies.",
+      "For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel crest, the full name and both calendars on a pale cover over a band of your border, and an adey flower with a wish above the replies.",
     headerStartSolid: true,
     navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
     showsCouple: true,
     coupleAlways: false,
     showsMilestones: false,
     scheme: "theme",
+    formalNames: true,
     defaultOpening: "adey",
     recommendedThemes: ["netela", "tibeb", "ivory", "lalibela"],
   },

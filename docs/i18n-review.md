@@ -692,9 +692,9 @@ The birthday layout for an elder's 90th or 100th (`src/components/events/layouts
 | `messages/am.json` | layouts.meto.years | {age, plural, one {# year} other {# years}} | {age} ዓመት | |
 | `messages/am.json` | layouts.meto.gallery | A life in pictures | የሕይወት ጉዞ በፎቶ | |
 | `messages/am.json` | layouts.meto.wish | Many happy returns of the day | እንኳን አደረሰዎ | |
-| `messages/am.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, over a broad band of woven tibeb. | ለአዛውንት 90ኛ ወይም 100ኛ ልደት፤ ዕድሜው በግዕዝ ቁጥር በወርቅ የቅጠል አክሊል ውስጥ፣ ከሰፊ የተሸመነ ጥለት በላይ። | |
+| `messages/am.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, and their full name over a band of your border. | ለአዛውንት 90ኛ ወይም 100ኛ ልደት፤ ዕድሜው በግዕዝ ቁጥር በወርቅ የቅጠል አክሊል ውስጥ፣ ሙሉ ስማቸውም ከጥለትዎ በላይ። | |
 | `messages/am.json` | showcase.layouts.meto.mood | Pale, warm and dignified | ነጣ ያለ፣ ሞቅ ያለ እና የተከበረ | |
 | `messages/am.json` | showcase.layouts.meto.goodFor | A 90th, a 100th, or any elder's birthday. | 90ኛ፣ 100ኛ ወይም የማንኛውም አዛውንት ልደት። | |
 | `messages/am.json` | showcase.layouts.meto.b1 | The age in Ge'ez numerals, read from their own line | ዕድሜው በግዕዝ ቁጥር፣ ከራሳቸው መስመር ይነበባል | |
-| `messages/am.json` | showcase.layouts.meto.b2 | Woven tibeb under the cover and at the close | የተሸመነ ጥለት ከሽፋኑ ስር እና በመጨረሻ | |
+| `messages/am.json` | showcase.layouts.meto.b2 | Your border under the cover and at the close | ጥለትዎ ከሽፋኑ ስር እና በመጨረሻ | |
 | `messages/am.json` | showcase.layouts.meto.b3 | An adey flower and a wish above the replies | የአደይ አበባ እና መልካም ምኞት ከምላሹ በላይ | |

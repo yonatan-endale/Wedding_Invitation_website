@@ -30,3 +30,9 @@ export function milestoneAge(...lines: string[]): number | null {
   }
   return null;
 }
+
+/** The age when the line is nothing but a number ("100", "፻"), so a layout can write it out as "100 years". */
+export function bareAge(line: string): number | null {
+  const text = line.trim();
+  return /^(\d+|[፩-፼]+)$/.test(text) ? milestoneNumber(text) : null;
+}

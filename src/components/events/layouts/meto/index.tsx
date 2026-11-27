@@ -20,7 +20,7 @@ import { EventFooter } from "../../event-footer";
 import { EventInvitation } from "../../event-invitation";
 import { GroupedGallery } from "../../grouped-gallery";
 import { HonoreeSection } from "../../honorees";
-import { milestoneAge } from "../../milestone";
+import { bareAge, milestoneAge } from "../../milestone";
 import { GeezEmblem } from "./emblem";
 
 /**
@@ -88,7 +88,17 @@ export async function MetoLayout({ site, locale, names, photos }: LayoutProps) {
         </header>
 
         <EventInvitation site={site} locale={locale} look="card" />
-        <HonoreeSection honorees={honorees} locale={locale} look="arch" className="bg-sheet" />
+        <HonoreeSection
+          honorees={honorees}
+          locale={locale}
+          look="tribute"
+          className="bg-sheet"
+          // A line that is only the age ("100") reads as "100 years", as on the cover.
+          headlineText={(line) => {
+            const years = bareAge(line);
+            return years ? t("years", { age: years }) : line;
+          }}
+        />
         <SaveTheDate site={site} locale={locale} names={names} photos={photos} skin="editorial" photoPreference="hero" />
         <CountdownSection site={site} />
         <ScheduleSection site={site} locale={locale} />

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { milestoneAge, milestoneNumber } from "./milestone";
+import { bareAge, milestoneAge, milestoneNumber } from "./milestone";
 
 describe("milestoneNumber", () => {
   it("finds the age in the ways people write it", () => {
@@ -29,5 +29,16 @@ describe("milestoneAge", () => {
     expect(milestoneAge("Turns 90", "100 years of grace")).toBe(90);
     expect(milestoneAge("", "100ኛ ዓመት የልደት በዓል")).toBe(100);
     expect(milestoneAge("Our grandfather", "With love")).toBeNull();
+  });
+});
+
+describe("bareAge", () => {
+  it("is the age only when the line is nothing but the number", () => {
+    expect(bareAge("100")).toBe(100);
+    expect(bareAge(" ፻ ")).toBe(100);
+    expect(bareAge("Turns 100")).toBeNull();
+    expect(bareAge("100 ዓመት")).toBeNull();
+    expect(bareAge("2026")).toBeNull();
+    expect(bareAge("")).toBeNull();
   });
 });

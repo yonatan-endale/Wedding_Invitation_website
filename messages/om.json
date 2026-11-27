@@ -310,6 +310,11 @@
       "years": "waggaa",
       "gallery": "Waggoota keessa"
     },
+    "meto": {
+      "years": "waggaa {age}",
+      "gallery": "Jireenya suuraadhaan",
+      "wish": "Baga geessan"
+    },
     "shema": {
       "christeningName": "Maqaa cuuphaa",
       "godparents": "Abbaa fi haadha cuuphaa",
@@ -637,6 +642,14 @@
         "b1": "Umurii warqeedhaan",
         "b2": "Umuriin sarara isaanii irraa dubbifama",
         "b3": "Yeroo umuriin hin jirre maqaa qofa agarsiisa"
+      },
+      "meto": {
+        "feel": "Guyyaa dhalootaa maanguddootaa 90ffaa ykn 100ffaaf: umuriin lakkoofsa Gi'iiziin gonfoo warqee keessatti, tibeba hodhame bal'aa irratti.",
+        "mood": "Ifaa, ho'aa fi kabajamaa",
+        "goodFor": "Guyyaa dhalootaa 90ffaa, 100ffaa ykn kan maanguddoo kamiyyuu.",
+        "b1": "Umuriin lakkoofsa Gi'iiziin, sarara isaanii irraa dubbifama",
+        "b2": "Tibeba hodhame fuula duraa jalaa fi dhuma irratti",
+        "b3": "Abaaboo adey fi hawwii deebii olitti"
       },
       "shema": {
         "feel": "Cuuphaa adiidhaan: huccuu shamaa dhaabame kan daangaa keessan qarqara lamaan irratti qabu.",

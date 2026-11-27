@@ -247,6 +247,21 @@ export const LAYOUTS = {
     defaultOpening: "envelope",
     recommendedThemes: ["burgundy", "emerald", "ivory", "academy"],
   },
+  meto: {
+    name: "meto",
+    eventTypes: ["birthday"],
+    label: "Meto",
+    description:
+      "For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel crest, the name and both calendars on a pale cover over a broad length of woven tibeb, and an adey flower with a wish above the replies.",
+    headerStartSolid: true,
+    navOrder: ["invitation", "couple", "schedule", "venues", "gallery", "story", "gifts", "rsvp"],
+    showsCouple: true,
+    coupleAlways: false,
+    showsMilestones: false,
+    scheme: "theme",
+    defaultOpening: "adey",
+    recommendedThemes: ["netela", "tibeb", "ivory", "lalibela"],
+  },
   shema: {
     name: "shema",
     eventTypes: ["baptism"],

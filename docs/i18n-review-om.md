@@ -52,3 +52,19 @@ Everything in `messages/om.json` is a machine-assisted draft, written from the E
 ## Default event titles
 
 The titles the admin schedule pre-fills when an event kind is picked, in `src/lib/event-kinds.ts`. Ethiopian names (Telosh, Mels, Kelekel) are transliterated.
+
+## Meto birthday layout
+
+The birthday layout for an elder's 90th or 100th (`src/components/events/layouts/meto`). `Baga geessan` is the polite/plural congratulation for reaching a day. Tibeb is kept as a loanword (tibeba); please confirm.
+
+| File | Key | English | Afaan Oromo | Reviewer |
+|---|---|---|---|---|
+| `messages/om.json` | layouts.meto.years | {age, plural, one {# year} other {# years}} | waggaa {age} | |
+| `messages/om.json` | layouts.meto.gallery | A life in pictures | Jireenya suuraadhaan | |
+| `messages/om.json` | layouts.meto.wish | Many happy returns of the day | Baga geessan | |
+| `messages/om.json` | showcase.layouts.meto.feel | For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, over a broad band of woven tibeb. | Guyyaa dhalootaa maanguddootaa 90ffaa ykn 100ffaaf: umuriin lakkoofsa Gi'iiziin gonfoo warqee keessatti, tibeba hodhame bal'aa irratti. | |
+| `messages/om.json` | showcase.layouts.meto.mood | Pale, warm and dignified | Ifaa, ho'aa fi kabajamaa | |
+| `messages/om.json` | showcase.layouts.meto.goodFor | A 90th, a 100th, or any elder's birthday. | Guyyaa dhalootaa 90ffaa, 100ffaa ykn kan maanguddoo kamiyyuu. | |
+| `messages/om.json` | showcase.layouts.meto.b1 | The age in Ge'ez numerals, read from their own line | Umuriin lakkoofsa Gi'iiziin, sarara isaanii irraa dubbifama | |
+| `messages/om.json` | showcase.layouts.meto.b2 | Woven tibeb under the cover and at the close | Tibeba hodhame fuula duraa jalaa fi dhuma irratti | |
+| `messages/om.json` | showcase.layouts.meto.b3 | An adey flower and a wish above the replies | Abaaboo adey fi hawwii deebii olitti | |

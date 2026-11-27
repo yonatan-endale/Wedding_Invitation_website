@@ -310,6 +310,11 @@
       "years": "years",
       "gallery": "Through the years"
     },
+    "meto": {
+      "years": "{age, plural, one {# year} other {# years}}",
+      "gallery": "A life in pictures",
+      "wish": "Many happy returns of the day"
+    },
     "shema": {
       "christeningName": "Christening name",
       "godparents": "Godparents",
@@ -637,6 +642,14 @@
         "b1": "The age in gold foil",
         "b2": "The age is read from their own line",
         "b3": "Shows the name alone when there is no age"
+      },
+      "meto": {
+        "feel": "For an elder's 90th or 100th: the age in Ge'ez numerals inside a gold laurel, over a broad band of woven tibeb.",
+        "mood": "Pale, warm and dignified",
+        "goodFor": "A 90th, a 100th, or any elder's birthday.",
+        "b1": "The age in Ge'ez numerals, read from their own line",
+        "b2": "Woven tibeb under the cover and at the close",
+        "b3": "An adey flower and a wish above the replies"
       },
       "shema": {
         "feel": "A christening in white: a length of woven shema cloth with your border down both edges.",

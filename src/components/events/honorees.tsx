@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
+import { KeylineFrame } from "@/components/wedding/kit/keyline-frame";
 import { SectionHeading, WeddingImage, sectionPadding } from "@/components/wedding/primitives";
 import type { SiteHonoree } from "@/db/queries/site";
 import { pickText, type Locale } from "@/lib/localized";
@@ -12,9 +13,13 @@ type Props = {
   /**
    * "diploma": side-by-side cards with the portrait in a fine double frame, the
    * way a diploma is mounted. "arch": one per row, the portrait in an arch,
-   * alternating sides.
+   * alternating sides. "tribute": everything centred inside a fine gold keyline
+   * with corner diamonds, the portrait in an arch above the name; without a
+   * portrait it is a nameplate, with no empty frame standing in for the photo.
    */
-  look: "diploma" | "arch";
+  look: "diploma" | "arch" | "tribute";
+  /** Rewrites the first short line before it shows, e.g. a bare "100" as "100 years". */
+  headlineText?: (headline: string) => string;
   /** Small labels before the two short lines, where they need saying ("Godparents"). */
   labels?: { headline?: string; subheadline?: string };
   className?: string;
@@ -28,7 +33,7 @@ export const honoreeAnchor = (index: number) => `honoree-${index + 1}`;
  * admin filled in (a degree and a school, say) and a few lines of their story.
  * A missing portrait shows the first letter of the name instead.
  */
-export async function HonoreeSection({ honorees, locale, look, labels, className }: Props) {
+export async function HonoreeSection({ honorees, locale, look, labels, headlineText, className }: Props) {
   if (honorees.length === 0) return null;
   const t = await getTranslations("honorees");
 
@@ -43,10 +48,19 @@ export async function HonoreeSection({ honorees, locale, look, labels, className
             "mt-14 grid gap-14",
             look === "diploma" && honorees.length > 1 && "sm:grid-cols-2 sm:gap-x-10",
             look === "diploma" && honorees.length > 2 && "lg:grid-cols-3",
+            look === "tribute" && honorees.length > 1 && "lg:grid-cols-2 lg:gap-x-10",
           )}
         >
           {honorees.map((honoree, index) => (
-            <Honoree key={honoree.id} honoree={honoree} index={index} locale={locale} look={look} labels={labels} />
+            <Honoree
+              key={honoree.id}
+              honoree={honoree}
+              index={index}
+              locale={locale}
+              look={look}
+              labels={labels}
+              headlineText={headlineText}
+            />
           ))}
         </ul>
       </div>
@@ -60,15 +74,18 @@ function Honoree({
   locale,
   look,
   labels,
+  headlineText,
 }: {
   honoree: SiteHonoree;
   index: number;
   locale: Locale;
   look: Props["look"];
   labels: Props["labels"];
+  headlineText: Props["headlineText"];
 }) {
   const name = fullName(honoree.name, honoree.father, locale);
-  const headline = pickText(honoree.headline, locale);
+  const rawHeadline = pickText(honoree.headline, locale);
+  const headline = rawHeadline && headlineText ? headlineText(rawHeadline) : rawHeadline;
   const subheadline = pickText(honoree.subheadline, locale);
   const story = pickText(honoree.story, locale);
   const flip = look === "arch" && index % 2 === 1;
@@ -96,6 +113,48 @@ function Honoree({
       )}
     </div>
   );
+
+  if (look === "tribute") {
+    return (
+      <li id={honoreeAnchor(index)} data-reveal="up" style={{ "--i": index % 3 } as CSSProperties} className="scroll-mt-24">
+        <KeylineFrame inset={10} double corners className="mx-auto h-full max-w-2xl">
+          <div className="px-8 py-14 text-center sm:px-16 sm:py-20">
+            {honoree.portraitUrl ? (
+              <div className="relative mx-auto mb-10 aspect-[3/4] w-full max-w-64 overflow-hidden rounded-t-full bg-rule">
+                <WeddingImage
+                  src={honoree.portraitUrl}
+                  alt={name}
+                  fill
+                  sizes="256px"
+                  className="object-cover"
+                  style={{ objectPosition: honoree.portraitPosition }}
+                />
+              </div>
+            ) : null}
+            <h3 className="font-display text-[clamp(2.25rem,6vw,3.25rem)] leading-[1.1]">{name}</h3>
+            {headline ? (
+              <p className="mt-4 font-display text-[clamp(1.375rem,3.5vw,1.75rem)] text-[color-mix(in_oklab,var(--w-metal),var(--w-ink)_45%)]">
+                {labels?.headline ? <span className="block font-sans text-sm text-ink-soft">{labels.headline}</span> : null}
+                {headline}
+              </p>
+            ) : null}
+            {subheadline ? (
+              <p className="mt-2 text-lg text-ink-soft">
+                {labels?.subheadline ? <span className="block text-sm">{labels.subheadline}</span> : null}
+                {subheadline}
+              </p>
+            ) : null}
+            {story ? (
+              <>
+                <div aria-hidden className="mx-auto my-8 h-px w-14 bg-metal" />
+                <p className="mx-auto max-w-[44ch] text-lg leading-relaxed whitespace-pre-line">{story}</p>
+              </>
+            ) : null}
+          </div>
+        </KeylineFrame>
+      </li>
+    );
+  }
 
   return (
     <li
